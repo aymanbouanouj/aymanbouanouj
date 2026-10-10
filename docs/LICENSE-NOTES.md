@@ -1,7 +1,7 @@
-# Copyright and reuse boundaries
+# Rights and reuse
 
-The **AB monogram and upward purple arrow** are the user's existing brand identity, traced from a screenshot supplied by the user. We do not claim the logo design was invented here or that the screenshot-derived vector perfectly reproduces the original design. The screenshot itself is not stored in this repository.
+The AB monogram and violet rising arrow represent existing personal branding supplied by the profile owner. The vector was reconstructed from an owner-provided image; the repository does not establish independent trademark or copyright registration.
 
-The README composition, local SVG terminal panels, animation code and generation scripts were authored independently for this profile. No source code, portraits, or artwork was copied from the example developer's repository.
+The profile composition, SVG/PNG assets, test suite and helper scripts are not automatically licensed for redistribution merely because GitHub may display them. Until the owner selects a license, default copyright applies. The monogram/brand should remain excluded from any blanket source-code license.
 
-A public GitHub repository is not automatically public domain. The owner should choose a license if they later want to redistribute the code as a template. The brand symbol should be subject to separate permission and should not automatically be included in a permissively licensed reusable template.
+Before publishing a reusable template, select an appropriate code license after reviewing third-party dependencies and keep brand images separately designated as reserved. Avoid making claims that the logo was newly invented or that reused design fragments from reference profiles are owned by this project.

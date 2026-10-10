@@ -1,26 +1,21 @@
-# v3.1 verification report — 2026-10-10 (UTC)
+# Verification record — 2026-10-10
 
-## Passed locally
+## Confirmed observations before security hardening
+- GitHub Actions run 38092893364 passed verification and publication; 47 Python tests passed in each checked job.
+- 18 SVG assets passed XML, reduced-motion and local-link validation.
+- Six PNG files passed source-hash, byte and dimension verification on the owner's Windows 11 machine.
+- The latest observed profile-refresh commit before hardening was 4386d383e8009c66da412e6edcbbeb05e5c32e4f.
+- 22 Git commits were inspected for common plaintext credential patterns; no confirmed credentials were found.
 
-- 24 Python unit/regression tests, including stale streaks, malformed API responses, SVG validation and rejecting synthetic publish input.
-- Eight SVG files parsed as XML; eight rendered as static PNG using CairoSVG in dark and light variants.
-- GitHub Actions YAML parsed; `verify` job uses read-only contents permission; publish job requires explicit `publish=true` input and uses scoped write permission.
-- Local preview alert text contrast in dark: 14.08:1; light: 12.17:1 (WCAG luminance formula, calculated on declared colors).
-- Project repositories, quality/CI workflow endpoints, Windows test directory, and demos checked against public GitHub sources.
-- Source files compile under the container's Python runtime; no third-party Python packages are required by the project scripts.
+## New hardening changes — pending verification
+- New pinned, read-only Gitleaks CI job and source integrity checks.
+- A single publication workflow with scheduled writes off unless explicitly enabled.
+- Removal of two redundant manual publishing workflows.
+- Updated release checklist, Windows instructions and disclosure notice.
 
-## Not yet verified
+The new checks are NOT considered passed merely because the workflow files exist. Check the GitHub Actions run on the security Pull Request and rerun local tests after merging.
 
-- Live GraphQL access from the owner's GitHub Actions `GITHUB_TOKEN`.
-- Parity of visible GitHub contribution totals with GraphQL totals, particularly private contributions.
-- Rendering on the real GitHub Profile README page and live mobile viewport. Chromium-based preview navigation is restricted in this execution environment; static SVG rendering was used instead.
-- A successful publish job; no repository was created or changed.
+## Limitations
+This review does not prove that no secrets exist. Full binary-object scanning, historical reachability and owner-only GitHub security configuration need additional verification. Automated calendar counts can include sensitive aggregate private activity. Linked social accounts and real-device visual appearance also require direct approval.
 
-## Safe release sequence
-
-1. Inspect files and run local unit tests on Windows 11.
-2. Create or inspect your public profile repository, and review a PR before any publish to main.
-3. Run the GitHub Actions manual workflow with `publish=false` to verify the API without writing.
-4. Compare returned totals with GitHub profile activity; investigate discrepancies.
-5. If satisfied, manually run `publish=true` and inspect the resulting diff.
-6. Review mobile/dark/light GitHub rendering before calling release complete.
+**Status: Private; Public release NOT approved.**
