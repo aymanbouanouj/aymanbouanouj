@@ -1,0 +1,48 @@
+name: Profile security and integrity
+
+on:
+  push:
+    branches:
+      - main
+      - 'security/**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    name: Offline profile integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+      - name: Compile Python
+        run: python3 -m compileall -q scripts tests
+      - name: Run regression tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Validate README, SVG and PNG provenance
+        run: |
+          python3 scripts/validate.py
+          python3 scripts/mobile_png.py --verify
+          python3 scripts/tech_stack.py --verify
+          python3 scripts/engineering.py --verify
+
+  secret-scan:
+    name: Full-history secret scan (Gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout complete history
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Scan repository and commit history
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0, Node.js 24
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

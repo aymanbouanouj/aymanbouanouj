@@ -9,6 +9,7 @@ on:
         required: true
         default: false
   schedule:
+    # Read-only unless explicitly enabled with a repository Actions variable.
     - cron: '23 2,8,14,20 * * *'
 
 permissions:
@@ -61,7 +62,7 @@ jobs:
 
   publish:
     name: Update verified profile only
-    if: ${{ github.event_name == 'schedule' || inputs.publish == true }}
+    if: ${{ (github.event_name == 'schedule' && vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true') || (github.event_name == 'workflow_dispatch' && inputs.publish == true) }}
     needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -70,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
-          persist-credentials: false
+          persist-credentials: true
       - name: Refresh and validate public evidence
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -90,8 +91,6 @@ jobs:
           python3 scripts/tech_stack.py --verify
           python3 scripts/engineering.py --verify
       - name: Commit strictly generated assets
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -eu
           git config user.name 'github-actions[bot]'
@@ -108,5 +107,5 @@ jobs:
             exit 0
           fi
           git commit -m 'chore: refresh verified profile evidence [skip ci]'
-          git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w 0)" \
-            push "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          # Checkout stores the short-lived, job-scoped token; it is scrubbed by post-job cleanup.
+          git push origin HEAD:main

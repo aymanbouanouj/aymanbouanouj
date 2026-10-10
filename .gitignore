@@ -10,3 +10,18 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.bak
+
+# Credentials and local security scan reports (never publish)
+*.pem
+*.key
+*.p12
+*.pfx
+*.kdbx
+*.asc
+*.age
+*.secrets
+.gitleaks/
+.gitleaks*.json
+profile-secret-scan*.json
+*.tfstate
+*.tfstate.*

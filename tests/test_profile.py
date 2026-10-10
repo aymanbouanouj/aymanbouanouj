@@ -199,15 +199,24 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('81 contributions', readme)
 
     def test_workflow_dry_run_read_only(self):
-        wf = (ROOT/'.github/workflows/update-stats.yml').read_text(encoding='utf-8')
+        wf = (ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
         self.assertIn('publish:', wf)
         self.assertIn('default: false', wf)
         self.assertIn('contents: read', wf)
         self.assertIn('contents: write', wf)
         self.assertIn('needs: verify', wf)
-        self.assertIn('inputs.publish == true', wf)
-        self.assertNotIn('cron:', wf)
+        self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'", wf)
+        self.assertIn("github.event_name == 'workflow_dispatch' && inputs.publish == true", wf)
+        self.assertIn('git push origin HEAD:main', wf)
+        self.assertNotIn('http.https://github.com/.extraheader', wf)
         self.assertNotIn('pull_request_target:', wf)
+        self.assertIn('fetch-depth: 0', ci)
+        self.assertIn('gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e', ci)
+        self.assertIn('contents: read', ci)
+        self.assertNotIn('contents: write', ci)
+        self.assertFalse((ROOT/'.github/workflows/update-stats.yml').exists())
+        self.assertFalse((ROOT/'.github/workflows/tech-stack.yml').exists())
 
     def test_live_rejects_fixture_via_command_line(self):
         import subprocess
