@@ -1,0 +1,20 @@
+# Acceptance checklist — v3.1
+
+- [ ] Read-only GitHub Actions execution succeeds on the owner's account.
+- [ ] GitHub GraphQL contribution totals are reviewed against the visible GitHub profile; investigate any private-contribution differences.
+- [ ] Publish job explicitly approved and succeeds, or branch policy handled with a reviewed PR.
+- [ ] Check timestamp in stats.svg matches last successful sync (UTC).
+- [ ] Verify the rendered profile on GitHub in dark and light modes and on a phone-width viewport.
+- [ ] Verify reduced-motion presentation and readable alt text.
+- [ ] Inspect all project descriptions, CI links and demo disclosures.
+- [ ] Review SVG license / AB brand ownership separately from optional reusable code licensing.
+- [ ] Only after the above, evaluate adding a daily schedule.
+
+## Evidence
+
+- Morocco2030: public Laravel project, own CI workflow, independent academic scope.
+- PC-Full-Check: public PowerShell diagnostic scripts, read-only execution mode.
+- VioletGate: public demo, not an authentication backend, own quality workflow.
+- Ayman Calc: publicly accessible JavaScript calculator and GitHub Pages demo.
+
+There is no claim of a live API success or full GitHub compatibility until observed.

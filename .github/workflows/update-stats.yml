@@ -1,0 +1,83 @@
+name: Verify or publish contribution artwork
+
+# No scheduled jobs; publication requires an explicit manual choice.
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Commit verified SVG assets to main (only after reviewing the dry run)'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verified-profile-artwork
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Read-only verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout reviewed source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Local structural tests (no network)
+        run: |
+          python3 -m unittest discover -s tests -v
+          python3 scripts/validate.py
+      - name: Read official GitHub contribution calendar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/fetch_contributions.py
+      - name: Render live snapshot and verify again
+        run: |
+          python3 scripts/render_profile.py --data data/contributions.json
+          python3 scripts/validate.py
+          echo 'PASS: verified current snapshot with fresh timestamp. No files pushed.'
+
+  publish:
+    name: Explicitly publish verified artwork
+    if: ${{ inputs.publish == true }}
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout reviewed source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Fetch latest official GitHub data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/fetch_contributions.py
+      - name: Regenerate and test before any write
+        run: |
+          python3 scripts/render_profile.py --data data/contributions.json
+          python3 -m unittest discover -s tests -v
+          python3 scripts/validate.py
+      - name: Commit only generated data and statistics
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/contributions.json assets/contributions-dark.svg assets/contributions-light.svg assets/stats-dark.svg assets/stats-light.svg
+          if git diff --cached --quiet; then
+            echo 'No generated files changed.'
+            exit 0
+          fi
+          git commit -m 'chore: refresh verified contribution artwork [skip ci]'
+          # No persistent checkout token or external commit action.
+          git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w 0)" \
+            push "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:main

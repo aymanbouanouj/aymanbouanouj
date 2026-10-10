@@ -1,0 +1,12 @@
+# Local preview files, OS/editor files and secrets (none are required)
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+*.bak
