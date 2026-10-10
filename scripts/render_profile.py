@@ -224,9 +224,9 @@ def logo_panel(theme):
     return ''.join(s)
 
 def link_badge(label,slug):
-    widths={'linkedin':230,'projects':226,'demos':212,'profiles':224}
-    tags={'linkedin':'IN','projects':'GH','demos':'UI','profiles':'AB'}
-    colors={'linkedin':'#2563eb','projects':'#7044c7','demos':'#0e8e9a','profiles':'#7c3aed'}
+    widths={'linkedin':230,'instagram':220,'facebook':212,'x':217,'medium':208,'profiles':224}
+    tags={'linkedin':'IN','instagram':'IG','facebook':'FB','x':'X','medium':'M','profiles':'AB'}
+    colors={'linkedin':'#2563eb','instagram':'#b32779','facebook':'#1769aa','x':'#3d4456','medium':'#2d6954','profiles':'#7c3aed'}
     w=widths[slug];a=colors[slug]
     return (start(w,44,label+' — Ayman Bounaouj','Link to '+label)+styling()+
         f'<rect width="{w}" height="44" rx="9" fill="#121827" stroke="#435168"/>'

@@ -20,3 +20,5 @@
 There is no claim of a live API success or full GitHub compatibility until observed.
 
 - [ ] Verify logo in Dark/Light and project sections and badge links on mobile-width GitHub.
+
+- [ ] Verify LinkedIn, Instagram, Facebook, X and Medium links in a browser before going public.

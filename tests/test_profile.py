@@ -49,7 +49,7 @@ class ProfileTests(unittest.TestCase):
     def test_clean_brand_and_links(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         self.assertNotIn('./assets/ascii-dark.svg',readme)
-        for name in ('linkedin','projects','demos','profiles'):
+        for name in ('linkedin','instagram','facebook','x','medium','profiles'):
             self.assertIn(f'./assets/link-{name}.svg',readme)
         for theme in ('dark','light'):
             self.assertIn('AYMAN BOUNAOUJ',logo_panel(theme))
@@ -77,6 +77,13 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('\n\n---\n\n<div align="center">\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
+
+    def test_social_contact_badges(self):
+        text=(ROOT/'README.md').read_text(encoding='utf-8')
+        for name in ('linkedin','instagram','facebook','x','medium','profiles'):
+            self.assertIn('./assets/link-'+name+'.svg',text)
+        self.assertNotIn('./assets/link-demos.svg',text)
+        self.assertNotIn('./assets/link-projects.svg',text)
 
     def test_no_numbers_when_missing_live_data(self):
         self.assertIn('AWAITING FIRST GITHUB SYNC',heatmap('dark'))

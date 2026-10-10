@@ -71,9 +71,13 @@ Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj
 <p><b>Full-Stack Web Development · Practical Engineering · Public Projects</b></p>
 <p>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn" height="38" /></a>
-<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="./assets/link-projects.svg" alt="GitHub repositories" height="38" /></a>
-<a href="https://aymanbouanouj.github.io/violetgate/"><img src="./assets/link-demos.svg" alt="VioletGate demo" height="38" /></a>
-<a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="Official social profiles" height="38" /></a>
+<a href="https://www.instagram.com/aymanbounaouj/"><img src="./assets/link-instagram.svg" alt="Instagram" height="38" /></a>
+<a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./assets/link-facebook.svg" alt="Facebook" height="38" /></a>
+</p>
+<p>
+<a href="https://x.com/aymanbounaouj"><img src="./assets/link-x.svg" alt="X Twitter" height="38" /></a>
+<a href="https://medium.com/@aymanbounaouj"><img src="./assets/link-medium.svg" alt="Medium" height="38" /></a>
+<a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="All profiles" height="38" /></a>
 </p>
 
 <p><sub>Original SVG artwork · Projects link to public code and demos · GitHub calendar activity may exclude private contributions · Last sync shown in statistics.</sub></p>

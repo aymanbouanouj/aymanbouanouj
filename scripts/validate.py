@@ -35,7 +35,7 @@ def main()->int:
     assert len(content.encode('utf-8'))<500_000
     assert 'javascript:' not in content.lower() and '<script' not in content.lower()
     assert 'github-readme-stats' not in content and 'img.shields.io' not in content
-    for name in NAMES + ('link-linkedin.svg','link-projects.svg','link-demos.svg','link-profiles.svg'):
+    for name in NAMES + ('link-linkedin.svg','link-instagram.svg','link-facebook.svg','link-x.svg','link-medium.svg','link-profiles.svg'):
         assert (ASSETS/name).exists(), f'Missing generated art {name}'
         assert f'./assets/{name}' in content, f'Not referenced from README: {name}'
         validate_svg_file(ASSETS/name)
@@ -57,7 +57,7 @@ def main()->int:
     assert 'workflow_dispatch:' in wf and 'contents: write' in wf and 'persist-credentials: false' in wf
     assert 'default: false' in wf and 'needs: verify' in wf and 'if: ${{ inputs.publish == true }}' in wf
     assert 'pull_request_target' not in wf and 'cron:' not in wf
-    print('PASS: all twelve SVGs parse, contain accessibility metadata and reduced-motion support.')
+    print('PASS: all fourteen SVGs parse, contain accessibility metadata and reduced-motion support.')
     print('PASS: SVGs contain no third-party requests, links, scripts or event handlers.')
     print('PASS: README links verified by path and limited embedded content.')
     print('PASS: real-vs-placeholder data state is honest and consistent.')
