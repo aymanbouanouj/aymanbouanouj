@@ -51,6 +51,12 @@
 </picture>
 <p><sub>Evidence from public dependency manifests, release tags and named GitHub Actions. Details link to the underlying repositories below; these are not skill ratings.</sub></p>
 
+<h3><code>ayman@github ~ $ ./featured-project.sh</code></h3>
+<p><b><a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030 — Independent Laravel Engineering Project</a></b></p>
+<p>Multilingual tournament portal and staff back office with role-based access. Independent academic project, <b>not FIFA-affiliated</b>.</p>
+<p><a href="https://github.com/aymanbouanouj/morocco2030">Source code</a> · <a href="https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml">CI evidence</a> · <a href="https://github.com/aymanbouanouj/morocco2030/releases">Published releases</a></p>
+<p><sub>Only demonstrated public project evidence is shown; no invented traffic, users or security certifications.</sub></p>
+
 <h3><code>ayman@github ~ $ ./proof-of-work.sh</code></h3>
 </div>
 
