@@ -37,7 +37,16 @@ class EngineeringTests(unittest.TestCase):
    self.assertIn('AWAITING FIRST VERIFIED ENGINEERING SCAN',x)
  def test_readme(self):
   text=(ROOT/'README.md').read_text(encoding='utf-8')
-  self.assertIn('engineering-dark.svg',text)
-  self.assertIn('engineering-light.svg',text)
+  migrated=(ROOT/'assets/mobile/manifest.json').exists()
+  if migrated:
+   # Mobile README intentionally uses PNG; SVG remains available as
+   # a linked, self-hosted source without a second light/dark image tag.
+   self.assertIn('src="./assets/mobile/engineering.png"',text)
+   self.assertIn('href="./assets/engineering-dark.svg"',text)
+   self.assertTrue((ROOT/'assets/engineering-light.svg').exists())
+   self.assertNotIn('engineering-light.svg#gh-light-mode-only',text)
+  else:
+   self.assertIn('engineering-dark.svg#gh-dark-mode-only',text)
+   self.assertIn('engineering-light.svg#gh-light-mode-only',text)
   self.assertIn('SGA-BTS/pull/1',text)
 if __name__=='__main__':unittest.main()
