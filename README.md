@@ -66,8 +66,6 @@ Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj
 
 ---
 
-<sub>**Evidence-first profile:** claims link to public repositories or demonstrations. Contribution counts, when available, are GitHub calendar activity, not proof of programming skill. Private contributions may not be included.</sub>
-
 <div align="center">
 <h3><code>ayman@github ~ $ ./connect.sh</code></h3>
 <p><b>Full-Stack Web Development · Practical Engineering · Public Projects</b></p>
@@ -78,5 +76,5 @@ Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj
 <a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="Official social profiles" height="38" /></a>
 </p>
 
-<sub>Original SVG artwork · no third-party counter service · statistics display their last synchronization time.</sub>
+<p><sub>Original SVG artwork · Projects link to public code and demos · GitHub calendar activity may exclude private contributions · Last sync shown in statistics.</sub></p>
 </div>
