@@ -1,37 +1,33 @@
-# Security and data handling notes
+# Security and privacy policy
 
-- Profile assets are self-hosted, inline-free SVG with CSS animation only; no JavaScript, external URL references, or third-party counter embeds.
-- The fetcher calls **only** `https://api.github.com/graphql`; it does not scrape HTML or use an untrusted statistics API.
-- Live data requires an ephemeral `GITHUB_TOKEN` scoped to this profile repository. There is no PAT stored in files.
-- The legacy contribution workflow runs on manual dispatch only; the combined profile-refresh workflow also runs every six hours. The first `publish=false` run has read-only permissions and cannot push; `publish=true` separately grants write to its publish job after the verification job succeeds. A daily schedule is deliberately absent.
-- The only workflow job requesting `contents: write` is `publish`, for updating its own generated artwork. The checkout action is first-party and pinned to a reviewed commit SHA. `persist-credentials: false` prevents leaving a token in Git config.
-- GraphQL error/malformed data aborts without overwriting existing artwork.
-- The API can include privately counted contributions if the user's contribution visibility setting exposes them in aggregate: inspect the data before publishing.
-- Artifact generation validates consecutive ISO dates and numeric counts. Generated XML content uses escaped text. README and generated SVGs are scanned by local checks.
-- No attempt is made to enumerate private repositories, files, organizations, contacts, or emails.
-- Workflow push may be blocked by branch protection or repository policy, and must not be bypassed.
-- As with any generated website artwork, review changes before publishing. Checks are a defense-in-depth measure, not a security audit guarantee.
+## Current posture
+This repository is a personal GitHub profile. Treat every file, image, commit, generated statistic and workflow log as public material **before** making the repository public. Passing tests or a secret-pattern scan is not a guarantee of confidentiality.
 
-## Accuracy contract (v3.1)
+## Reporting
+Report suspected vulnerabilities privately to the repository owner using GitHub's private vulnerability reporting feature (if enabled). Do not publish credentials, tokens, proof-of-concept payloads containing secrets, or identifying personal data in public Issues.
 
-- Reject synthetic, stale (older than 36 hours), future-dated, invalid, inconsistent or wrong-user snapshots.
-- Current streak is zero if neither today nor yesterday has a counted contribution; do not confuse an older historical streak with a current streak.
-- Render the verified synchronization timestamp in the statistics panel to reveal when data stops refreshing.
-- GraphQL `GITHUB_TOKEN` may not show privately counted contributions; never assert complete account totals until reconciled on GitHub.
-- A read-only verification workflow may fail with API permission errors; stop and diagnose rather than silently replacing values or adding a personal token.
-- The `README.md` does not claim that repository source availability necessarily means a license grants reuse rights.
+## Actions and permissions
+- `security-ci.yml` tests integrity and runs a pinned Gitleaks action with full Git history using read-only permissions.
+- `profile-refresh.yml` is the only publication workflow. Verification runs read-only.
+- Manual publication requires selecting `publish=true`. Scheduled publication is **disabled by default** unless repository Actions variable `ENABLE_SCHEDULED_PROFILE_PUBLISH` equals `true`.
+- The publish job alone requests `contents: write`. It uses the ephemeral GitHub Actions token to push strictly generated artwork and data.
+- Third-party dependencies and action SHAs require review before upgrades. No persistent PAT is required.
+- Do not run workflows with untrusted pull-request code using write credentials.
 
-## Automated public profile evidence (October 2026)
+## Privacy warning: contribution calendar
+`data/contributions.json` and the derived contribution artwork may contain daily GitHub contribution totals, potentially including private contribution counts as exposed by GitHub GraphQL. Even after deleting the file later, prior commits can retain its data. Decide whether you consent to exposing historical activity **before converting this repository to Public**.
 
-- Public language scans use GitHub Linguist; no private repository is scanned.
-- Engineering tools are discovered only from public manifests and are not proficiency rankings.
-- Project CI and release signals come from public GitHub APIs. A CI status is not a security certification.
-- A single combined scheduled workflow updates contribution, language and engineering graphics every six hours; manual dry runs use read-only permissions. Scheduled writes and manual publish jobs share one concurrency group.
-- Old Stats and Tech Stack individual workflows remain available manually only. Do not trigger publish concurrently.
-- The project in focus is not automatically inferred from private activity. External merged PR evidence must link to the original PR.
+For maximum privacy, publish only static branding and public-repository information and omit contribution snapshots/graphics. Doing so requires a separate coordinated README, generator, and history policy change. Removing a file from the current commit is NOT history erasure.
 
-## Release verification status — 2026-10-10
+## Source validation
+GitHub project language/framework evidence comes from publicly accessible repositories; it is not a verified competence score. SVG files prohibit scripts, event handlers and remote dependencies. PNG files are checked against a SHA-256 manifest for their SVG sources. Synthetic fixture data is never used as live activity. Third-party social links should be confirmed manually.
 
-- The first combined refresh succeeded in GitHub Actions run 38088752616, including its offline tests, public API fetches, and generated-asset commit.
-- Only recognized secret formats were screened across the 12 existing commit diffs. A pattern search cannot guarantee absence of all secrets.
-- Social-account ownership, real-device rendering, and full history/content review remain release gates. Do not publish automatically.
+## Release gates
+1. Complete a secret scanner run over all refs and review any findings without exposing secret values.
+2. Review daily contribution disclosure, linked accounts, licensing, logo rights and README claims.
+3. Check repo settings: branch rules, contributors, Actions permissions, private forks, secret scanning and Dependabot.
+4. Verify full test suite, mobile rendering and links.
+5. Obtain explicit owner approval for Public visibility. Remain Private until approval.
+
+## Limitations
+Prior manual inspection found no recognizable credentials in 22 textual commit diffs, but binary blobs and unexpected secret formats were not exhaustively checked. Gitleaks and repository settings should be reviewed separately. If a real secret is found, revoke/rotate it before considering history cleanup.

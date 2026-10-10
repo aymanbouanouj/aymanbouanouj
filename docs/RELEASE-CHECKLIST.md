@@ -1,43 +1,30 @@
-# Acceptance checklist — v3.2
+# Publication gate — security hardening (2026-10-10)
 
-- [x] Read-only GitHub Actions execution succeeded on the owner's account (run 38088752616).
-- [ ] GitHub GraphQL contribution totals are reviewed against the visible GitHub profile; investigate any private-contribution differences.
-- [x] First combined publish job succeeded in run 38088752616; scheduled execution still needs observing.
-- [ ] Check timestamp in stats.svg matches last successful sync (UTC).
-- [ ] Verify the rendered profile on GitHub in dark and light modes and on a phone-width viewport.
-- [ ] Verify reduced-motion presentation and readable alt text.
-- [ ] Inspect all project descriptions, CI links and demo disclosures.
-- [ ] Review SVG license / AB brand ownership separately from optional reusable code licensing.
-- [ ] Only after the above, evaluate adding a daily schedule.
+## Verified project evidence
+- [x] Profile refresh #7 previously passed 47 regression tests and produced validated PNG/SVG artwork.
+- [x] Full current textual commit-diff inspection found no confirmed credential leakage from recognizable patterns (not exhaustive).
+- [x] New security CI is configured to run full-history Gitleaks and local integrity checks.
+- [x] Legacy independently writable stats and Tech Stack workflows removed on hardening branch.
+- [x] Scheduled publishing now requires explicit ENABLE_SCHEDULED_PROFILE_PUBLISH=true; manual publish remains opt-in.
 
-## Evidence
+## Not verified / blocking Public
+- [ ] Confirm full-history Gitleaks job passes on this hardening PR. Investigate alerts privately.
+- [ ] Confirm offline tests, PNG verification and all relevant CI jobs pass after merging.
+- [ ] Confirm whether private contribution counts appear in snapshots; choose whether daily activity may be disclosed.
+- [ ] Confirm that the entire history, including binary assets and former revisions, is acceptable to publish.
+- [ ] Verify logo provenance, ownership, and distinct code-vs-brand reuse rights.
+- [ ] Check social links and their ownership, privacy and redirects.
+- [ ] Test GitHub Mobile Android images and GitHub web Light/Dark mode.
+- [ ] Review repo Security & Analysis settings, current collaborators, Actions permission defaults and Private Forks.
+- [ ] Configure a branch rule that prevents force push/deletion and requires security checks for human source changes while permitting planned generated-asset updates.
+- [ ] Explicitly approve changing repository visibility to Public. **Do not auto-publish.**
 
-- Morocco2030: public Laravel project, own CI workflow, independent academic scope.
-- PC-Full-Check: public PowerShell diagnostic scripts, read-only execution mode.
-- VioletGate: public demo, not an authentication backend, own quality workflow.
-- Ayman Calc: publicly accessible JavaScript calculator and GitHub Pages demo.
+## Procedure
+1. Review the security Pull Request, its diff and the Gitleaks report/status.
+2. Merge only after checks pass; synchronize Windows working copy with `git pull --ff-only origin main`.
+3. Run `py -3 -m unittest discover -s tests -v`, `py -3 scripts/validate.py` and `py -3 scripts/mobile_png.py --verify`.
+4. Optionally run `profile-refresh.yml` with `publish=false`; for an explicitly approved update, use `publish=true`.
+5. Keep scheduled publishing disabled until the contribution-data visibility decision.
+6. Reassess the Public release gate separately. No repo visibility changes are authorized by this checklist.
 
-There is no claim of a live API success or full GitHub compatibility until observed.
-
-- [ ] Verify logo in Dark/Light and project sections and badge links on mobile-width GitHub.
-
-- [ ] Verify LinkedIn, Instagram, Facebook, X and Medium links in a browser before going public.
-
-## Final acceptance (combined refresh)
-
-- [ ] New engineering evidence appears after first verified Workflow run.
-- [ ] Check combined workflow read-only run then scheduled/publish result and detect any API failures.
-- [ ] Validate display on mobile and light mode inside real GitHub UI.
-- [ ] Check social accounts resolve to accounts you control and do not expose private data.
-- [ ] Review all repository files and full commit history before changing visibility.
-
-- [x] Checked all 12 commit diffs for common token/private-key patterns; no matches found (not a comprehensive secrets audit).
-- [ ] Independently verify the narrow-layout README in GitHub's renderer on an actual phone.
-- [ ] Verify all social profiles belong to the owner; do not infer ownership from matching names.
-
-## GitHub Mobile image compatibility — 2026-10-10
-
-- [x] Replaced unsupported mobile-app `<picture>` markup with direct `<img>` references using GitHub's themed-image fragments.
-- [ ] In GitHub Android app confirm hero, contributions, logo/stats, tech stack and engineering images are visible.
-- [ ] Test a GitHub Light theme, then Dark theme, in web and app; two theme assets must never both remain visible in the same section.
-- [ ] If GitHub Mobile still cannot render images, test a PNG fallback using same-branch relative paths before general availability.
+Security note: `data/contributions.json` contains day-by-day activity; deleting it later will not erase previous Git history.

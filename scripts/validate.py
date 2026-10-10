@@ -81,10 +81,18 @@ def main()->int:
         assert 'AWAITING FIRST VERIFIED ENGINEERING SCAN' not in (ASSETS/'engineering-dark.svg').read_text(encoding='utf-8')
     else:
         assert 'AWAITING FIRST VERIFIED ENGINEERING SCAN' in (ASSETS/'engineering-dark.svg').read_text(encoding='utf-8')
-    wf=(ROOT/'.github/workflows/update-stats.yml').read_text(encoding='utf-8')
-    assert 'workflow_dispatch:' in wf and 'contents: write' in wf and 'persist-credentials: false' in wf
-    assert 'default: false' in wf and 'needs: verify' in wf and 'if: ${{ inputs.publish == true }}' in wf
-    assert 'pull_request_target' not in wf and 'cron:' not in wf
+    workflow_dir=ROOT/'.github/workflows'
+    wf=(workflow_dir/'profile-refresh.yml').read_text(encoding='utf-8')
+    ci=(workflow_dir/'security-ci.yml').read_text(encoding='utf-8')
+    assert 'workflow_dispatch:' in wf and 'contents: write' in wf and 'contents: read' in wf
+    assert 'default: false' in wf and 'needs: verify' in wf and 'persist-credentials: false' in wf
+    assert "vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'" in wf
+    assert "github.event_name == 'workflow_dispatch' && inputs.publish == true" in wf
+    assert 'git push origin HEAD:main' in wf
+    assert 'pull_request_target' not in wf and 'schedule:' in wf
+    assert not (workflow_dir/'update-stats.yml').exists() and not (workflow_dir/'tech-stack.yml').exists()
+    assert 'fetch-depth: 0' in ci and 'gitleaks/gitleaks-action@' in ci
+    assert 'pull_request_target' not in ci and 'contents: write' not in ci
     print('PASS: all eighteen SVGs parse, contain accessibility metadata and reduced-motion support.')
     print('PASS: SVGs contain no third-party requests, links, scripts or event handlers.')
     print('PASS: README links verified by path and limited embedded content.')
