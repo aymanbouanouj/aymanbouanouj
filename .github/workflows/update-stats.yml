@@ -29,17 +29,19 @@ jobs:
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1 (Node.js 24)
         with:
           persist-credentials: false
-      - name: Local structural tests (no network)
-        run: |
-          python3 -m unittest discover -s tests -v
-          python3 scripts/validate.py
+      - name: Compile source before regenerating derived assets
+        run: python3 -m compileall -q scripts tests
       - name: Read official GitHub contribution calendar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/fetch_contributions.py
       - name: Render live snapshot and verify again
         run: |
-          python3 scripts/render_profile.py --data data/contributions.json
+          python3 scripts/render_profile.py --data data/contributions.json --no-static
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --verify
+          python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
           echo 'PASS: verified current snapshot with fresh timestamp. No files pushed.'
 
@@ -62,7 +64,10 @@ jobs:
         run: python3 scripts/fetch_contributions.py
       - name: Regenerate and test before any write
         run: |
-          python3 scripts/render_profile.py --data data/contributions.json
+          python3 scripts/render_profile.py --data data/contributions.json --no-static
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --verify
           python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
       - name: Commit only generated data and statistics
@@ -72,7 +77,7 @@ jobs:
           set -eu
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- data/contributions.json assets/contributions-dark.svg assets/contributions-light.svg assets/stats-dark.svg assets/stats-light.svg
+          git add -- data/contributions.json assets/mobile/ assets/hero-dark.svg assets/hero-light.svg assets/logo-dark.svg assets/logo-light.svg assets/contributions-dark.svg assets/contributions-light.svg assets/stats-dark.svg assets/stats-light.svg
           if git diff --cached --quiet; then
             echo 'No generated files changed.'
             exit 0

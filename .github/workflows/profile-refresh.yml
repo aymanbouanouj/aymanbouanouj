@@ -29,10 +29,8 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-      - name: Offline tests
-        run: |
-          python3 -m unittest discover -s tests -v
-          python3 scripts/validate.py
+      - name: Check Python syntax before refreshing generated artifacts
+        run: python3 -m compileall -q scripts tests
       - name: Query public project evidence and render
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,10 +50,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 scripts/fetch_contributions.py
-          python3 scripts/render_profile.py --data data/contributions.json
+          python3 scripts/render_profile.py --data data/contributions.json --no-static
           python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
           python3 scripts/mobile_png.py --render
           python3 scripts/mobile_png.py --switch-readme
+          python3 scripts/mobile_png.py --verify
+          python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
           echo 'Read-only verification complete; no changes pushed.'
 
@@ -80,7 +80,7 @@ jobs:
           python3 scripts/engineering.py --fetch
           python3 scripts/engineering.py --render
           python3 scripts/fetch_contributions.py
-          python3 scripts/render_profile.py --data data/contributions.json
+          python3 scripts/render_profile.py --data data/contributions.json --no-static
           python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
           python3 scripts/mobile_png.py --render
           python3 scripts/mobile_png.py --switch-readme
@@ -97,6 +97,8 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- README.md assets/mobile/ data/contributions.json data/tech-stack.json data/engineering.json \
+            assets/hero-dark.svg assets/hero-light.svg \
+            assets/logo-dark.svg assets/logo-light.svg \
             assets/contributions-dark.svg assets/contributions-light.svg \
             assets/stats-dark.svg assets/stats-light.svg \
             assets/tech-stack-dark.svg assets/tech-stack-light.svg \

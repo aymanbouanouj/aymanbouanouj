@@ -22,14 +22,18 @@ jobs:
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-      - name: Run offline regression suite
-        run: python3 -m unittest discover -s tests -v
+      - name: Compile source before generating fresh assets
+        run: python3 -m compileall -q scripts tests
       - name: Fetch official public repository languages
         run: python3 scripts/tech_stack.py --fetch
       - name: Generate and verify SVG
         run: |
           python3 scripts/tech_stack.py --render
           python3 scripts/tech_stack.py --verify
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --verify
+          python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
       - name: Commit only verified public Tech Stack snapshots
         env:
@@ -38,7 +42,7 @@ jobs:
           set -eu
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- data/tech-stack.json assets/tech-stack-dark.svg assets/tech-stack-light.svg
+          git add -- data/tech-stack.json assets/mobile/ assets/tech-stack-dark.svg assets/tech-stack-light.svg
           if git diff --cached --quiet; then
             echo 'No changes to Tech Stack'
             exit 0

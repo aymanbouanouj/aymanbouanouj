@@ -276,6 +276,7 @@ def main():
  cli.add_argument('--data',type=Path)
  cli.add_argument('--placeholder',action='store_true')
  cli.add_argument('--demo',action='store_true')
+ cli.add_argument('--no-static',action='store_true',help='Preserve the reviewed logo and hero SVGs while refreshing contribution metrics')
  a=cli.parse_args()
  if bool(a.data)==bool(a.placeholder):cli.error('Specify exactly one of --data or --placeholder')
  if a.demo and not a.data:cli.error('--demo requires a data fixture')
@@ -284,6 +285,6 @@ def main():
   analysis(data, reference_date=dt.date.fromisoformat(data['days'][-1]['date']) if a.demo else None)
   if not a.demo: validate_live_snapshot(data)
  dest=ROOT/'docs'/'demo' if a.demo else ROOT/'assets'
- write_assets(dest,data,a.demo,include_static=not a.demo)
+ write_assets(dest,data,a.demo,include_static=not (a.demo or a.no_static))
  print('Generated',dest,'(demo only)' if a.demo else '(publishable verified data)' if data else '(no statistics yet)')
 if __name__=='__main__':main()

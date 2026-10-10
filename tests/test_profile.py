@@ -46,6 +46,30 @@ class ProfileTests(unittest.TestCase):
                 self.assertIn('prefers-reduced-motion',svg)
                 self.assertNotIn('<script',svg.lower())
 
+    def test_metrics_refresh_preserves_reviewed_static_artwork(self):
+        # Generated statistics may change daily; the reviewed owner logo must not.
+        with tempfile.TemporaryDirectory() as temp:
+            destination=Path(temp)
+            for theme in ('dark','light'):
+                for name in ('hero','logo'):
+                    (destination/f'{name}-{theme}.svg').write_text('BRAND-REVIEWED',encoding='utf-8')
+            write_assets(destination,self.sample,True,include_static=False)
+            for theme in ('dark','light'):
+                for name in ('hero','logo'):
+                    self.assertEqual((destination/f'{name}-{theme}.svg').read_text(encoding='utf-8'),'BRAND-REVIEWED')
+                self.assertTrue((destination/f'contributions-{theme}.svg').exists())
+                self.assertTrue((destination/f'stats-{theme}.svg').exists())
+
+    def test_combined_refresh_stages_every_generated_svg(self):
+        workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        commit=workflow.split('- name: Commit strictly generated assets',1)[1]
+        for name in ('hero','logo','contributions','stats','tech-stack','engineering'):
+            for theme in ('dark','light'):
+                self.assertIn(f'assets/{name}-{theme}.svg',commit)
+        self.assertIn('assets/mobile/',commit)
+        self.assertIn('scripts/mobile_png.py --verify',workflow)
+        self.assertIn('render_profile.py --data data/contributions.json --no-static',workflow)
+
     def test_clean_brand_and_links(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         self.assertNotIn('./assets/ascii-dark.svg',readme)
