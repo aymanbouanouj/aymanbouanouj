@@ -8,7 +8,7 @@ from xml.etree import ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from render_profile import analysis, canonical_days, validate_live_snapshot, hero, heatmap, stats, ascii_panel, write_assets
+from render_profile import analysis, canonical_days, validate_live_snapshot, hero, heatmap, stats, logo_panel, link_badge, write_assets
 from validate import validate_svg_file
 import tempfile
 from unittest.mock import patch
@@ -41,10 +41,18 @@ class ProfileTests(unittest.TestCase):
 
     def test_generator_produces_all_valid_xml(self):
         for theme in ('dark','light'):
-            for svg in (hero(theme),ascii_panel(theme),heatmap(theme,self.sample,True),stats(theme,self.sample,True)):
+            for svg in (hero(theme),logo_panel(theme),heatmap(theme,self.sample,True),stats(theme,self.sample,True)):
                 ET.fromstring(svg)
                 self.assertIn('prefers-reduced-motion',svg)
                 self.assertNotIn('<script',svg.lower())
+
+    def test_clean_brand_and_links(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        self.assertNotIn('./assets/ascii-dark.svg',readme)
+        for name in ('linkedin','projects','demos','profiles'):
+            self.assertIn(f'./assets/link-{name}.svg',readme)
+        for theme in ('dark','light'):
+            self.assertIn('AYMAN BOUNAOUJ',logo_panel(theme))
 
     def test_no_numbers_when_missing_live_data(self):
         self.assertIn('AWAITING FIRST GITHUB SYNC',heatmap('dark'))

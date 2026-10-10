@@ -20,9 +20,9 @@
   <tr>
     <td width="50%" valign="top">
       <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./assets/ascii-dark.svg" />
-        <source media="(prefers-color-scheme: light)" srcset="./assets/ascii-light.svg" />
-        <img src="./assets/ascii-dark.svg" width="100%" alt="Animated original AB brand in terminal ASCII art" />
+        <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg" />
+        <source media="(prefers-color-scheme: light)" srcset="./assets/logo-light.svg" />
+        <img src="./assets/logo-dark.svg" width="100%" alt="Original clean vector AB brand logo" />
       </picture>
     </td>
     <td width="50%" valign="top">
@@ -38,19 +38,32 @@
 <h3><code>ayman@github ~ $ ./proof-of-work.sh</code></h3>
 </div>
 
-| Engineering & verification | Interactive interfaces |
-| :--- | :--- |
-| **[Morocco2030](https://github.com/aymanbouanouj/morocco2030)** · Laravel 12 · role-based back office · multilingual tournament portal. **Independent academic project; not FIFA-affiliated.** [CI workflow](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml). | **[VioletGate](https://github.com/aymanbouanouj/violetgate)** · Responsive sign-in / sign-up **frontend demo only** (no real authentication). [Interactive demo](https://aymanbouanouj.github.io/violetgate/) · [Quality checks](https://github.com/aymanbouanouj/violetgate/actions/workflows/quality.yml). |
-| **[PC Full Check](https://github.com/aymanbouanouj/PC-Full-Check)** · Privacy-first, read-only Windows diagnostics using PowerShell. [Test scripts](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests). | **[Ayman Calc](https://github.com/aymanbouanouj/ayman-calc)** · Responsive vanilla JavaScript calculator with keyboard controls and history. [Interactive demo](https://aymanbouanouj.github.io/ayman-calc/). |
+> **[Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)** · Laravel 12 · RBAC · Multilingual
+>
+> Independent academic project: tournament portal with a role-based back office; **not affiliated with FIFA**. [Source code](https://github.com/aymanbouanouj/morocco2030) · [CI workflow](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml)
 
+> **[PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)** · PowerShell · Windows 10/11 · Privacy-first
+>
+> Read-only Windows diagnostics with local reports. [Source code](https://github.com/aymanbouanouj/PC-Full-Check) · [Test scripts](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
+
+> **[VioletGate ↗](https://github.com/aymanbouanouj/violetgate)** · HTML · CSS · JavaScript
+>
+> Responsive sign-in / sign-up **frontend demo only (no real authentication)**. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Quality checks](https://github.com/aymanbouanouj/violetgate/actions/workflows/quality.yml)
+
+> **[Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)** · Vanilla JS · Responsive UI
+>
+> Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source code](https://github.com/aymanbouanouj/ayman-calc)
 <sub>**Evidence-first profile:** claims link to public repositories or demonstrations. Contribution counts, when available, are GitHub calendar activity, not proof of programming skill. Private contributions may not be included.</sub>
 
 <div align="center">
 <h3><code>ayman@github ~ $ ./connect.sh</code></h3>
 <p><b>Full-Stack Web Development · Practical Engineering · Public Projects</b></p>
-<a href="https://www.linkedin.com/in/aymanbounaouj/">LinkedIn</a> ·
-<a href="https://beacons.ai/aymanbounaouj">All official profiles</a> ·
-<a href="https://github.com/aymanbouanouj?tab=repositories">Repositories</a>
-<br/>
+<p>
+<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn" height="38" /></a>
+<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="./assets/link-projects.svg" alt="GitHub repositories" height="38" /></a>
+<a href="https://aymanbouanouj.github.io/violetgate/"><img src="./assets/link-demos.svg" alt="VioletGate demo" height="38" /></a>
+<a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="Official social profiles" height="38" /></a>
+</p>
+
 <sub>Original SVG artwork · no third-party counter service · statistics display their last synchronization time.</sub>
 </div>

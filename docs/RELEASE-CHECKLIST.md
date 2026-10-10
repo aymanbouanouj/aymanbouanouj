@@ -1,4 +1,4 @@
-# Acceptance checklist — v3.1
+# Acceptance checklist — v3.2
 
 - [ ] Read-only GitHub Actions execution succeeds on the owner's account.
 - [ ] GitHub GraphQL contribution totals are reviewed against the visible GitHub profile; investigate any private-contribution differences.
@@ -18,3 +18,5 @@
 - Ayman Calc: publicly accessible JavaScript calculator and GitHub Pages demo.
 
 There is no claim of a live API success or full GitHub compatibility until observed.
+
+- [ ] Verify logo in Dark/Light and project sections and badge links on mobile-width GitHub.

@@ -209,18 +209,28 @@ def heatmap(theme,data=None,demo=False):
 def ascii_art():
  return (ROOT/'scripts'/'monogram-ascii.txt').read_text(encoding='utf-8').splitlines()
 
-def ascii_panel(theme):
- p=PALETTES[theme];w,h=495,500
- s=[start(w,h,'ASCII AB brand signature','Original AB and arrow brand mark drawn as terminal ASCII art.'),styling(),frame(w,h,p,'ayman@github: ~ / identity --ascii'),
-    f'<text x="22" y="65" font-family="Consolas,monospace" font-size="14" fill="{p["cyan"]}">$ cat brand.txt</text>',
-    f'<rect x="18" y="81" width="459" height="356" rx="10" fill="{p["panel"]}" stroke="{p["border"]}"/>']
- lines=ascii_art()
- for i,row in enumerate(lines):
-  # Content contains only ASCII, escaped even though generated from a local vector trace.
-  s.append(f'<text class="line" xml:space="preserve" x="35" y="{103+i*8.2:.1f}" fill="{p["ink"]}" font-family="Consolas,monospace" font-size="8.15" letter-spacing=".5" style="animation-delay:{i*.048:.3f}s">{e(row)}</text>')
- s.append(f'<path class="enter" d="{e(PURPLE)}" transform="matrix(1.06 0 0 1.55 27.3 88.5)" fill="{p["accent"]}" opacity=".90"/>')
- s.append(f'<text x="21" y="472" font-family="Consolas,monospace" font-size="12" fill="{p["muted"]}">ayman@github:~$ <tspan fill="{p["accent"]}">Ayman Bounaouj</tspan></text>')
- s.append('</svg>');return ''.join(s)
+def logo_panel(theme):
+    """Clean owner-brand SVG panel, replacing low fidelity ASCII artwork."""
+    p=PALETTES[theme];w,h=495,500
+    s=[start(w,h,'Ayman Bounaouj — AB logo','AB symbol and upward violet arrow.'),
+       styling(),frame(w,h,p,'ayman@github: ~ / identity --brand'),
+       f'<text x="22" y="67" font-family="Consolas,monospace" font-size="14" fill="{p["cyan"]}">$ ./brand.sh <tspan fill="{p["muted"]}">--original</tspan></text>',
+       f'<rect x="20" y="89" width="455" height="343" rx="12" stroke="{p["border"]}" fill="{p["panel"]}"/>',
+       '<g class="enter">',brandmark(46,149,399,231,theme),'</g>',
+       f'<text x="247" y="453" text-anchor="middle" font-family="Consolas,monospace" font-size="14" font-weight="600" letter-spacing="1" fill="{p["ink"]}">AYMAN BOUNAOUJ</text>',
+       f'<text x="247" y="474" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="{p["muted"]}">ORIGINAL MARK  ·  WHITE / BLACK + VIOLET</text>','</svg>']
+    return ''.join(s)
+
+def link_badge(label,slug):
+    widths={'linkedin':230,'projects':226,'demos':212,'profiles':224}
+    tags={'linkedin':'IN','projects':'GH','demos':'UI','profiles':'AB'}
+    colors={'linkedin':'#2563eb','projects':'#7044c7','demos':'#0e8e9a','profiles':'#7c3aed'}
+    w=widths[slug];a=colors[slug]
+    return (start(w,44,label+' — Ayman Bounaouj','Link to '+label)+styling()+
+        f'<rect width="{w}" height="44" rx="9" fill="#121827" stroke="#435168"/>'
+        f'<path d="M76 0 H{w-9} Q{w} 0 {w} 9 V35 Q{w} 44 {w-9} 44 H76Z" fill="{a}"/>'
+        f'<text x="38" y="28" text-anchor="middle" font-size="16" font-weight="bold" font-family="Arial,sans-serif" fill="#ffffff">{tags[slug]}</text>'
+        f'<text x="{(w+76)/2:.1f}" y="27" text-anchor="middle" font-size="16" font-weight="700" font-family="Arial,sans-serif" fill="#ffffff">{e(label)}</text>','</svg>')
 
 def stats(theme,data=None,demo=False):
  p=PALETTES[theme];w,h=495,500
@@ -255,7 +265,7 @@ def write_assets(target,data=None,demo=False,include_static=True):
  for theme in ('dark','light'):
   if include_static:
    (target/f'hero-{theme}.svg').write_text(hero(theme),encoding='utf-8')
-   (target/f'ascii-{theme}.svg').write_text(ascii_panel(theme),encoding='utf-8')
+   (target/f'logo-{theme}.svg').write_text(logo_panel(theme),encoding='utf-8')
   (target/f'contributions-{theme}.svg').write_text(heatmap(theme,data,demo),encoding='utf-8')
   (target/f'stats-{theme}.svg').write_text(stats(theme,data,demo),encoding='utf-8')
 
