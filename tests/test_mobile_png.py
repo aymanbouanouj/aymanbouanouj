@@ -44,7 +44,7 @@ class MobilePngTests(unittest.TestCase):
                 ))
 
     def test_png_header_checks(self):
-        good = PNG_HEADER + struct.pack(">I", 13) + b"IHDR" + struct.pack(">II", 20, 30) + b"\x08\x06\x00\x00\x00"
+        good = PNG_HEADER + struct.pack(">I", 13) + b"IHDR" + struct.pack(">II", 20, 30) + b"\x08\x06\x00\x00\x00" + b"\x00\x00\x00\x00"
         self.assertEqual(dimensions(good), (20, 30))
         with self.assertRaises(ValueError):
             dimensions(b"broken")
