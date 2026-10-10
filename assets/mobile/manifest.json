@@ -4,7 +4,7 @@
   "scale": 2,
   "images": {
     "hero": {
-      "svg_sha256": "7e5003e1b8a2a4d0c31a4a93987f069f108b6be0d0835d3fc69d102cc6a0a026",
+      "svg_sha256": "82aa9c0d2c89bd8bc755d413442f2e03ee15727ba6a89aa6e4cbdbe2b6a6a070",
       "png_sha256": "4331fa130b8e2101d6c8c773b6867e21c758744c25ff7189375ef62f11920429",
       "dimensions": [
         2000,
@@ -12,40 +12,40 @@
       ]
     },
     "contributions": {
-      "svg_sha256": "94504b7eb2fc2965d2605004030dbd901965b1ad1774fa40b122af345b8fec64",
-      "png_sha256": "d6c94204607a4c128af50cdee0f78d72c4ffb2fa8fc8d125b02301c1d90de6c7",
+      "svg_sha256": "2221fcd8bf76028afc967932861bfc6d7f587eeb87b70e2135dad419d41697b9",
+      "png_sha256": "5e30942821aa9368285e5824498e85ffd5873b92ee0685e6aa24be742675780d",
       "dimensions": [
         2000,
         510
       ]
     },
     "logo": {
-      "svg_sha256": "26d73f595c5596f985941317e89d7fa0537ecb7c9aa8f0b8e693558e7f77f04c",
-      "png_sha256": "79df9417a5dadb5fa6975902654cdb075b7a736e2536347945115907f246019e",
+      "svg_sha256": "f8710bdd5e34e0be46aeab9d77fdac35b6d3e51a6e7a59774063bc4d39a93bbc",
+      "png_sha256": "55959e42420ee6caae0297679ce82f71533446e265a9caa880f9d603ef344496",
       "dimensions": [
         990,
         1000
       ]
     },
     "stats": {
-      "svg_sha256": "58427d744c40675688f5b54084d732a9344a7329526f73ec592db81cf91027dd",
-      "png_sha256": "3ca092761b35c7b519480d636132e99c2c1d66f2e4183056da586254b2bbb389",
+      "svg_sha256": "e3990a128e3006b8571b1a36860d1ac3011e39ff61e4c13f2a78b0c38a53333d",
+      "png_sha256": "a783b1df9ae544f8c4e152aae54aa3c9e5c0a51b0c4cb981fbdf04d45994114e",
       "dimensions": [
         990,
         1000
       ]
     },
     "tech-stack": {
-      "svg_sha256": "9fd32a48b8970761aaa17123ceec475e83d1184f34d440e6b3acb7be7bb6bdad",
-      "png_sha256": "92b673903778ec414de67e53ab463c4fbaae0befedeebae859efad7debf9f278",
+      "svg_sha256": "dbb64ebcdd48aca09ce111d8d5efc8c2bc960f94a50c9c14d489e0dc99b4a331",
+      "png_sha256": "ab67aac8e5fed57baf13edb1fc7634eac8ac9423a93471df185efac1dd910535",
       "dimensions": [
         2000,
         602
       ]
     },
     "engineering": {
-      "svg_sha256": "3fc5a7bf46c98d36b9e0e79f72ae46cade71268bcc11476f6090970eb5ebca1b",
-      "png_sha256": "9506c116e2e90c836fb86e93966fda6f0c7981966b3481b52b8dc8c7a5b1db6f",
+      "svg_sha256": "359d1cddfc628c85e184bc08fc5f3e09de4d332ca74904adfc94d6921108b04a",
+      "png_sha256": "55c7d476a2ca34d37b0e22098b6d17f9f20395d08a87df4bc9beba92bca8a9fc",
       "dimensions": [
         2000,
         730
