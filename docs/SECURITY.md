@@ -3,7 +3,7 @@
 - Profile assets are self-hosted, inline-free SVG with CSS animation only; no JavaScript, external URL references, or third-party counter embeds.
 - The fetcher calls **only** `https://api.github.com/graphql`; it does not scrape HTML or use an untrusted statistics API.
 - Live data requires an ephemeral `GITHUB_TOKEN` scoped to this profile repository. There is no PAT stored in files.
-- Workflow runs **on manual dispatch only**. The first `publish=false` run has read-only permissions and cannot push; `publish=true` separately grants write to its publish job after the verification job succeeds. A daily schedule is deliberately absent.
+- The legacy contribution workflow runs on manual dispatch only; the combined profile-refresh workflow also runs every six hours. The first `publish=false` run has read-only permissions and cannot push; `publish=true` separately grants write to its publish job after the verification job succeeds. A daily schedule is deliberately absent.
 - The only workflow job requesting `contents: write` is `publish`, for updating its own generated artwork. The checkout action is first-party and pinned to a reviewed commit SHA. `persist-credentials: false` prevents leaving a token in Git config.
 - GraphQL error/malformed data aborts without overwriting existing artwork.
 - The API can include privately counted contributions if the user's contribution visibility setting exposes them in aggregate: inspect the data before publishing.
@@ -29,3 +29,9 @@
 - A single combined scheduled workflow updates contribution, language and engineering graphics every six hours; manual dry runs use read-only permissions. Scheduled writes and manual publish jobs share one concurrency group.
 - Old Stats and Tech Stack individual workflows remain available manually only. Do not trigger publish concurrently.
 - The project in focus is not automatically inferred from private activity. External merged PR evidence must link to the original PR.
+
+## Release verification status — 2026-10-10
+
+- The first combined refresh succeeded in GitHub Actions run 38088752616, including its offline tests, public API fetches, and generated-asset commit.
+- Only recognized secret formats were screened across the 12 existing commit diffs. A pattern search cannot guarantee absence of all secrets.
+- Social-account ownership, real-device rendering, and full history/content review remain release gates. Do not publish automatically.

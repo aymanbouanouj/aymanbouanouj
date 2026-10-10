@@ -1,8 +1,8 @@
 # Acceptance checklist — v3.2
 
-- [ ] Read-only GitHub Actions execution succeeds on the owner's account.
+- [x] Read-only GitHub Actions execution succeeded on the owner's account (run 38088752616).
 - [ ] GitHub GraphQL contribution totals are reviewed against the visible GitHub profile; investigate any private-contribution differences.
-- [ ] Publish job explicitly approved and succeeds, or branch policy handled with a reviewed PR.
+- [x] First combined publish job succeeded in run 38088752616; scheduled execution still needs observing.
 - [ ] Check timestamp in stats.svg matches last successful sync (UTC).
 - [ ] Verify the rendered profile on GitHub in dark and light modes and on a phone-width viewport.
 - [ ] Verify reduced-motion presentation and readable alt text.
@@ -30,3 +30,7 @@ There is no claim of a live API success or full GitHub compatibility until obser
 - [ ] Validate display on mobile and light mode inside real GitHub UI.
 - [ ] Check social accounts resolve to accounts you control and do not expose private data.
 - [ ] Review all repository files and full commit history before changing visibility.
+
+- [x] Checked all 12 commit diffs for common token/private-key patterns; no matches found (not a comprehensive secrets audit).
+- [ ] Independently verify the narrow-layout README in GitHub's renderer on an actual phone.
+- [ ] Verify all social profiles belong to the owner; do not infer ownership from matching names.

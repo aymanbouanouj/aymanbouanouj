@@ -218,6 +218,17 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(got['total_contributions'],self.sample['total_contributions'])
             self.assertEqual(got['source'],'github-graphql-contributionCalendar')
 
+    def test_responsive_mark_and_stats_markdown(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        start=readme.index('identity-and-stats.sh')
+        end=readme.index('tech-stack.sh --auto',start)
+        section=readme[start:end]
+        self.assertNotIn('<table>',section)
+        self.assertNotIn('width="50%"',section)
+        self.assertEqual(section.count('width="445"'),2)
+        self.assertIn('assets/logo-light.svg',section)
+        self.assertIn('assets/stats-light.svg',section)
+
     def test_no_external_image_references(self):
         for p in (ROOT/'assets').glob('*.svg'):
             s=p.read_text(encoding='utf-8')

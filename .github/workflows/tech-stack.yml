@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verified-profile-tech-stack
+  group: verified-profile-writes
   cancel-in-progress: false
 
 jobs:

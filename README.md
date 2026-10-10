@@ -12,28 +12,22 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/contributions-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="./assets/contributions-light.svg" />
-  <img src="./assets/contributions-dark.svg" width="100%" alt="Contribution calendar: awaiting first verified GitHub sync, or updated real GitHub counts" />
+  <img src="./assets/contributions-dark.svg" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
 </picture>
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg" />
-        <source media="(prefers-color-scheme: light)" srcset="./assets/logo-light.svg" />
-        <img src="./assets/logo-dark.svg" width="100%" alt="Original clean vector AB brand logo" />
-      </picture>
-    </td>
-    <td width="50%" valign="top">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./assets/stats-dark.svg" />
-        <source media="(prefers-color-scheme: light)" srcset="./assets/stats-light.svg" />
-        <img src="./assets/stats-dark.svg" width="100%" alt="GitHub contribution statistics; figures appear after verified sync" />
-      </picture>
-    </td>
-  </tr>
-</table>
+<p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/logo-light.svg" />
+  <img src="./assets/logo-dark.svg" width="445" alt="Original clean vector AB brand logo" />
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/stats-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/stats-light.svg" />
+  <img src="./assets/stats-dark.svg" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
+</picture>
+</p>
 
 <h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
 <picture>
