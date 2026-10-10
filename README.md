@@ -35,6 +35,14 @@
   </tr>
 </table>
 
+<h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech-stack-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/tech-stack-light.svg" />
+  <img src="./assets/tech-stack-dark.svg" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
+</picture>
+<p><sub>Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. The scan updates every 6 hours; languages are evidence of code presence, not proficiency.</sub></p>
+
 <h3><code>ayman@github ~ $ ./proof-of-work.sh</code></h3>
 </div>
 

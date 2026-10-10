@@ -1,0 +1,50 @@
+name: Refresh verified public Tech Stack
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2,8,14,20 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verified-profile-tech-stack
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Fetch GitHub Linguist and refresh artwork
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout verified source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+      - name: Run offline regression suite
+        run: python3 -m unittest discover -s tests -v
+      - name: Fetch official public repository languages
+        run: python3 scripts/tech_stack.py --fetch
+      - name: Generate and verify SVG
+        run: |
+          python3 scripts/tech_stack.py --render
+          python3 scripts/tech_stack.py --verify
+          python3 scripts/validate.py
+      - name: Commit only verified public Tech Stack snapshots
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- data/tech-stack.json assets/tech-stack-dark.svg assets/tech-stack-light.svg
+          if git diff --cached --quiet; then
+            echo 'No changes to Tech Stack'
+            exit 0
+          fi
+          git commit -m 'chore: refresh verified public tech stack [skip ci]'
+          git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w 0)" \
+            push "https://github.com/${GITHUB_REPOSITORY}.git" HEAD:main
