@@ -74,7 +74,7 @@ class ProfileTests(unittest.TestCase):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         self.assertEqual(readme.count('#### ['), 4)
         self.assertNotIn('> **[Ayman Calc', readme)
-        self.assertIn('\\n\\n---\\n\\n<div align="center">\\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
+        self.assertIn('\n\n---\n\n<div align="center">\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
