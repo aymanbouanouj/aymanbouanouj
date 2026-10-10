@@ -235,7 +235,8 @@ class ProfileTests(unittest.TestCase):
         section=readme[start:end]
         self.assertNotIn('<table>',section)
         self.assertNotIn('width="50%"',section)
-        self.assertEqual(section.count('width="445"'),2)
+        migrated=(ROOT/'assets/mobile/manifest.json').exists()
+        self.assertEqual(section.count('width="445"'),2 if migrated else 4)
         if (ROOT/'assets/mobile/manifest.json').exists():
             self.assertIn('assets/mobile/logo.png',section)
             self.assertIn('assets/mobile/stats.png',section)
