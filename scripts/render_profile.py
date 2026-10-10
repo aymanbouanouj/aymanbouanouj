@@ -33,12 +33,14 @@ def styling():
   @keyframes draw{from{opacity:0}to{opacity:1}}
   @keyframes load{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+  @keyframes logoFade{from{opacity:0}to{opacity:1}}
+  .logo-fade{animation:logoFade .65s ease-out both}
   .enter{animation:appear .8s ease-out both}
   .cell{animation:draw .44s ease-in both}
   .line{animation:draw .32s ease-in both}
   .bar{transform-box:fill-box;transform-origin:center bottom;animation:load .6s ease-out both}
   .cursor{animation:pulse 1.3s ease-in-out infinite}
-  @media (prefers-reduced-motion:reduce){.enter,.cell,.line,.bar,.cursor{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (prefers-reduced-motion:reduce){.enter,.cell,.line,.bar,.cursor,.logo-fade{animation:none!important;opacity:1!important;transform:none!important}}
  </style>"""
 
 def frame(w,h,p,label):
@@ -216,7 +218,7 @@ def logo_panel(theme):
        styling(),frame(w,h,p,'ayman@github: ~ / identity --brand'),
        f'<text x="22" y="67" font-family="Consolas,monospace" font-size="14" fill="{p["cyan"]}">$ ./brand.sh <tspan fill="{p["muted"]}">--original</tspan></text>',
        f'<rect x="20" y="89" width="455" height="343" rx="12" stroke="{p["border"]}" fill="{p["panel"]}"/>',
-       '<g class="enter">',brandmark(46,149,399,231,theme),'</g>',
+       '<g class="logo-fade">',brandmark(65,150,365,205,theme),'</g>',
        f'<text x="247" y="453" text-anchor="middle" font-family="Consolas,monospace" font-size="14" font-weight="600" letter-spacing="1" fill="{p["ink"]}">AYMAN BOUNAOUJ</text>',
        f'<text x="247" y="474" text-anchor="middle" font-family="Consolas,monospace" font-size="10" fill="{p["muted"]}">ORIGINAL MARK  ·  WHITE / BLACK + VIOLET</text>','</svg>']
     return ''.join(s)

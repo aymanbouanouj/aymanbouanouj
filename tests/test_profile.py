@@ -54,6 +54,28 @@ class ProfileTests(unittest.TestCase):
         for theme in ('dark','light'):
             self.assertIn('AYMAN BOUNAOUJ',logo_panel(theme))
 
+    def test_vector_logo_position_not_overridden_by_css_transform(self):
+        # SVG CSS transform animations override the transform attribute and
+        # can move the logo outside its frame in GitHub and Edge.
+        for theme in ('dark', 'light'):
+            svg = logo_panel(theme)
+            root_svg = ET.fromstring(svg)
+            groups = list(root_svg.iter('{http://www.w3.org/2000/svg}g'))
+            placed = [group for group in groups if 'transform' in group.attrib]
+            self.assertTrue(placed)
+            for group in placed:
+                self.assertNotIn('enter', group.get('class', ''))
+                self.assertNotIn('animation:', group.get('style', ''))
+            self.assertIn('class="logo-fade"', svg)
+            self.assertIn('translate(65 150)', svg)
+            self.assertIn('logoFade{from{opacity:0}to{opacity:1}}', svg)
+
+    def test_projects_and_footer_are_separate(self):
+        readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+        self.assertEqual(readme.count('#### ['), 4)
+        self.assertNotIn('> **[Ayman Calc', readme)
+        self.assertIn('\n\n---\n\n<sub>**Evidence-first', readme)
+
     def test_no_numbers_when_missing_live_data(self):
         self.assertIn('AWAITING FIRST GITHUB SYNC',heatmap('dark'))
         self.assertIn('AWAITING FIRST SYNC',stats('light'))

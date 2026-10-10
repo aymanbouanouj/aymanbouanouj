@@ -38,21 +38,34 @@
 <h3><code>ayman@github ~ $ ./proof-of-work.sh</code></h3>
 </div>
 
-> **[Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)** · Laravel 12 · RBAC · Multilingual
->
-> Independent academic project: tournament portal with a role-based back office; **not affiliated with FIFA**. [Source code](https://github.com/aymanbouanouj/morocco2030) · [CI workflow](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml)
+#### [Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)
+`Laravel 12` · `RBAC` · `Multilingual`
 
-> **[PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)** · PowerShell · Windows 10/11 · Privacy-first
->
-> Read-only Windows diagnostics with local reports. [Source code](https://github.com/aymanbouanouj/PC-Full-Check) · [Test scripts](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
+Independent academic project: tournament portal and role-based back office. **Not affiliated with FIFA.** [Source code](https://github.com/aymanbouanouj/morocco2030) · [CI workflow](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml)
 
-> **[VioletGate ↗](https://github.com/aymanbouanouj/violetgate)** · HTML · CSS · JavaScript
->
-> Responsive sign-in / sign-up **frontend demo only (no real authentication)**. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Quality checks](https://github.com/aymanbouanouj/violetgate/actions/workflows/quality.yml)
+---
 
-> **[Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)** · Vanilla JS · Responsive UI
->
-> Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source code](https://github.com/aymanbouanouj/ayman-calc)
+#### [PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)
+`PowerShell` · `Windows 10/11` · `Privacy-first`
+
+Read-only Windows diagnostics with local reports. [Source code](https://github.com/aymanbouanouj/PC-Full-Check) · [Test scripts](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
+
+---
+
+#### [VioletGate ↗](https://github.com/aymanbouanouj/violetgate)
+`HTML` · `CSS` · `JavaScript`
+
+Responsive sign-in/sign-up **frontend demo only (no real authentication)**. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Quality checks](https://github.com/aymanbouanouj/violetgate/actions/workflows/quality.yml)
+
+---
+
+#### [Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)
+`Vanilla JavaScript` · `Responsive UI`
+
+Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source code](https://github.com/aymanbouanouj/ayman-calc)
+
+---
+
 <sub>**Evidence-first profile:** claims link to public repositories or demonstrations. Contribution counts, when available, are GitHub calendar activity, not proof of programming skill. Private contributions may not be included.</sub>
 
 <div align="center">
