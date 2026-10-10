@@ -37,12 +37,20 @@ def main()->int:
     assert 'github-readme-stats' not in content and 'img.shields.io' not in content
     for name in NAMES + ('link-linkedin.svg','link-instagram.svg','link-facebook.svg','link-x.svg','link-medium.svg','link-profiles.svg'):
         assert (ASSETS/name).exists(), f'Missing generated art {name}'
-        assert f'./assets/{name}' in content, f'Not referenced from README: {name}'
+        assert (f'./assets/{name}' in content or (name.endswith('-light.svg') and (ROOT/'assets/mobile/manifest.json').exists())), f'Not referenced from README: {name}'
         validate_svg_file(ASSETS/name)
     assert '<picture>' not in content and '<source ' not in content, 'GitHub Mobile does not reliably render picture elements'
-    for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
-        assert f'./assets/{component}-dark.svg#gh-dark-mode-only' in content, f'Missing dark fallback for {component}'
-        assert f'./assets/{component}-light.svg#gh-light-mode-only' in content, f'Missing light fallback for {component}'
+    mobile=ROOT/'assets'/'mobile'/'manifest.json'
+    if mobile.exists():
+        from mobile_png import verify as verify_mobile
+        verify_mobile()
+        for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
+            assert f'./assets/mobile/{component}.png' in content
+            assert f'./assets/{component}-dark.svg' in content
+    else:
+        for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
+            assert f'./assets/{component}-dark.svg#gh-dark-mode-only' in content
+            assert f'./assets/{component}-light.svg#gh-light-mode-only' in content
     for repo in REPO_NAMES:
         assert f'https://github.com/aymanbouanouj/{repo}' in content, f'Missing featured repository {repo}'
     for pattern in [r'ghp_[A-Za-z0-9]{30,}',r'github_pat_[A-Za-z0-9_]{30,}',r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----']:

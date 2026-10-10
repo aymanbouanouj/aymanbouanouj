@@ -219,13 +219,14 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(got['source'],'github-graphql-contributionCalendar')
 
     def test_mobile_app_compatible_theme_images(self):
-        # GitHub Mobile may not support picture/source even when desktop GitHub does.
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
-        self.assertNotIn('<picture>', readme)
-        self.assertNotIn('<source ', readme)
+        self.assertNotIn('<picture>',readme)
+        self.assertNotIn('<source ',readme)
         for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
-            self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only', readme)
-            self.assertIn(f'./assets/{component}-light.svg#gh-light-mode-only', readme)
+            if (ROOT/'assets/mobile/manifest.json').exists():
+                self.assertIn(f'./assets/mobile/{component}.png',readme)
+            else:
+                self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only',readme)
 
     def test_responsive_mark_and_stats_markdown(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
@@ -235,8 +236,12 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<table>',section)
         self.assertNotIn('width="50%"',section)
         self.assertEqual(section.count('width="445"'),2)
-        self.assertIn('assets/logo-light.svg',section)
-        self.assertIn('assets/stats-light.svg',section)
+        if (ROOT/'assets/mobile/manifest.json').exists():
+            self.assertIn('assets/mobile/logo.png',section)
+            self.assertIn('assets/mobile/stats.png',section)
+        else:
+            self.assertIn('assets/logo-light.svg',section)
+            self.assertIn('assets/stats-light.svg',section)
 
     def test_no_external_image_references(self):
         for p in (ROOT/'assets').glob('*.svg'):

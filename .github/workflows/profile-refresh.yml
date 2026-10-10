@@ -43,12 +43,19 @@ jobs:
           python3 scripts/engineering.py --render
           python3 scripts/engineering.py --verify
           python3 scripts/tech_stack.py --verify
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --switch-readme
+          python3 scripts/mobile_png.py --verify
       - name: Inspect contribution API and render
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 scripts/fetch_contributions.py
           python3 scripts/render_profile.py --data data/contributions.json
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --switch-readme
           python3 scripts/validate.py
           echo 'Read-only verification complete; no changes pushed.'
 
@@ -74,6 +81,10 @@ jobs:
           python3 scripts/engineering.py --render
           python3 scripts/fetch_contributions.py
           python3 scripts/render_profile.py --data data/contributions.json
+          python3 -m pip install --disable-pip-version-check 'CairoSVG==2.8.2'
+          python3 scripts/mobile_png.py --render
+          python3 scripts/mobile_png.py --switch-readme
+          python3 scripts/mobile_png.py --verify
           python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
           python3 scripts/tech_stack.py --verify
@@ -85,7 +96,7 @@ jobs:
           set -eu
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- data/contributions.json data/tech-stack.json data/engineering.json \
+          git add -- README.md assets/mobile/ data/contributions.json data/tech-stack.json data/engineering.json \
             assets/contributions-dark.svg assets/contributions-light.svg \
             assets/stats-dark.svg assets/stats-light.svg \
             assets/tech-stack-dark.svg assets/tech-stack-light.svg \
