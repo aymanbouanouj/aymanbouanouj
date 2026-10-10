@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "owner": "aymanbouanouj",
+  "source": "github-rest-public-repo-evidence",
+  "checked_at_utc": "2026-10-10T21:44:48.750013+00:00",
+  "frameworks": [
+    {
+      "name": "Laravel",
+      "repositories": [
+        "morocco2030"
+      ]
+    },
+    {
+      "name": "Tailwind CSS",
+      "repositories": [
+        "morocco2030"
+      ]
+    },
+    {
+      "name": "Vite",
+      "repositories": [
+        "morocco2030"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "ci": "success",
+      "ci_name": "CI",
+      "ci_url": "https://github.com/aymanbouanouj/morocco2030/actions/runs/36088120651",
+      "release": "v1.0.1",
+      "release_url": "https://github.com/aymanbouanouj/morocco2030/releases/tag/v1.0.1"
+    },
+    {
+      "name": "PC-Full-Check",
+      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
+      "ci": "success",
+      "ci_name": "CI",
+      "ci_url": "https://github.com/aymanbouanouj/PC-Full-Check/actions/runs/38023336793",
+      "release": "v0.2.0-beta",
+      "release_url": "https://github.com/aymanbouanouj/PC-Full-Check/releases/tag/v0.2.0-beta"
+    },
+    {
+      "name": "violetgate",
+      "url": "https://github.com/aymanbouanouj/violetgate",
+      "ci": "success",
+      "ci_name": "Quality checks",
+      "ci_url": "https://github.com/aymanbouanouj/violetgate/actions/runs/38010005322",
+      "release": "v1.0.0",
+      "release_url": "https://github.com/aymanbouanouj/violetgate/releases/tag/v1.0.0"
+    },
+    {
+      "name": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "ci": "not-verified",
+      "ci_name": null,
+      "ci_url": null,
+      "release": "v1.0.0",
+      "release_url": "https://github.com/aymanbouanouj/ayman-calc/releases/tag/v1.0.0"
+    }
+  ],
+  "public_repositories_scanned": 10
+}
