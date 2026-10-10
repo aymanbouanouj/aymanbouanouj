@@ -39,7 +39,10 @@ def main()->int:
         assert (ASSETS/name).exists(), f'Missing generated art {name}'
         assert f'./assets/{name}' in content, f'Not referenced from README: {name}'
         validate_svg_file(ASSETS/name)
-    assert 'prefers-color-scheme: dark' in content and 'prefers-color-scheme: light' in content
+    assert '<picture>' not in content and '<source ' not in content, 'GitHub Mobile does not reliably render picture elements'
+    for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
+        assert f'./assets/{component}-dark.svg#gh-dark-mode-only' in content, f'Missing dark fallback for {component}'
+        assert f'./assets/{component}-light.svg#gh-light-mode-only' in content, f'Missing light fallback for {component}'
     for repo in REPO_NAMES:
         assert f'https://github.com/aymanbouanouj/{repo}' in content, f'Missing featured repository {repo}'
     for pattern in [r'ghp_[A-Za-z0-9]{30,}',r'github_pat_[A-Za-z0-9_]{30,}',r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----']:

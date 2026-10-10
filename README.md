@@ -2,47 +2,29 @@
 <div align="center">
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/hero-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/hero-light.svg" />
-  <img src="./assets/hero-dark.svg" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
-</picture>
+<img src="./assets/hero-dark.svg#gh-dark-mode-only" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
+<img src="./assets/hero-light.svg#gh-light-mode-only" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 
 <h3><code>ayman@github ~ $ ./contributions.sh</code></h3>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/contributions-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/contributions-light.svg" />
-  <img src="./assets/contributions-dark.svg" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
-</picture>
+<img src="./assets/contributions-dark.svg#gh-dark-mode-only" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
+<img src="./assets/contributions-light.svg#gh-light-mode-only" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
 <p>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/logo-light.svg" />
-  <img src="./assets/logo-dark.svg" width="445" alt="Original clean vector AB brand logo" />
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/stats-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/stats-light.svg" />
-  <img src="./assets/stats-dark.svg" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
-</picture>
+<img src="./assets/logo-dark.svg#gh-dark-mode-only" width="445" alt="Original clean vector AB brand logo" />
+<img src="./assets/logo-light.svg#gh-light-mode-only" width="445" alt="Original clean vector AB brand logo" />
+<img src="./assets/stats-dark.svg#gh-dark-mode-only" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
+<img src="./assets/stats-light.svg#gh-light-mode-only" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
 </p>
 
 <h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech-stack-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/tech-stack-light.svg" />
-  <img src="./assets/tech-stack-dark.svg" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
-</picture>
+<img src="./assets/tech-stack-dark.svg#gh-dark-mode-only" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
+<img src="./assets/tech-stack-light.svg#gh-light-mode-only" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
 <p><sub>Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. The scan updates every 6 hours; languages are evidence of code presence, not proficiency.</sub></p>
 
 <h3><code>ayman@github ~ $ ./engineering.sh --verified</code></h3>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/engineering-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="./assets/engineering-light.svg" />
-  <img src="./assets/engineering-dark.svg" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
-</picture>
+<img src="./assets/engineering-dark.svg#gh-dark-mode-only" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
+<img src="./assets/engineering-light.svg#gh-light-mode-only" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
 <p><sub>Evidence from public dependency manifests, release tags and named GitHub Actions. Details link to the underlying repositories below; these are not skill ratings.</sub></p>
 
 <h3><code>ayman@github ~ $ ./featured-project.sh</code></h3>

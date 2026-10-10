@@ -218,6 +218,15 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(got['total_contributions'],self.sample['total_contributions'])
             self.assertEqual(got['source'],'github-graphql-contributionCalendar')
 
+    def test_mobile_app_compatible_theme_images(self):
+        # GitHub Mobile may not support picture/source even when desktop GitHub does.
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        self.assertNotIn('<picture>', readme)
+        self.assertNotIn('<source ', readme)
+        for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
+            self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only', readme)
+            self.assertIn(f'./assets/{component}-light.svg#gh-light-mode-only', readme)
+
     def test_responsive_mark_and_stats_markdown(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         start=readme.index('identity-and-stats.sh')

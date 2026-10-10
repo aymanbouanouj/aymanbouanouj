@@ -34,3 +34,10 @@ There is no claim of a live API success or full GitHub compatibility until obser
 - [x] Checked all 12 commit diffs for common token/private-key patterns; no matches found (not a comprehensive secrets audit).
 - [ ] Independently verify the narrow-layout README in GitHub's renderer on an actual phone.
 - [ ] Verify all social profiles belong to the owner; do not infer ownership from matching names.
+
+## GitHub Mobile image compatibility — 2026-10-10
+
+- [x] Replaced unsupported mobile-app `<picture>` markup with direct `<img>` references using GitHub's themed-image fragments.
+- [ ] In GitHub Android app confirm hero, contributions, logo/stats, tech stack and engineering images are visible.
+- [ ] Test a GitHub Light theme, then Dark theme, in web and app; two theme assets must never both remain visible in the same section.
+- [ ] If GitHub Mobile still cannot render images, test a PNG fallback using same-branch relative paths before general availability.
