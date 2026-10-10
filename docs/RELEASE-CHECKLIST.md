@@ -22,3 +22,11 @@ There is no claim of a live API success or full GitHub compatibility until obser
 - [ ] Verify logo in Dark/Light and project sections and badge links on mobile-width GitHub.
 
 - [ ] Verify LinkedIn, Instagram, Facebook, X and Medium links in a browser before going public.
+
+## Final acceptance (combined refresh)
+
+- [ ] New engineering evidence appears after first verified Workflow run.
+- [ ] Check combined workflow read-only run then scheduled/publish result and detect any API failures.
+- [ ] Validate display on mobile and light mode inside real GitHub UI.
+- [ ] Check social accounts resolve to accounts you control and do not expose private data.
+- [ ] Review all repository files and full commit history before changing visibility.

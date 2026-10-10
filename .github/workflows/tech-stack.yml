@@ -2,8 +2,6 @@ name: Refresh verified public Tech Stack
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '17 2,8,14,20 * * *'
 
 permissions:
   contents: read

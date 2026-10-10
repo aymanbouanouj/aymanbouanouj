@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verified-profile-artwork
+  group: verified-profile-writes
   cancel-in-progress: false
 
 jobs:

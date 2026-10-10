@@ -43,6 +43,14 @@
 </picture>
 <p><sub>Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. The scan updates every 6 hours; languages are evidence of code presence, not proficiency.</sub></p>
 
+<h3><code>ayman@github ~ $ ./engineering.sh --verified</code></h3>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/engineering-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/engineering-light.svg" />
+  <img src="./assets/engineering-dark.svg" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
+</picture>
+<p><sub>Evidence from public dependency manifests, release tags and named GitHub Actions. Details link to the underlying repositories below; these are not skill ratings.</sub></p>
+
 <h3><code>ayman@github ~ $ ./proof-of-work.sh</code></h3>
 </div>
 
@@ -71,6 +79,14 @@ Responsive sign-in/sign-up **frontend demo only (no real authentication)**. [Liv
 `Vanilla JavaScript` · `Responsive UI`
 
 Calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source code](https://github.com/aymanbouanouj/ayman-calc)
+
+---
+
+### Open-Source Contributions
+
+**[SGA-BTS — merged documentation improvement ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)**
+
+Improved project documentation and local setup instructions in another maintainer's repository. Scope: **documentation**, not an unsupported claim about feature development.
 
 ---
 

@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/'assets'
 SVG_NS='http://www.w3.org/2000/svg'
 REPO_NAMES=('morocco2030','PC-Full-Check','violetgate','ayman-calc')
-NAMES=tuple(f'{component}-{theme}.svg' for component in ('hero','logo','contributions','stats','tech-stack') for theme in ('dark','light'))
+NAMES=tuple(f'{component}-{theme}.svg' for component in ('hero','logo','contributions','stats','tech-stack','engineering') for theme in ('dark','light'))
 
 def validate_svg_file(path:Path) -> None:
     text=path.read_text(encoding='utf-8')
@@ -62,11 +62,19 @@ def main()->int:
         assert 'AWAITING FIRST VERIFIED LANGUAGE SCAN' not in (ASSETS/'tech-stack-dark.svg').read_text(encoding='utf-8'), 'Tech Stack data exists but artwork is still placeholder'
     else:
         assert 'AWAITING FIRST VERIFIED LANGUAGE SCAN' in (ASSETS/'tech-stack-dark.svg').read_text(encoding='utf-8'), 'Tech Stack without trusted data must remain placeholder'
+    engineering_data=ROOT/'data'/'engineering.json'
+    from engineering import verify as verify_engineering
+    if engineering_data.exists():
+        import json
+        verify_engineering(json.loads(engineering_data.read_text(encoding='utf-8')))
+        assert 'AWAITING FIRST VERIFIED ENGINEERING SCAN' not in (ASSETS/'engineering-dark.svg').read_text(encoding='utf-8')
+    else:
+        assert 'AWAITING FIRST VERIFIED ENGINEERING SCAN' in (ASSETS/'engineering-dark.svg').read_text(encoding='utf-8')
     wf=(ROOT/'.github/workflows/update-stats.yml').read_text(encoding='utf-8')
     assert 'workflow_dispatch:' in wf and 'contents: write' in wf and 'persist-credentials: false' in wf
     assert 'default: false' in wf and 'needs: verify' in wf and 'if: ${{ inputs.publish == true }}' in wf
     assert 'pull_request_target' not in wf and 'cron:' not in wf
-    print('PASS: all sixteen SVGs parse, contain accessibility metadata and reduced-motion support.')
+    print('PASS: all eighteen SVGs parse, contain accessibility metadata and reduced-motion support.')
     print('PASS: SVGs contain no third-party requests, links, scripts or event handlers.')
     print('PASS: README links verified by path and limited embedded content.')
     print('PASS: real-vs-placeholder data state is honest and consistent.')

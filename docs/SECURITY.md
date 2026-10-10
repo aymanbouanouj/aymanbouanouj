@@ -20,3 +20,12 @@
 - GraphQL `GITHUB_TOKEN` may not show privately counted contributions; never assert complete account totals until reconciled on GitHub.
 - A read-only verification workflow may fail with API permission errors; stop and diagnose rather than silently replacing values or adding a personal token.
 - The `README.md` does not claim that repository source availability necessarily means a license grants reuse rights.
+
+## Automated public profile evidence (October 2026)
+
+- Public language scans use GitHub Linguist; no private repository is scanned.
+- Engineering tools are discovered only from public manifests and are not proficiency rankings.
+- Project CI and release signals come from public GitHub APIs. A CI status is not a security certification.
+- A single combined scheduled workflow updates contribution, language and engineering graphics every six hours; manual dry runs use read-only permissions. Scheduled writes and manual publish jobs share one concurrency group.
+- Old Stats and Tech Stack individual workflows remain available manually only. Do not trigger publish concurrently.
+- The project in focus is not automatically inferred from private activity. External merged PR evidence must link to the original PR.
