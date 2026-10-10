@@ -70,8 +70,12 @@ class TechStackTests(unittest.TestCase):
 
     def test_profile_references_both_theme_artworks(self):
         content=(ROOT/"README.md").read_text(encoding="utf-8")
-        self.assertIn("./assets/tech-stack-dark.svg",content)
-        self.assertIn("./assets/tech-stack-light.svg",content)
+        if (ROOT/"assets/mobile/manifest.json").exists():
+            self.assertIn('./assets/mobile/tech-stack.png',content)
+            self.assertIn('./assets/tech-stack-dark.svg',content)
+        else:
+            self.assertIn("./assets/tech-stack-dark.svg",content)
+            self.assertIn("./assets/tech-stack-light.svg",content)
         self.assertIn("GitHub Linguist",content)
 
 if __name__=="__main__": unittest.main()
