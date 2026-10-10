@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "username": "aymanbouanouj",
+  "source": "github-rest-linguist-public-owned",
+  "scanned_at_utc": "2026-10-10T21:26:44.995437+00:00",
+  "repository_count": 10,
+  "languages": [
+    {
+      "name": "CSS",
+      "bytes": 62792,
+      "repositories": [
+        "ayman-calc",
+        "gestion-vaccination",
+        "login-system",
+        "morocco2030",
+        "portfolio-ayman",
+        "site-recettes",
+        "violetgate"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "bytes": 33212,
+      "repositories": [
+        "ayman-calc",
+        "gestion-vaccination",
+        "morocco2030",
+        "violetgate"
+      ]
+    },
+    {
+      "name": "HTML",
+      "bytes": 19869,
+      "repositories": [
+        "ayman-calc",
+        "portfolio-ayman",
+        "site-recettes",
+        "violetgate"
+      ]
+    },
+    {
+      "name": "PHP",
+      "bytes": 1706650,
+      "repositories": [
+        "gestion-vaccination",
+        "login-system",
+        "morocco2030"
+      ]
+    },
+    {
+      "name": "Blade",
+      "bytes": 1532051,
+      "repositories": [
+        "morocco2030"
+      ]
+    },
+    {
+      "name": "PowerShell",
+      "bytes": 207858,
+      "repositories": [
+        "PC-Full-Check"
+      ]
+    }
+  ]
+}
