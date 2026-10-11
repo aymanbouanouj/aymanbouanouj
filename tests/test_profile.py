@@ -226,6 +226,13 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('1,620', readme)
         self.assertNotIn('81 contributions', readme)
 
+    def test_full_history_gitleaks_scan_is_not_only_incremental(self):
+        ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
+        self.assertIn('fetch-depth: 0', ci)
+        self.assertIn('git rev-parse --is-shallow-repository', ci)
+        self.assertIn('git rev-list --all --count', ci)
+        self.assertIn('git --redact --log-opts="--all" .', ci)
+
     def test_workflow_dry_run_read_only(self):
         wf = (ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
