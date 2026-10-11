@@ -104,3 +104,20 @@ this repository's automated checks.
   connection**. The owner must verify these in GitHub Settings.
 - Never merge automated dependency PRs solely because Dependabot authored
   them. Check changelogs, exact SHA provenance, and CodeQL/Gitleaks results.
+
+## Profile freshness and rendering limitations
+
+GitHub READMEs cannot run arbitrary JavaScript or interactive client applications.
+The profile uses verified, self-hosted PNGs for mobile compatibility, so the
+images are static, not animated widgets or live counters.
+
+Every PNG image URL now carries a truncated SHA-256 fingerprint from
+`assets/mobile/manifest.json`. The refresh workflow recomputes URLs after
+verifying the source SVG and rendered PNG, making new reviewed images use
+a new URL rather than a potentially stale GitHub image cache entry.
+
+Statistics remain dated GitHub-API snapshots. Scheduled verification is
+read-only until owner opt-in, and generated data appears on the public
+profile only after the reviewed Pull Request has passed required checks
+and been merged. Live links point to GitHub activity and repositories.
+A true interactive dashboard would need an independent hosted web page.

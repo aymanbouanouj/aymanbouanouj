@@ -108,6 +108,41 @@ LIGHT = re.compile(
 )
 
 
+PNG_IMAGE = re.compile(
+    r'(?P<start><img src="\./assets/mobile/(?P<name>[a-z-]+)\.png)'
+    r'(?:\?v=[0-9a-f]{12})?'
+    r'(?P<end>" width="[^"]+" alt="[^"]*" />)'
+)
+
+
+def stamp_image_versions(text: str) -> str:
+    """Fingerprint verified images so GitHub image caches track their content.
+
+    URLs change only when validated PNG bytes change. No timestamp is
+    fabricated, and the mobile-friendly static image format remains intact.
+    """
+    if not MANIFEST.exists():
+        return text
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    images = manifest["images"]
+    seen = set()
+
+    def replace(match: re.Match[str]) -> str:
+        name = match.group("name")
+        if name not in COMPONENTS or name in seen:
+            raise ValueError("Unknown or duplicate README image: " + name)
+        seen.add(name)
+        sha = images[name]["png_sha256"]
+        if not re.fullmatch(r"[a-f0-9]{64}", sha):
+            raise ValueError("Invalid verified PNG digest: " + name)
+        return match.group("start") + "?v=" + sha[:12] + match.group("end")
+
+    updated = PNG_IMAGE.sub(replace, text)
+    if seen != set(COMPONENTS):
+        raise ValueError("Missing a verified README PNG image")
+    return updated
+
+
 def replace_readme(text: str) -> str:
     """Switch to simple, mobile-friendly PNG references only when complete."""
     lines = text.splitlines(keepends=True)
@@ -135,7 +170,7 @@ def replace_readme(text: str) -> str:
     result = "".join(rewritten)
     if not seen:
         if all(f'./assets/mobile/{item}.png' in result for item in COMPONENTS):
-            return result  # Already migrated.
+            return stamp_image_versions(result)  # Already migrated.
         raise ValueError("README does not have an expected pre-migration layout")
     if set(seen) != set(COMPONENTS):
         raise ValueError("Incomplete migration of README artwork")
@@ -152,7 +187,7 @@ def replace_readme(text: str) -> str:
             '. PNG previews ensure mobile-app compatibility.</sub></p>\n'
         )
         result = result[:pos] + footer + result[pos:]
-    return result
+    return stamp_image_versions(result)
 
 
 def migrate() -> None:
@@ -161,7 +196,7 @@ def migrate() -> None:
     updated = replace_readme(current)
     if updated != current:
         README.write_text(updated, encoding="utf-8")
-    print("PASS: README uses direct static PNG images and retains original SVG links")
+    print("PASS: README references digest-versioned PNG images and retains local SVG links")
 
 
 def main() -> None:

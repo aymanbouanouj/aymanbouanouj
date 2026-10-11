@@ -44,6 +44,8 @@ def main()->int:
     if mobile.exists():
         from mobile_png import verify as verify_mobile
         verify_mobile()
+        from mobile_png import stamp_image_versions
+        assert stamp_image_versions(content) == content, 'README PNG cache keys must match verified hashes'
         for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
             assert f'./assets/mobile/{component}.png' in content
             assert f'./assets/{component}-dark.svg' in content
