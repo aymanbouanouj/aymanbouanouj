@@ -6,7 +6,7 @@
 
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
 
-<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a></sub>
+<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>. GitHub's native contribution graph below is the authoritative activity calendar.</sub>
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
 
