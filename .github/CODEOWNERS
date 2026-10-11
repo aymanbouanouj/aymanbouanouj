@@ -1,0 +1,5 @@
+# Identifies the owner; enforced approvals require branch protection.
+/ @aymanbouanouj
+/.github/ @aymanbouanouj
+/scripts/ @aymanbouanouj
+/assets/ @aymanbouanouj

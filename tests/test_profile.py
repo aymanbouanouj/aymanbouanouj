@@ -233,6 +233,15 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('git rev-list --all --count', ci)
         self.assertIn('git --redact --log-opts="--all" .', ci)
 
+    def test_ownership_notice_and_sensitive_file_gate(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        self.assertIn('All rights reserved',readme)
+        self.assertIn('Tous droits réservés',readme)
+        from check_public_surface import audit
+        audit()
+        ci=(ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
+        self.assertIn('python3 scripts/check_public_surface.py',ci)
+
     def test_workflow_dry_run_read_only(self):
         wf = (ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
