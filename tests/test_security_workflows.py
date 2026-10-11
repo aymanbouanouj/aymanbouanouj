@@ -50,7 +50,7 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertEqual(len(specs), 1, "Renderer requirements must be explicit and minimal")
         self.assertRegex(
             specs[0],
-            r"^CairoSVG==[0-9]+\\.[0-9]+\\.[0-9]+(?:\\.post[0-9]+)?$",
+            r"^CairoSVG==[0-9]+\.[0-9]+\.[0-9]+(?:\.post[0-9]+)?$",
             "CairoSVG must use a pinned version, not a floating or remote dependency",
         )
         workflow = (WORKFLOWS / "profile-refresh.yml").read_text(encoding="utf-8")
