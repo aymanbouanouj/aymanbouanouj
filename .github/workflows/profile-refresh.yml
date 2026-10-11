@@ -121,8 +121,9 @@ jobs:
           # create and approve pull requests" for this command to succeed.
           # GITHUB_TOKEN-created pull requests do not normally trigger push/PR
           # workflows. Manually dispatch security-ci.yml on the review branch
+          # and codeql.yml on that same branch to verify both scanners.
           # and verify the checks on the PR's exact head SHA before merging.
           # Never auto-merge or bypass rules.
           gh pr create --base main --head "${review_branch}" \
             --title "chore: review verified profile update" \
-            --body "Verified GitHub contribution/project evidence. Please review generated data and artwork, manually dispatch the Profile security and integrity workflow on the review branch (GITHUB_TOKEN-created PRs do not automatically trigger CI); verify checks passed on the exact head commit before merging."
+            --body "Verified GitHub contribution/project evidence. Please review generated data and artwork, manually run Profile security and integrity and CodeQL Advanced using Actions workflow_dispatch on this review branch (GITHUB_TOKEN-created PRs do not automatically trigger CI); verify each job passed against the exact head commit before merging."
