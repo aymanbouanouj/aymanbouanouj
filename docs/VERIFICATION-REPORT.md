@@ -18,7 +18,7 @@ The security Pull Request #1 was merged to main as commit 71fd10b. GitHub Action
 ## Limitations
 This review does not prove that no secrets exist. Full binary-object scanning, historical reachability and owner-only GitHub security configuration need additional verification. Automated calendar counts can include sensitive aggregate private activity, and the repository owner has consented to displaying that activity if returned by GitHub without authorizing Public visibility. Linked social accounts and real-device visual appearance also require direct approval.
 
-**Status: Private; Public release NOT approved.**
+**Historical status (2026-10-10): Private; Public release NOT approved. This is NOT the current repository status.**
 
 ## Readiness checkpoint (after consent)
 
@@ -31,3 +31,7 @@ This review does not prove that no secrets exist. Full binary-object scanning, h
 ## Full-history Gitleaks scope correction
 
 The incremental GitHub Action scan on latest push run `38097596649` reported **one commit scanned**. Although that action succeeded, the result alone did not substantiate the earlier claim that every reachable historical commit had been analyzed in that run. This scope limitation is now recorded explicitly. The security workflow adds a separate direct `gitleaks git --redact --log-opts="--all" .` step with a non-shallow checkout and a visible count from `git rev-list --all --count`. The new job must succeed on the Pull Request and on `main` before claiming current full-history verification. This still cannot guarantee the absence of every possible secret.
+
+## Current state correction (2026-10-11)
+
+The repository is now **Public**, main uses an enforced branch Ruleset and four required checks, and PR #16 has merged. The earlier pre-public release checklist above is historical, not an up-to-date security claim. The V4 public activity automation is designed to publish public API summaries to a separate generated-data branch, not to main. Production updates must be verified after merging the V4 implementation.

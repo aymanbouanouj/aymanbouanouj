@@ -2,6 +2,8 @@
 
 Last updated: **2026-10-11**, after public release and PR #8.
 
+**Current V4 audit addendum:** `main` is public, CodeQL checks are now required, PR #16 has merged, and the successful PR #14 proved the manual bot-review workflow. Earlier checklist entries are historical and may be superseded by the addendum below.
+
 ## Verified from GitHub
 
 - [x] Repository `aymanbouanouj/aymanbouanouj` is **Public**.
@@ -58,3 +60,18 @@ Last updated: **2026-10-11**, after public release and PR #8.
   checkout credentials.
 - [ ] Confirm Dependabot repository settings are enabled for alerts and
   vulnerability updates. The declarative config alone cannot enable them.
+
+
+## V4 live public activity release gates
+
+- [ ] Merge V4 PR only after offline integrity, Gitleaks, CodeQL Actions,
+  and CodeQL Python pass against the exact PR head.
+- [ ] Verify initial \`profile-live\` branch has only vetted generated artwork,
+  and run the new profile-live workflow once on main after the merge.
+- [ ] Check the live branch's SVG/JSON commit and the profile image render
+  from a logged-out browser in dark/light themes and GitHub mobile.
+- [ ] Confirm scheduled workflow runs and does not create commits if substantive
+  public GitHub activity has not changed.
+- [ ] Confirm public new project/commit causes the next scheduled scan to
+  update the branch (subject to GitHub event and image caches).
+- [ ] Keep branch Ruleset on main unchanged and no broad auto-merge.

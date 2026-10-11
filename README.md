@@ -25,12 +25,25 @@
 
 ---
 
-## Verified activity
+## Current public activity — automatically refreshed
+
+<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Verified recent public repositories, public commits and GitHub events — generated automatically about every three hours" /></a>
+
+<sub>**Automatic public-data snapshot:** a scheduled GitHub Action checks every three hours and updates the dedicated profile-live branch only when activity changes. GitHub Actions and the GitHub image proxy may delay when visitors see an update. GitHub's native contribution graph below the README remains the authoritative, automatically updated contribution calendar. Private repository names, private commit messages and access tokens are never included.</sub>
+
+**[All current repositories ↗](https://github.com/aymanbouanouj?tab=repositories)** · **[Latest public activity ↗](https://github.com/aymanbouanouj?tab=overview&from=2026-10-01&to=2026-10-31)** · **[Generated data provenance ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)**
+
+## Verified historical contribution snapshot
+
+<details>
+<summary><strong>Show archived verified contribution statistics</strong> — dated snapshot</summary>
 
 <div align="center">
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
 <img src="./assets/mobile/stats.png?v=378e76a57ddd" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
 </div>
+
+</details>
 
 **<a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>** · <a href="https://github.com/aymanbouanouj?tab=repositories">Current public repositories ↗</a>
 

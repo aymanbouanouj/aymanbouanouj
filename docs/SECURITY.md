@@ -121,3 +121,24 @@ read-only until owner opt-in, and generated data appears on the public
 profile only after the reviewed Pull Request has passed required checks
 and been merged. Live links point to GitHub activity and repositories.
 A true interactive dashboard would need an independent hosted web page.
+
+## Automatically refreshed public activity (V4)
+
+The standalone \`.github/workflows/profile-live.yml\` workflow runs on a
+best-effort schedule every three hours and may be run manually. It reads only
+public GitHub REST repositories, latest public commit SHAs and public events.
+It writes two validated generated files (\`live/activity.svg\` and
+\`live/activity.json\`) to the **separate** \`profile-live\` branch using an
+ephemeral GitHub Actions token. Nothing is written directly to protected
+\`main\`; there is no token stored in repository secrets and no PR auto-merge.
+
+These are **not real-time data**. The schedule may be delayed, some event
+types are not included, only the most recent public projects are drawn, and
+GitHub's Camo/image caching can further delay visible changes. The native
+GitHub contribution calendar is the canonical live view; it may include
+aggregated private contributions depending on account preferences, whereas
+the generated V4 activity files contain public repositories/events only.
+
+Do not edit \`profile-live\` manually to inject unverified artwork. Unlike
+\`main\`, it is a generated-data branch, not a reviewed code branch. Never
+expose repository private data or introduce an external image provider.
