@@ -139,7 +139,7 @@ def collect(fetch, *, now=None):
         "schema": 2, "source": SOURCE, "owner": OWNER,
         "generated_at_utc": clock.astimezone(dt.timezone.utc).isoformat(),
         "public_original_repository_count": len(repos),
-        "language_bytes": sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:12],
+        "language_bytes": [[name, count] for name, count in sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:12]],
         "other_repositories": other,
         "verified_collaborations": _external_collaborations(fetch),
     }
