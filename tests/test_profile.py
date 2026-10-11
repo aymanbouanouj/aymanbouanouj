@@ -345,7 +345,7 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(readme.count('src="./assets/mobile/hero.png'), 1)
         self.assertEqual(readme.count('src="./assets/mobile/logo.png'), 1)
         self.assertEqual(readme.count('src="./assets/mobile/contributions.png'), 1)
-        self.assertLess(readme.index('## Selected projects'), readme.index('View original AB brand artwork'))
+        self.assertLess(readme.index('## Selected projects'), readme.index('Original AB artwork and open-source work'))
         self.assertIn('View current GitHub activity', readme)
         self.assertIn('not a live counter', readme)
         self.assertNotIn('featured-project.sh', readme)
@@ -369,21 +369,15 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<script', r.lower())
 
     def test_responsive_mark_and_stats_markdown(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
-        start=readme.index('identity-and-stats.sh')
-        end=readme.index('tech-stack.sh --auto',start)
-        section=readme[start:end]
-        self.assertNotIn('<table>',section)
-        self.assertNotIn('width="50%"',section)
-        migrated=(ROOT/'assets/mobile/manifest.json').exists()
-        self.assertEqual(section.count('width="445"'), 1 if migrated else 2)
-        if migrated:
-            self.assertIn('assets/mobile/stats.png', section)
-            self.assertNotIn('assets/mobile/logo.png', section)
-            self.assertIn('assets/mobile/logo.png', readme)
-        else:
-            self.assertIn('assets/stats-light.svg', section)
-            self.assertIn('assets/logo-light.svg', readme)
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        panel = readme.split('<table>', 1)[1].split('</table>', 1)[0]
+        self.assertEqual(panel.count('<td '), 2)
+        self.assertIn('width="50%"', panel)
+        self.assertIn('assets/mobile/logo.png', panel)
+        self.assertIn('profile-live/live/stats.svg', panel)
+        self.assertIn('profile-live/live/contributions.svg', readme)
+        self.assertIn('assets/mobile/stats.png', readme)
+        self.assertIn('assets/mobile/engineering.png', readme)
 
     def test_no_external_image_references(self):
         for p in (ROOT/'assets').glob('*.svg'):
