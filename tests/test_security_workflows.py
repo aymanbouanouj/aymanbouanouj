@@ -26,6 +26,27 @@ class WorkflowSecurityTests(unittest.TestCase):
                 )
         self.assertGreaterEqual(found, 5)
 
+    def test_codeql_is_least_privilege_without_stored_checkout_token(self):
+        content = (WORKFLOWS / "codeql.yml").read_text(encoding="utf-8")
+        self.assertIn("persist-credentials: false", content)
+        self.assertIn("timeout-minutes: 20", content)
+        self.assertIn("security-events: write", content)
+        self.assertIn("contents: read", content)
+        self.assertNotIn("      packages: read", content)
+        self.assertNotIn("      actions: read", content)
+
+    def test_dependabot_reviews_pinned_actions_and_python_requirements(self):
+        config = (ROOT / ".github" / "dependabot.yml").read_text(encoding="utf-8")
+        self.assertIn('package-ecosystem: "github-actions"', config)
+        self.assertIn('package-ecosystem: "pip"', config)
+        self.assertIn('interval: "weekly"', config)
+        self.assertEqual(config.count("open-pull-requests-limit: 5"), 2)
+        requirements = (ROOT / "requirements-ci.txt").read_text(encoding="utf-8")
+        self.assertIn("CairoSVG==2.8.2", requirements)
+        workflow = (WORKFLOWS / "profile-refresh.yml").read_text(encoding="utf-8")
+        self.assertEqual(workflow.count("pip install --disable-pip-version-check -r requirements-ci.txt"), 3)
+        self.assertNotIn("pip install --disable-pip-version-check 'CairoSVG==", workflow)
+
     def test_codeql_has_manual_review_branch_scan(self):
         content = (WORKFLOWS / "codeql.yml").read_text(encoding="utf-8")
         self.assertIn("  workflow_dispatch:", content)

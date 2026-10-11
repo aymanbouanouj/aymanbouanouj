@@ -19,7 +19,7 @@ Last updated: **2026-10-11**, after public release and PR #8.
 - [x] CodeQL run 38103231725 passed for Actions and Python.
 - [x] GitHub Actions references in CodeQL workflow pinned to full SHAs
   as proposed in this hardening change.
-- [ ] Merge the current hardening PR after its required checks pass.
+- [x] PR #9 hardening merged and checks passed; the latest released main commit is `b5515315` before any newer PR is merged.
 
 ## Next checks requiring GitHub Settings / account access
 
@@ -49,3 +49,12 @@ Last updated: **2026-10-11**, after public release and PR #8.
 - No automatic merge, bypass actor or permanent PAT is introduced.
 - If a secret is discovered, revoke/rotate it immediately; investigate
   prior Git history and caches before public incident closure.
+
+## Dependency-maintenance hardening (pending review)
+
+- [ ] Review/merge the PR introducing weekly, **non-auto-merging** Dependabot
+  updates for pinned GitHub Actions and `requirements-ci.txt` (CairoSVG).
+- [ ] Confirm CodeQL succeeds with its reduced permissions and non-persisted
+  checkout credentials.
+- [ ] Confirm Dependabot repository settings are enabled for alerts and
+  vulnerability updates. The declarative config alone cannot enable them.
