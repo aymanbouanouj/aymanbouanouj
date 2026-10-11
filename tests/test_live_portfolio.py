@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from live_portfolio import collect, draw, validate, verify, write, render_markdown, OWNER, API
+from live_portfolio import collect, draw, validate, verify, write, render_markdown, repair_markdown, OWNER, API
 
 class PublicPortfolioTests(unittest.TestCase):
     NOW = dt.datetime(2026, 10, 11, 4, 15, tzinfo=dt.timezone.utc)
@@ -83,6 +83,45 @@ class PublicPortfolioTests(unittest.TestCase):
             (root/"portfolio-tech.svg").write_text("tampered", encoding="utf-8")
             with self.assertRaises(ValueError):
                 verify(root)
+    def test_repair_stale_markdown_after_retaining_old_snapshot(self):
+        data = collect(self.mock(), now=self.NOW)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write(root, data)
+            original_json = (root/"portfolio.json").read_bytes()
+            original_svg = (root/"portfolio-tech.svg").read_bytes()
+            expected = (root/"portfolio.md").read_text(encoding="utf-8")
+            (root/"portfolio.md").write_text(expected.replace(
+                "2026-10-11T04:15", "2026-10-11T05:38"), encoding="utf-8")
+            with self.assertRaises(ValueError): verify(root)
+            self.assertTrue(repair_markdown(root))
+            self.assertEqual(verify(root), data)
+            self.assertEqual((root/"portfolio.json").read_bytes(), original_json)
+            self.assertEqual((root/"portfolio-tech.svg").read_bytes(), original_svg)
+            self.assertEqual((root/"portfolio.md").read_text(encoding="utf-8"), expected)
+            self.assertFalse(repair_markdown(root))
+
+    def test_repair_rejects_invalid_input_and_does_not_hide_bad_svg(self):
+        data = collect(self.mock(), now=self.NOW)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            write(root, data)
+            (root/"portfolio-tech.svg").write_text("tampered", encoding="utf-8")
+            repair_markdown(root)
+            with self.assertRaises(ValueError): verify(root)
+            (root/"portfolio.json").write_text('{"schema":0}', encoding="utf-8")
+            with self.assertRaises((ValueError, KeyError)): repair_markdown(root)
+
+    def test_workflow_rechecks_after_restoration_before_publishing(self):
+        workflow=(ROOT/".github/workflows/profile-live.yml").read_text(encoding="utf-8")
+        restore=workflow.index("Portfolio data unchanged: preserving approved illustrations")
+        repair=workflow.index('live_portfolio.py" --repair-markdown --output live')
+        stage=workflow.index("git add -- live/activity.svg")
+        self.assertLess(restore,repair)
+        self.assertLess(repair,stage)
+        for script in ("live_profile.py","live_contributions.py","live_portfolio.py"):
+            self.assertIn(f'{script}" --verify --output live',workflow[repair:stage])
+
     def test_empty_sets_render_explicit_explanation(self):
         data = collect(self.mock(), now=self.NOW)
         data["language_bytes"] = []
