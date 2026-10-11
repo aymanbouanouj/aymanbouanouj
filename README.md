@@ -112,4 +112,6 @@
 <p><sub>Original SVG artwork · Projects link to public code and demos · Contribution counts may include private activity totals exposed by GitHub, but not private repository contents · Last verified sync appears in the statistics.</sub></p>
 <p lang="fr"><sub>Illustrations SVG originales · Liens vers le code source et les démonstrations publiques des projets · Les statistiques peuvent inclure des contributions privées agrégées, mais jamais le contenu des dépôts privés · Date de la dernière synchronisation vérifiée indiquée dans les statistiques.</sub></p>
 <p><sub>Original scalable SVGs: <a href="./assets/hero-dark.svg">Hero</a> · <a href="./assets/contributions-dark.svg">Contributions</a> · <a href="./assets/logo-dark.svg">Logo</a> · <a href="./assets/stats-dark.svg">Stats</a> · <a href="./assets/tech-stack-dark.svg">Tech-Stack</a> · <a href="./assets/engineering-dark.svg">Engineering</a>. PNG previews ensure mobile-app compatibility.</sub></p>
+<p><sub>© 2026 Ayman Bounaouj. All rights reserved. Original personal branding and artwork are not licensed for reuse.</sub></p>
+<p lang="fr"><sub>© 2026 Ayman Bounaouj. Tous droits réservés. L'identité visuelle et les illustrations originales ne sont pas mises à disposition sous licence de réutilisation.</sub></p>
 </div>
