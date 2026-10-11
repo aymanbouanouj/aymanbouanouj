@@ -1,35 +1,7 @@
 {
   "username": "aymanbouanouj",
-  "total_contributions": 99,
+  "total_contributions": 131,
   "days": [
-    {
-      "date": "2025-10-05",
-      "count": 0
-    },
-    {
-      "date": "2025-10-06",
-      "count": 0
-    },
-    {
-      "date": "2025-10-07",
-      "count": 0
-    },
-    {
-      "date": "2025-10-08",
-      "count": 0
-    },
-    {
-      "date": "2025-10-09",
-      "count": 0
-    },
-    {
-      "date": "2025-10-10",
-      "count": 0
-    },
-    {
-      "date": "2025-10-11",
-      "count": 0
-    },
     {
       "date": "2025-10-12",
       "count": 0
@@ -1485,8 +1457,12 @@
     {
       "date": "2026-10-10",
       "count": 25
+    },
+    {
+      "date": "2026-10-11",
+      "count": 32
     }
   ],
   "source": "github-graphql-contributionCalendar",
-  "fetched_at_utc": "2026-10-10T22:51:13+00:00"
+  "fetched_at_utc": "2026-10-11T02:32:20+00:00"
 }

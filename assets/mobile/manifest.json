@@ -12,8 +12,8 @@
       ]
     },
     "contributions": {
-      "svg_sha256": "2221fcd8bf76028afc967932861bfc6d7f587eeb87b70e2135dad419d41697b9",
-      "png_sha256": "5e30942821aa9368285e5824498e85ffd5873b92ee0685e6aa24be742675780d",
+      "svg_sha256": "2204d7cf0b3147b1e2f812219e8af2fdb7a802630c03bce08592a12ea2c0a61c",
+      "png_sha256": "a1a97ff39fc7ff8043ba4200e60ac6ec2fb5b758aa078f8369cfbf35f21349f7",
       "dimensions": [
         2000,
         510
@@ -28,24 +28,24 @@
       ]
     },
     "stats": {
-      "svg_sha256": "e3990a128e3006b8571b1a36860d1ac3011e39ff61e4c13f2a78b0c38a53333d",
-      "png_sha256": "a783b1df9ae544f8c4e152aae54aa3c9e5c0a51b0c4cb981fbdf04d45994114e",
+      "svg_sha256": "0d0c0f71af2077632dcd76b1f024659fc3ee02bafc543ee716e7a96d5d773576",
+      "png_sha256": "bba6a4b4e83ffbc73ef91b82e8db571630471ccf5f731357b24b8a8fd92cf4e6",
       "dimensions": [
         990,
         1000
       ]
     },
     "tech-stack": {
-      "svg_sha256": "dbb64ebcdd48aca09ce111d8d5efc8c2bc960f94a50c9c14d489e0dc99b4a331",
-      "png_sha256": "ab67aac8e5fed57baf13edb1fc7634eac8ac9423a93471df185efac1dd910535",
+      "svg_sha256": "3083592419a0e1ae27364d7865d90241dfd7d8c559a4a1aa419e827b4816280b",
+      "png_sha256": "65678ef7bf514b7f8f6517286e3de6e4a17170d5930d55fdbbc416eab6ba8730",
       "dimensions": [
         2000,
         602
       ]
     },
     "engineering": {
-      "svg_sha256": "359d1cddfc628c85e184bc08fc5f3e09de4d332ca74904adfc94d6921108b04a",
-      "png_sha256": "55c7d476a2ca34d37b0e22098b6d17f9f20395d08a87df4bc9beba92bca8a9fc",
+      "svg_sha256": "ae44f16cf51495345b8ae8440213198f52bda5c3e5fdac0b726caa2537fda31a",
+      "png_sha256": "757cdc8cf59c8846119ae3307bb1eb51e505ae4c606c89c44c784b25806180b5",
       "dimensions": [
         2000,
         730
