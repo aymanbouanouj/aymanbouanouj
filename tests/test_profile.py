@@ -62,7 +62,7 @@ class ProfileTests(unittest.TestCase):
 
     def test_combined_refresh_stages_every_generated_svg(self):
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
-        commit=workflow.split('- name: Commit strictly generated assets',1)[1]
+        commit=workflow.split('- name: Create review pull request for verified generated assets',1)[1]
         for name in ('hero','logo','contributions','stats','tech-stack','engineering'):
             for theme in ('dark','light'):
                 self.assertIn(f'assets/{name}-{theme}.svg',commit)
@@ -118,7 +118,10 @@ class ProfileTests(unittest.TestCase):
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         self.assertIn("github.ref == 'refs/heads/main'", workflow)
         self.assertIn('test "${GITHUB_REF}" = "refs/heads/main"', workflow)
-        self.assertIn('git push origin HEAD:main',workflow)
+        self.assertIn('git push -u origin "${review_branch}"',workflow)
+        self.assertIn('gh pr create --base main',workflow)
+        self.assertIn('pull-requests: write',workflow)
+        self.assertNotIn('git push origin HEAD:main',workflow)
         self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
 
     def test_profile_disclosure_notice_and_refresh_cadence_are_accurate(self):
@@ -242,6 +245,12 @@ class ProfileTests(unittest.TestCase):
         ci=(ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
         self.assertIn('python3 scripts/check_public_surface.py',ci)
 
+    def test_generated_pr_requires_manual_ci_dispatch(self):
+        workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        self.assertIn('Manually dispatch security-ci.yml on the review branch',workflow)
+        self.assertIn('exact head SHA before merging',workflow)
+        self.assertNotIn('approve CI workflow execution if prompted',workflow)
+
     def test_workflow_dry_run_read_only(self):
         wf = (ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
@@ -254,7 +263,10 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("github.event_name == 'workflow_dispatch' && inputs.publish == true", wf)
         self.assertIn("github.actor == 'aymanbouanouj'", wf)
         self.assertIn('test "${GITHUB_ACTOR}" = "aymanbouanouj"', wf)
-        self.assertIn('git push origin HEAD:main', wf)
+        self.assertIn('git push -u origin "${review_branch}"', wf)
+        self.assertIn('gh pr create --base main', wf)
+        self.assertIn('pull-requests: write', wf)
+        self.assertNotIn('git push origin HEAD:main', wf)
         self.assertNotIn('http.https://github.com/.extraheader', wf)
         self.assertNotIn('pull_request_target:', wf)
         self.assertIn('fetch-depth: 0', ci)
