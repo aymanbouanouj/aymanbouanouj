@@ -107,7 +107,7 @@ jobs:
                   print("Portfolio data unchanged: preserving approved illustrations")
                   subprocess.run(["git", "restore", "--", "live/portfolio.json", "live/portfolio-tech.svg", "live/portfolio-projects.svg", "live/portfolio-collabs.svg"], check=True)
           PYCODE
-          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg
+          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
             exit 0
