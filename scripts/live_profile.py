@@ -212,7 +212,7 @@ def draw(snapshot):
     ])
     if snapshot["recent_events"]:
         event = snapshot["recent_events"][0]
-        pieces.append(f'<text x="731" y="327" fill="#c4a7ff" font-size="19" font-family="Arial,sans-serif">{esc(ALLOWED_EVENTS[event["type"]])[:24])}</text>')
+        pieces.append(f'<text x="731" y="327" fill="#c4a7ff" font-size="19" font-family="Arial,sans-serif">{esc(ALLOWED_EVENTS[event["type"]][:24])}</text>')
         pieces.append(f'<text x="731" y="350" fill="#bec6d8" font-size="19" font-family="Arial,sans-serif">{esc(event["repository"][:20])}</text>')
     when = esc(snapshot["generated_at_utc"][:16].replace("T", " ") + " UTC")
     pieces.extend([
