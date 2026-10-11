@@ -6,7 +6,7 @@
 
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
 
-<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">Official GitHub contribution history ↗</a></sub>
+<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a></sub>
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
 
@@ -31,7 +31,7 @@
 
 <sub>Développeur web full stack — projets pratiques, sécurité applicative et interfaces accessibles.</sub>
 
-<h3><code>ayman@github ~ $ ./connect.sh</code></h3>
+<h3><code>ayman@github ~ $ ./links.sh</code></h3>
 
 <a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" alt="GitHub — official profile" width="144" /></a>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn — official profile" width="144" /></a>
@@ -146,7 +146,7 @@ Projet académique indépendant : Morocco2030 est un portail multilingue avec ba
 <details>
 <summary><strong>Original AB artwork and verification notes</strong></summary>
 
-## Original AB artwork
+## Original AB artwork and open-source work
 
 <img src="./assets/mobile/hero.png?v=4331fa130b8e" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 
@@ -164,7 +164,7 @@ Original sources, public code, tests and documented CI are linked above. No fabr
 
 <div align="center">
 
-<sub>Original SVG artwork · GitHub-verified public data · Accessible badges · Reviewed automation with required security checks.</sub>
+<p><sub>Original SVG artwork · Projects link to public code and demos · GitHub-verified public data · Accessible badges · Reviewed automation with required security checks.</sub></p>
 
 <sub>© 2026 Ayman Bounaouj. All rights reserved. Original branding and artwork are not licensed for reuse.</sub>
 
