@@ -89,3 +89,18 @@ need separate inspection. CodeQL alerts must be reviewed in GitHub
 Security. A full manual penetration test, browser/mobile quality check,
 independent security review and account-settings audit are outside
 this repository's automated checks.
+
+## Dependency updates and least-privilege improvements (2026-10-11)
+
+- `.github/dependabot.yml` requests **reviewable weekly** GitHub Actions and pip
+  version update PRs; there is no automatic merge or automatic approval.
+- `requirements-ci.txt` tracks the pinned CairoSVG renderer, replacing
+  inline `pip install` specifiers in the publishing workflow, so Dependabot
+  can propose version bumps with normal tests.
+- CodeQL checkout uses `persist-credentials: false`, an explicit time limit,
+  and only `contents: read` plus `security-events: write`.
+- Dependabot alerts, security updates, secret scanning, push protection, and
+  account MFA **cannot be enabled or verified through this repository
+  connection**. The owner must verify these in GitHub Settings.
+- Never merge automated dependency PRs solely because Dependabot authored
+  them. Check changelogs, exact SHA provenance, and CodeQL/Gitleaks results.

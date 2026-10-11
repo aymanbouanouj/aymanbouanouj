@@ -1,0 +1,2 @@
+# Profile SVG rasterization only; updated through reviewed Dependabot PRs.
+CairoSVG==2.8.2
