@@ -329,8 +329,13 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("BOUNAOUJ", artwork)
         self.assertIn("prefers-reduced-motion", artwork)
         self.assertIn("./assets/brand-v5.svg", readme)
+        self.assertLess(readme.index('contributions.sh'), readme.index('whoami'))
+        self.assertLess(readme.index('whoami'), readme.index('./links.sh'))
         self.assertLess(readme.index("## Selected projects"), readme.index("## Current public activity"))
         self.assertLess(readme.index("## Current public activity"), readme.index("## Technical stack"))
+        self.assertIn('profile-live/live/contributions.svg', readme)
+        self.assertIn('profile-live/live/stats.svg', readme)
+        self.assertIn('<table>', readme)
 
     def test_profile_compact_and_interactive_without_unsafe_scripts(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
@@ -347,6 +352,21 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<script', readme.lower())
         self.assertNotIn('onclick=', readme.lower())
         self.assertNotIn('http://', readme)
+
+    def test_reference_layout_is_compact_and_uses_verified_live_images(self):
+        r = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn('contributions.sh', r)
+        self.assertIn('whoami', r)
+        self.assertIn('links.sh', r)
+        self.assertIn('profile-live/live/contributions.svg', r)
+        self.assertIn('profile-live/live/stats.svg', r)
+        self.assertIn('profile-live/live/activity.svg', r)
+        self.assertEqual(r.count('<table>'), 1)
+        self.assertEqual(r.count('</table>'), 1)
+        self.assertLess(r.index('contributions.sh'), r.index('whoami'))
+        self.assertLess(r.index('whoami'), r.index('links.sh'))
+        self.assertNotIn('8,601', r)
+        self.assertNotIn('<script', r.lower())
 
     def test_responsive_mark_and_stats_markdown(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
