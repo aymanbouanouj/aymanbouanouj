@@ -1,0 +1,76 @@
+name: Refresh live public activity
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Eight times daily; GitHub schedules are best-effort, not real-time.
+    - cron: "37 */3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-live-public-activity
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Refresh verified public activity on a separate branch
+    if: github.repository == 'aymanbouanouj/aymanbouanouj' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Check out trusted source with no stored token
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build verified public activity snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 scripts/live_profile.py --build --output "$RUNNER_TEMP/activity-build"
+          python3 scripts/live_profile.py --verify --output "$RUNNER_TEMP/activity-build"
+          python3 -m unittest discover -s tests -v
+          python3 scripts/validate.py
+      - name: Publish generated artifacts only to the unprotected data branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = "aymanbouanouj/aymanbouanouj"
+          test "$GITHUB_REF" = "refs/heads/main"
+          git fetch --no-tags origin profile-live:refs/remotes/origin/profile-live
+          git worktree add -B profile-live "$RUNNER_TEMP/live-worktree" origin/profile-live
+          mkdir -p "$RUNNER_TEMP/live-worktree/live"
+          cp "$RUNNER_TEMP/activity-build/activity.svg" "$RUNNER_TEMP/live-worktree/live/activity.svg"
+          cp "$RUNNER_TEMP/activity-build/activity.json" "$RUNNER_TEMP/live-worktree/live/activity.json"
+          cd "$RUNNER_TEMP/live-worktree"
+          python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
+          python3 - "$RUNNER_TEMP/activity-build/activity.json" live/activity.json HEAD <<'PYCODE'
+          # Do not publish a new branch commit merely because time advanced.
+          import json, subprocess, sys
+          old = subprocess.run(["git", "show", "HEAD:live/activity.json"], capture_output=True, text=True)
+          if old.returncode == 0:
+              before = json.loads(old.stdout)
+              after = json.load(open(sys.argv[1], encoding="utf-8"))
+              before.pop("generated_at_utc", None)
+              after.pop("generated_at_utc", None)
+              if before == after:
+                  print("No substantive public changes: publish not needed")
+                  subprocess.run(["git", "restore", "--", "live/activity.svg", "live/activity.json"], check=True)
+          PYCODE
+          git add -- live/activity.svg live/activity.json
+          if git diff --cached --quiet; then
+            echo "Live snapshot unchanged; no commit created."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(data): refresh verified public activity'
+          basic="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $basic" \
+            push origin HEAD:refs/heads/profile-live
