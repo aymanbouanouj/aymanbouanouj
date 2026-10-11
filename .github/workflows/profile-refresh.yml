@@ -68,6 +68,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
@@ -90,9 +91,11 @@ jobs:
           python3 scripts/validate.py
           python3 scripts/tech_stack.py --verify
           python3 scripts/engineering.py --verify
-      - name: Commit strictly generated assets
+      - name: Create review pull request for verified generated assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -eu
+          set -euo pipefail
           test "${GITHUB_REF}" = "refs/heads/main"
           if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
             test "${GITHUB_ACTOR}" = "aymanbouanouj" || { echo 'Only the owner may manually publish verified profile updates'; exit 1; }
@@ -110,6 +113,14 @@ jobs:
             echo 'No generated evidence changed.'
             exit 0
           fi
-          git commit -m 'chore: refresh verified profile evidence [skip ci]'
-          # Checkout stores the short-lived, job-scoped token; it is scrubbed by post-job cleanup.
-          git push origin HEAD:main
+          review_branch="automation/profile-refresh-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "${review_branch}"
+          git commit -m 'chore: propose verified profile evidence update'
+          git push -u origin "${review_branch}"
+          # GitHub requires repository Actions setting "Allow GitHub Actions to
+          # create and approve pull requests" for this command to succeed.
+          # A PR made by GITHUB_TOKEN requires the owner to approve CI workflow
+          # runs before the checks execute. Never auto-merge or bypass rules.
+          gh pr create --base main --head "${review_branch}" \
+            --title "chore: review verified profile update" \
+            --body "Verified GitHub contribution/project evidence. Please review generated data and artwork, approve CI workflow execution if prompted, and merge only after all checks pass."

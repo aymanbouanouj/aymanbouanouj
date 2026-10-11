@@ -118,7 +118,10 @@ class ProfileTests(unittest.TestCase):
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         self.assertIn("github.ref == 'refs/heads/main'", workflow)
         self.assertIn('test "${GITHUB_REF}" = "refs/heads/main"', workflow)
-        self.assertIn('git push origin HEAD:main',workflow)
+        self.assertIn('git push -u origin "${review_branch}"',workflow)
+        self.assertIn('gh pr create --base main',workflow)
+        self.assertIn('pull-requests: write',workflow)
+        self.assertNotIn('git push origin HEAD:main',workflow)
         self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
 
     def test_profile_disclosure_notice_and_refresh_cadence_are_accurate(self):
@@ -254,7 +257,10 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("github.event_name == 'workflow_dispatch' && inputs.publish == true", wf)
         self.assertIn("github.actor == 'aymanbouanouj'", wf)
         self.assertIn('test "${GITHUB_ACTOR}" = "aymanbouanouj"', wf)
-        self.assertIn('git push origin HEAD:main', wf)
+        self.assertIn('git push -u origin "${review_branch}"', wf)
+        self.assertIn('gh pr create --base main', wf)
+        self.assertIn('pull-requests: write', wf)
+        self.assertNotIn('git push origin HEAD:main', wf)
         self.assertNotIn('http.https://github.com/.extraheader', wf)
         self.assertNotIn('pull_request_target:', wf)
         self.assertIn('fetch-depth: 0', ci)

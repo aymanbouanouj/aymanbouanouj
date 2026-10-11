@@ -90,7 +90,10 @@ def main()->int:
     assert "github.event_name == 'workflow_dispatch' && inputs.publish == true" in wf
     assert "github.actor == 'aymanbouanouj'" in wf
     assert 'test "${GITHUB_ACTOR}" = "aymanbouanouj"' in wf
-    assert 'git push origin HEAD:main' in wf
+    assert 'git push -u origin "${review_branch}"' in wf
+    assert 'gh pr create --base main' in wf
+    assert 'pull-requests: write' in wf
+    assert 'git push origin HEAD:main' not in wf
     assert 'pull_request_target' not in wf and 'schedule:' in wf
     assert not (workflow_dir/'update-stats.yml').exists() and not (workflow_dir/'tech-stack.yml').exists()
     assert 'fetch-depth: 0' in ci and 'gitleaks/gitleaks-action@' in ci
