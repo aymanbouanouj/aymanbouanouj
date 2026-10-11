@@ -1,77 +1,33 @@
-# Current security verification and release checklist
+# Profile V5 — security and maintenance checks
 
-Last updated: **2026-10-11**, after public release and PR #8.
+Updated: 2026-10-11. This replaces obsolete pre-publication instructions.
 
-**Current V4 audit addendum:** `main` is public, CodeQL checks are now required, PR #16 has merged, and the successful PR #14 proved the manual bot-review workflow. Earlier checklist entries are historical and may be superseded by the addendum below.
+## Confirmed on GitHub before this correction
 
-## Verified from GitHub
+- [x] Repository public; protected default branch `main`.
+- [x] Ruleset ID `24860793`: required Pull Request, no branch deletion or force pushes, no bypass actors, all four mandatory checks.
+- [x] Mandatory: `Offline profile integrity`, `Full-history secret scan (Gitleaks)`, `Analyze (python)`, `Analyze (actions)`.
+- [x] Main CI runs `38115444615` and `38115444625` successful (79 Python tests); live refresh run `38115444638` successful.
+- [x] Full-history Gitleaks step reported 97 reachable commits and 82 scanned commits, no matching leaks. The earlier incremental scan checked zero commits and is *not* the full-history result.
+- [x] External GitHub Actions pinned to immutable full commit SHAs.
+- [x] Hourly best-effort profile-data refresh configured; merges to relevant `main` files trigger the workflow.
+- [x] Generated `profile-live` data branch is separate from protected `main`.
 
-- [x] Repository `aymanbouanouj/aymanbouanouj` is **Public**.
-- [x] PR #7 merged: generated evidence updates now use review-branch PRs,
-  not a direct push to `main`.
-- [x] PR #8 merged: CodeQL workflow added for Python and GitHub Actions.
-- [x] Active Ruleset 24860793 targets the default branch (`main`).
-- [x] Rule blocks deletion and non-fast-forward/force pushes.
-- [x] Rule requires PRs and both `Offline profile integrity` and
-  `Full-history secret scan (Gitleaks)`.
-- [x] No ruleset bypass actors and no required CODEOWNERS review.
-- [x] Main security run 38103231730 passed: 53 Python unit tests,
-  privacy audit of 59 tracked files, validated SVG/PNG outputs, and
-  a Gitleaks scan of 43 reachable commits with no detected leaks.
-- [x] CodeQL run 38103231725 passed for Actions and Python.
-- [x] GitHub Actions references in CodeQL workflow pinned to full SHAs
-  as proposed in this hardening change.
-- [x] PR #9 hardening merged and checks passed; the latest released main commit is `b5515315` before any newer PR is merged.
+## Current correction: final-artifact consistency
 
-## Next checks requiring GitHub Settings / account access
+- [ ] Merge consistency correction after all four required checks pass on the exact PR head.
+- [ ] Observe successful automatic post-merge refresh.
+- [ ] Verify `portfolio.json`, `portfolio.md` and SVGs agree on **the same dated data**, including when unchanged data are restored.
+- [ ] Observe a successful event=`schedule` invocation; event=`push` success alone does not prove cron delivery.
+- [ ] Keep README visual identity, logo, social platform icons and selected project order unchanged.
 
-- [ ] Review code scanning alerts, including any dismissed findings;
-  successful scan jobs are not proof of zero alerts.
-- [ ] Inspect Dependabot alerts, security updates, dependency graph and
-  secret scanning/push protection settings. Their latest configuration
-  is **not verified** by the available connector.
-- [ ] Review collaborators, GitHub Apps, Actions default permissions and
-  the `ENABLE_SCHEDULED_PROFILE_PUBLISH` Actions variable.
-- [ ] Use a manual `publish=false` refresh dry run, then optionally
-  test `publish=true` with owner approval. An actual automated PR
-  publishing round trip has **not** been confirmed.
-- [ ] On bot-created PRs, manually dispatch security-ci.yml and
-  codeql.yml on their exact source branch and check both results.
-- [ ] Only after that test, consider requiring `Analyze (actions)`
-  and `Analyze (python)` as Ruleset status checks.
-- [ ] Verify social links and mobile GitHub Light/Dark rendering.
-- [ ] Review public contribution-calendar privacy and earlier binary
-  blobs/history before claiming complete disclosure review.
-- [ ] Keep ownership evidence and registration questions separate from
-  code-access controls. Public repositories cannot prohibit downloads.
+## Owner-only verification
 
-## Non-goals and incident response
+- [ ] Review GitHub Security alerts (including dismissed), Dependabot, Secret Scanning, and push protection settings. These settings could not be read through available API access.
+- [ ] Review collaborators, installed integrations, Actions default permissions and account MFA.
+- [ ] Consider strict up-to-date required status checks; currently `strict_required_status_checks_policy=false`.
+- [ ] `profile-live` remains unprotected to enable bot publishing. Test any proposed branch protection against this requirement.
+- [ ] Visually review the profile on desktop/mobile and dark/light themes.
+- [ ] Before Windows sync, inspect existing clone, local changes and commit divergence. Never use destructive reset.
 
-- No procedure here claims immunity to copying or data extraction.
-- No automatic merge, bypass actor or permanent PAT is introduced.
-- If a secret is discovered, revoke/rotate it immediately; investigate
-  prior Git history and caches before public incident closure.
-
-## Dependency-maintenance hardening (pending review)
-
-- [ ] Review/merge the PR introducing weekly, **non-auto-merging** Dependabot
-  updates for pinned GitHub Actions and `requirements-ci.txt` (CairoSVG).
-- [ ] Confirm CodeQL succeeds with its reduced permissions and non-persisted
-  checkout credentials.
-- [ ] Confirm Dependabot repository settings are enabled for alerts and
-  vulnerability updates. The declarative config alone cannot enable them.
-
-
-## V4 live public activity release gates
-
-- [ ] Merge V4 PR only after offline integrity, Gitleaks, CodeQL Actions,
-  and CodeQL Python pass against the exact PR head.
-- [ ] Verify initial \`profile-live\` branch has only vetted generated artwork,
-  and run the new profile-live workflow once on main after the merge.
-- [ ] Check the live branch's SVG/JSON commit and the profile image render
-  from a logged-out browser in dark/light themes and GitHub mobile.
-- [ ] Confirm scheduled workflow runs and does not create commits if substantive
-  public GitHub activity has not changed.
-- [ ] Confirm public new project/commit causes the next scheduled scan to
-  update the branch (subject to GitHub event and image caches).
-- [ ] Keep branch Ruleset on main unchanged and no broad auto-merge.
+Historical mobile PNG verification uses a separate read-only default workflow. It does not prevent V5 live data from refreshing.

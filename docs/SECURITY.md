@@ -8,8 +8,9 @@ This repository is **Public** and `main` is protected by the active
 
 - Block branch deletion and force pushes (non-fast-forward updates).
 - Require a Pull Request before merging into the default branch.
-- Require the successful `Offline profile integrity` and
-  `Full-history secret scan (Gitleaks)` checks.
+- Require the successful `Offline profile integrity`,
+  `Full-history secret scan (Gitleaks)`, `Analyze (python)` and
+  `Analyze (actions)` checks.
 - No bypass actors. Required reviewer approvals: zero;
   CODEOWNERS approval requirement: disabled for the single maintainer.
 
@@ -29,8 +30,7 @@ the available repository connection.
   External actions are pinned to immutable full commit SHAs; it runs on
   push, PR, schedule and manual `workflow_dispatch`. A green CodeQL job
   indicates the scan completed; **review the actual code scanning alerts**.
-  As of this document, CodeQL jobs have not been added to the Ruleset's
-  required status checks.
+  Both CodeQL checks are required by the active Ruleset.
 - `.github/workflows/profile-refresh.yml`: read-only verification by
   default. Publishing is manually owner-triggered or requires the explicitly
   opted-in `ENABLE_SCHEDULED_PROFILE_PUBLISH=true` repository variable.
@@ -159,3 +159,19 @@ Scheduled workflows on public repositories can be disabled by GitHub after
 60 days of repository inactivity, so fully perpetual unattended operation
 cannot be guaranteed by configuration alone. If a scan fails, existing verified
 cards are retained rather than replaced with fabricated or empty data.
+
+## Publication consistency correction (2026-10-11)
+
+Previously, an unchanged public API scan restored older `portfolio.json` and SVGs
+but could publish a newly dated `portfolio.md`. This produced a confirmed
+mixed-date state in `profile-live`. The publisher now repairs Markdown from
+the **final, retained JSON**, then verifies all three artifact groups again
+after deduplication and before commit/push. Regression tests cover mismatch,
+idempotent repair and rejection of tampered data/images. This repair does not
+change README presentation or the protected `main` publishing policy.
+
+`profile-live` is an intentionally writable data-only branch; requiring PR
+approvals on it would break unattended publishing without a redesigned bot
+strategy. Separately, `profile-refresh.yml` maintains historical artwork and
+is read-only by default; V5 hourly cards do not depend on enabling its
+optional publishing variable.
