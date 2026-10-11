@@ -98,7 +98,7 @@ class ProfileTests(unittest.TestCase):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         self.assertEqual(readme.count('#### ['), 4)
         self.assertNotIn('> **[Ayman Calc', readme)
-        self.assertIn('\n\n---\n\n<div align="center">\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
+        self.assertIn('---\n\n<div align="center">\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
@@ -319,6 +319,22 @@ class ProfileTests(unittest.TestCase):
             else:
                 self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only',readme)
 
+    def test_profile_compact_and_interactive_without_unsafe_scripts(self):
+        readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+        self.assertGreaterEqual(readme.count('<details>'), 4)
+        self.assertEqual(readme.count('<details>'), readme.count('</details>'))
+        self.assertEqual(readme.count('#### ['), 4)
+        self.assertEqual(readme.count('src="./assets/mobile/hero.png'), 1)
+        self.assertEqual(readme.count('src="./assets/mobile/logo.png'), 1)
+        self.assertEqual(readme.count('src="./assets/mobile/contributions.png'), 1)
+        self.assertLess(readme.index('## Selected projects'), readme.index('View original AB brand artwork'))
+        self.assertIn('View current GitHub activity', readme)
+        self.assertIn('not a live counter', readme)
+        self.assertNotIn('featured-project.sh', readme)
+        self.assertNotIn('<script', readme.lower())
+        self.assertNotIn('onclick=', readme.lower())
+        self.assertNotIn('http://', readme)
+
     def test_responsive_mark_and_stats_markdown(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         start=readme.index('identity-and-stats.sh')
@@ -327,13 +343,14 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<table>',section)
         self.assertNotIn('width="50%"',section)
         migrated=(ROOT/'assets/mobile/manifest.json').exists()
-        self.assertEqual(section.count('width="445"'),2 if migrated else 4)
-        if (ROOT/'assets/mobile/manifest.json').exists():
-            self.assertIn('assets/mobile/logo.png',section)
-            self.assertIn('assets/mobile/stats.png',section)
+        self.assertEqual(section.count('width="445"'), 1 if migrated else 2)
+        if migrated:
+            self.assertIn('assets/mobile/stats.png', section)
+            self.assertNotIn('assets/mobile/logo.png', section)
+            self.assertIn('assets/mobile/logo.png', readme)
         else:
-            self.assertIn('assets/logo-light.svg',section)
-            self.assertIn('assets/stats-light.svg',section)
+            self.assertIn('assets/stats-light.svg', section)
+            self.assertIn('assets/logo-light.svg', readme)
 
     def test_no_external_image_references(self):
         for p in (ROOT/'assets').glob('*.svg'):
