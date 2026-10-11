@@ -102,13 +102,13 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
-    def test_profile_is_bilingual_without_changing_verified_evidence(self):
+    def test_profile_avoids_duplicate_summaries_and_keeps_verifiable_evidence(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         self.assertIn('Full-Stack Web Developer',readme)
-        self.assertIn('Développeur web full stack',readme)
-        self.assertIn('Langages détectés par GitHub Linguist',readme)
-        self.assertIn('Projet académique indépendant',readme)
-        self.assertIn('Contributions open source',readme)
+        self.assertIn('GitHub Linguist',readme)
+        self.assertIn('Independent academic project',readme)
+        self.assertNotIn('Résumé professionnel des projets en français',readme)
+        self.assertNotIn('Projet académique indépendant :',readme)
         self.assertEqual(readme.count('#### ['),4)
         for name in ('hero','contributions','logo','stats','tech-stack','engineering'):
             self.assertIn(f'./assets/mobile/{name}.png',readme)
@@ -239,7 +239,7 @@ class ProfileTests(unittest.TestCase):
     def test_ownership_notice_and_sensitive_file_gate(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         self.assertIn('All rights reserved',readme)
-        self.assertIn('Tous droits réservés',readme)
+        self.assertNotIn('Tous droits réservés',readme)
         from check_public_surface import audit
         audit()
         ci=(ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
@@ -367,6 +367,19 @@ class ProfileTests(unittest.TestCase):
         self.assertLess(r.index('whoami'), r.index('links.sh'))
         self.assertNotIn('8,601', r)
         self.assertNotIn('<script', r.lower())
+
+    def test_restore_v5_live_visual_layout_without_duplicate_static_technologies(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        for image in ("contributions.svg","stats.svg","portfolio-tech.svg","portfolio-projects.svg","portfolio-collabs.svg","activity.svg"):
+            self.assertIn("profile-live/live/"+image,readme)
+        for name in ("github","linkedin","instagram","facebook","x","medium","profiles"):
+            self.assertIn("./assets/link-"+name+".svg",readme)
+        self.assertLess(readme.index('contributions.sh'),readme.index('whoami'))
+        self.assertLess(readme.index('## Languages & Technical Stack'),readme.index('## Featured Projects'))
+        self.assertIn('profile-live/live/portfolio.md',readme)
+        self.assertNotIn('Résumé professionnel des projets en français',readme)
+        self.assertNotIn('**Backend & APIs:**',readme)
+        self.assertEqual(readme.count('#### ['),4)
 
     def test_responsive_mark_and_stats_markdown(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
