@@ -35,6 +35,8 @@ jobs:
           python3 scripts/live_profile.py --verify --output "$RUNNER_TEMP/activity-build"
           python3 scripts/live_contributions.py --build --output "$RUNNER_TEMP/contribution-build"
           python3 scripts/live_contributions.py --verify --output "$RUNNER_TEMP/contribution-build"
+          python3 scripts/live_portfolio.py --build --output "$RUNNER_TEMP/portfolio-build"
+          python3 scripts/live_portfolio.py --verify --output "$RUNNER_TEMP/portfolio-build"
           python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
       - name: Publish generated artifacts only to the unprotected data branch
@@ -53,9 +55,11 @@ jobs:
           cp "$RUNNER_TEMP/contribution-build/contributions.svg" "$RUNNER_TEMP/live-worktree/live/contributions.svg"
           cp "$RUNNER_TEMP/contribution-build/stats.svg" "$RUNNER_TEMP/live-worktree/live/stats.svg"
           cp "$RUNNER_TEMP/contribution-build/contributions.json" "$RUNNER_TEMP/live-worktree/live/contributions.json"
+          cp "$RUNNER_TEMP/portfolio-build/"portfolio* "$RUNNER_TEMP/live-worktree/live/"
           cd "$RUNNER_TEMP/live-worktree"
           python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
+          python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --verify --output live
           python3 - "$RUNNER_TEMP/activity-build/activity.json" live/activity.json HEAD <<'PYCODE'
           # Do not publish a new branch commit merely because time advanced.
           import json, subprocess, sys
@@ -82,7 +86,20 @@ jobs:
                   print("Contributions unchanged — retain previously verified graphics")
                   subprocess.run(["git", "restore", "--", "live/contributions.svg", "live/stats.svg", "live/contributions.json"], check=True)
           PYCODE
-          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json
+          python3 - <<'PYCODE'
+          import json, subprocess
+          from pathlib import Path
+          old = subprocess.run(["git", "show", "HEAD:live/portfolio.json"], capture_output=True, text=True)
+          if old.returncode == 0:
+              before = json.loads(old.stdout)
+              after = json.loads(Path("live/portfolio.json").read_text(encoding="utf-8"))
+              before.pop("generated_at_utc", None)
+              after.pop("generated_at_utc", None)
+              if before == after:
+                  print("Portfolio data unchanged: preserving approved illustrations")
+                  subprocess.run(["git", "restore", "--", "live/portfolio.json", "live/portfolio-tech.svg", "live/portfolio-projects.svg", "live/portfolio-collabs.svg"], check=True)
+          PYCODE
+          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
             exit 0
