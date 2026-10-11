@@ -50,14 +50,14 @@
 ## Languages & Technical Stack
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically generated languages detected in owned public GitHub repositories — proportions of GitHub Linguist source bytes, not proficiency" />
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
 </div>
 
 **Backend & APIs:** PHP · Laravel · Python  
 **Frontend:** JavaScript · HTML · CSS · Blade · Vite  
 **Data & tools:** SQL · MySQL · Git · GitHub Actions · PHPUnit · PowerShell
 
-<sub>Langages détectés par GitHub Linguist dans les dépôts publics personnels, hors forks et dépôts archivés. Actual detected language data updates through the public activity workflow. Languages indicate code presence, never a proficiency score.</sub>
+<sub>Langages détectés par GitHub Linguist dans les dépôts publics personnels, hors forks et dépôts archivés. Actual detected language data updates through the public activity workflow. Frameworks are shown only when identified in public dependency manifests; language percentages are code-byte ratios, not skill rankings. Icons are self-hosted and linked to their documented upstream sources.</sub>
 
 ## Featured Projects
 

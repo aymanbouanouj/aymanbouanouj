@@ -115,6 +115,120 @@ def _external_collaborations(fetch):
     return found[:COLLAB_LIMIT]
 
 
+FRAMEWORK_DEPENDENCIES = {
+    "laravel/framework": "Laravel",
+    "tailwindcss": "Tailwind CSS",
+    "vite": "Vite",
+    "react": "React",
+}
+MANIFESTS = ("composer.json", "package.json")
+ICONS = Path(__file__).with_name("tech_icon_paths.json")
+
+
+def _manifest_frameworks(fetch, repos):
+    """Return frameworks that are actually declared in public dependency manifests."""
+    import base64
+    verified = {}
+    for repo in repos:
+        name = quote(repo["name"], safe="")
+        for manifest in MANIFESTS:
+            try:
+                response = fetch(f"{API}/repos/{OWNER}/{name}/contents/{manifest}")
+            except HTTPError as exc:
+                if exc.code == 404:
+                    continue
+                raise
+            if (not isinstance(response, dict) or response.get("type") != "file"
+                    or response.get("encoding") != "base64"
+                    or type(response.get("size")) is not int
+                    or response["size"] > 256000):
+                raise ValueError("Invalid manifest metadata")
+            content = base64.b64decode(response.get("content", ""), validate=False)
+            if len(content) > 256000:
+                raise ValueError("Oversized manifest")
+            data = json.loads(content.decode("utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("Invalid dependency manifest")
+            fields = ("require",) if manifest == "composer.json" else ("dependencies", "devDependencies")
+            for field in fields:
+                values = data.get(field, {})
+                if not isinstance(values, dict):
+                    raise ValueError("Invalid dependencies")
+                for dependency in values:
+                    framework = FRAMEWORK_DEPENDENCIES.get(str(dependency).lower())
+                    if framework:
+                        verified.setdefault(framework, set()).add(repo["name"])
+    return [{"name": name, "repositories": sorted(repos, key=str.casefold)}
+            for name, repos in sorted(verified.items())]
+
+
+def _icons():
+    content = json.loads(ICONS.read_text(encoding="utf-8"))["icons"]
+    if not isinstance(content, dict):
+        raise ValueError("Icon registry invalid")
+    return content
+
+
+def _technology_svg(data):
+    """Distinct language and framework rows, with locally vetted icon paths."""
+    validate(data)
+    paths = _icons()
+    esc = lambda s: html.escape(str(s), quote=True)
+    langs = data["language_bytes"][:6]
+    frameworks = data["verified_frameworks"][:4]
+    total = sum(n for _, n in data["language_bytes"]) or 1
+    height = 590
+    pieces = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-labelledby="t d">',
+        '<title id="t">Verified programming languages and frameworks with visual icons</title>',
+        '<desc id="d">Repository code-language bytes and frameworks verified from public manifests. Labels are not skill ratings.</desc>',
+        '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
+        '<rect width="1000" height="590" rx="18" fill="#0d1117"/>',
+        '<rect x="1" y="1" width="998" height="588" rx="17" fill="none" stroke="#30363d"/>',
+        '<text x="32" y="54" fill="#f0f6fc" font-size="32" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES &amp; FRAMEWORKS</text>',
+        '<text x="32" y="82" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">GitHub Linguist + verified public dependency manifests</text>',
+        '<text x="32" y="125" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES</text>',
+        '<text x="32" y="365" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>',
+    ]
+    def glyph(name, x, y):
+        meta = paths.get(name)
+        if meta is None:
+            return (f'<rect x="{x}" y="{y}" width="38" height="38" rx="8" fill="#263046"/>'
+                    f'<text x="{x+19}" y="{y+26}" text-anchor="middle" fill="#edf1f7" font-size="19" font-weight="bold">{esc(name[:1])}</text>')
+        view = meta["viewBox"]
+        scale = 34 / view
+        path = esc(meta["path"])
+        col = meta["color"]
+        if meta.get("stroke"):
+            shape = f'<path d="{path}" fill="none" stroke="{col}" stroke-width="2.2" stroke-linecap="round"/>'
+        else:
+            shape = f'<path d="{path}" fill="{col}"/>'
+        return f'<g transform="translate({x+2} {y+2}) scale({scale:.6f})">{shape}</g>'
+    for i,(name,count) in enumerate(langs):
+        x,y = 32+(i%3)*323,145+(i//3)*86
+        pieces.append(f'<rect x="{x}" y="{y}" width="300" height="72" rx="10" fill="#171e2c"/>')
+        pieces.append(glyph(name,x+12,y+14))
+        pieces.append(f'<text x="{x+61}" y="{y+30}" fill="#f0f6fc" font-size="23" font-family="Arial,sans-serif" font-weight="bold">{esc(name[:20])}</text>')
+        pieces.append(f'<text x="{x+61}" y="{y+55}" fill="#a9b6c9" font-size="18" font-family="Arial,sans-serif">{count/total:.1%} of detected bytes</text>')
+    if not langs:
+        pieces.append('<text x="35" y="190" fill="#aab6c5" font-size="22">No verified public language data</text>')
+    for i, row in enumerate(frameworks):
+        name=row["name"]
+        x,y=32+(i%2)*485,387+(i//2)*74
+        pieces.append(f'<rect x="{x}" y="{y}" width="456" height="62" rx="10" fill="#171e2c"/>')
+        pieces.append(glyph(name,x+12,y+12))
+        pieces.append(f'<text x="{x+62}" y="{y+27}" fill="#f0f6fc" font-size="23" font-family="Arial,sans-serif" font-weight="bold">{esc(name)}</text>')
+        pieces.append(f'<text x="{x+62}" y="{y+49}" fill="#9eacc1" font-size="16" font-family="Arial,sans-serif">{len(row["repositories"])} verified public repository(s)</text>')
+    if not frameworks:
+        pieces.append('<text x="35" y="430" fill="#aab6c5" font-size="22">No recognized public framework manifest found</text>')
+    stamp=esc(data["generated_at_utc"][:16].replace("T"," "))
+    pieces.append(f'<text x="32" y="574" fill="#a5b2c7" font-size="15" font-family="monospace">Checked {stamp} UTC · Icons are visual labels · Data are dated snapshots</text>')
+    pieces.append('</svg>')
+    svg="".join(pieces)
+    ET.fromstring(svg)
+    return svg+"\n"
+
+
 def collect(fetch, *, now=None):
     repos = _public_original_repos(fetch)
     languages = {}
@@ -130,6 +244,7 @@ def collect(fetch, *, now=None):
                     or type(n) is not int or n < 0):
                 raise ValueError("Untrusted GitHub Linguist data")
             languages[language] = languages.get(language, 0) + n
+    frameworks = _manifest_frameworks(fetch, repos)
     other = [{"name": r["name"], "url": repository_url(r["name"])}
              for r in repos if r["name"].casefold() not in FEATURED][:TOP]
     clock = now or dt.datetime.now(dt.timezone.utc)
@@ -141,6 +256,7 @@ def collect(fetch, *, now=None):
         "public_original_repository_count": len(repos),
         "language_bytes": [[name, count] for name, count in sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:12]],
         "other_repositories": other,
+        "verified_frameworks": frameworks,
         "verified_collaborations": _external_collaborations(fetch),
     }
     validate(data)
@@ -170,6 +286,19 @@ def validate(data):
                 name.casefold() in seen):
             raise ValueError("Noncanonical or duplicated repository")
         seen.add(name.casefold())
+    framework_rows = data.get("verified_frameworks")
+    if not isinstance(framework_rows, list) or len(framework_rows)>len(FRAMEWORK_DEPENDENCIES):
+        raise ValueError("Invalid framework evidence")
+    framework_names=set()
+    for row in framework_rows:
+        if not isinstance(row,dict) or row.get("name") not in FRAMEWORK_DEPENDENCIES.values():
+            raise ValueError("Unsupported framework")
+        refs=row.get("repositories")
+        if not isinstance(refs,list) or not refs or len(refs)>1000 or any(not isinstance(r,str) or not NAME.fullmatch(r) for r in refs):
+            raise ValueError("Bad framework repository evidence")
+        if row["name"] in framework_names:
+            raise ValueError("Duplicated framework")
+        framework_names.add(row["name"])
     for row in langs:
         if (not isinstance(row, (list, tuple)) or len(row) != 2 or
                 not isinstance(row[0], str) or not 1 <= len(row[0]) <= 50 or
@@ -223,9 +352,7 @@ def draw(data):
     names = ([f"{name} · {amount / total:.1%} of code bytes" for name, amount in data["language_bytes"][:7]]
              if total else [])
     return {
-        "portfolio-tech.svg": _svg("LANGUAGES IN PUBLIC CODE",
-                                  "GitHub Linguist · measured bytes, not developer proficiency",
-                                  names, data["generated_at_utc"]),
+        "portfolio-tech.svg": _technology_svg(data),
         "portfolio-projects.svg": _svg("OTHER PUBLIC PROJECTS",
                                       f"{data['public_original_repository_count']} public originals · latest non-featured projects",
                                       [r["name"] for r in data["other_repositories"]],

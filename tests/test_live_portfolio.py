@@ -1,5 +1,6 @@
 """Public-only portfolio source, integrity, automation and discovery regression tests."""
 import datetime as dt
+import base64
 import sys
 import tempfile
 import unittest
@@ -33,6 +34,15 @@ class PublicPortfolioTests(unittest.TestCase):
                 if "secret-app" in url or "/"+OWNER+"/languages" in url:
                     raise AssertionError("Private/self repo must not be requested")
                 return {"PHP": 500} if "morocco2030" in url else {"JavaScript": 300}
+            if "/contents/" in url:
+                if "morocco2030" in url and url.endswith("composer.json"):
+                    raw=b'{"require":{"laravel/framework":"^12.0"}}'
+                elif "new-public-tool" in url and url.endswith("package.json"):
+                    raw=b'{"devDependencies":{"vite":"^8.0"}}'
+                else:
+                    from urllib.error import HTTPError
+                    raise HTTPError(url,404,"missing",{},None)
+                return {"type":"file","encoding":"base64","size":len(raw),"content":base64.b64encode(raw).decode()}
             if "/search/issues?" in url:
                 return q
             if url == f"{API}/repos/HichamFaska/SGA-BTS":
@@ -52,6 +62,10 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertNotIn("secret-app", str(data))
         self.assertNotIn(f'"name": "{OWNER}"', str(data["other_repositories"]))
         self.assertIn("JavaScript", draw(data)["portfolio-tech.svg"])
+        self.assertIn("Laravel", draw(data)["portfolio-tech.svg"])
+        self.assertIn("Vite", draw(data)["portfolio-tech.svg"])
+        self.assertIn('scale(', draw(data)["portfolio-tech.svg"])
+        self.assertEqual([r["name"] for r in data["verified_frameworks"]],["Laravel","Vite"])
         self.assertIn("new-public-tool", draw(data)["portfolio-projects.svg"])
         self.assertIn("OtherOwner/SomeProject", draw(data)["portfolio-collabs.svg"])
         self.assertEqual(len(data["verified_collaborations"]), 2)
@@ -67,10 +81,14 @@ class PublicPortfolioTests(unittest.TestCase):
     def test_empty_sets_render_explicit_explanation(self):
         data = collect(self.mock(), now=self.NOW)
         data["language_bytes"] = []
+        data["verified_frameworks"] = []
         data["other_repositories"] = []
         data["verified_collaborations"] = []
         art = draw(data)
-        self.assertTrue(all("No verified public entries available" in x for x in art.values()))
+        self.assertIn("No verified public language data",art["portfolio-tech.svg"])
+        self.assertIn("No recognized public framework manifest found",art["portfolio-tech.svg"])
+        self.assertTrue(all("No verified public entries available" in art[name]
+             for name in ("portfolio-projects.svg","portfolio-collabs.svg")))
     def test_untrusted_private_external_pr_is_not_reported(self):
         def fetch(url):
             if url == f"{API}/repos/HichamFaska/SGA-BTS":
