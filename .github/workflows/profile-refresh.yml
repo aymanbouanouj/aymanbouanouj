@@ -119,8 +119,10 @@ jobs:
           git push -u origin "${review_branch}"
           # GitHub requires repository Actions setting "Allow GitHub Actions to
           # create and approve pull requests" for this command to succeed.
-          # A PR made by GITHUB_TOKEN requires the owner to approve CI workflow
-          # runs before the checks execute. Never auto-merge or bypass rules.
+          # GITHUB_TOKEN-created pull requests do not normally trigger push/PR
+          # workflows. Manually dispatch security-ci.yml on the review branch
+          # and verify the checks on the PR's exact head SHA before merging.
+          # Never auto-merge or bypass rules.
           gh pr create --base main --head "${review_branch}" \
             --title "chore: review verified profile update" \
-            --body "Verified GitHub contribution/project evidence. Please review generated data and artwork, approve CI workflow execution if prompted, and merge only after all checks pass."
+            --body "Verified GitHub contribution/project evidence. Please review generated data and artwork, manually dispatch the Profile security and integrity workflow on the review branch (GITHUB_TOKEN-created PRs do not automatically trigger CI); verify checks passed on the exact head commit before merging."

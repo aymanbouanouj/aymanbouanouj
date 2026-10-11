@@ -51,6 +51,6 @@ Security note: `data/contributions.json` contains day-by-day activity; deleting 
 ## PR-only update migration (proposed)
 - [ ] Merge the reviewed PR that changes publication from direct push to review branches.
 - [ ] In Actions → General, enable GitHub Actions to create PRs only if the owner accepts automated PR proposals; no automatic merges.
-- [ ] Verify a manual dry run (`publish=false`), then review a proposed update PR; approve workflow execution when required.
+- [ ] Verify a manual dry run (`publish=false`), then review a proposed update PR; manually dispatch `Profile security and integrity` on the generated PR's head branch, confirm the run is green for that exact head commit, and then merge after review.
 - [ ] Activate "Require a pull request before merging" on the main ruleset, with no bypass actors; use 0 approving reviews when working as a sole developer and require successful security checks.
 - [ ] Recheck that `main` is no longer directly writable and automated status updates use a PR.

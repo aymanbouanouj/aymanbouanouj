@@ -245,6 +245,12 @@ class ProfileTests(unittest.TestCase):
         ci=(ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
         self.assertIn('python3 scripts/check_public_surface.py',ci)
 
+    def test_generated_pr_requires_manual_ci_dispatch(self):
+        workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        self.assertIn('Manually dispatch security-ci.yml on the review branch',workflow)
+        self.assertIn('exact head SHA before merging',workflow)
+        self.assertNotIn('approve CI workflow execution if prompted',workflow)
+
     def test_workflow_dry_run_read_only(self):
         wf = (ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         ci = (ROOT/'.github/workflows/security-ci.yml').read_text(encoding='utf-8')
