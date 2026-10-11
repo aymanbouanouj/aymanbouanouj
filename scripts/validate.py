@@ -39,6 +39,10 @@ def main()->int:
         assert (ASSETS/name).exists(), f'Missing generated art {name}'
         assert (f'./assets/{name}' in content or (name.endswith('-light.svg') and (ROOT/'assets/mobile/manifest.json').exists())), f'Not referenced from README: {name}'
         validate_svg_file(ASSETS/name)
+    v5_artwork = ASSETS / "brand-v5.svg"
+    assert v5_artwork.exists(), "Missing new brand hero"
+    validate_svg_file(v5_artwork)
+    assert './assets/brand-v5.svg' in content, "New branded cover must be visible"
     assert '<picture>' not in content and '<source ' not in content, 'GitHub Mobile does not reliably render picture elements'
     mobile=ROOT/'assets'/'mobile'/'manifest.json'
     if mobile.exists():

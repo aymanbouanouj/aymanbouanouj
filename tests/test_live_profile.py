@@ -39,6 +39,9 @@ class LiveProfileTests(unittest.TestCase):
         self.assertIn("new-public-project", draw(data))
         self.assertIn(self.SHA[:9], draw(data))
         self.assertNotIn("<script", draw(data).lower())
+        self.assertIn('height="405"', draw(data))
+        self.assertIn("LATEST PUBLIC WORK", draw(data))
+        self.assertNotIn('height="715"', draw(data))
 
     def test_private_repository_cannot_leak(self):
         data = collect(self.fixture(private=True), now=self.NOW)

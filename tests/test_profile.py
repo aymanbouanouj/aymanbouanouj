@@ -98,7 +98,7 @@ class ProfileTests(unittest.TestCase):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         self.assertEqual(readme.count('#### ['), 4)
         self.assertNotIn('> **[Ayman Calc', readme)
-        self.assertIn('---\n\n<div align="center">\n<h3><code>ayman@github ~ $ ./connect.sh', readme)
+        self.assertIn('---\n\n<div align="center">', readme)
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
@@ -319,6 +319,24 @@ class ProfileTests(unittest.TestCase):
             else:
                 self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only',readme)
 
+    def test_v5_brand_is_original_self_hosted_accessible(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        banner = ROOT / "assets/brand-v5.svg"
+        self.assertTrue(banner.is_file())
+        validate_svg_file(banner)
+        artwork = banner.read_text(encoding="utf-8")
+        self.assertIn("AYMAN", artwork)
+        self.assertIn("BOUNAOUJ", artwork)
+        self.assertIn("prefers-reduced-motion", artwork)
+        self.assertIn("./assets/brand-v5.svg", readme)
+        self.assertLess(readme.index('contributions.sh'), readme.index('whoami'))
+        self.assertLess(readme.index('whoami'), readme.index('./links.sh'))
+        self.assertLess(readme.index("## Featured Projects"), readme.index("## Current public activity"))
+        self.assertLess(readme.index("## Languages & Technical Stack"), readme.index("## Featured Projects"))
+        self.assertIn('profile-live/live/contributions.svg', readme)
+        self.assertIn('profile-live/live/stats.svg', readme)
+        self.assertIn('<table>', readme)
+
     def test_profile_compact_and_interactive_without_unsafe_scripts(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         self.assertGreaterEqual(readme.count('<details>'), 4)
@@ -327,7 +345,7 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(readme.count('src="./assets/mobile/hero.png'), 1)
         self.assertEqual(readme.count('src="./assets/mobile/logo.png'), 1)
         self.assertEqual(readme.count('src="./assets/mobile/contributions.png'), 1)
-        self.assertLess(readme.index('## Selected projects'), readme.index('View original AB brand artwork'))
+        self.assertLess(readme.index('## Featured Projects'), readme.index('Original AB artwork and open-source work'))
         self.assertIn('View current GitHub activity', readme)
         self.assertIn('not a live counter', readme)
         self.assertNotIn('featured-project.sh', readme)
@@ -335,22 +353,31 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('onclick=', readme.lower())
         self.assertNotIn('http://', readme)
 
+    def test_reference_layout_is_compact_and_uses_verified_live_images(self):
+        r = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn('contributions.sh', r)
+        self.assertIn('whoami', r)
+        self.assertIn('links.sh', r)
+        self.assertIn('profile-live/live/contributions.svg', r)
+        self.assertIn('profile-live/live/stats.svg', r)
+        self.assertIn('profile-live/live/activity.svg', r)
+        self.assertEqual(r.count('<table>'), 1)
+        self.assertEqual(r.count('</table>'), 1)
+        self.assertLess(r.index('contributions.sh'), r.index('whoami'))
+        self.assertLess(r.index('whoami'), r.index('links.sh'))
+        self.assertNotIn('8,601', r)
+        self.assertNotIn('<script', r.lower())
+
     def test_responsive_mark_and_stats_markdown(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
-        start=readme.index('identity-and-stats.sh')
-        end=readme.index('tech-stack.sh --auto',start)
-        section=readme[start:end]
-        self.assertNotIn('<table>',section)
-        self.assertNotIn('width="50%"',section)
-        migrated=(ROOT/'assets/mobile/manifest.json').exists()
-        self.assertEqual(section.count('width="445"'), 1 if migrated else 2)
-        if migrated:
-            self.assertIn('assets/mobile/stats.png', section)
-            self.assertNotIn('assets/mobile/logo.png', section)
-            self.assertIn('assets/mobile/logo.png', readme)
-        else:
-            self.assertIn('assets/stats-light.svg', section)
-            self.assertIn('assets/logo-light.svg', readme)
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        panel = readme.split('<table>', 1)[1].split('</table>', 1)[0]
+        self.assertEqual(panel.count('<td '), 2)
+        self.assertIn('width="50%"', panel)
+        self.assertIn('assets/mobile/logo.png', panel)
+        self.assertIn('profile-live/live/stats.svg', panel)
+        self.assertIn('profile-live/live/contributions.svg', readme)
+        self.assertIn('assets/mobile/stats.png', readme)
+        self.assertIn('assets/mobile/engineering.png', readme)
 
     def test_no_external_image_references(self):
         for p in (ROOT/'assets').glob('*.svg'):
