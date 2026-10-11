@@ -80,6 +80,18 @@ class LiveProfileTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate(data)
 
+    def test_live_profile_refreshes_automatically_on_schedule_and_main_merge(self):
+        workflow = (ROOT / ".github/workflows/profile-live.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "37 * * * *"', workflow)
+        self.assertIn("  push:\n    branches:\n      - main\n", workflow)
+        self.assertIn("'README.md'", workflow)
+        self.assertIn("'scripts/live_*.py'", workflow)
+        self.assertIn("'scripts/tech_icon_paths.json'", workflow)
+        self.assertIn("github.ref == 'refs/heads/main'", workflow)
+        self.assertIn("HEAD:refs/heads/profile-live", workflow)
+        self.assertNotIn("pull_request_target", workflow)
+        self.assertNotIn("HEAD:refs/heads/main", workflow)
+
     def test_workflow_scopes_generated_branch_only(self):
         workflow = (ROOT / ".github/workflows/profile-live.yml").read_text(encoding="utf-8")
         self.assertIn("refs/heads/main", workflow)

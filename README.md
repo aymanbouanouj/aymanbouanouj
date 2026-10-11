@@ -114,7 +114,7 @@ Projet académique indépendant : Morocco2030 est un portail multilingue avec ba
 
 [Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated JSON evidence ↗](https://github.com/aymanbouanouj/tree/profile-live/live)
 
-<sub>Scheduled about every three hours, best-effort; image caches may delay displayed changes. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
+<sub>Checks scheduled hourly (best-effort) and on relevant profile-code merges; GitHub Actions and image caches may delay visible updates. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
 
 </details>
 

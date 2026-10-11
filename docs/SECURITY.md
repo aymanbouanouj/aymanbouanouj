@@ -125,7 +125,7 @@ A true interactive dashboard would need an independent hosted web page.
 ## Automatically refreshed public activity (V4)
 
 The standalone \`.github/workflows/profile-live.yml\` workflow runs on a
-best-effort schedule every three hours and may be run manually. It reads only
+best-effort hourly schedule, runs after relevant merges on protected `main`, and may be run manually. It reads only
 public GitHub REST repositories, latest public commit SHAs and public events.
 It writes two validated generated files (\`live/activity.svg\` and
 \`live/activity.json\`) to the **separate** \`profile-live\` branch using an
@@ -142,3 +142,20 @@ the generated V4 activity files contain public repositories/events only.
 Do not edit \`profile-live\` manually to inject unverified artwork. Unlike
 \`main\`, it is a generated-data branch, not a reviewed code branch. Never
 expose repository private data or introduce an external image provider.
+
+## Automatic V5 operations (2026-10-11)
+
+The live data workflow is self-contained: each hourly run queries the public
+GitHub REST and authenticated GraphQL APIs with the ephemeral GitHub token,
+checks the generated images and 77+ offline tests, and pushes changed SVG/JSON
+**only** to `profile-live`. Merging a relevant README or generator change into
+protected `main` also starts a refresh, so initial deployment requires no
+manual `workflow_dispatch`. Nothing triggers on ordinary `profile-live` pushes,
+and publication does not create PRs or directly mutate protected `main`.
+
+This is polling, **not per-commit instant event delivery**. GitHub schedules
+are best-effort and may be delayed/dropped; published images may remain cached.
+Scheduled workflows on public repositories can be disabled by GitHub after
+60 days of repository inactivity, so fully perpetual unattended operation
+cannot be guaranteed by configuration alone. If a scan fails, existing verified
+cards are retained rather than replaced with fabricated or empty data.
