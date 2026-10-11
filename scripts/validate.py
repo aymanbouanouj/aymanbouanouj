@@ -88,6 +88,8 @@ def main()->int:
     assert 'default: false' in wf and 'needs: verify' in wf and 'persist-credentials: false' in wf
     assert "vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'" in wf
     assert "github.event_name == 'workflow_dispatch' && inputs.publish == true" in wf
+    assert "github.actor == 'aymanbouanouj'" in wf
+    assert 'test "${GITHUB_ACTOR}" = "aymanbouanouj"' in wf
     assert 'git push origin HEAD:main' in wf
     assert 'pull_request_target' not in wf and 'schedule:' in wf
     assert not (workflow_dir/'update-stats.yml').exists() and not (workflow_dir/'tech-stack.yml').exists()

@@ -44,3 +44,6 @@ Security note: `data/contributions.json` contains day-by-day activity; deleting 
 - [x] Publishing workflow is restricted to `refs/heads/main` and enforces the same constraint before Git push.
 - [ ] Verify French accents, layout and readable wrapping on GitHub Mobile and desktop, in Dark and Light themes.
 - [ ] Activate platform-level main branch protection once permitted; workflow guards alone do not protect the branch from user pushes.
+
+- [x] Manual profile publication is guarded by owner actor and a second shell assertion. This is not an access-control substitute for GitHub repository rules.
+- [ ] After making the repository public, create and activate a `main` ruleset; do not claim branch protection until GitHub confirms it is enforced.

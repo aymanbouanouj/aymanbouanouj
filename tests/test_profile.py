@@ -252,6 +252,8 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('needs: verify', wf)
         self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'", wf)
         self.assertIn("github.event_name == 'workflow_dispatch' && inputs.publish == true", wf)
+        self.assertIn("github.actor == 'aymanbouanouj'", wf)
+        self.assertIn('test "${GITHUB_ACTOR}" = "aymanbouanouj"', wf)
         self.assertIn('git push origin HEAD:main', wf)
         self.assertNotIn('http.https://github.com/.extraheader', wf)
         self.assertNotIn('pull_request_target:', wf)
