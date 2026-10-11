@@ -89,7 +89,7 @@
 Projet académique indépendant : Morocco2030 est un portail multilingue et un back-office avec gestion des rôles, sans affiliation à la FIFA. PC Full Check effectue des diagnostics Windows en lecture seule. VioletGate est une démonstration d'interface sans authentification réelle. Ayman Calc est une calculatrice JavaScript adaptative.
 </details>
 
-## Open-Source Contributions
+## Open-Source Contributions / Contributions open source
 
 **[SGA-BTS — merged documentation improvement ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)** — Documentation and local setup improvement in another maintainer's repository (not a claim of feature development).
 
