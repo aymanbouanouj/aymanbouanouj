@@ -62,7 +62,7 @@ class ProfileTests(unittest.TestCase):
 
     def test_combined_refresh_stages_every_generated_svg(self):
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
-        commit=workflow.split('- name: Commit strictly generated assets',1)[1]
+        commit=workflow.split('- name: Create review pull request for verified generated assets',1)[1]
         for name in ('hero','logo','contributions','stats','tech-stack','engineering'):
             for theme in ('dark','light'):
                 self.assertIn(f'assets/{name}-{theme}.svg',commit)
