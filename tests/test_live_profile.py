@@ -92,6 +92,26 @@ class LiveProfileTests(unittest.TestCase):
         self.assertNotIn("pull_request_target", workflow)
         self.assertNotIn("HEAD:refs/heads/main", workflow)
 
+    def test_activity_repair_from_retained_data_is_idempotent(self):
+        from live_profile import write_snapshot, verify, repair_svg
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as path:
+            root=Path(path)
+            data={"schema":1,"source":"github-rest-public-repository-activity",
+                  "owner":"aymanbouanouj","generated_at_utc":"2026-10-11T05:09:00+00:00",
+                  "public_repository_count":0,"recent_repositories":[],"recent_events":[]}
+            write_snapshot(root,data)
+            source=(root/"activity.json").read_bytes()
+            (root/"activity.svg").write_text("old renderer",encoding="utf-8")
+            with self.assertRaises(ValueError): verify(root)
+            self.assertTrue(repair_svg(root))
+            self.assertEqual(verify(root),data)
+            self.assertEqual((root/"activity.json").read_bytes(),source)
+            self.assertFalse(repair_svg(root))
+            (root/"activity.json").write_text('{"schema":0}',encoding="utf-8")
+            with self.assertRaises((ValueError,KeyError)): repair_svg(root)
+
     def test_workflow_scopes_generated_branch_only(self):
         workflow = (ROOT / ".github/workflows/profile-live.yml").read_text(encoding="utf-8")
         self.assertIn("refs/heads/main", workflow)

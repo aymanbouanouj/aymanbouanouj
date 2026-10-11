@@ -233,6 +233,17 @@ def write_snapshot(folder: Path, snapshot):
     (folder / "activity.svg").write_text(draw(snapshot) + "\n", encoding="utf-8")
 
 
+def repair_svg(folder: Path) -> bool:
+    """Repair old activity artwork using the final verified JSON snapshot."""
+    snap = json.loads((folder / "activity.json").read_text(encoding="utf-8"))
+    expected = draw(snap) + "\n"
+    image = folder / "activity.svg"
+    if image.exists() and image.read_text(encoding="utf-8") == expected:
+        return False
+    image.write_text(expected, encoding="utf-8")
+    return True
+
+
 def verify(folder: Path):
     snap = json.loads((folder / "activity.json").read_text(encoding="utf-8"))
     expected = draw(snap) + "\n"
@@ -247,11 +258,14 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--build", action="store_true")
     mode.add_argument("--verify", action="store_true")
+    mode.add_argument("--repair-svg", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.build:
         token = os.environ.get("GITHUB_TOKEN", "")
         write_snapshot(args.output, collect(lambda url: request_json(url, token)))
+    if args.repair_svg:
+        repair_svg(args.output)
     verify(args.output)
     print("PASS: verified public activity data and deterministic SVG")
 
