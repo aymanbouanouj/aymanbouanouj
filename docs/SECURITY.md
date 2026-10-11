@@ -38,3 +38,10 @@ Prior manual inspection found no recognizable credentials in 22 textual commit d
 - GitHub's ruleset endpoint returned an upgrade-or-public limitation on the current private repository; protection cannot be considered configured. Apply a compatible branch rule once GitHub permits it, and ensure it does not block the generated-asset publisher.
 - The connected GitHub application cannot read or change collaboration access, Actions repository variables, or all security-alert settings. Those must be reviewed under GitHub Settings by the repository owner.
 - Scheduled publication still requires `ENABLE_SCHEDULED_PROFILE_PUBLISH=true`; disclosure approval does not silently opt in to unattended writes.
+
+## Bilingual professional profile and main-branch controls
+
+- The README intentionally presents English and French text together. The graphical panels retain their tested terminal layout and accessible English alt text; surrounding content explains the visuals in both languages.
+- The publication workflow now checks `github.ref == 'refs/heads/main'` at job dispatch and `GITHUB_REF` before committing. This prevents a manual run from another branch from writing that branch's content into main.
+- These workflow checks **are not branch protection**. A collaborator with Git push permission could still push code directly or force-push unless GitHub's branch protection or rulesets are enabled.
+- While this private repository's Rulesets API reports a Pro-or-Public limitation, do not change visibility without final owner permission. Once available, configure main to block force pushes and deletion, and choose required PR reviews/checks in a way compatible with the generated-asset publisher.

@@ -16,7 +16,7 @@
 - [ ] Check social links and their ownership, privacy and redirects.
 - [ ] Test GitHub Mobile Android images and GitHub web Light/Dark mode.
 - [ ] Review repo Security & Analysis settings, current collaborators, Actions permission defaults and Private Forks.
-- [ ] Configure a branch rule that prevents force push/deletion and requires security checks for human source changes while permitting planned generated-asset updates. Currently not protected; GitHub returned a private-repo tier limitation for rulesets.
+- [ ] Enable real branch protection / ruleset on `main`: block force pushes and deletion; require reviews and appropriate checks if compatible with verified generated updates. Currently unavailable through the connector; the private-repo Rulesets API reported a Pro-or-Public limitation.
 - [ ] Explicitly approve changing repository visibility to Public. **Do not auto-publish.**
 
 ## Procedure
@@ -37,3 +37,10 @@ Security note: `data/contributions.json` contains day-by-day activity; deleting 
 - [ ] Review collaborators, Private Forking, Actions defaults, dependency/secret scanning settings and branch rule availability in GitHub Settings. GitHub API did not expose these settings through the connected app.
 - [ ] Verify real Android/web renderer appearance following the current PNG rollout.
 - [ ] Obtain an **additional, explicit, separate approval** before changing visibility to Public.
+
+## English / Français profile acceptance
+
+- [x] README text includes professional introductions and project descriptions in English and French without changing verified PNG assets or GitHub evidence.
+- [x] Publishing workflow is restricted to `refs/heads/main` and enforces the same constraint before Git push.
+- [ ] Verify French accents, layout and readable wrapping on GitHub Mobile and desktop, in Dark and Light themes.
+- [ ] Activate platform-level main branch protection once permitted; workflow guards alone do not protect the branch from user pushes.
