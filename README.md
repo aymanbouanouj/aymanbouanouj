@@ -77,6 +77,8 @@
 
 [**Browse all public repositories ↗**](https://github.com/aymanbouanouj?tab=repositories)
 
+[**Merged external documentation contribution — SGA-BTS PR #1 ↗**](https://github.com/HichamFaska/SGA-BTS/pull/1)
+
 ## Open Source & Collaborations
 
 <div align="center">
