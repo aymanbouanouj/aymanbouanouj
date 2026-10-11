@@ -2,7 +2,7 @@
 <div align="center">
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
-<img src="./assets/mobile/hero.png" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
+<img src="./assets/mobile/hero.png?v=4331fa130b8e" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 <p><strong>Full-Stack Web Developer</strong> · Laravel, PHP and modern web interfaces · Building practical, secure and user-centered applications.</p>
 <p lang="fr"><strong>Développeur web full stack</strong> · Laravel, PHP et interfaces web modernes · Je conçois et développe des applications web utiles, sécurisées et adaptées aux besoins des utilisateurs.</p>
 <p><sub>Professional portfolio · Portfolio professionnel · English / Français</sub></p>
@@ -10,22 +10,26 @@
 <h3><code>ayman@github ~ $ ./contributions.sh</code></h3>
 <p><sub><b>EN</b> · Activity comes from GitHub's contribution calendar and can include aggregate private contributions when GitHub exposes them. It does not identify private repositories.</sub></p>
 <p lang="fr"><sub><b>FR</b> · Données issues du calendrier des contributions GitHub. Les totaux peuvent inclure des contributions privées comptabilisées de manière agrégée, lorsque GitHub les fournit, sans révéler le contenu des dépôts privés.</sub></p>
-<img src="./assets/mobile/contributions.png" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
+<img src="./assets/mobile/contributions.png?v=a1a97ff39fc7" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
+
+<p><sub><b>Verified snapshot — not a real-time counter.</b> <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>. A new snapshot appears here only after its reviewed refresh Pull Request is merged.</sub></p>
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
 <p><sub>Personal brand &amp; verified activity · Identité visuelle &amp; activité vérifiée</sub></p>
 <p>
-<img src="./assets/mobile/logo.png" width="445" alt="Original clean vector AB brand logo" />
-<img src="./assets/mobile/stats.png" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
+<img src="./assets/mobile/logo.png?v=55959e42420e" width="445" alt="Original clean vector AB brand logo" />
+<img src="./assets/mobile/stats.png?v=378e76a57ddd" width="445" alt="GitHub contribution statistics with last verified synchronization time" />
 </p>
 
 <h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
-<img src="./assets/mobile/tech-stack.png" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
+<img src="./assets/mobile/tech-stack.png?v=ba2ca5952dd4" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
 <p><sub><b>EN</b> · Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. GitHub Actions checks approximately every six hours; artwork updates only after a verified publication (scheduled writes require explicit opt-in). Languages indicate code presence, not proficiency.</sub></p>
 <p lang="fr"><sub><b>FR</b> · Langages détectés par GitHub Linguist dans mes dépôts publics, à l'exclusion des forks et des dépôts archivés. Vérification effectuée environ toutes les six heures ; les mises à jour planifiées ne sont publiées qu'après activation explicite. Ces données témoignent de la présence de code, et non d'un niveau de maîtrise.</sub></p>
 
+<p><sub><a href="https://github.com/aymanbouanouj?tab=repositories">Browse the latest public repositories ↗</a> · Language results are verified snapshots, not a live data feed.</sub></p>
+
 <h3><code>ayman@github ~ $ ./engineering.sh --verified</code></h3>
-<img src="./assets/mobile/engineering.png" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
+<img src="./assets/mobile/engineering.png?v=7c814232cf03" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
 <p><sub><b>EN</b> · Evidence from public dependency manifests, release tags and named GitHub Actions. Details link to the underlying repositories below; these are not skill ratings.</sub></p>
 <p lang="fr"><sub><b>FR</b> · Technologies identifiées à partir des fichiers de dépendances publics, des versions publiées et des workflows GitHub Actions. Ces éléments sont vérifiables, mais ne constituent pas une évaluation de mes compétences.</sub></p>
 

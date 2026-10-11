@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from mobile_png import (COMPONENTS, DARK, LIGHT, dimensions,
-                        replace_readme, verify, PNG_HEADER)
+                        replace_readme, verify, stamp_image_versions, PNG_HEADER)
 
 
 class MobilePngTests(unittest.TestCase):
@@ -24,9 +24,24 @@ class MobilePngTests(unittest.TestCase):
         for name in COMPONENTS:
             with self.subTest(name=name):
                 self.assertEqual(
-                    migrated.count(f'src="./assets/mobile/{name}.png"'), 1
+                    migrated.count(f'src="./assets/mobile/{name}.png?v=') if (ROOT / "assets/mobile/manifest.json").exists() else migrated.count(f'src="./assets/mobile/{name}.png"'), 1
                 )
         self.assertEqual(migrated, replace_readme(migrated))
+
+    def test_image_cache_keys_match_current_verified_hashes(self):
+        manifest_path = ROOT / "assets/mobile/manifest.json"
+        if not manifest_path.exists():
+            return
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for name in COMPONENTS:
+            digest = manifest["images"][name]["png_sha256"][:12]
+            self.assertEqual(readme.count(f'./assets/mobile/{name}.png?v={digest}"'), 1)
+        self.assertEqual(stamp_image_versions(readme), readme)
+        hero_digest = manifest["images"]["hero"]["png_sha256"][:12]
+        stale = readme.replace(f'hero.png?v={hero_digest}', 'hero.png?v=000000000000')
+        self.assertNotEqual(stale, readme)
+        self.assertEqual(stamp_image_versions(stale), readme)
 
     def test_partial_migration_is_not_accepted(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

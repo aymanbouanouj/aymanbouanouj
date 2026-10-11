@@ -41,7 +41,9 @@ class EngineeringTests(unittest.TestCase):
   if migrated:
    # Mobile README intentionally uses PNG; SVG remains available as
    # a linked, self-hosted source without a second light/dark image tag.
-   self.assertIn('src="./assets/mobile/engineering.png"',text)
+   from mobile_png import stamp_image_versions
+   self.assertIn('src="./assets/mobile/engineering.png?v=',text)
+   self.assertEqual(stamp_image_versions(text),text)
    self.assertIn('href="./assets/engineering-dark.svg"',text)
    self.assertTrue((ROOT/'assets/engineering-light.svg').exists())
    self.assertNotIn('engineering-light.svg#gh-light-mode-only',text)
