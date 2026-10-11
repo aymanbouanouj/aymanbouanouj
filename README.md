@@ -5,6 +5,7 @@
 <img src="./assets/mobile/hero.png" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 
 <h3><code>ayman@github ~ $ ./contributions.sh</code></h3>
+<p><sub>Activity comes from GitHub's contribution calendar and can include aggregate private contributions when GitHub exposes them. It does not identify private repositories.</sub></p>
 <img src="./assets/mobile/contributions.png" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
@@ -15,7 +16,7 @@
 
 <h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
 <img src="./assets/mobile/tech-stack.png" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
-<p><sub>Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. The scan updates every 6 hours; languages are evidence of code presence, not proficiency.</sub></p>
+<p><sub>Automatically detected using GitHub Linguist from public, non-fork, non-archived repositories. GitHub Actions checks approximately every six hours; artwork updates only after a verified publication (scheduled writes require explicit opt-in). Languages indicate code presence, not proficiency.</sub></p>
 
 <h3><code>ayman@github ~ $ ./engineering.sh --verified</code></h3>
 <img src="./assets/mobile/engineering.png" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
@@ -80,6 +81,6 @@ Improved project documentation and local setup instructions in another maintaine
 <a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="All profiles" height="38" /></a>
 </p>
 
-<p><sub>Original SVG artwork · Projects link to public code and demos · GitHub calendar activity may exclude private contributions · Last sync shown in statistics.</sub></p>
+<p><sub>Original SVG artwork · Projects link to public code and demos · Contribution counts may include private activity totals exposed by GitHub, but not private repository contents · Last verified sync appears in the statistics.</sub></p>
 <p><sub>Original scalable SVGs: <a href="./assets/hero-dark.svg">Hero</a> · <a href="./assets/contributions-dark.svg">Contributions</a> · <a href="./assets/logo-dark.svg">Logo</a> · <a href="./assets/stats-dark.svg">Stats</a> · <a href="./assets/tech-stack-dark.svg">Tech-Stack</a> · <a href="./assets/engineering-dark.svg">Engineering</a>. PNG previews ensure mobile-app compatibility.</sub></p>
 </div>
