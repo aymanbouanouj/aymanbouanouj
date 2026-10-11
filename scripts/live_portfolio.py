@@ -365,6 +365,49 @@ def draw(data):
     }
 
 
+def render_markdown(data):
+    """Deterministic linked text snapshot for GitHub, not an in-README JavaScript widget."""
+    validate(data)
+    from urllib.parse import quote
+    def clean(value):
+        return "".join(c if c.isalnum() or c in " ._-/+" else " " for c in str(value))[:80]
+    n = sum(v for _, v in data["language_bytes"])
+    lines = ["# Verified Public Development Inventory", "",
+             "Automatically generated from public GitHub sources at " + data["generated_at_utc"][:16] + " UTC.",
+             "Refreshed hourly (best effort), not a real-time counter.", "",
+             "## Programming Languages", "",
+             "| Language | Detected bytes | Share | Public code |",
+             "| --- | ---: | ---: | --- |"]
+    for name, amount in data["language_bytes"]:
+        search = "https://github.com/search?q=" + quote("user:" + OWNER + " language:" + name, safe="") + "&type=repositories"
+        lines.append("| " + clean(name) + " | " + str(amount) + " | " + format(amount/n if n else 0, ".1%") + " | [Source](" + search + ") |")
+    if not data["language_bytes"]:
+        lines.append("| No public languages detected | — | — | — |")
+    lines += ["", "## Verified Frameworks and Build Tools", ""]
+    for item in data["verified_frameworks"]:
+        links = ", ".join("[" + clean(repo) + "](https://github.com/" + OWNER + "/" + quote(repo, safe="") + ")" for repo in item["repositories"])
+        lines.append("- " + clean(item["name"]) + " — " + links)
+    if not data["verified_frameworks"]:
+        lines.append("No verified public dependency manifests.")
+    lines += ["", "## Other Public Projects", ""]
+    for item in data["other_repositories"]:
+        lines.append("- [" + clean(item["name"]) + "](" + item["url"] + ")")
+    if not data["other_repositories"]:
+        lines.append("No additional public projects detected.")
+    lines += ["", "## Verified External Contributions", ""]
+    for item in data["verified_collaborations"]:
+        lines.append("- [" + clean(item["name"]) + " PR #" + str(item["number"]) + "](" + item["url"] + ") — merged")
+    if not data["verified_collaborations"]:
+        lines.append("No independently verified external merged PRs found.")
+    lines += ["", "---", "",
+              "[Public repositories](https://github.com/" + OWNER + "?tab=repositories) · [GitHub profile](https://github.com/" + OWNER + ")", "",
+              "No private repository metadata or fabricated proficiency ratings.", ""]
+    value = "\n".join(lines)
+    if len(value.encode("utf-8")) > 80000:
+        raise ValueError("Oversized Markdown")
+    return value
+
+
 def write(folder: Path, data):
     folder.mkdir(parents=True, exist_ok=True)
     for name, svg in draw(data).items():
@@ -372,12 +415,15 @@ def write(folder: Path, data):
     (folder / "portfolio.json").write_text(
         json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+    (folder / "portfolio.md").write_text(render_markdown(data), encoding="utf-8")
 
 def verify(folder: Path):
     data = json.loads((folder / "portfolio.json").read_text(encoding="utf-8"))
     for name, svg in draw(data).items():
         if (folder / name).read_text(encoding="utf-8") != svg:
             raise ValueError("Public GitHub portfolio data/art mismatch: " + name)
+    if (folder / "portfolio.md").read_text(encoding="utf-8") != render_markdown(data):
+        raise ValueError("Generated Markdown does not match verified API snapshot")
     return data
 
 

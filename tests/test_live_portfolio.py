@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from live_portfolio import collect, draw, validate, verify, write, OWNER, API
+from live_portfolio import collect, draw, validate, verify, write, render_markdown, OWNER, API
 
 class PublicPortfolioTests(unittest.TestCase):
     NOW = dt.datetime(2026, 10, 11, 4, 15, tzinfo=dt.timezone.utc)
@@ -69,12 +69,17 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertIn("new-public-tool", draw(data)["portfolio-projects.svg"])
         self.assertIn("OtherOwner/SomeProject", draw(data)["portfolio-collabs.svg"])
         self.assertEqual(len(data["verified_collaborations"]), 2)
+        self.assertIn("OtherOwner/SomeProject",render_markdown(data))
+        self.assertNotIn("secret-app",render_markdown(data))
     def test_verified_outputs_and_tamper_rejection(self):
         data = collect(self.mock(), now=self.NOW)
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             write(root, data)
             self.assertEqual(verify(root), data)
+            (root/"portfolio.md").write_text("tampered",encoding="utf-8")
+            with self.assertRaises(ValueError): verify(root)
+            (root/"portfolio.md").write_text(render_markdown(data),encoding="utf-8")
             (root/"portfolio-tech.svg").write_text("tampered", encoding="utf-8")
             with self.assertRaises(ValueError):
                 verify(root)

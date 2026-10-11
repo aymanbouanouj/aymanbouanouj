@@ -1,12 +1,17 @@
-<!-- Original AB identity — GitHub API sourced snapshots / no fabricated metrics -->
+<!-- AB Studio · verified data · native links, minimal visible imagery -->
 
-<div align="center">
+<details>
+<summary><strong>Contribution calendar</strong> — dated automatic visualization</summary>
 
 <h3><code>ayman@github ~ $ ./contributions.sh</code></h3>
 
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Verified automatically refreshed GitHub contribution-calendar snapshot" />
 
-<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>. GitHub's native contribution graph below is the authoritative activity calendar.</sub>
+<sub>GitHub's native contribution graph below this README is authoritative. This historical snapshot is not a live counter.</sub>
+
+</details>
+
+<div align="center">
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
 
@@ -19,7 +24,7 @@
 </td>
 <td width="50%" align="center" valign="top">
 
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/stats.svg" width="100%" alt="Verified GitHub contribution metrics, active days and monthly activity snapshot" />
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/stats.svg" width="100%" alt="Automatically refreshed GitHub contribution statistics with source date" />
 
 </td>
 </tr>
@@ -27,101 +32,75 @@
 
 ### Full-Stack Web Developer · Laravel · PHP · JavaScript
 
-*Building practical, secure and user-centered web applications.*
+*Practical, secure and user-centered web applications.*
 
-<sub>Développeur web full stack — projets pratiques, sécurité applicative et interfaces accessibles.</sub>
+<sub>Développeur web full stack — applications pratiques, sécurisées et centrées utilisateur.</sub>
 
 <h3><code>ayman@github ~ $ ./links.sh</code></h3>
 
-<a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" alt="GitHub — official profile" width="144" /></a>
-<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn — official profile" width="144" /></a>
-<a href="https://www.instagram.com/aymanbounaouj/"><img src="./assets/link-instagram.svg" alt="Instagram — official profile" width="144" /></a>
-<a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./assets/link-facebook.svg" alt="Facebook — official profile" width="144" /></a>
-<a href="https://x.com/aymanbounaouj"><img src="./assets/link-x.svg" alt="X — official profile" width="144" /></a>
-<a href="https://medium.com/@aymanbounaouj"><img src="./assets/link-medium.svg" alt="Medium — official profile" width="144" /></a>
-<a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="Beacons — official profile" width="144" /></a>
+[**GitHub**](https://github.com/aymanbouanouj) · [**LinkedIn**](https://www.linkedin.com/in/aymanbounaouj/) · [**Instagram**](https://www.instagram.com/aymanbounaouj/) · [**Facebook**](https://www.facebook.com/AymanBounaouj.dev/)
 
-<sub>Each badge uses a locally hosted platform icon and points to the corresponding profile. Additional channels are added only after confirming their exact URLs.</sub>
+[**X**](https://x.com/aymanbounaouj) · [**Medium**](https://medium.com/@aymanbounaouj) · [**Beacons**](https://beacons.ai/aymanbounaouj)
 
 </div>
 
 ---
 
+[View current GitHub activity](https://github.com/aymanbouanouj)
+
 ## Languages & Technical Stack
 
-<div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
-</div>
+**◈ Languages · ◇ Frameworks · ⌘ Tools**
 
-**Backend & APIs:** PHP · Laravel · Python  
-**Frontend:** JavaScript · HTML · CSS · Blade · Vite  
-**Data & tools:** SQL · MySQL · Git · GitHub Actions · PHPUnit · PowerShell
+[**Live verified technology inventory ↗**](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md) · [Explore current public code ↗](https://github.com/aymanbouanouj?tab=repositories)
 
-<sub>Langages détectés par GitHub Linguist dans les dépôts publics personnels, hors forks et dépôts archivés. Actual detected language data updates through the public activity workflow. Frameworks are shown only when identified in public dependency manifests; language percentages are code-byte ratios, not skill rankings. Icons are self-hosted and linked to their documented upstream sources.</sub>
+<sub>Langages détectés par GitHub Linguist dans les dépôts publics personnels. Frameworks require public manifest evidence. Clickable names and source links are regenerated hourly (best effort) in the linked Markdown inventory. GitHub README cannot embed remote Markdown or run JavaScript. Byte percentages reflect code presence, not proficiency.</sub>
 
 ## Featured Projects
 
-*Hand-selected work, linked to real code, documented releases and demonstrable functionality.*
-
 #### [01 — Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)
-**Laravel 12 · RBAC · Multilingual portal.** Independent academic project: public tournament portal and staff back office. Not affiliated with FIFA.  
-[Source](https://github.com/aymanbouanouj/morocco2030) · [CI](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml) · [Releases](https://github.com/aymanbouanouj/morocco2030/releases)
+**Laravel 12 · RBAC · Multilingual portal** — Independent academic project: tournament information and staff back office, not affiliated with FIFA. [Code](https://github.com/aymanbouanouj/morocco2030) · [CI](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml) · [Releases](https://github.com/aymanbouanouj/morocco2030/releases)
 
 #### [02 — PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)
-**PowerShell · Windows 10/11.** Read-only, privacy-first system diagnostics with local reports.  
-[Source](https://github.com/aymanbouanouj/PC-Full-Check) · [Tests](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
+**PowerShell · Windows 10/11** — Read-only, privacy-first PC diagnostics. [Code](https://github.com/aymanbouanouj/PC-Full-Check) · [Tests](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
 
 #### [03 — VioletGate ↗](https://github.com/aymanbouanouj/violetgate)
-**HTML · CSS · JavaScript.** Responsive authentication *UI demo*; no real authentication backend.  
-[Live demo](https://aymanbouanouj.github.io/violetgate/) · [Source](https://github.com/aymanbouanouj/violetgate)
+**HTML · CSS · JavaScript** — Responsive authentication UI demo, no real authentication backend. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Code](https://github.com/aymanbouanouj/violetgate)
 
 #### [04 — Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)
-**Vanilla JavaScript.** Keyboard-accessible calculator with history and responsive interface.  
-[Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source](https://github.com/aymanbouanouj/ayman-calc)
+**JavaScript** — Responsive calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Code](https://github.com/aymanbouanouj/ayman-calc)
 
 <details>
-<summary><strong>Résumé professionnel des projets en français</strong></summary>
+<summary>Résumé des projets en français</summary>
 
-Projet académique indépendant : Morocco2030 est un portail multilingue avec back-office, sans affiliation à la FIFA. PC Full Check réalise des diagnostics Windows en lecture seule. VioletGate est une démonstration d'interface sans authentification réelle. Ayman Calc propose une calculatrice JavaScript responsive.
+Projet académique indépendant : Morocco2030 est un portail multilingue sans affiliation à la FIFA. PC Full Check offre des diagnostics Windows en lecture seule. VioletGate est une démonstration sans authentification réelle. Ayman Calc est une calculatrice JavaScript responsive.
 </details>
 
-## Other Public Projects
+## Other Projects & Open Source
 
-<div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-projects.svg" width="100%" alt="Recent additional public software repositories, automatically discovered from GitHub" />
-</div>
+[**Other public projects — auto-updated ↗**](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#other-public-projects) · [All GitHub repositories ↗](https://github.com/aymanbouanouj?tab=repositories)
 
-[**Browse all public repositories ↗**](https://github.com/aymanbouanouj?tab=repositories)
+**Contributions open source:** [SGA-BTS — merged documentation PR #1 ↗](https://github.com/HichamFaska/SGA-BTS/pull/1) — accepted documentation and setup work in an external repository.
 
-<sub>Other repositories are discovered automatically from the public GitHub API, excluding private projects and the four selected above. Older experiments and learning repositories are listed without pretending they are production releases.</sub>
-
-## Open Source & Collaborations
-
-**Verified external contribution:** [SGA-BTS — merged documentation improvement](https://github.com/HichamFaska/SGA-BTS/pull/1) · documentation and local setup improvements accepted in another maintainer's repository.
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-collabs.svg" width="100%" alt="GitHub-verified external merged pull requests and collaborations" />
-</div>
-
-<sub>Only independently verifiable merged external pull requests are counted. This is not a claim of employment or an affiliation with another project owner.</sub>
+[**Verified external PRs — auto-updated ↗**](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions) · [GitHub PR activity ↗](https://github.com/pulls?q=is%3Apr+is%3Amerged+author%3Aaymanbouanouj)
 
 <details>
-<summary><strong>Recent public work — automatically refreshed commits and events</strong></summary>
+<summary><strong>Current public activity — automatically refreshed</strong></summary>
 
 ## Current public activity — automatically refreshed
 
-<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
+<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Automatically refreshed public repository activity and verified recent commits" /></a>
 
-[Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated JSON evidence ↗](https://github.com/aymanbouanouj/tree/profile-live/live)
+[Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated data provenance ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)
 
-<sub>Checks scheduled hourly (best-effort) and on relevant profile-code merges; GitHub Actions and image caches may delay visible updates. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
+<sub>Hourly checks (best effort) and refreshes after relevant protected-main updates. Snapshots are not a live counter and GitHub images may be cached. GitHub native activity remains authoritative.</sub>
 
 </details>
 
 <details>
-<summary><strong>Historical verified statistics and advanced technical evidence</strong></summary>
+<summary><strong>Historical design gallery &amp; original AB artwork</strong></summary>
 
-## Verified historical contribution snapshot
+## Original AB artwork and open-source work
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
 
@@ -131,32 +110,21 @@ Projet académique indépendant : Morocco2030 est un portail multilingue avec ba
 
 <img src="./assets/mobile/contributions.png?v=a1a97ff39fc7" width="100%" alt="GitHub contribution calendar with the last verified synchronization date, or a clearly labeled pending state" />
 
-<h3><code>ayman@github ~ $ ./tech-stack.sh --auto</code></h3>
-
 <img src="./assets/mobile/tech-stack.png?v=ba2ca5952dd4" width="100%" alt="Languages detected by GitHub Linguist in owned public repositories; not a proficiency rating" />
 
 <img src="./assets/mobile/engineering.png?v=7c814232cf03" width="100%" alt="Verified frameworks from public manifests and GitHub project CI and release signals" />
 
-</div>
-
-<sub>Previously verified GraphQL snapshots; these are not a live counter. GitHub Actions checks approximately every six hours, but reviewed updates of this historical artwork still require an approved Pull Request (scheduled writes require explicit opt-in). The archived GraphQL calendar may include aggregate private contributions, without identifying private repositories or source code.</sub>
-
-</details>
-
-<details>
-<summary><strong>Original AB artwork and verification notes</strong></summary>
-
-## Original AB artwork and open-source work
-
 <img src="./assets/mobile/hero.png?v=4331fa130b8e" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 
-<img src="./assets/brand-v5.svg" width="100%" alt="Alternate original AB branded cover" />
+<img src="./assets/brand-v5.svg" width="100%" alt="Original AB alternate cover" />
 
-<sub>Original scalable artwork: <a href="./assets/hero-dark.svg">Hero</a> · <a href="./assets/logo-dark.svg">Logo</a> · <a href="./assets/contributions-dark.svg">Contributions</a> · <a href="./assets/stats-dark.svg">Statistics</a> · <a href="./assets/tech-stack-dark.svg">Tech Stack</a> · <a href="./assets/engineering-dark.svg">Engineering</a>.</sub>
+</div>
 
-## Open-Source Contributions / Contributions open source
+<sub>Archived GraphQL data may contain aggregate private contributions without revealing private repositories. GitHub Actions checks approximately every six hours, but reviewed updates of this historical artwork still require an approved Pull Request (scheduled writes require explicit opt-in).</sub>
 
-Original sources, public code, tests and documented CI are linked above. No fabricated counters or external tracking images.
+<sub>Original SVGs: <a href="./assets/hero-dark.svg">Hero</a> · <a href="./assets/contributions-dark.svg">Contributions</a> · <a href="./assets/logo-dark.svg">Logo</a> · <a href="./assets/stats-dark.svg">Stats</a> · <a href="./assets/tech-stack-dark.svg">Tech Stack</a> · <a href="./assets/engineering-dark.svg">Engineering</a>.</sub>
+
+<sub>Archived badge designs (not displayed as images): [LinkedIn](./assets/link-linkedin.svg) · [Instagram](./assets/link-instagram.svg) · [Facebook](./assets/link-facebook.svg) · [X](./assets/link-x.svg) · [Medium](./assets/link-medium.svg) · [Beacons](./assets/link-profiles.svg).</sub>
 
 </details>
 
@@ -164,7 +132,7 @@ Original sources, public code, tests and documented CI are linked above. No fabr
 
 <div align="center">
 
-<p><sub>Original SVG artwork · Projects link to public code and demos · GitHub-verified public data · Accessible badges · Reviewed automation with required security checks.</sub></p>
+<p><sub>Original SVG artwork · Projects link to public code and demos · GitHub-verified public data · No fabricated counters or third-party tracking images.</sub></p>
 
 <sub>© 2026 Ayman Bounaouj. All rights reserved. Original branding and artwork are not licensed for reuse.</sub>
 

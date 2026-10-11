@@ -339,7 +339,7 @@ class ProfileTests(unittest.TestCase):
 
     def test_profile_compact_and_interactive_without_unsafe_scripts(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
-        self.assertGreaterEqual(readme.count('<details>'), 4)
+        self.assertGreaterEqual(readme.count('<details>'), 3)
         self.assertEqual(readme.count('<details>'), readme.count('</details>'))
         self.assertEqual(readme.count('#### ['), 4)
         self.assertEqual(readme.count('src="./assets/mobile/hero.png'), 1)
