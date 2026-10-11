@@ -7,7 +7,7 @@
 
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Verified automatically refreshed GitHub contribution-calendar snapshot" />
 
-<sub>The native GitHub contribution graph below this README is authoritative. This historical snapshot is not a live counter.</sub>
+<sub>GitHub's native contribution graph below this README is authoritative. This historical snapshot is not a live counter.</sub>
 
 </details>
 
@@ -46,6 +46,8 @@
 
 ---
 
+[View current GitHub activity](https://github.com/aymanbouanouj)
+
 ## Languages & Technical Stack
 
 **◈ Languages · ◇ Frameworks · ⌘ Tools**
@@ -63,7 +65,7 @@
 **PowerShell · Windows 10/11** — Read-only, privacy-first PC diagnostics. [Code](https://github.com/aymanbouanouj/PC-Full-Check) · [Tests](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
 
 #### [03 — VioletGate ↗](https://github.com/aymanbouanouj/violetgate)
-**HTML · CSS · JavaScript** — Responsive authentication UI demo, not a real authentication backend. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Code](https://github.com/aymanbouanouj/violetgate)
+**HTML · CSS · JavaScript** — Responsive authentication UI demo, no real authentication backend. [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Code](https://github.com/aymanbouanouj/violetgate)
 
 #### [04 — Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)
 **JavaScript** — Responsive calculator with keyboard controls and history. [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Code](https://github.com/aymanbouanouj/ayman-calc)
@@ -120,7 +122,7 @@ Projet académique indépendant : Morocco2030 est un portail multilingue sans af
 
 <sub>Archived GraphQL data may contain aggregate private contributions without revealing private repositories. GitHub Actions checks approximately every six hours, but reviewed updates of this historical artwork still require an approved Pull Request (scheduled writes require explicit opt-in).</sub>
 
-<sub>Original SVGs: [Hero](./assets/hero-dark.svg) · [Contributions](./assets/contributions-dark.svg) · [Logo](./assets/logo-dark.svg) · [Stats](./assets/stats-dark.svg) · [Tech Stack](./assets/tech-stack-dark.svg) · [Engineering](./assets/engineering-dark.svg).</sub>
+<sub>Original SVGs: <a href="./assets/hero-dark.svg">Hero</a> · <a href="./assets/contributions-dark.svg">Contributions</a> · <a href="./assets/logo-dark.svg">Logo</a> · <a href="./assets/stats-dark.svg">Stats</a> · <a href="./assets/tech-stack-dark.svg">Tech Stack</a> · <a href="./assets/engineering-dark.svg">Engineering</a>.</sub>
 
 <sub>Archived badge designs (not displayed as images): [LinkedIn](./assets/link-linkedin.svg) · [Instagram](./assets/link-instagram.svg) · [Facebook](./assets/link-facebook.svg) · [X](./assets/link-x.svg) · [Medium](./assets/link-medium.svg) · [Beacons](./assets/link-profiles.svg).</sub>
 
