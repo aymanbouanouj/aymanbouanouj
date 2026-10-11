@@ -27,3 +27,7 @@ This review does not prove that no secrets exist. Full binary-object scanning, h
 - Repository security settings, collaborators, and direct social account ownership could not be validated by the connected tools; these remain manual release gates.
 - Scheduled publication is off unless the owner explicitly enables the repository Actions variable.
 - Next gate: owner-controlled GitHub settings review, social/visual confirmation, and separate Public authorization.
+
+## Full-history Gitleaks scope correction
+
+The incremental GitHub Action scan on latest push run `38097596649` reported **one commit scanned**. Although that action succeeded, the result alone did not substantiate the earlier claim that every reachable historical commit had been analyzed in that run. This scope limitation is now recorded explicitly. The security workflow adds a separate direct `gitleaks git --redact --log-opts="--all" .` step with a non-shallow checkout and a visible count from `git rev-list --all --count`. The new job must succeed on the Pull Request and on `main` before claiming current full-history verification. This still cannot guarantee the absence of every possible secret.

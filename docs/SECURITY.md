@@ -7,7 +7,7 @@ This repository is a personal GitHub profile. Treat every file, image, commit, g
 Report suspected vulnerabilities privately to the repository owner using GitHub's private vulnerability reporting feature (if enabled). Do not publish credentials, tokens, proof-of-concept payloads containing secrets, or identifying personal data in public Issues.
 
 ## Actions and permissions
-- `security-ci.yml` tests integrity and runs a pinned Gitleaks action with full Git history using read-only permissions.
+- `security-ci.yml` tests integrity and runs a pinned Gitleaks action for changed commits, plus an explicit command-line Gitleaks scan with `--log-opts="--all"` covering all locally reachable commit history, using read-only permissions.
 - `profile-refresh.yml` is the only publication workflow. Verification runs read-only.
 - Manual publication requires selecting `publish=true`. Scheduled publication is **disabled by default** unless repository Actions variable `ENABLE_SCHEDULED_PROFILE_PUBLISH` equals `true`.
 - The publish job alone requests `contents: write`. It uses the ephemeral GitHub Actions token to push strictly generated artwork and data.
