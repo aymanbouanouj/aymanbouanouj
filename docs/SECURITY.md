@@ -15,9 +15,9 @@ Report suspected vulnerabilities privately to the repository owner using GitHub'
 - Do not run workflows with untrusted pull-request code using write credentials.
 
 ## Privacy warning: contribution calendar
-`data/contributions.json` and the derived contribution artwork may contain daily GitHub contribution totals, potentially including private contribution counts as exposed by GitHub GraphQL. Even after deleting the file later, prior commits can retain its data. Decide whether you consent to exposing historical activity **before converting this repository to Public**.
+`data/contributions.json` and the derived contribution artwork may contain daily GitHub contribution totals, potentially including private contribution counts as exposed by GitHub GraphQL. Even after deleting the file later, prior commits can retain its data. The owner has expressly approved displaying this GitHub contribution-calendar data, **including aggregate private contribution counts if GitHub returns them**. This approval covers the data display only; it does **not** authorize changing the repository visibility. Private repository names, source code, credentials and metadata beyond the calendar must never be fetched or published.
 
-For maximum privacy, publish only static branding and public-repository information and omit contribution snapshots/graphics. Doing so requires a separate coordinated README, generator, and history policy change. Removing a file from the current commit is NOT history erasure.
+For a later change toward maximum privacy, publish only static branding and public-repository information and omit contribution snapshots/graphics. Doing so requires a separate coordinated README, generator, and history policy change. Removing a file from the current commit is NOT history erasure.
 
 ## Source validation
 GitHub project language/framework evidence comes from publicly accessible repositories; it is not a verified competence score. SVG files prohibit scripts, event handlers and remote dependencies. PNG files are checked against a SHA-256 manifest for their SVG sources. Synthetic fixture data is never used as live activity. Third-party social links should be confirmed manually.
@@ -31,3 +31,10 @@ GitHub project language/framework evidence comes from publicly accessible reposi
 
 ## Limitations
 Prior manual inspection found no recognizable credentials in 22 textual commit diffs, but binary blobs and unexpected secret formats were not exhaustively checked. Gitleaks and repository settings should be reviewed separately. If a real secret is found, revoke/rotate it before considering history cleanup.
+
+## Repository configuration still requiring owner review
+
+- The latest checks show `main` is not protected, and `allow_forking` is enabled for this private repository.
+- GitHub's ruleset endpoint returned an upgrade-or-public limitation on the current private repository; protection cannot be considered configured. Apply a compatible branch rule once GitHub permits it, and ensure it does not block the generated-asset publisher.
+- The connected GitHub application cannot read or change collaboration access, Actions repository variables, or all security-alert settings. Those must be reviewed under GitHub Settings by the repository owner.
+- Scheduled publication still requires `ENABLE_SCHEDULED_PROFILE_PUBLISH=true`; disclosure approval does not silently opt in to unattended writes.

@@ -102,6 +102,15 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
+    def test_profile_disclosure_notice_and_refresh_cadence_are_accurate(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        self.assertIn('aggregate private contributions',readme)
+        self.assertIn('GitHub Actions checks approximately every six hours',readme)
+        self.assertIn('scheduled writes require explicit opt-in',readme)
+        self.assertNotIn('The scan updates every 6 hours',readme)
+        self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
+
     def test_social_contact_badges(self):
         text=(ROOT/'README.md').read_text(encoding='utf-8')
         for name in ('linkedin','instagram','facebook','x','medium','profiles'):
