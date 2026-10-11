@@ -42,7 +42,17 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn('interval: "weekly"', config)
         self.assertEqual(config.count("open-pull-requests-limit: 5"), 2)
         requirements = (ROOT / "requirements-ci.txt").read_text(encoding="utf-8")
-        self.assertIn("CairoSVG==2.8.2", requirements)
+        # Pin an exact, reviewable version, but permit Dependabot security upgrades.
+        specs = [
+            line.strip() for line in requirements.splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        self.assertEqual(len(specs), 1, "Renderer requirements must be explicit and minimal")
+        self.assertRegex(
+            specs[0],
+            r"^CairoSVG==[0-9]+\\.[0-9]+\\.[0-9]+(?:\\.post[0-9]+)?$",
+            "CairoSVG must use a pinned version, not a floating or remote dependency",
+        )
         workflow = (WORKFLOWS / "profile-refresh.yml").read_text(encoding="utf-8")
         self.assertEqual(workflow.count("pip install --disable-pip-version-check -r requirements-ci.txt"), 3)
         self.assertNotIn("pip install --disable-pip-version-check 'CairoSVG==", workflow)
