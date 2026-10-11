@@ -41,3 +41,11 @@ Do not make the repository Public before the release checklist is complete and t
 **Scheduled publication option:** To allow periodic writes after the owner explicitly opts in, create the repository variable `ENABLE_SCHEDULED_PROFILE_PUBLISH` with value `true` under **Settings > Secrets and variables > Actions > Variables**. Without this, the six-hour run verifies but does not publish.
 
 None of the steps above require uploading passwords, tokens, screenshots of private settings or personal data to this repository.
+
+## Main branch protection (required before the final public launch)
+
+Check **Settings > Rules > Rulesets** or **Settings > Branches** for a `main` rule. Prefer forbidding force pushes and deletion, and require successful security checks and pull-request reviews for human changes. Verify that the automatic generated-artwork push is supported, or migrate that publisher to a pull-request workflow before enforcing a rule that rejects direct pushes.
+
+GitHub's Rulesets API currently responds `Upgrade to GitHub Pro or make this repository public to enable this feature`. This is a plan/visibility constraint, not evidence that any rule was configured. Do not change visibility just to bypass it before explicit owner approval.
+
+The publication job has a main-only runtime guard, which prevents writing from manually selected non-main branches; **it does not prevent direct pushes or force pushes by people with write access**.

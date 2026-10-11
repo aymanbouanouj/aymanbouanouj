@@ -102,6 +102,25 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<sub>**Evidence-first profile:**', readme)
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
+    def test_profile_is_bilingual_without_changing_verified_evidence(self):
+        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        self.assertIn('Full-Stack Web Developer',readme)
+        self.assertIn('Développeur web full stack',readme)
+        self.assertIn('Langages détectés par GitHub Linguist',readme)
+        self.assertIn('Projet académique indépendant',readme)
+        self.assertIn('Contributions open source',readme)
+        self.assertEqual(readme.count('#### ['),4)
+        for name in ('hero','contributions','logo','stats','tech-stack','engineering'):
+            self.assertIn(f'./assets/mobile/{name}.png',readme)
+        self.assertNotIn('<script',readme.lower())
+
+    def test_publish_job_is_restricted_to_main(self):
+        workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
+        self.assertIn("github.ref == 'refs/heads/main'", workflow)
+        self.assertIn('test "${GITHUB_REF}" = "refs/heads/main"', workflow)
+        self.assertIn('git push origin HEAD:main',workflow)
+        self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
+
     def test_profile_disclosure_notice_and_refresh_cadence_are_accurate(self):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
