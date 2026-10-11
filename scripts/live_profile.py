@@ -173,41 +173,53 @@ def validate(data):
 
 
 def draw(snapshot):
+    """Compact, prominent, mobile-readable activity feature card."""
     validate(snapshot)
     esc = lambda value: html.escape(str(value), quote=True)
     pieces = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="715" viewBox="0 0 1000 715" role="img" aria-labelledby="title desc">',
-        '<title id="title">Automatically refreshed public GitHub development activity</title>',
-        '<desc id="desc">Recent public repositories, latest public commits and events. A dated snapshot, not real-time data.</desc>',
-        '<style>@keyframes fade{from{opacity:0}to{opacity:1}}.line{animation:fade .4s ease both}@media(prefers-reduced-motion:reduce){.line{animation:none!important}}</style>',
-        '<rect width="1000" height="715" rx="18" fill="#0d1117"/>',
-        '<rect x="1" y="1" width="998" height="713" rx="17" fill="none" stroke="#30363d"/>',
-        '<text x="32" y="56" font-size="30" font-weight="bold" fill="#f0f6fc" font-family="Arial,sans-serif">RECENT PUBLIC DEVELOPMENT</text>',
-        f'<text x="32" y="88" font-size="17" fill="#b392f0" font-family="monospace">{snapshot["public_repository_count"]} public original/fork repos · GitHub REST verified</text>',
-        '<text x="32" y="130" font-size="23" font-weight="bold" fill="#e6edf3" font-family="Arial,sans-serif">Recently pushed repositories</text>',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="405" viewBox="0 0 1000 405" role="img" aria-labelledby="title desc">',
+        '<title id="title">Recent verified public development activity</title>',
+        '<desc id="desc">Latest public projects, commit identifiers and activity from the GitHub API. Refresh is periodic.</desc>',
+        '<defs><linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#141523"/><stop offset="1" stop-color="#0b0e18"/></linearGradient>',
+        '<linearGradient id="shine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8555ff"/><stop offset=".55" stop-color="#bd64ff"/><stop offset="1" stop-color="#4dcfc9"/></linearGradient></defs>',
+        '<style>@keyframes reveal{from{opacity:0}to{opacity:1}}.project{animation:reveal .45s ease-out both}@media(prefers-reduced-motion:reduce){.project{animation:none!important;opacity:1!important}}</style>',
+        '<rect width="1000" height="405" rx="20" fill="url(#ground)"/>',
+        '<rect x="2" y="2" width="996" height="401" rx="18" stroke="#363648" stroke-width="2" fill="none"/>',
+        '<path d="M33 106 H968" stroke="#303445" stroke-width="2"/>',
+        '<rect x="35" y="35" width="7" height="43" rx="3.5" fill="url(#shine)"/>',
+        '<text x="62" y="72" fill="#f6f6ff" font-size="43" font-weight="bold" font-family="Arial,Helvetica,sans-serif">LATEST PUBLIC WORK</text>',
+        '<rect x="772" y="39" width="196" height="39" rx="19" fill="#272039" stroke="#65459c"/>',
+        '<text x="870" y="65" text-anchor="middle" fill="#dac6ff" font-size="21" font-weight="bold" font-family="Arial,sans-serif">VERIFIED GITHUB</text>',
+        '<text x="39" y="145" fill="#ad9fc9" font-size="20" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="2">RECENT REPOSITORIES</text>',
+        '<path d="M696 125 V348" stroke="#34374a" stroke-width="2"/>',
     ]
-    repos = snapshot["recent_repositories"]
-    for i, row in enumerate(repos):
-        y = 171 + i * 50
-        short = row.get("commit_sha", "")[:9] or "empty"
-        date = row["last_push"][:10]
-        pieces.append(f'<g class="line" style="animation-delay:{i*0.04:.2f}s">'
-                      f'<rect x="25" y="{y-25}" width="950" height="44" rx="8" fill="#161b22"/>'
-                      f'<text x="43" y="{y+3}" font-size="21" fill="#e6edf3" font-family="Arial,sans-serif">{esc(row["name"][:36])}</text>'
-                      f'<text x="645" y="{y+3}" font-size="18" fill="#a8b3c5" font-family="monospace">{date} · {short}</text></g>')
-    if not repos:
-        pieces.append('<text x="43" y="184" font-size="20" fill="#a8b3c5">No public repositories available</text>')
-    pieces.append('<path d="M25 495 H975" stroke="#30363d"/>')
-    pieces.append('<text x="32" y="530" font-size="23" font-weight="bold" fill="#e6edf3" font-family="Arial,sans-serif">Recent public events</text>')
-    for i, row in enumerate(snapshot["recent_events"][:3]):
-        y = 567 + i * 35
-        label = ALLOWED_EVENTS[row["type"]]
-        pieces.append(f'<text x="43" y="{y}" font-size="19" fill="#b392f0" font-family="Arial,sans-serif">{esc(label)} · {esc(row["repository"][:36])} · {row["at"][:10]}</text>')
-    if not snapshot["recent_events"]:
-        pieces.append('<text x="43" y="567" font-size="19" fill="#a8b3c5">No recent public events in the available GitHub feed</text>')
+    for i, repo in enumerate(snapshot["recent_repositories"][:3]):
+        y = 192 + 69 * i
+        sha = repo.get("commit_sha", "")[:9] or "no commit"
+        pieces.extend([
+            f'<g class="project" style="animation-delay:{i * .06:.2f}s">',
+            f'<rect x="35" y="{y-37}" width="636" height="62" rx="12" fill="#1c2130"/>',
+            f'<circle cx="60" cy="{y-6}" r="6" fill="#b66bff"/>',
+            f'<text x="82" y="{y+3}" fill="#f7f7ff" font-size="28" font-weight="bold" font-family="Arial,sans-serif">{esc(repo["name"][:24])}</text>',
+            f'<text x="650" y="{y+3}" text-anchor="end" fill="#aab7cd" font-size="22" font-family="monospace">{sha}</text></g>',
+        ])
+    if not snapshot["recent_repositories"]:
+        pieces.append('<text x="44" y="205" fill="#aab7cd" font-size="26" font-family="Arial,sans-serif">No public projects available yet</text>')
+    pieces.extend([
+        '<text x="731" y="157" fill="#b8a9d1" font-size="20" font-family="Arial,sans-serif">PUBLIC REPOSITORIES</text>',
+        f'<text x="727" y="245" fill="#f8f5ff" font-size="84" font-weight="bold" font-family="Arial,sans-serif">{snapshot["public_repository_count"]}</text>',
+        '<text x="730" y="289" fill="#a8b6cb" font-size="20" font-family="Arial,sans-serif">GitHub-owned / public</text>',
+    ])
+    if snapshot["recent_events"]:
+        event = snapshot["recent_events"][0]
+        pieces.append(f'<text x="731" y="327" fill="#c4a7ff" font-size="19" font-family="Arial,sans-serif">{esc(ALLOWED_EVENTS[event["type"]])[:24])}</text>')
+        pieces.append(f'<text x="731" y="350" fill="#bec6d8" font-size="19" font-family="Arial,sans-serif">{esc(event["repository"][:20])}</text>')
     when = esc(snapshot["generated_at_utc"][:16].replace("T", " ") + " UTC")
-    pieces.append(f'<text x="32" y="692" font-size="17" fill="#a8b3c5" font-family="monospace">Snapshot: {when} · GitHub/CDN cache may delay display · Public data only</text>')
-    pieces.append('</svg>')
+    pieces.extend([
+        '<path d="M35 368 H965" stroke="#34374a"/>',
+        f'<text x="39" y="391" fill="#b7bfd1" font-size="19" font-family="monospace">Checked {when} · periodic snapshot / not a live counter</text>',
+        '</svg>',
+    ])
     svg = "".join(pieces)
     ET.fromstring(svg)
     if len(svg.encode("utf-8")) >= 75_000:

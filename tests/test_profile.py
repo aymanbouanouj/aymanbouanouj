@@ -319,6 +319,19 @@ class ProfileTests(unittest.TestCase):
             else:
                 self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only',readme)
 
+    def test_v5_brand_is_original_self_hosted_accessible(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        banner = ROOT / "assets/brand-v5.svg"
+        self.assertTrue(banner.is_file())
+        validate_svg_file(banner)
+        artwork = banner.read_text(encoding="utf-8")
+        self.assertIn("AYMAN", artwork)
+        self.assertIn("BOUNAOUJ", artwork)
+        self.assertIn("prefers-reduced-motion", artwork)
+        self.assertIn("./assets/brand-v5.svg", readme)
+        self.assertLess(readme.index("## Selected projects"), readme.index("## Current public activity"))
+        self.assertLess(readme.index("## Current public activity"), readme.index("## Technical stack"))
+
     def test_profile_compact_and_interactive_without_unsafe_scripts(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         self.assertGreaterEqual(readme.count('<details>'), 4)
