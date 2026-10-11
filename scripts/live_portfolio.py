@@ -417,6 +417,17 @@ def write(folder: Path, data):
 
     (folder / "portfolio.md").write_text(render_markdown(data), encoding="utf-8")
 
+def repair_markdown(folder: Path) -> bool:
+    """Synchronize markdown with the final JSON after a no-change restore."""
+    data = json.loads((folder / "portfolio.json").read_text(encoding="utf-8"))
+    expected = render_markdown(data)
+    path = folder / "portfolio.md"
+    if path.exists() and path.read_text(encoding="utf-8") == expected:
+        return False
+    path.write_text(expected, encoding="utf-8")
+    return True
+
+
 def verify(folder: Path):
     data = json.loads((folder / "portfolio.json").read_text(encoding="utf-8"))
     for name, svg in draw(data).items():
@@ -432,11 +443,14 @@ def main():
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--build", action="store_true")
     action.add_argument("--verify", action="store_true")
+    action.add_argument("--repair-markdown", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.build:
         token = os.getenv("GITHUB_TOKEN", "")
         write(args.output, collect(lambda url: request_json(url, token)))
+    if args.repair_markdown:
+        repair_markdown(args.output)
     verify(args.output)
     print("PASS: public GitHub languages, repositories and external contributions verified")
 
