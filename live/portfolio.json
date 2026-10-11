@@ -1,9 +1,67 @@
 {
-  "schema": 1,
+  "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-11T04:00:00+00:00",
-  "language_bytes": [],
-  "other_repositories": [],
-  "verified_collaborations": []
+  "generated_at_utc": "2026-10-11T04:51:53.729033+00:00",
+  "public_original_repository_count": 10,
+  "language_bytes": [
+    [
+      "PHP",
+      1706650
+    ],
+    [
+      "Blade",
+      1532051
+    ],
+    [
+      "PowerShell",
+      207858
+    ],
+    [
+      "CSS",
+      62792
+    ],
+    [
+      "JavaScript",
+      33212
+    ],
+    [
+      "HTML",
+      19869
+    ]
+  ],
+  "other_repositories": [
+    {
+      "name": "gestion-vaccination",
+      "url": "https://github.com/aymanbouanouj/gestion-vaccination"
+    },
+    {
+      "name": "site-recettes",
+      "url": "https://github.com/aymanbouanouj/site-recettes"
+    },
+    {
+      "name": "portfolio-ayman",
+      "url": "https://github.com/aymanbouanouj/portfolio-ayman"
+    },
+    {
+      "name": "projets-bts",
+      "url": "https://github.com/aymanbouanouj/projets-bts"
+    },
+    {
+      "name": "login-system",
+      "url": "https://github.com/aymanbouanouj/login-system"
+    },
+    {
+      "name": "mypro",
+      "url": "https://github.com/aymanbouanouj/mypro"
+    }
+  ],
+  "verified_collaborations": [
+    {
+      "name": "HichamFaska/SGA-BTS",
+      "number": 1,
+      "url": "https://github.com/HichamFaska/SGA-BTS/pull/1",
+      "merged_at": "2026-09-26T21:39:03+00:00"
+    }
+  ]
 }
