@@ -298,7 +298,11 @@ class ProfileTests(unittest.TestCase):
 
     def test_graphql_parser_offline_mock(self):
         from io import BytesIO
-        weeks=[{'contributionDays':[{'date':d['date'],'contributionCount':d['count']} for d in self.sample['days']]}]
+        # Keep the offline GraphQL fixture aligned with the current calendar day.
+        # Only test dates change; production freshness validation remains active.
+        offset = dt.datetime.now(dt.timezone.utc).date() - dt.date.fromisoformat(self.sample['days'][-1]['date'])
+        weeks=[{'contributionDays':[{'date':(dt.date.fromisoformat(d['date']) + offset).isoformat(),
+                                      'contributionCount':d['count']} for d in self.sample['days']]}]
         packet={'data':{'user':{'contributionsCollection':{'contributionCalendar':{
             'totalContributions':self.sample['total_contributions'],'weeks':weeks}}}}}
         class FakeResponse(BytesIO):
