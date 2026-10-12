@@ -2,9 +2,25 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-11T16:44:21.932009+00:00",
-  "public_repository_count": 13,
+  "generated_at_utc": "2026-10-12T03:46:27.173412+00:00",
+  "public_repository_count": 14,
   "recent_repositories": [
+    {
+      "name": "doc-en",
+      "url": "https://github.com/aymanbouanouj/doc-en",
+      "last_push": "2026-10-12T03:21:54+00:00",
+      "branch": "master",
+      "commit_sha": "24563376cc172cdb0835373a048f570351f3c05f",
+      "commit_url": "https://github.com/aymanbouanouj/doc-en/commit/24563376cc172cdb0835373a048f570351f3c05f"
+    },
+    {
+      "name": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "last_push": "2026-10-12T02:16:25+00:00",
+      "branch": "main",
+      "commit_sha": "212d1fdda7118137d669ff6790b6b976ad01b5ac",
+      "commit_url": "https://github.com/aymanbouanouj/ayman-calc/commit/212d1fdda7118137d669ff6790b6b976ad01b5ac"
+    },
     {
       "name": "GhostTrack",
       "url": "https://github.com/aymanbouanouj/GhostTrack",
@@ -30,54 +46,38 @@
       "commit_url": "https://github.com/aymanbouanouj/violetgate/commit/a127871f88339ab0523c46c990fbf8127ee6a401"
     },
     {
-      "name": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "last_push": "2026-10-06T03:12:47+00:00",
-      "branch": "main",
-      "commit_sha": "5747e0490b23ee86cff65df98ec1216419920d3f",
-      "commit_url": "https://github.com/aymanbouanouj/ayman-calc/commit/5747e0490b23ee86cff65df98ec1216419920d3f"
-    },
-    {
       "name": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
       "last_push": "2026-09-28T05:44:31+00:00",
       "branch": "main",
       "commit_sha": "d57ad5fc0771efb59d3080a97285a87a0cb7a86a",
       "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d57ad5fc0771efb59d3080a97285a87a0cb7a86a"
-    },
-    {
-      "name": "SGA-BTS",
-      "url": "https://github.com/aymanbouanouj/SGA-BTS",
-      "last_push": "2026-09-25T16:42:11+00:00",
-      "branch": "main",
-      "commit_sha": "64f804e679e2359f8a4c76e1dc67c9b6ef5f3575",
-      "commit_url": "https://github.com/aymanbouanouj/SGA-BTS/commit/64f804e679e2359f8a4c76e1dc67c9b6ef5f3575"
     }
   ],
   "recent_events": [
     {
-      "type": "CreateEvent",
-      "repository": "PC-Full-Check",
-      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
-      "at": "2026-10-10T04:00:51+00:00"
+      "type": "ReleaseEvent",
+      "repository": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "at": "2026-10-12T02:14:41+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "GhostTrack",
-      "url": "https://github.com/aymanbouanouj/GhostTrack",
-      "at": "2026-10-10T18:38:48+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "at": "2026-10-12T02:12:15+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "PC-Full-Check",
-      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
-      "at": "2026-10-10T04:14:00+00:00"
+      "type": "IssuesEvent",
+      "repository": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "at": "2026-10-12T02:12:16+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "violetgate",
-      "url": "https://github.com/aymanbouanouj/violetgate",
-      "at": "2026-10-10T00:00:22+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "at": "2026-10-12T02:11:19+00:00"
     }
   ]
 }
