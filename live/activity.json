@@ -2,9 +2,17 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-12T03:46:27.173412+00:00",
+  "generated_at_utc": "2026-10-12T18:09:06.946797+00:00",
   "public_repository_count": 14,
   "recent_repositories": [
+    {
+      "name": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "last_push": "2026-10-12T17:05:52+00:00",
+      "branch": "main",
+      "commit_sha": "d57ad5fc0771efb59d3080a97285a87a0cb7a86a",
+      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d57ad5fc0771efb59d3080a97285a87a0cb7a86a"
+    },
     {
       "name": "doc-en",
       "url": "https://github.com/aymanbouanouj/doc-en",
@@ -44,40 +52,32 @@
       "branch": "main",
       "commit_sha": "a127871f88339ab0523c46c990fbf8127ee6a401",
       "commit_url": "https://github.com/aymanbouanouj/violetgate/commit/a127871f88339ab0523c46c990fbf8127ee6a401"
-    },
-    {
-      "name": "morocco2030",
-      "url": "https://github.com/aymanbouanouj/morocco2030",
-      "last_push": "2026-09-28T05:44:31+00:00",
-      "branch": "main",
-      "commit_sha": "d57ad5fc0771efb59d3080a97285a87a0cb7a86a",
-      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d57ad5fc0771efb59d3080a97285a87a0cb7a86a"
     }
   ],
   "recent_events": [
     {
-      "type": "ReleaseEvent",
-      "repository": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:14:41+00:00"
+      "type": "CreateEvent",
+      "repository": "doc-en",
+      "url": "https://github.com/aymanbouanouj/doc-en",
+      "at": "2026-10-12T03:21:55+00:00"
     },
     {
-      "type": "PullRequestEvent",
+      "type": "PushEvent",
       "repository": "ayman-calc",
       "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:12:15+00:00"
+      "at": "2026-10-12T02:11:13+00:00"
     },
     {
-      "type": "IssuesEvent",
+      "type": "CreateEvent",
       "repository": "ayman-calc",
       "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:12:16+00:00"
+      "at": "2026-10-12T02:10:37+00:00"
     },
     {
-      "type": "PullRequestEvent",
-      "repository": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:11:19+00:00"
+      "type": "CreateEvent",
+      "repository": "GhostTrack",
+      "url": "https://github.com/aymanbouanouj/GhostTrack",
+      "at": "2026-10-10T18:28:52+00:00"
     }
   ]
 }
