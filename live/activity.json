@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-13T00:55:48.425187+00:00",
+  "generated_at_utc": "2026-10-13T08:19:42.069819+00:00",
   "public_repository_count": 14,
   "recent_repositories": [
     {
@@ -57,6 +57,12 @@
   "recent_events": [
     {
       "type": "PushEvent",
+      "repository": "ayman-calc",
+      "url": "https://github.com/aymanbouanouj/ayman-calc",
+      "at": "2026-10-12T02:12:16+00:00"
+    },
+    {
+      "type": "PushEvent",
       "repository": "doc-en",
       "url": "https://github.com/aymanbouanouj/doc-en",
       "at": "2026-10-12T20:51:16+00:00"
@@ -72,12 +78,6 @@
       "repository": "ayman-calc",
       "url": "https://github.com/aymanbouanouj/ayman-calc",
       "at": "2026-10-12T02:11:13+00:00"
-    },
-    {
-      "type": "CreateEvent",
-      "repository": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:10:37+00:00"
     }
   ]
 }
