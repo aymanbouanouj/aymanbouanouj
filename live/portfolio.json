@@ -2,7 +2,7 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-12T03:46:34.282359+00:00",
+  "generated_at_utc": "2026-10-13T00:55:53.870984+00:00",
   "public_original_repository_count": 10,
   "language_bytes": [
     [
@@ -77,6 +77,12 @@
     }
   ],
   "verified_collaborations": [
+    {
+      "name": "php/doc-en",
+      "number": 5930,
+      "url": "https://github.com/php/doc-en/pull/5930",
+      "merged_at": "2026-10-12T21:01:48+00:00"
+    },
     {
       "name": "HichamFaska/SGA-BTS",
       "number": 1,
