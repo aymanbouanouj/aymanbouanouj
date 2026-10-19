@@ -2,12 +2,12 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-13T00:55:53.870984+00:00",
-  "public_original_repository_count": 10,
+  "generated_at_utc": "2026-10-19T05:10:08.974208+00:00",
+  "public_original_repository_count": 7,
   "language_bytes": [
     [
       "PHP",
-      1706650
+      1702676
     ],
     [
       "Blade",
@@ -19,7 +19,7 @@
     ],
     [
       "CSS",
-      62792
+      62630
     ],
     [
       "JavaScript",
@@ -42,18 +42,6 @@
     {
       "name": "portfolio-ayman",
       "url": "https://github.com/aymanbouanouj/portfolio-ayman"
-    },
-    {
-      "name": "projets-bts",
-      "url": "https://github.com/aymanbouanouj/projets-bts"
-    },
-    {
-      "name": "login-system",
-      "url": "https://github.com/aymanbouanouj/login-system"
-    },
-    {
-      "name": "mypro",
-      "url": "https://github.com/aymanbouanouj/mypro"
     }
   ],
   "verified_frameworks": [
