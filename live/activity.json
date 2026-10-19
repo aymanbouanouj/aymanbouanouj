@@ -2,9 +2,17 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-19T05:10:04.462047+00:00",
+  "generated_at_utc": "2026-10-19T11:08:41.810371+00:00",
   "public_repository_count": 10,
   "recent_repositories": [
+    {
+      "name": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "last_push": "2026-10-19T05:24:35+00:00",
+      "branch": "main",
+      "commit_sha": "d57ad5fc0771efb59d3080a97285a87a0cb7a86a",
+      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d57ad5fc0771efb59d3080a97285a87a0cb7a86a"
+    },
     {
       "name": "doc-en",
       "url": "https://github.com/aymanbouanouj/doc-en",
@@ -12,14 +20,6 @@
       "branch": "master",
       "commit_sha": "24563376cc172cdb0835373a048f570351f3c05f",
       "commit_url": "https://github.com/aymanbouanouj/doc-en/commit/24563376cc172cdb0835373a048f570351f3c05f"
-    },
-    {
-      "name": "morocco2030",
-      "url": "https://github.com/aymanbouanouj/morocco2030",
-      "last_push": "2026-10-12T17:05:52+00:00",
-      "branch": "main",
-      "commit_sha": "d57ad5fc0771efb59d3080a97285a87a0cb7a86a",
-      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d57ad5fc0771efb59d3080a97285a87a0cb7a86a"
     },
     {
       "name": "ayman-calc",
