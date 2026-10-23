@@ -50,5 +50,6 @@ class EngineeringTests(unittest.TestCase):
   else:
    self.assertIn('engineering-dark.svg#gh-dark-mode-only',text)
    self.assertIn('engineering-light.svg#gh-light-mode-only',text)
-  self.assertIn('SGA-BTS/pull/1',text)
+  self.assertIn('profile-live/live/portfolio-collabs.svg',text)
+  self.assertNotIn('Merged external documentation contribution — SGA-BTS',text)
 if __name__=='__main__':unittest.main()
