@@ -236,7 +236,7 @@ def link_badge(label,slug):
 
 def stats(theme,data=None,demo=False):
  p=PALETTES[theme];w,h=495,500
- s=[start(w,h,'GitHub activity analytics','Contribution totals, active days and verified monthly graph. No invented metrics.'),styling(),frame(w,h,p,'ayman@github: ~ / metrics --verified'),
+ s=[start(w,h,'GitHub activity analytics','Contribution totals, active days and verified rolling 30-day chart. No invented metrics.'),styling(),frame(w,h,p,'ayman@github: ~ / metrics --verified'),
     f'<text x="20" y="65" font-family="Consolas,monospace" font-size="14" fill="{p["cyan"]}">$ ./stats.sh <tspan fill="{p["muted"]}">--github</tspan></text>']
  a=analysis(data) if data else None
  tiles=[('CONTRIBUTIONS',f'{a["total"]:,}' if a else '—'),('ACTIVE DAYS',str(a['active']) if a else '—'),('CURRENT STREAK',f'{a["current"]}d' if a else '—'),('LONGEST STREAK',f'{a["longest"]}d' if a else '—')]
@@ -246,16 +246,24 @@ def stats(theme,data=None,demo=False):
             f'<text x="{xx+15}" y="{yy+28}" font-family="Consolas,monospace" font-size="11" fill="{p["muted"]}">{name}</text>',
             f'<text class="enter" x="{xx+15}" y="{yy+70}" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="{p["cyan"] if i==0 else p["ink"]}">{val}</text>'])
  s.append(f'<rect x="20" y="308" width="455" height="163" rx="9" stroke="{p["border"]}" fill="{p["card"]}"/>')
- s.append(f'<text x="36" y="335" font-family="Consolas,monospace" font-size="12" fill="{p["muted"]}">contributions / month</text>')
+ s.append(f'<text x="36" y="335" font-family="Consolas,monospace" font-size="12" fill="{p["muted"]}">contributions / last 30 days</text>')
  if data is None:
   s.append(f'<text x="247" y="402" text-anchor="middle" font-family="Consolas,monospace" font-size="16" fill="{p["ink"]}">AWAITING FIRST SYNC</text>')
   s.append(f'<text x="247" y="428" text-anchor="middle" font-family="Consolas,monospace" font-size="11" fill="{p["muted"]}">All counts will come from GitHub.</text>')
  else:
-  values=a['months'];peak=max(1,max(n for _,n in values))
-  for j,(month,n) in enumerate(values):
-   height=79*n/peak;xx=44+j*35
-   s.append(f'<rect class="bar" x="{xx}" y="{440-height:.1f}" width="20" height="{max(1,height):.1f}" rx="3" fill="{p["cyan"] if n==peak else p["accent"]}" style="animation-delay:{j*.06:.2f}s"/>')
-   s.append(f'<text x="{xx+10}" y="460" text-anchor="middle" font-family="Consolas,monospace" font-size="9" fill="{p["muted"]}">{month[5:]}</text>')
+  values=a['days'][-30:]
+  peak=max(1,max(day['count'] for day in values))
+  for j,day in enumerate(values):
+   n=day['count'];xx=38+j*14
+   bar_h=78*n/peak if n else 2
+   shade=p["cyan"] if j==len(values)-1 else p["accent"]
+   date_label=day['date'].strftime('%m-%d')
+   # Each bar has exact day/count metadata; sparse axis labels stay readable.
+   s.append(f'<rect class="bar" x="{xx}" y="{440-bar_h:.1f}" width="9" height="{bar_h:.1f}" rx="2" fill="{shade}" style="animation-delay:{j*.025:.3f}s"><title>{date_label}: {n} contributions</title></rect>')
+   if j in (0, 9, 19, 29):
+    s.append(f'<text x="{xx+4.5}" y="458" text-anchor="middle" font-family="Consolas,monospace" font-size="9" fill="{p["muted"]}">{date_label}</text>')
+  total_30=sum(day['count'] for day in values)
+  s.append(f'<text x="462" y="335" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="{p["cyan"]}">{total_30} total</text>')
  if data is not None:
   stamp=e(data.get('fetched_at_utc','UNVERIFIED')[:16].replace('T',' ')+' UTC') if not demo else 'DEMO / NOT LIVE'
   s.append(f'<text x="465" y="490" text-anchor="end" font-family="Consolas,monospace" font-size="10" fill="{p["muted"]}">Synced: {stamp}</text>')

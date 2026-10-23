@@ -39,6 +39,17 @@ class ProfileTests(unittest.TestCase):
         bad['days'][0]['count']='<script>alert(1)</script>'
         with self.assertRaises(ValueError): canonical_days(bad)
 
+    def test_stats_chart_uses_exact_last_thirty_days(self):
+        chart = stats('dark', self.sample, True)
+        days = canonical_days(self.sample)[-30:]
+        self.assertIn('contributions / last 30 days', chart)
+        self.assertNotIn('contributions / month', chart)
+        self.assertEqual(chart.count('<title>'), 30)
+        self.assertIn(days[0]['date'].strftime('%m-%d'), chart)
+        self.assertIn(days[-1]['date'].strftime('%m-%d'), chart)
+        self.assertIn(f"{sum(day['count'] for day in days)} total", chart)
+        ET.fromstring(chart)
+
     def test_generator_produces_all_valid_xml(self):
         for theme in ('dark','light'):
             for svg in (hero(theme),logo_panel(theme),heatmap(theme,self.sample,True),stats(theme,self.sample,True)):
