@@ -104,7 +104,16 @@ jobs:
               after = json.loads(Path("live/portfolio.json").read_text(encoding="utf-8"))
               before.pop("generated_at_utc", None)
               after.pop("generated_at_utc", None)
-              if before == after:
+              assets = ("portfolio-tech.svg", "portfolio-projects.svg", "portfolio-collabs.svg")
+              renderer_unchanged = all(
+                  (old_svg := subprocess.run(
+                      ["git", "show", f"HEAD:live/{name}"],
+                      capture_output=True
+                  )).returncode == 0
+                  and old_svg.stdout == Path("live", name).read_bytes()
+                  for name in assets
+              )
+              if before == after and renderer_unchanged:
                   print("Portfolio data unchanged: preserving approved illustrations")
                   subprocess.run(["git", "restore", "--", "live/portfolio.json", "live/portfolio-tech.svg", "live/portfolio-projects.svg", "live/portfolio-collabs.svg"], check=True)
           PYCODE
