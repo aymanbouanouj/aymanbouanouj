@@ -87,8 +87,6 @@
 
 <sub>New verified contributions appear automatically in the [live clickable contributions index ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions). Embedded SVG labels are not individually clickable on GitHub. </sub>
 
-<sub>Verified merged external pull requests only. [View source evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions).</sub>
-
 <details>
 <summary><strong>Recent public work — automatically refreshed commits and events</strong></summary>
 
