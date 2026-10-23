@@ -174,17 +174,19 @@ def _technology_svg(data):
     validate(data)
     paths = _icons()
     esc = lambda s: html.escape(str(s), quote=True)
-    langs = data["language_bytes"][:6]
+    langs = data["language_bytes"]
     frameworks = data["verified_frameworks"][:4]
     total = sum(n for _, n in data["language_bytes"]) or 1
-    height = 590
+    language_rows = max(1, (len(langs) + 2) // 3)
+    framework_y = 145 + language_rows * 86 + 40
+    height = framework_y + max(1, (len(frameworks) + 1) // 2) * 74 + 55
     pieces = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-labelledby="t d">',
         '<title id="t">Verified programming languages and frameworks with visual icons</title>',
         '<desc id="d">GitHub Linguist byte shares; optional private aggregate and publicly verified frameworks. Not skill ratings.</desc>',
         '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
-        '<rect width="1000" height="590" rx="18" fill="#0d1117"/>',
-        '<rect x="1" y="1" width="998" height="588" rx="17" fill="none" stroke="#30363d"/>',
+        f'<rect width="1000" height="{height}" rx="18" fill="#0d1117"/>',
+        f'<rect x="1" y="1" width="998" height="{height-2}" rx="17" fill="none" stroke="#30363d"/>',
         '<text x="32" y="54" fill="#f0f6fc" font-size="32" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES &amp; FRAMEWORKS</text>',
         ('<text x="32" y="82" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">'
          + ('GitHub Linguist · public + private language aggregates' if data.get("language_scope") == "public-plus-private"
@@ -192,7 +194,7 @@ def _technology_svg(data):
                   data.get("language_scope") == "public-only-private-unavailable" else
                   'GitHub Linguist + verified public dependency manifests')) + '</text>'),
         '<text x="32" y="125" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES</text>',
-        '<text x="32" y="365" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>',
+        f'<text x="32" y="{framework_y-22}" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>',
     ]
     def glyph(name, x, y):
         meta = paths.get(name)
@@ -218,7 +220,7 @@ def _technology_svg(data):
         pieces.append('<text x="35" y="190" fill="#aab6c5" font-size="22">No verified public language data</text>')
     for i, row in enumerate(frameworks):
         name=row["name"]
-        x,y=32+(i%2)*485,387+(i//2)*74
+        x,y=32+(i%2)*485,framework_y+(i//2)*74
         pieces.append(f'<rect x="{x}" y="{y}" width="456" height="62" rx="10" fill="#171e2c"/>')
         pieces.append(glyph(name,x+12,y+12))
         pieces.append(f'<text x="{x+62}" y="{y+27}" fill="#f0f6fc" font-size="23" font-family="Arial,sans-serif" font-weight="bold">{esc(name)}</text>')
@@ -226,7 +228,7 @@ def _technology_svg(data):
     if not frameworks:
         pieces.append('<text x="35" y="430" fill="#aab6c5" font-size="22">No recognized public framework manifest found</text>')
     stamp=esc(data["generated_at_utc"][:16].replace("T"," "))
-    pieces.append(f'<text x="32" y="574" fill="#a5b2c7" font-size="15" font-family="monospace">Checked {stamp} UTC · Icons are visual labels · Data are dated snapshots</text>')
+    pieces.append(f'<text x="32" y="{height-16}" fill="#a5b2c7" font-size="15" font-family="monospace">Checked {stamp} UTC · Icons are visual labels · Data are dated snapshots</text>')
     pieces.append('</svg>')
     svg="".join(pieces)
     ET.fromstring(svg)
