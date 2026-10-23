@@ -71,6 +71,60 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertEqual(len(data["verified_collaborations"]), 2)
         self.assertIn("OtherOwner/SomeProject",render_markdown(data))
         self.assertNotIn("secret-app",render_markdown(data))
+    def test_private_languages_are_aggregated_without_private_metadata_leak(self):
+        from live_portfolio import render_markdown
+        private_name = "sensitive-hidden-project"
+        calls = []
+        def private_fetch(url):
+            calls.append(url)
+            if "/user/repos?" in url:
+                return [{"name": private_name, "private": True, "fork": False,
+                         "archived": False, "disabled": False,
+                         "owner": {"login": OWNER}}]
+            if url == f"{API}/repos/{OWNER}/{private_name}/languages":
+                return {"Python": 700, "PHP": 200}
+            raise AssertionError("Private fetch must read only metadata/language endpoints")
+        data = collect(self.mock(), now=self.NOW, private_fetch=private_fetch)
+        languages = dict(data["language_bytes"])
+        self.assertEqual(data["language_scope"], "public-plus-private")
+        self.assertEqual(languages["Python"], 700)
+        self.assertEqual(languages["PHP"], 700)
+        self.assertEqual(languages["JavaScript"], 300)
+        self.assertTrue(any("/languages" in url for url in calls))
+        from json import dumps
+        exposed = dumps(data) + render_markdown(data) + "".join(draw(data).values())
+        self.assertNotIn(private_name, exposed)
+        self.assertNotIn("/contents/", " ".join(calls))
+        self.assertIn("private", render_markdown(data))
+        self.assertEqual([r["name"] for r in data["verified_frameworks"]], ["Laravel", "Vite"])
+
+    def test_private_api_failure_never_silently_publishes_false_zero(self):
+        from urllib.error import HTTPError
+        def denied(url):
+            raise HTTPError(url, 403, "Forbidden", {}, None)
+        data = collect(self.mock(), now=self.NOW, private_fetch=denied)
+        self.assertEqual(data["language_scope"], "public-only-private-unavailable")
+        self.assertEqual(dict(data["language_bytes"]), {"PHP": 500, "JavaScript": 300})
+        output = render_markdown(data) + "".join(draw(data).values())
+        self.assertIn("unavailable", output)
+        self.assertNotIn("Forbidden", output)
+        self.assertNotIn("secret-app", output)
+
+    def test_partial_private_scan_does_not_publish_partial_totals(self):
+        from urllib.error import HTTPError
+        hidden = "confidential-repo-name"
+        def private_fetch(url):
+            if "/user/repos?" in url:
+                return [{"name": hidden, "private": True, "fork": False,
+                         "archived": False, "disabled": False,
+                         "owner": {"login": OWNER}}]
+            raise HTTPError(url, 403, "blocked", {}, None)
+        data = collect(self.mock(), now=self.NOW, private_fetch=private_fetch)
+        self.assertEqual(data["language_scope"], "public-only-private-unavailable")
+        published = __import__("json").dumps(data) + render_markdown(data) + "".join(draw(data).values())
+        self.assertNotIn(hidden, published)
+        self.assertNotIn("blocked", published)
+
     def test_verified_outputs_and_tamper_rejection(self):
         data = collect(self.mock(), now=self.NOW)
         with tempfile.TemporaryDirectory() as tmp:

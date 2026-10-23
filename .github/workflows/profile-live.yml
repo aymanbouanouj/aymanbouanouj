@@ -37,6 +37,7 @@ jobs:
       - name: Build verified public activity snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRIVATE_LANGUAGE_TOKEN: ${{ secrets.PRIVATE_LANGUAGE_TOKEN }}
         run: |
           set -euo pipefail
           python3 scripts/live_profile.py --build --output "$RUNNER_TEMP/activity-build"
