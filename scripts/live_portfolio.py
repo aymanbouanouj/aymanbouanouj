@@ -13,7 +13,7 @@ import json
 import os
 import re
 from pathlib import Path
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, quote
 from xml.etree import ElementTree as ET
 
@@ -181,12 +181,16 @@ def _technology_svg(data):
     pieces = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-labelledby="t d">',
         '<title id="t">Verified programming languages and frameworks with visual icons</title>',
-        '<desc id="d">Repository code-language bytes and frameworks verified from public manifests. Labels are not skill ratings.</desc>',
+        '<desc id="d">GitHub Linguist byte shares; optional private aggregate and publicly verified frameworks. Not skill ratings.</desc>',
         '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
         '<rect width="1000" height="590" rx="18" fill="#0d1117"/>',
         '<rect x="1" y="1" width="998" height="588" rx="17" fill="none" stroke="#30363d"/>',
         '<text x="32" y="54" fill="#f0f6fc" font-size="32" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES &amp; FRAMEWORKS</text>',
-        '<text x="32" y="82" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">GitHub Linguist + verified public dependency manifests</text>',
+        ('<text x="32" y="82" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">'
+         + ('GitHub Linguist · public + private language aggregates' if data.get("language_scope") == "public-plus-private"
+            else ('Public languages only · private data unavailable' if
+                  data.get("language_scope") == "public-only-private-unavailable" else
+                  'GitHub Linguist + verified public dependency manifests')) + '</text>'),
         '<text x="32" y="125" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES</text>',
         '<text x="32" y="365" fill="#f4f5fa" font-size="23" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>',
     ]
@@ -229,7 +233,42 @@ def _technology_svg(data):
     return svg+"\n"
 
 
-def collect(fetch, *, now=None):
+def _private_language_totals(fetch):
+    """Aggregate GitHub Linguist byte counts; never return private repo identity."""
+    totals = {}
+    for page in range(1, 11):
+        url = (f"{API}/user/repos?visibility=private&affiliation=owner"
+               f"&per_page=100&page={page}")
+        repos = fetch(url)
+        if not isinstance(repos, list):
+            raise ValueError("Invalid private repository listing")
+        for repo in repos:
+            if not isinstance(repo, dict):
+                raise ValueError("Invalid private repository record")
+            if (repo.get("private") is not True or repo.get("fork") is not False
+                    or repo.get("archived") is not False or repo.get("disabled") is True
+                    or (repo.get("owner") or {}).get("login", "").casefold() != OWNER.casefold()):
+                continue
+            name = repo.get("name")
+            if not isinstance(name, str) or not NAME.fullmatch(name):
+                raise ValueError("Invalid private repository identifier")
+            values = fetch(f"{API}/repos/{OWNER}/{quote(name, safe='')}/languages")
+            if not isinstance(values, dict):
+                raise ValueError("Invalid private language totals")
+            for language, count in values.items():
+                if (not isinstance(language, str) or not 1 <= len(language) <= 50
+                        or any(ord(char) < 32 for char in language)
+                        or type(count) is not int or count < 0):
+                    raise ValueError("Invalid private language byte count")
+                totals[language] = totals.get(language, 0) + count
+        if len(repos) < 100:
+            break
+    else:
+        raise ValueError("Private repository listing exceeds 1000 entries")
+    return totals
+
+
+def collect(fetch, *, now=None, private_fetch=None):
     repos = _public_original_repos(fetch)
     languages = {}
     for repo in repos:
@@ -244,6 +283,18 @@ def collect(fetch, *, now=None):
                     or type(n) is not int or n < 0):
                 raise ValueError("Untrusted GitHub Linguist data")
             languages[language] = languages.get(language, 0) + n
+    # Isolate private metadata/API failures from public activity refresh.
+    # Never print exception details: HTTPError URLs may contain private names.
+    language_scope = "public-only"
+    if private_fetch is not None:
+        try:
+            private_totals = _private_language_totals(private_fetch)
+        except (HTTPError, URLError, ValueError, TimeoutError, OSError):
+            language_scope = "public-only-private-unavailable"
+        else:
+            language_scope = "public-plus-private"
+            for language, count in private_totals.items():
+                languages[language] = languages.get(language, 0) + count
     frameworks = _manifest_frameworks(fetch, repos)
     other = [{"name": r["name"], "url": repository_url(r["name"])}
              for r in repos if r["name"].casefold() not in FEATURED][:TOP]
@@ -254,6 +305,7 @@ def collect(fetch, *, now=None):
         "schema": 2, "source": SOURCE, "owner": OWNER,
         "generated_at_utc": clock.astimezone(dt.timezone.utc).isoformat(),
         "public_original_repository_count": len(repos),
+        "language_scope": language_scope,
         "language_bytes": [[name, count] for name, count in sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:12]],
         "other_repositories": other,
         "verified_frameworks": frameworks,
@@ -268,6 +320,9 @@ def validate(data):
             or data.get("source") != SOURCE):
         raise ValueError("Unverified portfolio snapshot")
     iso_utc(data.get("generated_at_utc"))
+    if data.get("language_scope", "public-only") not in (
+            "public-only", "public-plus-private", "public-only-private-unavailable"):
+        raise ValueError("Invalid language scope")
     n = data.get("public_original_repository_count")
     if type(n) is not int or not 0 <= n <= 1000:
         raise ValueError("Bad verified repository count")
@@ -372,15 +427,21 @@ def render_markdown(data):
     def clean(value):
         return "".join(c if c.isalnum() or c in " ._-/+" else " " for c in str(value))[:80]
     n = sum(v for _, v in data["language_bytes"])
+    private_mode = data.get("language_scope") == "public-plus-private"
     lines = ["# Verified Public Development Inventory", "",
              "Automatically generated from public GitHub sources at " + data["generated_at_utc"][:16] + " UTC.",
              "Refreshed hourly (best effort), not a real-time counter.", "",
              "## Programming Languages", "",
              "| Language | Detected bytes | Share | Public code |",
              "| --- | ---: | ---: | --- |"]
+    if private_mode:
+        lines += ["The language distribution includes aggregated statistics from accessible, selected private repositories. Private repository names and source code are not published.", ""]
+    elif data.get("language_scope") == "public-only-private-unavailable":
+        lines += ["Private language statistics were unavailable during this refresh; the figures below include public repositories only.", ""]
     for name, amount in data["language_bytes"]:
         search = "https://github.com/search?q=" + quote("user:" + OWNER + " language:" + name, safe="") + "&type=repositories"
-        lines.append("| " + clean(name) + " | " + str(amount) + " | " + format(amount/n if n else 0, ".1%") + " | [Source](" + search + ") |")
+        source = "[Public examples](" + search + "); private portion not publicly verifiable" if private_mode else "[Source](" + search + ")"
+        lines.append("| " + clean(name) + " | " + str(amount) + " | " + format(amount/n if n else 0, ".1%") + " | " + source + " |")
     if not data["language_bytes"]:
         lines.append("| No public languages detected | — | — | — |")
     lines += ["", "## Verified Frameworks and Build Tools", ""]
@@ -448,7 +509,10 @@ def main():
     args = parser.parse_args()
     if args.build:
         token = os.getenv("GITHUB_TOKEN", "")
-        write(args.output, collect(lambda url: request_json(url, token)))
+        private_token = os.getenv("PRIVATE_LANGUAGE_TOKEN", "")
+        private_fetch = (lambda url: request_json(url, private_token)) if private_token else None
+        write(args.output, collect(lambda url: request_json(url, token),
+                                   private_fetch=private_fetch))
     if args.repair_markdown:
         repair_markdown(args.output)
     verify(args.output)
