@@ -27,7 +27,7 @@
 
 ### Full-Stack Web Developer · Laravel · PHP · JavaScript
 
-*Building practical, secure and user-centered web applications.*
+*Building full-stack web applications with a focus on maintainable code, security, and practical user experiences.*
 
 <h3><code>ayman@github ~ $ ./links.sh</code></h3>
 
@@ -54,22 +54,22 @@
 ## Featured Projects
 
 #### [01 — Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)
-**Laravel 12 · RBAC · Multilingual portal.** Independent academic project: public tournament portal and staff back office. Not affiliated with FIFA.  
+**Laravel 12 · RBAC · Multilingual portal.** Independent academic portal featuring tournament information, multilingual content, role-based access control, and staff administration. Not affiliated with FIFA.  
 [Source](https://github.com/aymanbouanouj/morocco2030) · [CI](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml) · [Releases](https://github.com/aymanbouanouj/morocco2030/releases)
 
 #### [02 — PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)
-**PowerShell · Windows 10/11.** Read-only, privacy-first system diagnostics with local reports.  
+**PowerShell · Windows 10/11.** PowerShell-based Windows diagnostic tool performing read-only system checks and generating local reports.  
 [Source](https://github.com/aymanbouanouj/PC-Full-Check) · [Tests](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
 
 #### [03 — VioletGate ↗](https://github.com/aymanbouanouj/violetgate)
-**HTML · CSS · JavaScript.** Responsive authentication *UI demo*; no real authentication backend.  
+**HTML · CSS · JavaScript.** Responsive authentication interface demonstrating front-end design and interactions. UI demo only; no production authentication backend.  
 [Live demo](https://aymanbouanouj.github.io/violetgate/) · [Source](https://github.com/aymanbouanouj/violetgate)
 
 #### [04 — Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)
-**Vanilla JavaScript.** Keyboard-accessible calculator with history and responsive interface.  
+**Vanilla JavaScript.** Responsive JavaScript calculator with keyboard support and calculation history.  
 [Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source](https://github.com/aymanbouanouj/ayman-calc)
 
-## Other Public Projects
+## More Public Projects
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-projects.svg" width="100%" alt="Recent additional public software repositories, automatically discovered from GitHub" />
@@ -85,10 +85,10 @@
 
 **Open merged contributions:** [PHP Documentation · PR #5930 ↗](https://github.com/php/doc-en/pull/5930) · [SGA-BTS · PR #1 ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)
 
-<sub>New verified contributions appear automatically in the [live clickable contributions index ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions). Embedded SVG labels are not individually clickable on GitHub. </sub>
+<sub>Explore verified merged pull requests. New contributions are automatically added to the [live contributions index ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions). </sub>
 
 <details>
-<summary><strong>Recent public work — automatically refreshed commits and events</strong></summary>
+<summary><strong>Recent Development Activity</strong></summary>
 
 <a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
 
@@ -100,7 +100,7 @@
 
 <!-- Archived visual comparisons are intentionally kept collapsible; live cards above are the primary view. -->
 <details>
-<summary><strong>Archived visual snapshots and engineering evidence (historical)</strong></summary>
+<summary><strong>Archived Technical Evidence (historical)</strong></summary>
 
 ## Archived historical statistics (not live)
 
@@ -125,7 +125,7 @@
 </details>
 
 <details>
-<summary><strong>Original AB artwork and verification notes</strong></summary>
+<summary><strong>Original Branding &amp; Artwork</strong></summary>
 
 ## Original AB artwork and design references
 
