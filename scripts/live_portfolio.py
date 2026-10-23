@@ -288,7 +288,7 @@ def _technology_svg(data):
                 f'<text x="{x+76}" y="{y+56}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(share)}</text>',
             ])
     else:
-        pieces.append('<text x="32" y="150" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No detected languages available in the verified snapshot.</text>')
+        pieces.append('<text x="32" y="150" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No verified public language data</text>')
 
     pieces.append(f'<text x="32" y="{fw_title_y}" fill="#f4f5fa" font-size="21" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>')
     if frameworks:
@@ -310,7 +310,7 @@ def _technology_svg(data):
                 f'<text x="{x+72}" y="{y+52}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(subtitle)}</text>',
             ])
     else:
-        pieces.append(f'<text x="32" y="{fw_y+20}" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No verified public frameworks detected.</text>')
+        pieces.append(f'<text x="32" y="{fw_y+20}" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No recognized public framework manifest found</text>')
 
     footer = f'Checked {data.get("generated_at_utc", "")[:16]} UTC · Adaptive layout · Data are dated snapshots'
     pieces.append(f'<text x="32" y="{footer_y}" fill="#b8c5d9" font-size="13" font-family="Courier New,monospace">{esc(footer)}</text>')
