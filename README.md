@@ -94,7 +94,7 @@
 
 <a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
 
-[Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated JSON evidence ↗](https://github.com/aymanbouanouj/tree/profile-live/live)
+[Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated JSON evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)
 
 <sub>Checks scheduled hourly (best-effort) and on relevant profile-code merges; GitHub Actions and image caches may delay visible updates. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
 
