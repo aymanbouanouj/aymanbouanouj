@@ -278,11 +278,7 @@ def _icons():
         if frameworks:
             for i, framework in enumerate(frameworks):
                 name = framework.get("name", "Unknown")
-                count = framework.get("count", framework.get("repositories", framework.get("repo_count", 0)))
-                try:
-                    count = int(count)
-                except Exception:
-                    count = 0
+                count = len(framework["repositories"])
                 col = i % fw_cols
                 row = i // fw_cols
                 x = x0 + col * (fw_card_w + fw_gap_x)
@@ -303,8 +299,7 @@ def _icons():
         footer = f'Checked {data.get("generated_at_utc", "")[:16]} UTC · Adaptive layout · Data are dated snapshots'
         pieces.append(f'<text x="32" y="{footer_y}" fill="#b8c5d9" font-size="13" font-family="Courier New,monospace">{esc(footer)}</text>')
         pieces.append('</svg>')
-        return "".join(pieces) + "
-"
+        return "".join(pieces) + "\n"
 
 def _private_language_totals(fetch):
     """Aggregate GitHub Linguist byte counts; never return private repo identity."""
