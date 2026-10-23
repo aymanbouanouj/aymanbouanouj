@@ -86,6 +86,19 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertIn("Laravel", art)
         self.assertIn("Vite", art)
 
+    def test_supports_forty_languages_and_thirty_framework_families(self):
+        from live_portfolio import FRAMEWORK_DEPENDENCIES, validate
+        self.assertEqual(len(set(FRAMEWORK_DEPENDENCIES.values())), 30)
+        data = collect(self.mock(), now=self.NOW)
+        data["language_bytes"] = [[f"Language{i}", 100 + i] for i in range(40)]
+        validate(data)
+        svg = draw(data)["portfolio-tech.svg"]
+        self.assertIn("Language0", svg)
+        self.assertIn("Language39", svg)
+        data["language_bytes"].append(["Language40", 1])
+        with self.assertRaises(ValueError):
+            validate(data)
+
     def test_private_languages_are_aggregated_without_private_metadata_leak(self):
         from live_portfolio import render_markdown
         private_name = "sensitive-hidden-project"
