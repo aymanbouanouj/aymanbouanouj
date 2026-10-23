@@ -2,16 +2,21 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-23T13:44:59.206165+00:00",
+  "generated_at_utc": "2026-10-23T20:38:37.999429+00:00",
   "public_original_repository_count": 7,
+  "language_scope": "public-plus-private",
   "language_bytes": [
     [
       "PHP",
-      1703773
+      2210142
     ],
     [
       "Blade",
-      1532051
+      1918163
+    ],
+    [
+      "Python",
+      628318
     ],
     [
       "PowerShell",
@@ -19,15 +24,19 @@
     ],
     [
       "CSS",
-      62630
+      83541
     ],
     [
       "JavaScript",
-      33333
+      33791
     ],
     [
       "HTML",
       19869
+    ],
+    [
+      "Hack",
+      179
     ]
   ],
   "other_repositories": [
