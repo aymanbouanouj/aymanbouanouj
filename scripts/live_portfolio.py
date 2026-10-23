@@ -120,6 +120,32 @@ FRAMEWORK_DEPENDENCIES = {
     "tailwindcss": "Tailwind CSS",
     "vite": "Vite",
     "react": "React",
+    "vue": "Vue.js",
+    "@angular/core": "Angular",
+    "next": "Next.js",
+    "nuxt": "Nuxt",
+    "svelte": "Svelte",
+    "@sveltejs/kit": "SvelteKit",
+    "astro": "Astro",
+    "express": "Express",
+    "@nestjs/core": "NestJS",
+    "fastify": "Fastify",
+    "@remix-run/react": "Remix",
+    "gatsby": "Gatsby",
+    "electron": "Electron",
+    "@tauri-apps/api": "Tauri",
+    "bootstrap": "Bootstrap",
+    "alpinejs": "Alpine.js",
+    "symfony/framework-bundle": "Symfony",
+    "codeigniter4/framework": "CodeIgniter",
+    "livewire/livewire": "Livewire",
+    "@inertiajs/react": "Inertia.js",
+    "phpunit/phpunit": "PHPUnit",
+    "vitest": "Vitest",
+    "jest": "Jest",
+    "@playwright/test": "Playwright",
+    "cypress": "Cypress",
+    "three": "Three.js",
 }
 MANIFESTS = ("composer.json", "package.json")
 ICONS = Path(__file__).with_name("tech_icon_paths.json")
@@ -390,7 +416,7 @@ def collect(fetch, *, now=None, private_fetch=None):
         "generated_at_utc": clock.astimezone(dt.timezone.utc).isoformat(),
         "public_original_repository_count": len(repos),
         "language_scope": language_scope,
-        "language_bytes": [[name, count] for name, count in sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:12]],
+        "language_bytes": [[name, count] for name, count in sorted(languages.items(), key=lambda x: (-x[1], x[0]))[:40]],
         "other_repositories": other,
         "verified_frameworks": frameworks,
         "verified_collaborations": _external_collaborations(fetch),
@@ -413,7 +439,7 @@ def validate(data):
     repos, langs, collabs = (data.get("other_repositories"),
                              data.get("language_bytes"), data.get("verified_collaborations"))
     if (not isinstance(repos, list) or len(repos) > TOP or
-            not isinstance(langs, list) or len(langs) > 12 or
+            not isinstance(langs, list) or len(langs) > 40 or
             not isinstance(collabs, list) or len(collabs) > COLLAB_LIMIT or len(repos) > n):
         raise ValueError("Invalid portfolio list sizes")
     seen = set()
