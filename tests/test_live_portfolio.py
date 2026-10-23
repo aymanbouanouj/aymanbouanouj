@@ -71,6 +71,7 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertEqual(len(data["verified_collaborations"]), 2)
         self.assertIn("OtherOwner/SomeProject",render_markdown(data))
         self.assertNotIn("secret-app",render_markdown(data))
+
     def test_all_detected_languages_render_without_six_item_cutoff(self):
         data = collect(self.mock(), now=self.NOW)
         data["language_bytes"] = [[f"Lang{i}", 100 + i] for i in range(12)]
@@ -80,8 +81,10 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertGreater(int(root.attrib["height"]), 590)
         for i in range(12):
             self.assertIn(f"Lang{i}", art)
+        self.assertIn("PROGRAMMING LANGUAGES", art)
         self.assertIn("FRAMEWORKS / BUILD TOOLS", art)
         self.assertIn("Laravel", art)
+        self.assertIn("Vite", art)
 
     def test_private_languages_are_aggregated_without_private_metadata_leak(self):
         from live_portfolio import render_markdown
