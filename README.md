@@ -83,6 +83,10 @@
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-collabs.svg" width="100%" alt="GitHub-verified external merged pull requests and collaborations" />
 </div>
 
+**Open merged contributions:** [PHP Documentation · PR #5930 ↗](https://github.com/php/doc-en/pull/5930) · [SGA-BTS · PR #1 ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)
+
+<sub>New verified contributions appear automatically in the [live clickable contributions index ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions). Embedded SVG labels are not individually clickable on GitHub. </sub>
+
 <sub>Verified merged external pull requests only. [View source evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions).</sub>
 
 <details>
