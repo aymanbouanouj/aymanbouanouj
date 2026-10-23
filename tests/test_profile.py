@@ -235,7 +235,7 @@ class ProfileTests(unittest.TestCase):
     def test_readme_contains_verifiable_evidence_not_fake_numbers(self):
         readme = (ROOT/'README.md').read_text(encoding='utf-8')
         self.assertIn('Independent academic portal', readme)
-        self.assertIn('no real authentication', readme)
+        self.assertIn('no production authentication backend', readme)
         self.assertIn('github.com/aymanbouanouj/PC-Full-Check/tree/main/tests', readme)
         self.assertNotIn('1,620', readme)
         self.assertNotIn('81 contributions', readme)
