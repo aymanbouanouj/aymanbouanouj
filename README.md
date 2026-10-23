@@ -77,8 +77,6 @@
 
 [**Browse all public repositories ↗**](https://github.com/aymanbouanouj?tab=repositories)
 
-[**Merged external documentation contribution — SGA-BTS PR #1 ↗**](https://github.com/HichamFaska/SGA-BTS/pull/1)
-
 ## Open Source & Collaborations
 
 <div align="center">
@@ -90,20 +88,19 @@
 <details>
 <summary><strong>Recent public work — automatically refreshed commits and events</strong></summary>
 
-## Current public activity — automatically refreshed
-
 <a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
 
-[Public repositories ↗](https://github.com/aymanbouanouj?tab=repositories) · [Generated JSON evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)
+[Generated JSON evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)
 
 <sub>Checks scheduled hourly (best-effort) and on relevant profile-code merges; GitHub Actions and image caches may delay visible updates. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
 
 </details>
 
+<!-- Archived visual comparisons are intentionally kept collapsible; live cards above are the primary view. -->
 <details>
-<summary><strong>Historical verified statistics and advanced technical evidence</strong></summary>
+<summary><strong>Archived visual snapshots and engineering evidence (historical)</strong></summary>
 
-## Verified historical contribution snapshot
+## Archived historical statistics (not live)
 
 <h3><code>ayman@github ~ $ ./identity-and-stats.sh</code></h3>
 
@@ -128,7 +125,7 @@
 <details>
 <summary><strong>Original AB artwork and verification notes</strong></summary>
 
-## Original AB artwork and open-source work
+## Original AB artwork and design references
 
 <img src="./assets/mobile/hero.png?v=4331fa130b8e" width="100%" alt="Ayman Bounaouj — software developer, original AB logo with upward arrow" />
 
