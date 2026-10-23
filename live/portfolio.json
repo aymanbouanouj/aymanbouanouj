@@ -2,7 +2,7 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-23T23:36:39.310945+00:00",
+  "generated_at_utc": "2026-10-23T23:49:42.575611+00:00",
   "public_original_repository_count": 7,
   "language_scope": "public-plus-private",
   "language_bytes": [
@@ -58,6 +58,12 @@
       "name": "Laravel",
       "repositories": [
         "morocco2030"
+      ]
+    },
+    {
+      "name": "Playwright",
+      "repositories": [
+        "violetgate"
       ]
     },
     {

@@ -1,6 +1,6 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-10-23T23:36 UTC.
+Automatically generated from public GitHub sources at 2026-10-23T23:49 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
@@ -21,6 +21,7 @@ The language distribution includes aggregated statistics from accessible, select
 ## Verified Frameworks and Build Tools
 
 - Laravel — [morocco2030](https://github.com/aymanbouanouj/morocco2030)
+- Playwright — [violetgate](https://github.com/aymanbouanouj/violetgate)
 - Tailwind CSS — [morocco2030](https://github.com/aymanbouanouj/morocco2030)
 - Vite — [morocco2030](https://github.com/aymanbouanouj/morocco2030)
 
