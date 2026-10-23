@@ -1,14 +1,14 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-10-22T18:44 UTC.
+Automatically generated from public GitHub sources at 2026-10-23T13:44 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
 
 | Language | Detected bytes | Share | Public code |
 | --- | ---: | ---: | --- |
-| PHP | 1702676 | 47.8% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories) |
-| Blade | 1532051 | 43.1% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABlade&type=repositories) |
+| PHP | 1703773 | 47.9% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories) |
+| Blade | 1532051 | 43.0% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABlade&type=repositories) |
 | PowerShell | 207858 | 5.8% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories) |
 | CSS | 62630 | 1.8% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ACSS&type=repositories) |
 | JavaScript | 33333 | 0.9% | [Source](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AJavaScript&type=repositories) |

@@ -2,16 +2,24 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-23T13:05:41.429341+00:00",
+  "generated_at_utc": "2026-10-23T13:44:50.785918+00:00",
   "public_repository_count": 10,
   "recent_repositories": [
     {
       "name": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
-      "last_push": "2026-10-23T13:03:17+00:00",
+      "last_push": "2026-10-23T13:34:51+00:00",
       "branch": "main",
-      "commit_sha": "e8821924e4298e9e94bf02218f9105fb5bd280a4",
-      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/e8821924e4298e9e94bf02218f9105fb5bd280a4"
+      "commit_sha": "d5f94760c175957b3d83c4dfc5f5127c932ea2be",
+      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/d5f94760c175957b3d83c4dfc5f5127c932ea2be"
+    },
+    {
+      "name": "gestion-vaccination",
+      "url": "https://github.com/aymanbouanouj/gestion-vaccination",
+      "last_push": "2026-10-23T13:23:01+00:00",
+      "branch": "main",
+      "commit_sha": "8d5f10283558de4ebe25dcc4cdf8d6fa939948c7",
+      "commit_url": "https://github.com/aymanbouanouj/gestion-vaccination/commit/8d5f10283558de4ebe25dcc4cdf8d6fa939948c7"
     },
     {
       "name": "doc-en",
@@ -44,40 +52,32 @@
       "branch": "main",
       "commit_sha": "951611654572a4b93ee7f30d0fbd9984d757ed37",
       "commit_url": "https://github.com/aymanbouanouj/PC-Full-Check/commit/951611654572a4b93ee7f30d0fbd9984d757ed37"
-    },
-    {
-      "name": "violetgate",
-      "url": "https://github.com/aymanbouanouj/violetgate",
-      "last_push": "2026-10-10T00:41:54+00:00",
-      "branch": "main",
-      "commit_sha": "a127871f88339ab0523c46c990fbf8127ee6a401",
-      "commit_url": "https://github.com/aymanbouanouj/violetgate/commit/a127871f88339ab0523c46c990fbf8127ee6a401"
     }
   ],
   "recent_events": [
+    {
+      "type": "PullRequestEvent",
+      "repository": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "at": "2026-10-23T13:20:37+00:00"
+    },
+    {
+      "type": "PullRequestEvent",
+      "repository": "gestion-vaccination",
+      "url": "https://github.com/aymanbouanouj/gestion-vaccination",
+      "at": "2026-10-23T13:23:01+00:00"
+    },
+    {
+      "type": "PullRequestEvent",
+      "repository": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "at": "2026-10-23T13:22:17+00:00"
+    },
     {
       "type": "PushEvent",
       "repository": "doc-en",
       "url": "https://github.com/aymanbouanouj/doc-en",
       "at": "2026-10-12T20:59:43+00:00"
-    },
-    {
-      "type": "PushEvent",
-      "repository": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "at": "2026-10-12T02:12:16+00:00"
-    },
-    {
-      "type": "PushEvent",
-      "repository": "doc-en",
-      "url": "https://github.com/aymanbouanouj/doc-en",
-      "at": "2026-10-12T20:51:16+00:00"
-    },
-    {
-      "type": "CreateEvent",
-      "repository": "doc-en",
-      "url": "https://github.com/aymanbouanouj/doc-en",
-      "at": "2026-10-12T03:21:55+00:00"
     }
   ]
 }
