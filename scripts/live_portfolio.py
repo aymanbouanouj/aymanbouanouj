@@ -213,6 +213,22 @@ def _technology_svg(data):
         }
         return palette.get(name, '#8b949e' if is_framework else '#58a6ff')
 
+    paths = _icons()
+    def glyph(name, x, y):
+        meta = paths.get(name)
+        if meta is None:
+            return (f'<text x="{x+19}" y="{y+27}" text-anchor="middle" fill="#edf1f7" '
+                    f'font-size="15" font-weight="bold">{esc(short_label(name))}</text>')
+        view = meta["viewBox"]
+        scale = 34 / view
+        path = esc(meta["path"])
+        col = meta["color"]
+        if meta.get("stroke"):
+            shape = f'<path d="{path}" fill="none" stroke="{col}" stroke-width="2.2" stroke-linecap="round"/>'
+        else:
+            shape = f'<path d="{path}" fill="{col}"/>'
+        return f'<g transform="translate({x+2} {y+2}) scale({scale:.6f})">{shape}</g>'
+
     langs = list(data.get("language_bytes") or [])
     frameworks = list(data.get("verified_frameworks") or [])
     total = sum(int(count) for _, count in langs if type(count) is int and count >= 0)
@@ -267,7 +283,7 @@ def _technology_svg(data):
             pieces.extend([
                 f'<rect x="{x}" y="{y}" width="{lang_card_w}" height="{lang_card_h}" rx="16" fill="#111b31"/>',
                 f'<rect x="{x+14}" y="{y+16}" width="46" height="46" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
-                f'<text x="{x+37}" y="{y+44}" text-anchor="middle" fill="{accent}" font-size="17" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
+                glyph(name, x+18, y+20),
                 f'<text x="{x+76}" y="{y+31}" fill="#f0f6fc" font-size="21" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
                 f'<text x="{x+76}" y="{y+56}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(share)}</text>',
             ])
@@ -289,7 +305,7 @@ def _technology_svg(data):
             pieces.extend([
                 f'<rect x="{x}" y="{y}" width="{fw_card_w}" height="{fw_card_h}" rx="16" fill="#111b31"/>',
                 f'<rect x="{x+14}" y="{y+15}" width="42" height="42" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
-                f'<text x="{x+35}" y="{y+41}" text-anchor="middle" fill="{accent}" font-size="15" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
+                glyph(name, x+16, y+16),
                 f'<text x="{x+72}" y="{y+29}" fill="#f0f6fc" font-size="18" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
                 f'<text x="{x+72}" y="{y+52}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(subtitle)}</text>',
             ])
