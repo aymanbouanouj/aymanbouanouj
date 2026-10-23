@@ -117,7 +117,7 @@ class ProfileTests(unittest.TestCase):
         readme=(ROOT/'README.md').read_text(encoding='utf-8')
         self.assertIn('Full-Stack Web Developer',readme)
         self.assertIn('GitHub Linguist',readme)
-        self.assertIn('Independent academic project',readme)
+        self.assertIn('Independent academic portal',readme)
         self.assertNotIn('Résumé professionnel des projets en français',readme)
         self.assertNotIn('Projet académique indépendant :',readme)
         self.assertEqual(readme.count('#### ['),4)
@@ -234,7 +234,7 @@ class ProfileTests(unittest.TestCase):
 
     def test_readme_contains_verifiable_evidence_not_fake_numbers(self):
         readme = (ROOT/'README.md').read_text(encoding='utf-8')
-        self.assertIn('Independent academic project', readme)
+        self.assertIn('Independent academic portal', readme)
         self.assertIn('no real authentication', readme)
         self.assertIn('github.com/aymanbouanouj/PC-Full-Check/tree/main/tests', readme)
         self.assertNotIn('1,620', readme)
@@ -346,7 +346,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("./assets/brand-v5.svg", readme)
         self.assertLess(readme.index('contributions.sh'), readme.index('whoami'))
         self.assertLess(readme.index('whoami'), readme.index('./links.sh'))
-        self.assertLess(readme.index("## Featured Projects"), readme.index("Recent public work — automatically refreshed commits and events"))
+        self.assertLess(readme.index("## Featured Projects"), readme.index("Recent Development Activity"))
         self.assertLess(readme.index("## Languages & Technical Stack"), readme.index("## Featured Projects"))
         self.assertIn('profile-live/live/contributions.svg', readme)
         self.assertIn('profile-live/live/stats.svg', readme)
