@@ -170,136 +170,136 @@ def _icons():
 
 
 
-    def _technology_svg(data):
-        def esc(value):
-            return (str(value)
-                    .replace("&", "&amp;")
-                    .replace("<", "&lt;")
-                    .replace(">", "&gt;")
-                    .replace('"', '&quot;'))
+def _technology_svg(data):
+    def esc(value):
+        return (str(value)
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace('"', '&quot;'))
 
-        def short_label(name):
-            specials = {
-                "JavaScript": "JS",
-                "PowerShell": "PS",
-                "Tailwind CSS": "TW",
-                "Laravel": "LV",
-                "Python": "PY",
-                "Blade": "BL",
-                "HTML": "HT",
-                "Hack": "HK",
-                "CSS": "CSS",
-                "PHP": "PHP",
-                "Vite": "VT",
-            }
-            if name in specials:
-                return specials[name]
-            raw = "".join(ch for ch in str(name) if ch.isalnum())
-            return (raw[:3] or "NA").upper()
+    def short_label(name):
+        specials = {
+            "JavaScript": "JS",
+            "PowerShell": "PS",
+            "Tailwind CSS": "TW",
+            "Laravel": "LV",
+            "Python": "PY",
+            "Blade": "BL",
+            "HTML": "HT",
+            "Hack": "HK",
+            "CSS": "CSS",
+            "PHP": "PHP",
+            "Vite": "VT",
+        }
+        if name in specials:
+            return specials[name]
+        raw = "".join(ch for ch in str(name) if ch.isalnum())
+        return (raw[:3] or "NA").upper()
 
-        def color_for(name, is_framework=False):
-            palette = {
-                "PHP": "#a993ff",
-                "Blade": "#ff7a90",
-                "Python": "#ffd24a",
-                "PowerShell": "#6ea2ff",
-                "CSS": "#9a8cff",
-                "JavaScript": "#f3e341",
-                "HTML": "#ff8a65",
-                "Hack": "#a1ff72",
-                "Laravel": "#ff735c",
-                "Tailwind CSS": "#45d7ff",
-                "Vite": "#c4a2ff",
-            }
-            return palette.get(name, '#8b949e' if is_framework else '#58a6ff')
+    def color_for(name, is_framework=False):
+        palette = {
+            "PHP": "#a993ff",
+            "Blade": "#ff7a90",
+            "Python": "#ffd24a",
+            "PowerShell": "#6ea2ff",
+            "CSS": "#9a8cff",
+            "JavaScript": "#f3e341",
+            "HTML": "#ff8a65",
+            "Hack": "#a1ff72",
+            "Laravel": "#ff735c",
+            "Tailwind CSS": "#45d7ff",
+            "Vite": "#c4a2ff",
+        }
+        return palette.get(name, '#8b949e' if is_framework else '#58a6ff')
 
-        langs = list(data.get("language_bytes") or [])
-        frameworks = list(data.get("verified_frameworks") or [])
-        total = sum(int(count) for _, count in langs if type(count) is int and count >= 0)
-        language_scope = data.get("language_scope")
-        scope_line = (
-            "GitHub Linguist · public + selected private language aggregates"
-            if language_scope == "public-plus-private"
-            else "GitHub Linguist + verified public dependency manifests"
-        )
+    langs = list(data.get("language_bytes") or [])
+    frameworks = list(data.get("verified_frameworks") or [])
+    total = sum(int(count) for _, count in langs if type(count) is int and count >= 0)
+    language_scope = data.get("language_scope")
+    scope_line = (
+        "GitHub Linguist · public + selected private language aggregates"
+        if language_scope == "public-plus-private"
+        else "GitHub Linguist + verified public dependency manifests"
+    )
 
-        lang_cols = 4
-        lang_card_w = 220
-        lang_card_h = 76
-        lang_gap_x = 16
-        lang_gap_y = 14
-        lang_rows = max(1, (len(langs) + lang_cols - 1) // lang_cols)
-        lang_y = 118
-        fw_title_y = lang_y + lang_rows * (lang_card_h + lang_gap_y) + 36
+    lang_cols = 4
+    lang_card_w = 220
+    lang_card_h = 76
+    lang_gap_x = 16
+    lang_gap_y = 14
+    lang_rows = max(1, (len(langs) + lang_cols - 1) // lang_cols)
+    lang_y = 118
+    fw_title_y = lang_y + lang_rows * (lang_card_h + lang_gap_y) + 36
 
-        fw_cols = 3
-        fw_card_w = 288
-        fw_card_h = 66
-        fw_gap_x = 16
-        fw_gap_y = 14
-        fw_y = fw_title_y + 36
-        fw_rows = max(1, (len(frameworks) + fw_cols - 1) // fw_cols)
-        footer_y = fw_y + fw_rows * (fw_card_h + fw_gap_y) + 24
-        height = footer_y + 40
+    fw_cols = 3
+    fw_card_w = 288
+    fw_card_h = 66
+    fw_gap_x = 16
+    fw_gap_y = 14
+    fw_y = fw_title_y + 36
+    fw_rows = max(1, (len(frameworks) + fw_cols - 1) // fw_cols)
+    footer_y = fw_y + fw_rows * (fw_card_h + fw_gap_y) + 24
+    height = footer_y + 40
 
-        pieces = [
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-labelledby="t d">',
-            '<title id="t">Verified programming languages and frameworks with adaptive layout</title>',
-            '<desc id="d">All detected programming languages and verified frameworks rendered from the latest portfolio snapshot. Byte shares are descriptive, not skill ratings.</desc>',
-            '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
-            f'<rect width="1000" height="{height}" rx="18" fill="#0d1117"/>',
-            f'<rect x="1" y="1" width="998" height="{height-2}" rx="17" fill="none" stroke="#30363d"/>',
-            '<text x="32" y="50" fill="#f0f6fc" font-size="32" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES &amp; FRAMEWORKS</text>',
-            f'<text x="32" y="78" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">{esc(scope_line)}</text>',
-            '<text x="32" y="112" fill="#f4f5fa" font-size="21" font-weight="bold" font-family="Arial,sans-serif">PROGRAMMING LANGUAGES</text>',
-        ]
+    pieces = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="{height}" viewBox="0 0 1000 {height}" role="img" aria-labelledby="t d">',
+        '<title id="t">Verified programming languages and frameworks with adaptive layout</title>',
+        '<desc id="d">All detected programming languages and verified frameworks rendered from the latest portfolio snapshot. Byte shares are descriptive, not skill ratings.</desc>',
+        '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
+        f'<rect width="1000" height="{height}" rx="18" fill="#0d1117"/>',
+        f'<rect x="1" y="1" width="998" height="{height-2}" rx="17" fill="none" stroke="#30363d"/>',
+        '<text x="32" y="50" fill="#f0f6fc" font-size="32" font-weight="bold" font-family="Arial,sans-serif">LANGUAGES &amp; FRAMEWORKS</text>',
+        f'<text x="32" y="78" fill="#b39cfa" font-size="18" font-family="Arial,sans-serif">{esc(scope_line)}</text>',
+        '<text x="32" y="112" fill="#f4f5fa" font-size="21" font-weight="bold" font-family="Arial,sans-serif">PROGRAMMING LANGUAGES</text>',
+    ]
 
-        x0 = 32
-        if langs:
-            for i, (name, count) in enumerate(langs):
-                col = i % lang_cols
-                row = i // lang_cols
-                x = x0 + col * (lang_card_w + lang_gap_x)
-                y = lang_y + row * (lang_card_h + lang_gap_y)
-                share = f"{(count / total if total else 0):.1%} of detected bytes"
-                accent = color_for(name)
-                label = short_label(name)
-                pieces.extend([
-                    f'<rect x="{x}" y="{y}" width="{lang_card_w}" height="{lang_card_h}" rx="16" fill="#111b31"/>',
-                    f'<rect x="{x+14}" y="{y+16}" width="46" height="46" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
-                    f'<text x="{x+37}" y="{y+44}" text-anchor="middle" fill="{accent}" font-size="17" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
-                    f'<text x="{x+76}" y="{y+31}" fill="#f0f6fc" font-size="21" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
-                    f'<text x="{x+76}" y="{y+56}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(share)}</text>',
-                ])
-        else:
-            pieces.append('<text x="32" y="150" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No detected languages available in the verified snapshot.</text>')
+    x0 = 32
+    if langs:
+        for i, (name, count) in enumerate(langs):
+            col = i % lang_cols
+            row = i // lang_cols
+            x = x0 + col * (lang_card_w + lang_gap_x)
+            y = lang_y + row * (lang_card_h + lang_gap_y)
+            share = f"{(count / total if total else 0):.1%} of detected bytes"
+            accent = color_for(name)
+            label = short_label(name)
+            pieces.extend([
+                f'<rect x="{x}" y="{y}" width="{lang_card_w}" height="{lang_card_h}" rx="16" fill="#111b31"/>',
+                f'<rect x="{x+14}" y="{y+16}" width="46" height="46" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
+                f'<text x="{x+37}" y="{y+44}" text-anchor="middle" fill="{accent}" font-size="17" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
+                f'<text x="{x+76}" y="{y+31}" fill="#f0f6fc" font-size="21" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
+                f'<text x="{x+76}" y="{y+56}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(share)}</text>',
+            ])
+    else:
+        pieces.append('<text x="32" y="150" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No detected languages available in the verified snapshot.</text>')
 
-        pieces.append(f'<text x="32" y="{fw_title_y}" fill="#f4f5fa" font-size="21" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>')
-        if frameworks:
-            for i, framework in enumerate(frameworks):
-                name = framework.get("name", "Unknown")
-                count = len(framework["repositories"])
-                col = i % fw_cols
-                row = i // fw_cols
-                x = x0 + col * (fw_card_w + fw_gap_x)
-                y = fw_y + row * (fw_card_h + fw_gap_y)
-                accent = color_for(name, True)
-                label = short_label(name)
-                subtitle = f"{count} verified public repository(s)"
-                pieces.extend([
-                    f'<rect x="{x}" y="{y}" width="{fw_card_w}" height="{fw_card_h}" rx="16" fill="#111b31"/>',
-                    f'<rect x="{x+14}" y="{y+15}" width="42" height="42" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
-                    f'<text x="{x+35}" y="{y+41}" text-anchor="middle" fill="{accent}" font-size="15" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
-                    f'<text x="{x+72}" y="{y+29}" fill="#f0f6fc" font-size="18" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
-                    f'<text x="{x+72}" y="{y+52}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(subtitle)}</text>',
-                ])
-        else:
-            pieces.append(f'<text x="32" y="{fw_y+20}" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No verified public frameworks detected.</text>')
+    pieces.append(f'<text x="32" y="{fw_title_y}" fill="#f4f5fa" font-size="21" font-weight="bold" font-family="Arial,sans-serif">FRAMEWORKS / BUILD TOOLS</text>')
+    if frameworks:
+        for i, framework in enumerate(frameworks):
+            name = framework.get("name", "Unknown")
+            count = len(framework["repositories"])
+            col = i % fw_cols
+            row = i // fw_cols
+            x = x0 + col * (fw_card_w + fw_gap_x)
+            y = fw_y + row * (fw_card_h + fw_gap_y)
+            accent = color_for(name, True)
+            label = short_label(name)
+            subtitle = f"{count} verified public repository(s)"
+            pieces.extend([
+                f'<rect x="{x}" y="{y}" width="{fw_card_w}" height="{fw_card_h}" rx="16" fill="#111b31"/>',
+                f'<rect x="{x+14}" y="{y+15}" width="42" height="42" rx="12" fill="{accent}" fill-opacity="0.22" stroke="{accent}" stroke-opacity="0.45"/>',
+                f'<text x="{x+35}" y="{y+41}" text-anchor="middle" fill="{accent}" font-size="15" font-weight="bold" font-family="Arial,sans-serif">{esc(label)}</text>',
+                f'<text x="{x+72}" y="{y+29}" fill="#f0f6fc" font-size="18" font-weight="bold" font-family="Arial,sans-serif">{esc(name)}</text>',
+                f'<text x="{x+72}" y="{y+52}" fill="#b8c5d9" font-size="14" font-family="Arial,sans-serif">{esc(subtitle)}</text>',
+            ])
+    else:
+        pieces.append(f'<text x="32" y="{fw_y+20}" fill="#b8c5d9" font-size="16" font-family="Arial,sans-serif">No verified public frameworks detected.</text>')
 
-        footer = f'Checked {data.get("generated_at_utc", "")[:16]} UTC · Adaptive layout · Data are dated snapshots'
-        pieces.append(f'<text x="32" y="{footer_y}" fill="#b8c5d9" font-size="13" font-family="Courier New,monospace">{esc(footer)}</text>')
-        pieces.append('</svg>')
-        return "".join(pieces) + "\n"
+    footer = f'Checked {data.get("generated_at_utc", "")[:16]} UTC · Adaptive layout · Data are dated snapshots'
+    pieces.append(f'<text x="32" y="{footer_y}" fill="#b8c5d9" font-size="13" font-family="Courier New,monospace">{esc(footer)}</text>')
+    pieces.append('</svg>')
+    return "".join(pieces) + "\n"
 
 def _private_language_totals(fetch):
     """Aggregate GitHub Linguist byte counts; never return private repo identity."""
