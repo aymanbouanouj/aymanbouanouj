@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-24T14:46:20.102506+00:00",
+  "generated_at_utc": "2026-10-24T18:19:11.935330+00:00",
   "public_repository_count": 10,
   "recent_repositories": [
     {
@@ -57,6 +57,12 @@
   "recent_events": [
     {
       "type": "PushEvent",
+      "repository": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "at": "2026-10-23T13:26:39+00:00"
+    },
+    {
+      "type": "PushEvent",
       "repository": "gestion-vaccination",
       "url": "https://github.com/aymanbouanouj/gestion-vaccination",
       "at": "2026-10-23T13:23:03+00:00"
@@ -72,12 +78,6 @@
       "repository": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
       "at": "2026-10-23T13:34:52+00:00"
-    },
-    {
-      "type": "PushEvent",
-      "repository": "gestion-vaccination",
-      "url": "https://github.com/aymanbouanouj/gestion-vaccination",
-      "at": "2026-10-23T13:19:01+00:00"
     }
   ]
 }
