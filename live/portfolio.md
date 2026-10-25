@@ -1,6 +1,6 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-10-25T06:40 UTC.
+Automatically generated from public GitHub sources at 2026-10-25T12:43 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
@@ -9,14 +9,14 @@ Refreshed hourly (best effort), not a real-time counter.
 | --- | ---: | ---: | --- |
 The language distribution includes aggregated statistics from accessible, selected private repositories. Private repository names and source code are not published.
 
-| PHP | 2210142 | 40.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories); private portion not publicly verifiable |
-| Blade | 1918163 | 34.7% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABlade&type=repositories); private portion not publicly verifiable |
-| Python | 899485 | 16.3% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APython&type=repositories); private portion not publicly verifiable |
-| PowerShell | 208754 | 3.8% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
-| CSS | 130874 | 2.4% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ACSS&type=repositories); private portion not publicly verifiable |
+| PHP | 2210142 | 39.2% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories); private portion not publicly verifiable |
+| Blade | 1918163 | 34.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABlade&type=repositories); private portion not publicly verifiable |
+| Python | 978455 | 17.3% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APython&type=repositories); private portion not publicly verifiable |
+| PowerShell | 208754 | 3.7% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
+| CSS | 159882 | 2.8% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ACSS&type=repositories); private portion not publicly verifiable |
 | JavaScript | 93130 | 1.7% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AJavaScript&type=repositories); private portion not publicly verifiable |
-| HTML | 62914 | 1.1% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHTML&type=repositories); private portion not publicly verifiable |
-| Batchfile | 1486 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABatchfile&type=repositories); private portion not publicly verifiable |
+| HTML | 72422 | 1.3% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHTML&type=repositories); private portion not publicly verifiable |
+| Batchfile | 1511 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABatchfile&type=repositories); private portion not publicly verifiable |
 | Hack | 179 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHack&type=repositories); private portion not publicly verifiable |
 
 ## Verified Frameworks and Build Tools
