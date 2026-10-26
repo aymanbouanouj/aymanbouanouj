@@ -2,7 +2,7 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-25T22:45:51.355122+00:00",
+  "generated_at_utc": "2026-10-26T01:33:17.798284+00:00",
   "public_original_repository_count": 7,
   "language_scope": "public-plus-private",
   "language_bytes": [
@@ -16,7 +16,11 @@
     ],
     [
       "Python",
-      993185
+      1001995
+    ],
+    [
+      "JavaScript",
+      219183
     ],
     [
       "PowerShell",
@@ -24,15 +28,11 @@
     ],
     [
       "CSS",
-      161057
-    ],
-    [
-      "JavaScript",
-      93130
+      161614
     ],
     [
       "HTML",
-      72930
+      73428
     ],
     [
       "Batchfile",
