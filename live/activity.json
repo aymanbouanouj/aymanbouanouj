@@ -2,16 +2,24 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-24T18:19:11.935330+00:00",
-  "public_repository_count": 10,
+  "generated_at_utc": "2026-10-26T06:51:56.381207+00:00",
+  "public_repository_count": 11,
   "recent_repositories": [
     {
       "name": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
-      "last_push": "2026-10-23T13:48:43+00:00",
+      "last_push": "2026-10-26T06:00:07+00:00",
       "branch": "main",
       "commit_sha": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da",
       "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+    },
+    {
+      "name": "semgrep-rules",
+      "url": "https://github.com/aymanbouanouj/semgrep-rules",
+      "last_push": "2026-10-26T04:41:12+00:00",
+      "branch": "develop",
+      "commit_sha": "16b9e6d45f10649f6a531ec4838ed9924372c3bc",
+      "commit_url": "https://github.com/aymanbouanouj/semgrep-rules/commit/16b9e6d45f10649f6a531ec4838ed9924372c3bc"
     },
     {
       "name": "gestion-vaccination",
@@ -44,40 +52,32 @@
       "branch": "main",
       "commit_sha": "a5cb8ad4c08acd803f166fb067b7dac724d6cb3d",
       "commit_url": "https://github.com/aymanbouanouj/GhostTrack/commit/a5cb8ad4c08acd803f166fb067b7dac724d6cb3d"
-    },
-    {
-      "name": "PC-Full-Check",
-      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
-      "last_push": "2026-10-10T04:13:58+00:00",
-      "branch": "main",
-      "commit_sha": "951611654572a4b93ee7f30d0fbd9984d757ed37",
-      "commit_url": "https://github.com/aymanbouanouj/PC-Full-Check/commit/951611654572a4b93ee7f30d0fbd9984d757ed37"
     }
   ],
   "recent_events": [
     {
-      "type": "PushEvent",
-      "repository": "morocco2030",
-      "url": "https://github.com/aymanbouanouj/morocco2030",
-      "at": "2026-10-23T13:26:39+00:00"
+      "type": "CreateEvent",
+      "repository": "semgrep-rules",
+      "url": "https://github.com/aymanbouanouj/semgrep-rules",
+      "at": "2026-10-26T04:40:52+00:00"
     },
     {
-      "type": "PushEvent",
+      "type": "PullRequestEvent",
       "repository": "gestion-vaccination",
       "url": "https://github.com/aymanbouanouj/gestion-vaccination",
-      "at": "2026-10-23T13:23:03+00:00"
+      "at": "2026-10-23T13:20:40+00:00"
     },
     {
-      "type": "CreateEvent",
+      "type": "PullRequestEvent",
       "repository": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
-      "at": "2026-10-23T13:12:48+00:00"
+      "at": "2026-10-23T13:20:37+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "morocco2030",
-      "url": "https://github.com/aymanbouanouj/morocco2030",
-      "at": "2026-10-23T13:34:52+00:00"
+      "type": "PullRequestEvent",
+      "repository": "gestion-vaccination",
+      "url": "https://github.com/aymanbouanouj/gestion-vaccination",
+      "at": "2026-10-23T13:23:01+00:00"
     }
   ]
 }
