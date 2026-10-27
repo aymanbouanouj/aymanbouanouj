@@ -2,9 +2,17 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-27T05:28:24.835302+00:00",
-  "public_repository_count": 11,
+  "generated_at_utc": "2026-10-27T16:49:15.203474+00:00",
+  "public_repository_count": 12,
   "recent_repositories": [
+    {
+      "name": "CheatSheetSeries",
+      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
+      "last_push": "2026-10-27T12:03:06+00:00",
+      "branch": "master",
+      "commit_sha": "9d41c054686e35fb56070b4b6271ae2829edea6a",
+      "commit_url": "https://github.com/aymanbouanouj/CheatSheetSeries/commit/9d41c054686e35fb56070b4b6271ae2829edea6a"
+    },
     {
       "name": "morocco2030",
       "url": "https://github.com/aymanbouanouj/morocco2030",
@@ -44,14 +52,6 @@
       "branch": "main",
       "commit_sha": "212d1fdda7118137d669ff6790b6b976ad01b5ac",
       "commit_url": "https://github.com/aymanbouanouj/ayman-calc/commit/212d1fdda7118137d669ff6790b6b976ad01b5ac"
-    },
-    {
-      "name": "GhostTrack",
-      "url": "https://github.com/aymanbouanouj/GhostTrack",
-      "last_push": "2026-10-10T18:38:47+00:00",
-      "branch": "main",
-      "commit_sha": "a5cb8ad4c08acd803f166fb067b7dac724d6cb3d",
-      "commit_url": "https://github.com/aymanbouanouj/GhostTrack/commit/a5cb8ad4c08acd803f166fb067b7dac724d6cb3d"
     }
   ],
   "recent_events": [
