@@ -1,6 +1,6 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-10-27T00:02 UTC.
+Automatically generated from public GitHub sources at 2026-10-27T05:28 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
@@ -9,10 +9,10 @@ Refreshed hourly (best effort), not a real-time counter.
 | --- | ---: | ---: | --- |
 The language distribution includes aggregated statistics from accessible, selected private repositories. Private repository names and source code are not published.
 
-| PHP | 2210142 | 37.7% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories); private portion not publicly verifiable |
+| PHP | 2210142 | 37.6% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APHP&type=repositories); private portion not publicly verifiable |
 | Blade | 1918163 | 32.7% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABlade&type=repositories); private portion not publicly verifiable |
-| Python | 1050828 | 17.9% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APython&type=repositories); private portion not publicly verifiable |
-| JavaScript | 233280 | 4.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AJavaScript&type=repositories); private portion not publicly verifiable |
+| Python | 1058363 | 18.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APython&type=repositories); private portion not publicly verifiable |
+| JavaScript | 233813 | 4.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AJavaScript&type=repositories); private portion not publicly verifiable |
 | PowerShell | 208754 | 3.6% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
 | CSS | 164929 | 2.8% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ACSS&type=repositories); private portion not publicly verifiable |
 | HTML | 76725 | 1.3% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHTML&type=repositories); private portion not publicly verifiable |
