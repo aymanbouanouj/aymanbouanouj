@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-27T16:49:15.203474+00:00",
+  "generated_at_utc": "2026-10-28T00:40:54.532833+00:00",
   "public_repository_count": 12,
   "recent_repositories": [
     {
@@ -56,6 +56,12 @@
   ],
   "recent_events": [
     {
+      "type": "CreateEvent",
+      "repository": "CheatSheetSeries",
+      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
+      "at": "2026-10-27T12:02:12+00:00"
+    },
+    {
       "type": "PushEvent",
       "repository": "semgrep-rules",
       "url": "https://github.com/aymanbouanouj/semgrep-rules",
@@ -72,12 +78,6 @@
       "repository": "semgrep-rules",
       "url": "https://github.com/aymanbouanouj/semgrep-rules",
       "at": "2026-10-26T04:40:52+00:00"
-    },
-    {
-      "type": "PullRequestEvent",
-      "repository": "gestion-vaccination",
-      "url": "https://github.com/aymanbouanouj/gestion-vaccination",
-      "at": "2026-10-23T13:20:40+00:00"
     }
   ]
 }
