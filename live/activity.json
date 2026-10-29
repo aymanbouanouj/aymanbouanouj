@@ -2,9 +2,17 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-28T07:16:30.718338+00:00",
-  "public_repository_count": 12,
+  "generated_at_utc": "2026-10-29T23:31:22.077043+00:00",
+  "public_repository_count": 13,
   "recent_repositories": [
+    {
+      "name": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
+      "last_push": "2026-10-29T23:20:34+00:00",
+      "branch": "main",
+      "commit_sha": "4f7eb7fd85596b69b8ac8f0302a15b27c6052d46",
+      "commit_url": "https://github.com/aymanbouanouj/ab-train-ticket-studio/commit/4f7eb7fd85596b69b8ac8f0302a15b27c6052d46"
+    },
     {
       "name": "CheatSheetSeries",
       "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
@@ -44,40 +52,32 @@
       "branch": "master",
       "commit_sha": "24563376cc172cdb0835373a048f570351f3c05f",
       "commit_url": "https://github.com/aymanbouanouj/doc-en/commit/24563376cc172cdb0835373a048f570351f3c05f"
-    },
-    {
-      "name": "ayman-calc",
-      "url": "https://github.com/aymanbouanouj/ayman-calc",
-      "last_push": "2026-10-12T02:16:25+00:00",
-      "branch": "main",
-      "commit_sha": "212d1fdda7118137d669ff6790b6b976ad01b5ac",
-      "commit_url": "https://github.com/aymanbouanouj/ayman-calc/commit/212d1fdda7118137d669ff6790b6b976ad01b5ac"
     }
   ],
   "recent_events": [
     {
-      "type": "PushEvent",
-      "repository": "CheatSheetSeries",
-      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
-      "at": "2026-10-27T12:03:06+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
+      "at": "2026-10-29T23:20:34+00:00"
     },
     {
-      "type": "CreateEvent",
-      "repository": "CheatSheetSeries",
-      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
-      "at": "2026-10-27T12:02:12+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
+      "at": "2026-10-29T23:19:59+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "semgrep-rules",
-      "url": "https://github.com/aymanbouanouj/semgrep-rules",
-      "at": "2026-10-26T04:41:13+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
+      "at": "2026-10-29T22:17:03+00:00"
     },
     {
-      "type": "PushEvent",
-      "repository": "semgrep-rules",
-      "url": "https://github.com/aymanbouanouj/semgrep-rules",
-      "at": "2026-10-26T04:41:01+00:00"
+      "type": "PullRequestEvent",
+      "repository": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
+      "at": "2026-10-29T22:15:58+00:00"
     }
   ]
 }

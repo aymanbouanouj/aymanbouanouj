@@ -2,8 +2,8 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-29T19:10:49.554964+00:00",
-  "public_original_repository_count": 7,
+  "generated_at_utc": "2026-10-29T23:31:33.767241+00:00",
+  "public_original_repository_count": 8,
   "language_scope": "public-plus-private",
   "language_bytes": [
     [
@@ -20,19 +20,19 @@
     ],
     [
       "JavaScript",
-      233813
+      403779
+    ],
+    [
+      "CSS",
+      258716
     ],
     [
       "PowerShell",
       208754
     ],
     [
-      "CSS",
-      164929
-    ],
-    [
       "HTML",
-      76725
+      84479
     ],
     [
       "Batchfile",
@@ -44,6 +44,10 @@
     ]
   ],
   "other_repositories": [
+    {
+      "name": "ab-train-ticket-studio",
+      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio"
+    },
     {
       "name": "gestion-vaccination",
       "url": "https://github.com/aymanbouanouj/gestion-vaccination"
@@ -67,6 +71,7 @@
     {
       "name": "Playwright",
       "repositories": [
+        "ab-train-ticket-studio",
         "violetgate"
       ]
     },
@@ -79,6 +84,7 @@
     {
       "name": "Vite",
       "repositories": [
+        "ab-train-ticket-studio",
         "morocco2030"
       ]
     }
