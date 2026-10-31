@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-10-30T02:51:45.457919+00:00",
+  "generated_at_utc": "2026-10-31T08:45:06.893249+00:00",
   "public_repository_count": 13,
   "recent_repositories": [
     {
@@ -56,28 +56,28 @@
   ],
   "recent_events": [
     {
-      "type": "PullRequestEvent",
+      "type": "PushEvent",
       "repository": "ab-train-ticket-studio",
       "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-30T00:30:18+00:00"
+      "at": "2026-10-29T22:17:04+00:00"
     },
     {
-      "type": "PullRequestEvent",
+      "type": "PushEvent",
       "repository": "ab-train-ticket-studio",
       "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-30T00:29:35+00:00"
+      "at": "2026-10-29T21:22:34+00:00"
     },
     {
-      "type": "PullRequestEvent",
+      "type": "PushEvent",
       "repository": "ab-train-ticket-studio",
       "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-29T23:20:34+00:00"
+      "at": "2026-10-29T21:14:48+00:00"
     },
     {
-      "type": "PullRequestEvent",
+      "type": "PushEvent",
       "repository": "ab-train-ticket-studio",
       "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-29T23:19:59+00:00"
+      "at": "2026-10-29T21:18:53+00:00"
     }
   ]
 }
