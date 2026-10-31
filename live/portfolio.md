@@ -1,6 +1,6 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-10-31T15:28 UTC.
+Automatically generated from public GitHub sources at 2026-10-31T19:29 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
@@ -14,7 +14,7 @@ The language distribution includes aggregated statistics from accessible, select
 | Python | 1058363 | 17.2% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APython&type=repositories); private portion not publicly verifiable |
 | JavaScript | 403779 | 6.6% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AJavaScript&type=repositories); private portion not publicly verifiable |
 | CSS | 258716 | 4.2% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ACSS&type=repositories); private portion not publicly verifiable |
-| PowerShell | 216160 | 3.5% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
+| PowerShell | 216155 | 3.5% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
 | HTML | 84479 | 1.4% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHTML&type=repositories); private portion not publicly verifiable |
 | Batchfile | 1511 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3ABatchfile&type=repositories); private portion not publicly verifiable |
 | Hack | 179 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbouanouj%20language%3AHack&type=repositories); private portion not publicly verifiable |
