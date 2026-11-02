@@ -2,9 +2,17 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-11-01T16:17:39.508793+00:00",
+  "generated_at_utc": "2026-11-02T08:08:46.554824+00:00",
   "public_repository_count": 13,
   "recent_repositories": [
+    {
+      "name": "morocco2030",
+      "url": "https://github.com/aymanbouanouj/morocco2030",
+      "last_push": "2026-11-02T05:48:33+00:00",
+      "branch": "main",
+      "commit_sha": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da",
+      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+    },
     {
       "name": "CheatSheetSeries",
       "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
@@ -30,14 +38,6 @@
       "commit_url": "https://github.com/aymanbouanouj/ab-train-ticket-studio/commit/cf9983538e935262d23c47990f3f71ab4f2b24c7"
     },
     {
-      "name": "morocco2030",
-      "url": "https://github.com/aymanbouanouj/morocco2030",
-      "last_push": "2026-10-26T06:00:07+00:00",
-      "branch": "main",
-      "commit_sha": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da",
-      "commit_url": "https://github.com/aymanbouanouj/morocco2030/commit/a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
-    },
-    {
       "name": "semgrep-rules",
       "url": "https://github.com/aymanbouanouj/semgrep-rules",
       "last_push": "2026-10-26T04:41:12+00:00",
@@ -57,27 +57,27 @@
   "recent_events": [
     {
       "type": "PushEvent",
-      "repository": "ab-train-ticket-studio",
-      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-30T00:29:21+00:00"
+      "repository": "PC-Full-Check",
+      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
+      "at": "2026-10-31T15:17:30+00:00"
     },
     {
       "type": "PushEvent",
-      "repository": "ab-train-ticket-studio",
-      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-29T23:20:35+00:00"
+      "repository": "CheatSheetSeries",
+      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
+      "at": "2026-10-31T20:42:25+00:00"
+    },
+    {
+      "type": "CreateEvent",
+      "repository": "PC-Full-Check",
+      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
+      "at": "2026-10-31T14:52:12+00:00"
     },
     {
       "type": "PushEvent",
-      "repository": "ab-train-ticket-studio",
-      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-29T21:09:42+00:00"
-    },
-    {
-      "type": "PushEvent",
-      "repository": "ab-train-ticket-studio",
-      "url": "https://github.com/aymanbouanouj/ab-train-ticket-studio",
-      "at": "2026-10-29T20:59:34+00:00"
+      "repository": "PC-Full-Check",
+      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
+      "at": "2026-10-31T15:34:25+00:00"
     }
   ]
 }
