@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-11-07T16:36:29.480004+00:00",
+  "generated_at_utc": "2026-11-08T13:48:41.352096+00:00",
   "public_repository_count": 14,
   "recent_repositories": [
     {
@@ -56,6 +56,12 @@
   ],
   "recent_events": [
     {
+      "type": "CreateEvent",
+      "repository": "docs",
+      "url": "https://github.com/aymanbouanouj/docs",
+      "at": "2026-11-07T15:11:10+00:00"
+    },
+    {
       "type": "IssuesEvent",
       "repository": "PC-Full-Check",
       "url": "https://github.com/aymanbouanouj/PC-Full-Check",
@@ -72,12 +78,6 @@
       "repository": "PC-Full-Check",
       "url": "https://github.com/aymanbouanouj/PC-Full-Check",
       "at": "2026-10-31T14:53:29+00:00"
-    },
-    {
-      "type": "PushEvent",
-      "repository": "CheatSheetSeries",
-      "url": "https://github.com/aymanbouanouj/CheatSheetSeries",
-      "at": "2026-10-31T20:39:59+00:00"
     }
   ]
 }
