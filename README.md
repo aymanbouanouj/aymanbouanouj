@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<h3><code>ayman@github ~ $ ./contributions.sh</code></h3>
+<h3><code>aymanbouanouj@github ~ $ ./contributions.sh</code></h3>
 
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
 
