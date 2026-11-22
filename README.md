@@ -2,7 +2,9 @@
 
 <div align="center">
 
-<img src="./assets/brand-v6.svg" width="100%" alt="Ayman Bounaouj, full-stack web developer. Original AB logo with violet upward arrow." />
+<img src="./assets/brand-v6.svg" width="100%" alt="Ayman Bounaouj, full-stack web developer. Neon-violet circuitry with the original AB monogram." />
+
+<img src="./assets/v6-logo-source.webp" width="104" alt="Original AB white monogram with violet rising arrow, adapted from the provided profile artwork" />
 
 <p><strong>Building useful web products with clear architecture, thoughtful interfaces and verifiable engineering work.</strong></p>
 
