@@ -1,41 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="title description">
-<title id="title">Ayman Bounaouj | Software Developer</title>
-<desc id="description">Original white AB monogram and violet arrow on a black and neon-purple developer header with subtle code and circuit lines, matching the supplied visual reference.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-labelledby="title description">
+<title id="title">Ayman Bounaouj — Full-Stack Web Developer</title>
+<desc id="description">Original AB monogram with ascending violet arrow, purple gradient waves, developer identity, GitHub and professional link labels, and an illustrated laptop showing code. Adapted to the supplied reference.</desc>
 <defs>
-<linearGradient id="back" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#080418"/><stop offset=".63" stop-color="#060615"/><stop offset="1" stop-color="#0b021b"/></linearGradient>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#121129"/><stop offset=".58" stop-color="#0b0d1d"/><stop offset="1" stop-color="#130c2a"/></linearGradient>
 <linearGradient id="mark"><stop stop-color="#ffffff"/><stop offset=".65" stop-color="#e9edf5"/><stop offset="1" stop-color="#bdc5d5"/></linearGradient>
 <linearGradient id="violet" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#8d43ff"/><stop offset=".55" stop-color="#b85cff"/><stop offset="1" stop-color="#6e79ff"/></linearGradient>
-<linearGradient id="highlight" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#6321e6"/><stop offset="1" stop-color="#cb57ff"/></linearGradient>
-<radialGradient id="glow"><stop stop-color="#7c2aff" stop-opacity=".4"/><stop offset="1" stop-color="#7c2aff" stop-opacity="0"/></radialGradient>
+<radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop stop-color="#8e34ff" stop-opacity=".62"/><stop offset="1" stop-color="#6f23d6" stop-opacity="0"/></radialGradient>
+<linearGradient id="wave" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#311266"/><stop offset=".45" stop-color="#1b155e"/><stop offset=".83" stop-color="#7c27b3"/><stop offset="1" stop-color="#30104e"/></linearGradient>
+<linearGradient id="button" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8c52ff"/><stop offset="1" stop-color="#c760ff"/></linearGradient>
+<linearGradient id="screen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1a1b38"/><stop offset="1" stop-color="#0b1124"/></linearGradient>
 </defs>
 <style>@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
-<rect width="1200" height="300" rx="17" fill="url(#back)"/>
-<circle cx="430" cy="255" r="290" fill="url(#glow)"/>
-<circle cx="1055" cy="155" r="290" fill="url(#glow)"/>
-<rect x="1" y="1" width="1198" height="298" rx="17" fill="none" stroke="#442369" stroke-width="1.5"/>
-<g stroke="#5a14d5" stroke-width="1.6" fill="none" opacity=".66">
-<path d="M0 245H125L193 298"/><path d="M0 220H130L182 278H344"/><path d="M0 185H96L174 254H320"/>
-<path d="M760 260L865 168H997L1085 66H1200"/>
-<path d="M826 276L902 208H1030L1126 111H1200"/>
-<path d="M940 300L1011 245H1110L1188 174H1200"/>
-<path d="M1005 16L960 63H870L814 112"/>
+<rect x="1" y="1" width="1198" height="258" rx="18" fill="url(#bg)" stroke="#65409f" stroke-width="2"/>
+<circle cx="975" cy="174" r="350" fill="url(#glow)" opacity=".8"/>
+<circle cx="62" cy="218" r="175" fill="url(#glow)" opacity=".55"/>
+<path d="M2 187Q94 161 169 202T378 218Q560 253 745 213T1065 191Q1146 187 1198 213V259H2Z" fill="url(#wave)" opacity=".85"/>
+<path d="M2 220Q94 190 174 221T423 238Q566 253 704 231T972 237Q1096 222 1198 198V259H2Z" fill="#130a2c" opacity=".65"/>
+<g transform="translate(66 64) scale(.42 .42)"><path d="M11.1,187.1 L40,187.1 L59,154.4 L60.8,152.6 L61.7,149.9 L63.6,148 L64.5,145.3 L66.3,143.5 L67.2,140.8 L69,139 L69.9,136.2 L71.7,134.4 L73.5,129.9 L77.1,125.3 L78.9,120.8 L82.5,116.3 L83.5,113.5 L85.3,111.7 L86.2,109 L88,107.2 L88.9,104.4 L90.7,102.6 L91.6,99.9 L93.4,98.1 L94.3,95.4 L96.1,93.6 L97,90.8 L98.8,89 L99.7,86.3 L116,59.9 L117.8,60.9 L129.6,81.7 L133.2,86.3 L135,90.8 L138.6,95.4 L147.7,111.7 L151.3,116.3 L163,137.1 L166.7,141.7 L167.6,144.4 L169.4,146.2 L170.3,148.9 L193.8,187.1 L268,187.1 L268.9,186.2 L277,185.3 L289.7,179.8 L296,175.3 L302.3,168.9 L306.9,162.6 L312.3,149.9 L314.1,139.9 L313.2,127.2 L308.7,114.4 L303.2,106.3 L295.1,98.1 L287.9,93.6 L296.9,79 L300.5,66.3 L300.5,53.6 L295.1,37.2 L282.4,21.8 L276.1,17.3 L260.7,10.9 L139.5,10 L154.9,36.3 L251.7,36.3 L263.4,40.9 L273.4,55.4 L273.4,65.4 L269.8,73.6 L262.5,80.8 L254.4,84.5 L183.9,84.5 L199.2,110.8 L265.3,110.8 L277,116.3 L284.2,124.4 L287,140.8 L276.1,157.1 L265.3,161.7 L209.2,161.7 L116,10Z" fill="url(#mark)"/><path d="M131.4,111.7 L97.9,125.3 L108.8,132.6 L74.4,187.1 L101.5,166.2 L125.1,140.8 L135,146.2Z" fill="url(#violet)"/></g>
+<path d="M253 52V180" stroke="#ac7edb" stroke-width="2"/>
+<text x="289" y="91" fill="#fbfaff" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800">Ayman Bounaouj</text>
+<text x="289" y="130" fill="#c472ff" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700">Full-Stack Web Developer</text>
+<text x="291" y="162" fill="#ffffff" font-family="Arial,Helvetica,sans-serif" font-size="18">Building practical, secure and scalable digital products.</text>
+<g>
+<rect x="137" y="196" width="118" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
+<text x="196" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">GitHub</text>
+<rect x="265" y="195" width="139" height="41" rx="13" stroke="#b78dff" fill="url(#button)"/>
+<text x="335" y="222" text-anchor="middle" fill="#151026" font-size="18" font-family="Arial,sans-serif" font-weight="700">Portfolio</text>
+<rect x="415" y="196" width="145" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
+<text x="487" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">LinkedIn</text>
+<rect x="571" y="196" width="119" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
+<text x="630" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">Email</text>
 </g>
-<g stroke="#9e32ff" stroke-width="2" fill="none">
-<path d="M0 231H139L209 292"/><path d="M770 273L888 181H1020L1108 81H1200"/>
+<!-- A stylized code laptop at the position of the supplied banner reference. -->
+<g transform="translate(835 31)">
+<path d="M43 36L336 3Q347 1 347 14L338 171L31 174Z" fill="#090d1b" stroke="#b87aff" stroke-width="3" stroke-linejoin="round"/>
+<path d="M52 48L328 16L321 156L42 163Z" fill="url(#screen)" stroke="#323a62" stroke-width="2"/>
+<path d="M40 45L51 48L42 163L31 174Z" fill="#14102d"/>
+<g opacity=".9" stroke-linecap="round">
+<path d="M88 54L146 48" stroke="#c773ff" stroke-width="2"/><path d="M94 66L172 58" stroke="#40bce3" stroke-width="2"/><path d="M103 77L227 64" stroke="#df78b4" stroke-width="2"/>
+<path d="M108 89L201 79" stroke="#e8a458" stroke-width="2"/><path d="M126 101L245 88" stroke="#80d78e" stroke-width="2"/>
+<path d="M104 115L180 107" stroke="#be83ed" stroke-width="2"/><path d="M119 128L279 111" stroke="#77b7e4" stroke-width="2"/>
+<path d="M97 141L171 133" stroke="#ba6de5" stroke-width="2"/>
 </g>
-<g fill="#9b33ff">
-<rect x="130" y="227" width="6" height="6"/><rect x="203" y="289" width="7" height="7"/>
-<rect x="1018" y="179" width="7" height="7"/><rect x="1105" y="78" width="7" height="7"/>
+<path d="M0 175L340 169L391 200L19 209Q4 207 0 175Z" fill="#1c1d31" stroke="#9a84c3" stroke-width="2"/>
+<path d="M22 179L329 176L359 193L41 195Z" fill="#333453"/>
+<path d="M179 195L250 192L259 201L180 203Z" fill="#72769d"/>
 </g>
-<g font-family="monospace" font-size="11" opacity=".48" fill="#904cff">
-<text x="22" y="38">01  &gt; initialize</text><text x="22" y="62">02  &gt; build(secure)</text>
-<text x="22" y="86">03  &gt; test()</text><text x="22" y="110">04  &gt; deploy()</text>
-</g>
-<g transform="translate(245 104) scale(.40 .40)"><path d="M11.1,187.1 L40,187.1 L59,154.4 L60.8,152.6 L61.7,149.9 L63.6,148 L64.5,145.3 L66.3,143.5 L67.2,140.8 L69,139 L69.9,136.2 L71.7,134.4 L73.5,129.9 L77.1,125.3 L78.9,120.8 L82.5,116.3 L83.5,113.5 L85.3,111.7 L86.2,109 L88,107.2 L88.9,104.4 L90.7,102.6 L91.6,99.9 L93.4,98.1 L94.3,95.4 L96.1,93.6 L97,90.8 L98.8,89 L99.7,86.3 L116,59.9 L117.8,60.9 L129.6,81.7 L133.2,86.3 L135,90.8 L138.6,95.4 L147.7,111.7 L151.3,116.3 L163,137.1 L166.7,141.7 L167.6,144.4 L169.4,146.2 L170.3,148.9 L193.8,187.1 L268,187.1 L268.9,186.2 L277,185.3 L289.7,179.8 L296,175.3 L302.3,168.9 L306.9,162.6 L312.3,149.9 L314.1,139.9 L313.2,127.2 L308.7,114.4 L303.2,106.3 L295.1,98.1 L287.9,93.6 L296.9,79 L300.5,66.3 L300.5,53.6 L295.1,37.2 L282.4,21.8 L276.1,17.3 L260.7,10.9 L139.5,10 L154.9,36.3 L251.7,36.3 L263.4,40.9 L273.4,55.4 L273.4,65.4 L269.8,73.6 L262.5,80.8 L254.4,84.5 L183.9,84.5 L199.2,110.8 L265.3,110.8 L277,116.3 L284.2,124.4 L287,140.8 L276.1,157.1 L265.3,161.7 L209.2,161.7 L116,10Z" fill="url(#mark)"/><path d="M131.4,111.7 L97.9,125.3 L108.8,132.6 L74.4,187.1 L101.5,166.2 L125.1,140.8 L135,146.2Z" fill="url(#violet)"/></g>
-<path d="M390 62V231" stroke="#a64dff" stroke-width="2"/>
-<text x="424" y="100" fill="#fbfaff" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="800">AYMAN BOUNAOUJ</text>
-<text x="424" y="151" fill="#ab55ff" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700">SOFTWARE DEVELOPER</text>
-<text x="424" y="195" fill="#d0cfdf" font-family="Arial,Helvetica,sans-serif" font-size="23">Full-Stack Web Development</text>
-<text x="424" y="230" fill="#ffffff" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700">Building Practical &amp; Secure Digital Products</text>
-<rect x="424" y="251" width="430" height="3" rx="2" fill="url(#highlight)"/>
 </svg>
