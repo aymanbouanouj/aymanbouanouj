@@ -1,3 +1,80 @@
+<!-- Profile V6 · Screenshot-inspired presentation with verified auto-refresh -->
+<div align="center">
+
+<a href="https://github.com/aymanbouanouj/portfolio-ayman"><img src="./assets/brand-v6.svg" width="100%" alt="Ayman Bounaouj developer banner with AB monogram, purple waves and laptop" /></a>
+
+<a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" width="124" alt="GitHub" /></a>
+<a href="https://github.com/aymanbouanouj/portfolio-ayman"><img src="./assets/link-profiles.svg" width="124" alt="Portfolio" /></a>
+<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" width="124" alt="LinkedIn" /></a>
+
+</div>
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-metrics.svg" width="100%" alt="Verified GitHub contributions, streak, recent merged external PRs and public repositories displayed in four violet cards" />
+
+<sub>Metrics are dated verified GitHub snapshots, never copied from the visual mockup. Merged PRs count a recent independently verified sample, not a lifetime total. GitHub Actions refresh is best-effort, not real-time.</sub>
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-calendar.svg" width="100%" alt="Contribution Activity — 365-day green GitHub GraphQL calendar on dark background" />
+
+<sub>[View current GitHub activity](https://github.com/aymanbouanouj). GitHub's native contribution graph remains authoritative; image cache delays are possible.</sub>
+
+## Languages & Technical Stack
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-languages.svg" width="100%" alt="Twelve technology chips in the reference layout, with verified GitHub language and framework signals visually distinguished from declared tools" />
+
+[Verified GitHub Linguist language shares](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#programming-languages) are code-byte percentages, not proficiency ratings. Authorized private repository bytes are aggregated without publishing private metadata.
+
+## Frameworks / Build Tools
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-frameworks.svg" width="100%" alt="Seven Laravel Vite Node.js Composer pnpm Docker and GitHub Actions tooling cards" />
+
+[Public dependency-manifest evidence](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-frameworks-and-build-tools) distinguishes verified frameworks from owner-declared tooling.
+
+## Featured Projects
+
+<div align="center">
+
+<a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-morocco.png" width="32%" alt="Morocco2030 real published screenshot, or a reserved placeholder when absent. Open public code." /></a>
+<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-train.png" width="32%" alt="AB Train Ticket Studio real public project screenshot or placeholder. Open public code." /></a>
+<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-pc.png" width="32%" alt="PC Full Check real public screenshot, or a placeholder until one is uploaded. Open public code." /></a>
+
+</div>
+
+<sub>Only published public project images are used. Missing image → styled placeholder; image uploaded later → automatically selected during a successful scheduled refresh. [Image setup instructions](./docs/V6-RELEASE-NOTES.md).</sub>
+
+## Open Source & Collaborations
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-open-source.svg" width="100%" alt="Verified merged external pull requests, clearly differentiated from pending submissions" />
+
+[Verified merged PR sources](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions) · [All external pull requests](https://github.com/pulls?q=is%3Apr+author%3Aaymanbouanouj)
+
+## Currently Building
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-building.svg" width="100%" alt="Three recently pushed public repositories from the GitHub public activity snapshot" />
+
+[Browse recent public work](https://github.com/aymanbouanouj?tab=repositories). The cards represent public recently updated repositories, not a real-time coding-status claim.
+
+## Pinned / Selected Repositories
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pinned.svg" width="100%" alt="Four curated public repository descriptions in a dark violet 2 by 2 grid" />
+
+[Morocco2030](https://github.com/aymanbouanouj/morocco2030) · [AB Train Ticket Studio](https://github.com/aymanbouanouj/ab-train-ticket-studio) · [PC Full Check](https://github.com/aymanbouanouj/PC-Full-Check) · [All repositories](https://github.com/aymanbouanouj?tab=repositories)
+
+---
+
+<div align="center">
+
+<img src="./assets/brand-v5.svg" width="100%" alt="Original AB identity footer illustration" />
+
+**Build · Learn · Contribute · Automate**
+
+[GitHub](https://github.com/aymanbouanouj) · [LinkedIn](https://www.linkedin.com/in/aymanbounaouj/) · [Portfolio](https://github.com/aymanbouanouj/portfolio-ayman)
+
+<sub>© 2026 Ayman Bounaouj. Original AB logo and artwork; all rights reserved.</sub>
+
+</div>
+
+<details>
+<summary><strong>Extended verified data, original project details and historical profile panels</strong></summary>
 <!-- Profile V6 · editorial, evidence-first presentation · verified data stays on profile-live -->
 
 <div align="center">
@@ -200,3 +277,6 @@
 <sub>© 2026 Ayman Bounaouj. All rights reserved. Original branding and artwork are not licensed for reuse.</sub>
 
 </div>
+
+
+</details>
