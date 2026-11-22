@@ -168,13 +168,7 @@
 
 ## Featured Projects
 
-<div align="center">
 
-<a href="https://github.com/aymanbouanouj/morocco2030"><img src="./assets/v6-project-morocco.svg" alt="Morocco2030 project, original violet themed feature card" width="31%" /></a>
-<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="./assets/v6-project-train.svg" alt="AB Train Ticket Studio project, original violet themed feature card" width="31%" /></a>
-<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="./assets/v6-project-pc.svg" alt="PC Full Check project, original violet themed feature card" width="31%" /></a>
-
-</div>
 
 [Morocco2030](https://github.com/aymanbouanouj/morocco2030) · [AB Train Ticket Studio](https://github.com/aymanbouanouj/ab-train-ticket-studio) · [PC Full Check](https://github.com/aymanbouanouj/PC-Full-Check)
 
