@@ -70,7 +70,7 @@ class VerifiedV6DashboardTests(unittest.TestCase):
         self.assertIn("Laravel", first["v6-stack.svg"])
         self.assertIn("Python", first["v6-stack.svg"])
         self.assertIn("PR #5930", first["v6-open-source.svg"])
-        self.assertIn("External public repositories", first["v6-metrics.svg"])
+        self.assertIn("Verified recent sample", first["v6-metrics.svg"])
         self.assertIn("Public + selected private aggregates", first["v6-stack.svg"])
 
     def test_manifests_only_not_unverified_frameworks(self):
@@ -95,7 +95,7 @@ class VerifiedV6DashboardTests(unittest.TestCase):
             verify(path)
             file = path / "v6-metrics.svg"
             file.write_text(file.read_text(encoding="utf-8").replace(
-                "ENGINEERING AT A GLANCE", "FICTION"), encoding="utf-8")
+                "Contributions", "FICTION"), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "does not match"):
                 verify(path)
 
