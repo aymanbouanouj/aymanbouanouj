@@ -63,7 +63,7 @@
 
 <div align="center">
 
-<img src="./assets/brand-v5.svg" width="100%" alt="Original AB identity footer illustration" />
+<img src="./assets/v6-footer.svg" width="100%" alt="Original AB developer footer — Build, Learn, Contribute, Automate" />
 
 **Build · Learn · Contribute · Automate**
 
