@@ -8,9 +8,19 @@
 
 <p><a href="#featured-projects">Featured projects</a> · <a href="#languages--technical-stack">Languages &amp; tools</a> · <a href="#open-source--collaborations">Open source</a></p>
 
+<h3><code>ayman@github ~ $ ./dashboard.sh --verified</code></h3>
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-metrics.svg" width="100%" alt="Dark violet dashboard with API-verified contribution count, active days, merged external public PRs, and public projects; dated snapshot" />
+
 <h3><code>aymanbouanouj@github ~ $ ./contributions.sh</code></h3>
 
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-calendar.svg" width="100%" alt="Purple-framed GitHub contribution calendar with real green intensity squares and a dated 365-day source" />
+
+<details><summary>Detailed contribution visualization (original verified chart)</summary>
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Original automatically refreshed dated GitHub contribution calendar" />
+
+</details>
 
 <sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>. GitHub's native contribution graph below is the authoritative activity calendar.</sub>
 
@@ -63,13 +73,31 @@
 
 ## Languages & Technical Stack
 
+**Languages / Frameworks / Build Tools**
+
 <div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-stack.svg" width="100%" alt="Dark-violet language chips and a distinct Frameworks / Build Tools section. GitHub Linguist byte shares and public-manifest evidence refresh automatically." />
+
+<details><summary>Extended verified language and framework inventory</summary>
+
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Complete verified GitHub Linguist language and public framework manifest inventory" />
+
+</details>
 </div>
 
 <sub>Language proportions use GitHub Linguist code bytes, not skill ratings. Aggregated private-repository language bytes are included only when authorized access is available; private repository names and files are not published. Frameworks require public dependency-manifest evidence. Snapshots refresh hourly on a best-effort basis. [Inspect dated evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md).</sub>
 
 ## Featured Projects
+
+<table>
+<tr>
+<td width="33%" valign="top"><a href="https://github.com/aymanbouanouj/morocco2030"><img src="./assets/v6-project-morocco.svg" alt="Morocco2030 project, original violet themed feature card" width="100%" /></a></td>
+<td width="33%" valign="top"><a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="./assets/v6-project-train.svg" alt="AB Train Ticket Studio project, original violet themed feature card" width="100%" /></a></td>
+<td width="33%" valign="top"><a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="./assets/v6-project-pc.svg" alt="PC Full Check project, original violet themed feature card" width="100%" /></a></td>
+</tr>
+</table>
+
+[Morocco2030](https://github.com/aymanbouanouj/morocco2030) · [AB Train Ticket Studio](https://github.com/aymanbouanouj/ab-train-ticket-studio) · [PC Full Check](https://github.com/aymanbouanouj/PC-Full-Check)
 
 #### [01 — Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)
 **Laravel 12 · RBAC · Multilingual portal.** Independent academic portal featuring tournament information, multilingual content, role-based access control, and staff administration. Not affiliated with FIFA.  
@@ -98,7 +126,13 @@
 ## Open Source & Collaborations
 
 <div align="center">
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-open-source.svg" width="100%" alt="Purple themed list of GitHub-verified merged open-source pull requests" />
+
+<details><summary>Original public contribution evidence chart</summary>
+
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-collabs.svg" width="100%" alt="GitHub-verified external merged pull requests and collaborations" />
+
+</details>
 </div>
 
 **Open merged contributions:** [PHP Documentation · PR #5930 ↗](https://github.com/php/doc-en/pull/5930) · [SGA-BTS · PR #1 ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)
