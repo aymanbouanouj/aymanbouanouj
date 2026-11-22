@@ -80,58 +80,62 @@ def svg_done(pieces: list[str]) -> str:
 
 
 def metrics(contrib: dict, portfolio: dict, activity: dict) -> str:
-    days = contrib["days"]
-    active_days = sum(1 for day in days if day["count"] > 0)
+    # Never copy the reference image's decorative counters. Every number here
+    # comes from a validated public/aggregate snapshot with a dated source.
+    from render_profile import analysis
+    info = analysis(contrib, reference_date=dt.date.fromisoformat(contrib["days"][-1]["date"]))
     values = [
-        (f'{contrib["total_contributions"]:,}', "Contributions", "Past 365 calendar days", "◆"),
-        (str(active_days), "Active days", "Days with contributions", "▦"),
-        (str(len(portfolio["verified_collaborations"])), "Verified merged PRs", "External public repositories", "⑂"),
-        (str(portfolio["public_original_repository_count"]), "Public projects", "Original repositories", "◇"),
+        (f'{contrib["total_contributions"]:,}', "Contributions", "Past year", "</>"),
+        (str(info["current"]), "Current streak", "Consecutive active days", "♨"),
+        (str(len(portfolio["verified_collaborations"])), "Merged external PRs", "Verified recent sample", "⑂"),
+        (str(portfolio["public_original_repository_count"]), "Public repositories", "Original, non-fork", "▣"),
     ]
-    art = root_svg(190, "V6 verified GitHub metrics",
-                   "Counts are dated GitHub API snapshots. Merged PR count includes verified external public pull requests only.")
-    art.extend([text(24, 37, "ENGINEERING AT A GLANCE", 22, TEXT, 700),
-                text(976, 37, dated(contrib["fetched_at_utc"]), 13, MUTED, anchor="end")])
+    art = root_svg(124, "GitHub verified profile statistics",
+                   "Four dark violet statistic cards: annual contributions, current contribution streak, verified recent external merges, and original public repositories.")
     for i, (value, name, subtitle, symbol) in enumerate(values):
-        x = 20 + i * 245
-        art.append(rect(x, 52, 225, 113, active=i == 0))
-        art.append(text(x + 18, 85, symbol, 25, PURPLE, 700))
-        art.append(text(x + 60, 92, value, 33, TEXT, 700))
-        art.append(text(x + 18, 120, name, 17, TEXT, 700))
-        art.append(text(x + 18, 145, subtitle, 12, MUTED))
+        x = 5 + i * 251
+        art.append(rect(x, 3, 239, 109, active=(i == 0)))
+        art.append(text(x + 24, 59, symbol, 34, PURPLE, 700))
+        art.append(text(x + 94, 46, value, 29, TEXT, 700))
+        art.append(text(x + 94, 70, name, 16, TEXT, 700))
+        art.append(text(x + 94, 91, subtitle, 12, MUTED))
     return svg_done(art)
 
 
 def calendar(contrib: dict) -> str:
+    # Calendars use Sunday-first columns to match the native GitHub heatmap.
+    # Month labels are placed on the first new week, not only on Mondays.
     days = contrib["days"]
     first = dt.date.fromisoformat(days[0]["date"])
-    columns = (len(days) + first.weekday() + 6) // 7
-    step = min(16, int(840 / max(columns, 1)))
+    shift = (first.weekday() + 1) % 7
+    columns = (len(days) + shift + 6) // 7
+    step = min(15.6, 827 / max(1, columns))
     cell = step - 3
-    x0, y0 = 100, 83
-    art = root_svg(266, "Contribution activity calendar",
-                   "365-day contribution calendar. Bright green cells mean more contributions; no fabricated streak values.")
-    art.append(rect(18, 16, 964, 232, active=True))
-    art.extend([
-        text(37, 50, "CONTRIBUTION ACTIVITY", 23, TEXT, 700),
-        text(966, 50, f'{contrib["total_contributions"]:,} contributions / 365 days', 14, MUTED, anchor="end")
-    ])
-    for label, row in (("Mon", 0), ("Wed", 2), ("Fri", 4)):
-        art.append(text(63, y0 + row * 21 + 11, label, 12, MUTED))
-    levels = ("#163023", "#0c5839", "#058c49", "#04c85c", "#16ff76")
-    top = max((day["count"] for day in days), default=0)
-    previous_month = None
+    x0, y0 = 117, 76
+    art = root_svg(188, "Contribution Activity",
+                   "One year of verified GitHub GraphQL contribution counts in five green levels, with accurate day and month positions.")
+    art.append(rect(3, 2, 994, 177, active=True))
+    art.extend([text(24, 35, "▦   Contribution Activity", 24, TEXT, 700),
+                text(980, 35, f'{contrib["total_contributions"]:,} contributions in the last year', 14, MUTED, anchor="end")])
+    for label, row in (("Mon", 1), ("Wed", 3), ("Fri", 5)):
+        art.append(text(62, int(y0 + row * 13.7 + 10), label, 12, MUTED))
+    levels = ("#123121", "#0d5d38", "#098a45", "#08bc53", "#18ef61")
+    seen_months = set()
     for i, day in enumerate(days):
         date = dt.date.fromisoformat(day["date"])
-        row = (i + first.weekday()) % 7
-        col = (i + first.weekday()) // 7
-        if date.month != previous_month and row == 0 and col < columns - 1:
-            art.append(text(x0 + col * step, 75, date.strftime("%b"), 11, MUTED))
-        previous_month = date.month
+        position = i + shift
+        row, col = position % 7, position // 7
+        month_key = date.strftime("%Y-%m")
+        if month_key not in seen_months:
+            seen_months.add(month_key)
+            art.append(text(int(x0 + col * step), 67, date.strftime("%b"), 11, MUTED))
         count = day["count"]
-        intensity = 0 if count == 0 else min(4, max(1, (count * 4 + max(1, top) - 1) // max(1, top)))
-        art.append(f'<rect x="{x0 + col * step}" y="{y0 + row * 21}" width="{cell}" height="15" rx="2.5" fill="{levels[intensity]}"/>')
-    art.append(text(40, 232, "GitHub GraphQL · dated snapshot; the native GitHub calendar remains authoritative.", 12, MUTED))
+        level = 0 if count == 0 else 1 if count <= 2 else 2 if count <= 6 else 3 if count <= 12 else 4
+        art.append(f'<rect x="{x0 + col * step:.1f}" y="{y0 + row * 13.7:.1f}" width="{cell:.1f}" height="11.4" rx="2" fill="{levels[level]}"/>')
+    art.append(text(816, 167, "Less", 11, MUTED))
+    for j, color in enumerate(levels):
+        art.append(f'<rect x="{859+j*17}" y="157" width="14" height="13" rx="2" fill="{color}"/>')
+    art.append(text(957, 167, "More", 11, MUTED))
     return svg_done(art)
 
 
