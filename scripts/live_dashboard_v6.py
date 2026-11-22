@@ -17,7 +17,8 @@ from live_contributions import render as verify_contribution_art
 from live_portfolio import validate as validate_portfolio
 from live_profile import validate as validate_activity
 
-FILES = ("v6-metrics.svg", "v6-calendar.svg", "v6-stack.svg", "v6-open-source.svg")
+FILES = ("v6-metrics.svg", "v6-calendar.svg", "v6-stack.svg", "v6-open-source.svg",
+         "v6-languages.svg", "v6-frameworks.svg", "v6-building.svg", "v6-pinned.svg")
 BG = "#0a0d18"
 CARD = "#151a2b"
 EDGE = "#42415d"
@@ -211,6 +212,114 @@ def open_source(portfolio: dict) -> str:
     return svg_done(art)
 
 
+
+# The visible V6 stack recreates the reference's 6-column compact chip grid.
+# "Declared" technologies are distinct from the live API's verified languages
+# and public dependency-manifest frameworks. This is *not* a proficiency score.
+DISPLAY_TECH = (
+    "PHP", "JavaScript", "TypeScript", "Python", "HTML", "CSS",
+    "MySQL", "Laravel", "React", "Docker", "Playwright", "Tailwind CSS",
+)
+DISPLAY_BUILD = ("Laravel", "Vite", "Node.js", "Composer", "pnpm", "Docker", "GitHub Actions")
+
+
+def technology_icon(name: str, x: int, y: int, side: int = 29) -> str:
+    from live_portfolio import _icons
+    item = _icons().get(name)
+    if item is None:
+        fallback = {"TypeScript":"TS","MySQL":"DB","Docker":"DK","Playwright":"PW",
+                    "Node.js":"JS","Composer":"CP","pnpm":"PN","GitHub Actions":"GH"}.get(name, name[:2].upper())
+        return (f'<rect x="{x}" y="{y}" width="{side}" height="{side}" rx="5" fill="#342452" stroke="#6b4b9c"/>'
+                + text(x + side//2, y + int(side*0.67), fallback, max(10,side//3), "#e7d7ff",700, anchor="middle"))
+    scale = side / float(item["viewBox"])
+    path = esc(item["path"])
+    color = esc(item["color"])
+    if item.get("stroke"):
+        shape = f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2" stroke-linecap="round"/>'
+    else:
+        shape = f'<path d="{path}" fill="{color}"/>'
+    return f'<g transform="translate({x} {y}) scale({scale:.6f})">{shape}</g>'
+
+
+def compact_technology(portfolio: dict) -> str:
+    language_names = {name for name, _ in portfolio["language_bytes"]}
+    frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
+    art = root_svg(171, "Languages & Technical Stack",
+                   "Reference-matched technology grid, with GitHub Linguist languages, verified framework dependencies, and clearly owner-declared tools.")
+    art.append(text(11, 35, "▱   Languages & Technical Stack", 24, TEXT, 700))
+    art.append(text(981, 35, "Languages and tools used in development", 13, MUTED, anchor="end"))
+    for i, name in enumerate(DISPLAY_TECH):
+        x = 8 + (i % 6) * 166
+        y = 48 + (i // 6) * 59
+        art.append(rect(x, y, 156, 50, active=(name=="Laravel")))
+        art.append(technology_icon(name, x+11, y+10, 29))
+        art.append(text(x+50, y+30, name, 15 if len(name)<13 else 12, TEXT, 700))
+        # Only public-manifest framework names may be flagged as verified.
+        if name in frameworks or name in language_names:
+            art.append(f'<circle cx="{x+143}" cy="{y+13}" r="3" fill="#3ac795"/>')
+    art.append(text(11, 167, "Green dots: verified in GitHub data · Others: owner-declared tools", 10, MUTED))
+    return svg_done(art)
+
+
+def compact_frameworks(portfolio: dict) -> str:
+    frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
+    art = root_svg(117, "Frameworks / Build Tools",
+                   "Seven illustrated build-tool chips matching the supplied reference; evidence-based frameworks and a separately declared development toolkit.")
+    art.append(text(11, 32, "⚒   Frameworks / Build Tools", 24, TEXT, 700))
+    art.append(text(986, 32, "Frameworks, tooling and development services", 12, MUTED, anchor="end"))
+    for i, name in enumerate(DISPLAY_BUILD):
+        x = 8 + i * 142
+        y = 43
+        art.append(rect(x, y, 135, 59, active=(name in frameworks)))
+        art.append(technology_icon(name, x+8, y+13, 30))
+        art.append(text(x+42, y+26, name, 14 if len(name)<12 else 11, TEXT, 700))
+        label = "verified" if name in frameworks else "toolkit"
+        art.append(text(x+42, y+43, label, 11, MUTED))
+    return svg_done(art)
+
+
+def currently_building(activity: dict) -> str:
+    recent = activity["recent_repositories"][:3]
+    art = root_svg(111, "Currently Building — recent public repositories",
+                   "Three recently pushed public GitHub repositories from the validated activity snapshot. This does not claim exclusive or real-time active development.")
+    art.append(text(11, 31, "◉   Currently Building", 23, TEXT, 700))
+    art.append(text(986, 31, "Recently updated public work", 12, MUTED, anchor="end"))
+    for i in range(3):
+        x = 8 + i * 332
+        art.append(rect(x, 44, 321, 52))
+        if i < len(recent):
+            name = recent[i]["name"][:24]
+            art.append(text(x+161, 76, name, 17, "#e2c8ff",700,anchor="middle"))
+        else:
+            art.append(text(x+161, 76, "No additional public activity", 14, MUTED,anchor="middle"))
+    return svg_done(art)
+
+
+def pinned(portfolio: dict) -> str:
+    # Editorial selections are not claimed to be GitHub native pinned items.
+    other={x["name"].casefold() for x in portfolio["other_repositories"]}
+    items=[
+       ("morocco2030","Multilingual tournament platform","Laravel / PHP"),
+       ("ab-train-ticket-studio","Ticket booking, PDF and QR","JavaScript / Vite"),
+       ("PC-Full-Check","Read-only Windows diagnostics","PowerShell"),
+       ("site-recettes" if "site-recettes" in other else None,
+        "Recipe site" if "site-recettes" in other else "More public projects",
+        "Public repository" if "site-recettes" in other else "Browse GitHub"),
+    ]
+    art=root_svg(248,"Selected Public Repositories",
+                 "Four curated public repository cards. No private repositories, misleading GitHub-native pin claim, or invented star and fork counts.")
+    art.append(text(11, 30, "⚑   Pinned / Selected Repositories", 23, TEXT, 700))
+    art.append(text(988, 30, "Curated public projects", 12, MUTED, anchor="end"))
+    for i,(name,summary,tech) in enumerate(items):
+        x=8+(i%2)*498
+        y=44+(i//2)*95
+        art.append(rect(x,y,484,87))
+        art.append(text(x+17,y+32,("▣  "+name) if name else "▣  Browse other public work",18,"#cfb7ff",700))
+        art.append(text(x+18,y+54,summary,13,TEXT))
+        art.append(text(x+18,y+74,tech,12,MUTED))
+    return svg_done(art)
+
+
 def render(contributions: dict, portfolio: dict, activity: dict) -> dict[str, str]:
     # Reuse the source validators. No API calls or private repo identifiers.
     verify_contribution_art(contributions)
@@ -221,6 +330,10 @@ def render(contributions: dict, portfolio: dict, activity: dict) -> dict[str, st
         "v6-calendar.svg": calendar(contributions),
         "v6-stack.svg": stack(portfolio),
         "v6-open-source.svg": open_source(portfolio),
+        "v6-languages.svg": compact_technology(portfolio),
+        "v6-frameworks.svg": compact_frameworks(portfolio),
+        "v6-building.svg": currently_building(activity),
+        "v6-pinned.svg": pinned(portfolio),
     }
     return results
 
