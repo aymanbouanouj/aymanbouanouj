@@ -142,7 +142,8 @@ def stack(portfolio: dict) -> str:
     lang_rows = max(1, (len(langs) + 5) // 6)
     fw_rows = max(1, (len(frameworks) + 3) // 4)
     fw_heading = 84 + lang_rows * 66 + 36
-    height = fw_heading + 42 + fw_rows * 71 + 50
+    toolkit_y = fw_heading + 42 + fw_rows * 71 + 22
+    height = toolkit_y + 134
     art = root_svg(height, "Languages and frameworks from verified GitHub data",
                    "Programming languages reflect GitHub Linguist byte counts. Frameworks are verified against public dependency manifests.")
     art.extend([text(24, 40, "LANGUAGES & TECHNICAL STACK", 25, TEXT, 700),
@@ -168,6 +169,16 @@ def stack(portfolio: dict) -> str:
         art.append(text(x + 48, y + 47, f'{len(framework["repositories"])} source repos', 12, MUTED))
     if not frameworks:
         art.append(text(36, fw_heading + 74, "No frameworks verified in the available public manifests.", 16, MUTED))
+    # Owner-declared workflow tools are intentionally separate from manifest-verified frameworks.
+    # This section is not automatically detected and is never presented as GitHub API evidence.
+    art.append(text(24, toolkit_y, "WORKFLOW / DELIVERY TOOLS", 22, TEXT, 700))
+    art.append(text(24, toolkit_y + 22, "Owner-declared toolkit · separate from verified framework signals", 12, MUTED))
+    for i, name in enumerate(("Node.js", "Composer", "pnpm", "Docker", "GitHub Actions")):
+        tx = 20 + i * 196
+        ty = toolkit_y + 32
+        art.append(rect(tx, ty, 181, 53))
+        art.append(text(tx + 14, ty + 33, "◆", 16, PURPLE))
+        art.append(text(tx + 38, ty + 32, name, 14, TEXT, 700))
     scope = ("Public + selected private aggregates" if portfolio["language_scope"] == "public-plus-private"
              else "Public-only; private data unavailable" if portfolio["language_scope"] == "public-only-private-unavailable"
              else "Public repositories only")
