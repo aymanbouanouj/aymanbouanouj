@@ -137,7 +137,7 @@ jobs:
           python3 "$GITHUB_WORKSPACE/scripts/live_project_cards_v6.py" --build --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_project_cards_v6.py" --verify --output live
           git add -- live/v6-featured.json live/v6-feature-morocco.png live/v6-feature-train.png live/v6-feature-pc.png
-          git add -- live/v6-metrics.svg live/v6-calendar.svg live/v6-stack.svg live/v6-open-source.svg
+          git add -- live/v6-metrics.svg live/v6-calendar.svg live/v6-stack.svg live/v6-open-source.svg live/v6-languages.svg live/v6-frameworks.svg live/v6-building.svg live/v6-pinned.svg
           git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
