@@ -28,7 +28,7 @@ class V6ReadmeContract(unittest.TestCase):
         self.assertIsNotNone(root.find("svg:title", ns))
         self.assertIsNotNone(root.find("svg:desc", ns))
         self.assertIn("prefers-reduced-motion", svg)
-        self.assertIn("AYMAN BOUNAOUJ", svg)
+        self.assertIn("Ayman Bounaouj", svg)
         self.assertNotIn("<script", svg.lower())
         self.assertNotIn("https://", svg)
         self.assertNotIn("javascript:", svg.lower())
