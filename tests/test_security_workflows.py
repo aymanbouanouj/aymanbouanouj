@@ -47,11 +47,16 @@ class WorkflowSecurityTests(unittest.TestCase):
             line.strip() for line in requirements.splitlines()
             if line.strip() and not line.lstrip().startswith("#")
         ]
-        self.assertEqual(len(specs), 1, "Renderer requirements must be explicit and minimal")
+        self.assertEqual(len(specs), 2, "Only the pinned CairoSVG renderer and Pillow project-card processor are allowed")
         self.assertRegex(
             specs[0],
             r"^CairoSVG==[0-9]+\.[0-9]+\.[0-9]+(?:\.post[0-9]+)?$",
             "CairoSVG must use a pinned version, not a floating or remote dependency",
+        )
+        self.assertRegex(
+            specs[1],
+            r"^Pillow==[0-9]+\.[0-9]+\.[0-9]+$",
+            "Pillow for source-verified screenshot cards must be pinned, not floating",
         )
         workflow = (WORKFLOWS / "profile-refresh.yml").read_text(encoding="utf-8")
         self.assertEqual(workflow.count("pip install --disable-pip-version-check -r requirements-ci.txt"), 3)
