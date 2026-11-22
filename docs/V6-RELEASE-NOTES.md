@@ -26,3 +26,30 @@ V6 is an incremental upgrade of the active V5 GitHub profile, not a new unrelate
 ## Limitations
 
 This PR does not replace the data pipeline, solve GitHub's best-effort scheduling/cache delay, guarantee security or verify rendering across devices. Future improvements should target durable usability checks and trustworthy presentation of verified project outcomes rather than more counters.
+
+## V6 visual reference integration (22 November 2026)
+
+The requested reference shows a dark GitHub-like dashboard, a glowing white AB/violet-arrow monogram, a neon purple developer banner, four evidence cards, a contribution calendar, compact language/framework grids, feature tiles, public work, and a footer. The active V6 branch now includes:
+
+- Source-owned and SVG-safe neon circuit header: `assets/brand-v6.svg`
+- User-provided AB logo optimized for GitHub README embedding: `assets/v6-logo-source.webp` (the original user image was not changed in place)
+- Three original SVG feature illustrations: `assets/v6-project-*.svg`
+- Four live generated illustrations: `live/v6-metrics.svg`, `live/v6-calendar.svg`, `live/v6-stack.svg`, and `live/v6-open-source.svg`
+- Reusable deterministic renderer: `scripts/live_dashboard_v6.py`
+- No changes to the external GitHub UI, default GitHub avatar or native pinned repositories
+
+### Critical accuracy and rollout constraints
+
+- GitHub does not let repository README content modify its navigation, profile sidebar, follow buttons, native tab bars, or pinned repositories. The visual reference is reproduced **inside README capabilities**, not as a GitHub interface skin.
+- Values in the reference screenshot are **examples**, not evidence. New metrics use genuine GraphQL calendar totals, counted active days, **recent independently verified public external merged PRs**, and owner public original repository totals. Do not call the external PR sample a lifetime total.
+- Private repository source, identifiers and branch details remain unpublished. Only already supported aggregated GitHub Linguist byte counts appear when the owner's optional credential works.
+- The four new SVGs are not present on the `profile-live` data branch until the updated workflow publishes them after merge, so they may appear missing in PR preview. Existing V5 assets and original evidence remain available during rollout.
+- GitHub Actions runs hourly on a best-effort basis. No claim of instant updates or guaranteed schedule is made.
+- The real GitHub account avatar can only be changed by the account owner through GitHub profile settings; the README does not control it.
+
+### Final verification before merge
+
+1. Observe all four required jobs (offline integrity, full-history Gitleaks, CodeQL Python, CodeQL Actions) **on the final PR head SHA**.
+2. Check source proof, absence of private names, actual value provenance and SVG rendering on desktop/mobile.
+3. After merge, run the **Refresh live public activity** workflow on `main` if the first scheduled run has not arrived. Confirm all four `live/v6-*.svg` files on `profile-live` before considering rollout finished.
+4. Compare rendered V6 screenshots in GitHub light and dark, verify source links, respect image caching, and ensure no fabricated statistics.
