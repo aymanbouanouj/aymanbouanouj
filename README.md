@@ -1,6 +1,12 @@
-<!-- Verified V5 design · graphical snapshots refresh hourly; source data remains public -->
+<!-- Profile V6 · editorial, evidence-first presentation · verified data stays on profile-live -->
 
 <div align="center">
+
+<img src="./assets/brand-v6.svg" width="100%" alt="Ayman Bounaouj, full-stack web developer. Original AB logo with violet upward arrow." />
+
+<p><strong>Building useful web products with clear architecture, thoughtful interfaces and verifiable engineering work.</strong></p>
+
+<p><a href="#featured-projects">Featured projects</a> · <a href="#languages--technical-stack">Languages &amp; tools</a> · <a href="#open-source--collaborations">Open source</a></p>
 
 <h3><code>aymanbouanouj@github ~ $ ./contributions.sh</code></h3>
 
@@ -27,19 +33,31 @@
 
 ### Full-Stack Web Developer · Laravel · PHP · JavaScript
 
-*Building full-stack web applications with a focus on maintainable code, security, and practical user experiences.*
+*Laravel/PHP, JavaScript and full-stack delivery — with source code, tests and live demonstrations where available.*
 
 <h3><code>ayman@github ~ $ ./links.sh</code></h3>
 
 <a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" alt="GitHub — official profile" width="144" /></a>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn — official profile" width="144" /></a>
+<a href="https://medium.com/@aymanbounaouj"><img src="./assets/link-medium.svg" alt="Medium — official profile" width="144" /></a>
+
+<details>
+<summary>Other profiles</summary>
+
 <a href="https://www.instagram.com/aymanbounaouj/"><img src="./assets/link-instagram.svg" alt="Instagram — official profile" width="144" /></a>
 <a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./assets/link-facebook.svg" alt="Facebook — official profile" width="144" /></a>
 <a href="https://x.com/aymanbounaouj"><img src="./assets/link-x.svg" alt="X — official profile" width="144" /></a>
-<a href="https://medium.com/@aymanbounaouj"><img src="./assets/link-medium.svg" alt="Medium — official profile" width="144" /></a>
 <a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" alt="Beacons — official profile" width="144" /></a>
 
+</details>
+
 </div>
+
+## Engineering Focus
+
+**Backend & access control:** Laravel architecture and staff roles in [Morocco2030](https://github.com/aymanbouanouj/morocco2030).  
+**Verification & diagnostics:** Read-only Windows diagnostics in [PC Full Check](https://github.com/aymanbouanouj/PC-Full-Check) and browser testing in [AB Train Ticket Studio](https://github.com/aymanbouanouj/ab-train-ticket-studio).  
+**Interface delivery:** Responsive [VioletGate](https://aymanbouanouj.github.io/violetgate/) and [Ayman Calc](https://aymanbouanouj.github.io/ayman-calc/) demonstrations.
 
 ---
 
@@ -49,7 +67,7 @@
 <img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
 </div>
 
-<sub>Languages: GitHub Linguist code bytes. Frameworks: verified public dependency manifests. Auto-refreshed hourly (best effort); percentages are not skill ratings. [Verified source links ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md).</sub>
+<sub>Language proportions use GitHub Linguist code bytes, not skill ratings. Aggregated private-repository language bytes are included only when authorized access is available; private repository names and files are not published. Frameworks require public dependency-manifest evidence. Snapshots refresh hourly on a best-effort basis. [Inspect dated evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md).</sub>
 
 ## Featured Projects
 
