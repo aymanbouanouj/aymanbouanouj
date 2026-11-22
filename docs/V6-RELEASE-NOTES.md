@@ -53,3 +53,49 @@ The requested reference shows a dark GitHub-like dashboard, a glowing white AB/v
 2. Check source proof, absence of private names, actual value provenance and SVG rendering on desktop/mobile.
 3. After merge, run the **Refresh live public activity** workflow on `main` if the first scheduled run has not arrived. Confirm all four `live/v6-*.svg` files on `profile-live` before considering rollout finished.
 4. Compare rendered V6 screenshots in GitHub light and dark, verify source links, respect image caching, and ensure no fabricated statistics.
+
+
+## Reference-exact V6 README implementation
+
+The visual reference is followed in the visible README, with the preserved V5 content moved into a collapsible evidence appendix. The full-width modules appear in this order:
+1. branded hero and working public links;
+2. four API-backed metric cards;
+3. a GitHub GraphQL contribution grid;
+4. twelve compact technology chips;
+5. a seven-tool Frameworks / Build Tools strip;
+6. three clickable featured repository cards;
+7. verified merged external pull requests;
+8. recently pushed public repositories;
+9. four curated public repository selections;
+10. original AB footer.
+
+The top GitHub navigation, account sidebar, actual avatar, real native pinned section and Follow/Sponsor controls **cannot be modified** by a profile README. Decorative link labels drawn in a hero SVG are not independently clickable; the functional HTML links immediately following the banner serve those actions.
+
+### Automatic real-image / placeholder policy
+
+Each featured card is generated as an **actual PNG** by `scripts/live_project_cards_v6.py` after reading the following eligible **public** locations in its own repository, in priority order:
+
+- `assets/profile-cover.png` (recommended upload path)
+- `assets/profile-cover.jpg` or `assets/profile-cover.webp`
+- `assets/profile-card.png`
+- `media/readme/cover.png` or `media/readme/preview.png`
+- `docs/screenshots/cover.png`
+- Repository-specific existing real screenshots:
+  - `morocco2030/docs/screenshots/01-home.png`
+  - `ab-train-ticket-studio/media/readme/desktop-journey.png` or `media/readme/ticket-preview.png`
+  - `PC-Full-Check/docs/screenshots/overview.png` if later added
+
+**How to add a project cover:** upload a suitable real screenshot into the project's own public repository at `assets/profile-cover.png`; commit it to that repository's default branch. A subsequent successful hourly best-effort refresh discovers the GitHub blob SHA and regenerates the matching project card. A missing image is intentionally displayed as an empty styled cover area with its placeholder label. No stock photography or imagined project screenshots are published.
+
+Security restrictions: read public GitHub REST data using an ephemeral GitHub Actions token; verify owner, repository privacy, default branch, fixed candidate paths, file size (≤2 MB), base64 contents, Git blob SHA-1, and raster type (PNG/JPEG/WebP). Pillow is pinned. Reject decompression bombs, unsafe input or a GitHub service error instead of silently publishing an invented screenshot. `v6-featured.json` records only public source paths, blob SHAs, card SHA256 digests and verified public star/fork counts; no private repository data.
+
+### Real data versus screenshot examples
+
+The reference's annual contributions, 36-day streak, 27 merged PRs and 414 private contributions are **not** hard-coded. V6 shows:
+- contribution total from GitHub GraphQL over the calendar window,
+- streak computed from the same validated calendar,
+- size of independently verified recent public *external merged PRs*, not lifetime merges,
+- original public repositories (instead of unsupported private contributions),
+- owner-declared tools distinguished from verified GitHub Linguist code bytes and framework manifests.
+
+New generated SVG URLs and featured PNGs are published to the `profile-live` branch only after the final generator runs on `main`. A draft PR preview may not show those images yet; this is expected. Merge only after all required checks pass, then verify the first real Actions publication. No third-party badge hosts, JavaScript or direct writes to protected `main` are involved.
