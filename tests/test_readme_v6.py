@@ -36,6 +36,20 @@ class V6ReadmeContract(unittest.TestCase):
             for key in node.attrib:
                 self.assertFalse(key.rsplit("}", 1)[-1].lower().startswith("on"))
 
+    def test_project_covers_and_footer_never_use_concept_art(self):
+        text = (ROOT / "README.md").read_text(encoding="utf-8")
+        for slug in ("morocco", "train", "pc"):
+            self.assertIn(f"profile-live/live/v6-feature-{slug}.png", text)
+            self.assertNotIn(f"v6-project-{slug}.svg", text)
+        self.assertIn('src="./assets/v6-footer.svg"', text)
+        self.assertTrue((ROOT / "assets" / "v6-footer.svg").is_file())
+        self.assertLess(text.index("## Featured Projects"),
+                        text.index("## Open Source & Collaborations"))
+        self.assertLess(text.index("## Open Source & Collaborations"),
+                        text.index("## Currently Building"))
+        self.assertLess(text.index("## Currently Building"),
+                        text.index("## Pinned / Selected Repositories"))
+
     def test_live_data_pipeline_references_preserved(self):
         text = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertIn("profile-live/live/contributions.svg", text)
