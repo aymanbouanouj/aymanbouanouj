@@ -60,6 +60,41 @@ class V6ProjectImageTests(unittest.TestCase):
             return info
         with self.assertRaises(ValueError):
             locate(name,fetch)
+    def test_end_to_end_raster_cards_and_placeholder(self):
+        from PIL import Image
+        import io
+        import tempfile
+        from live_project_cards_v6 import build, verify, CARD_FILES
+        stream = io.BytesIO()
+        Image.new("RGB", (320, 160), "#28395e").save(stream, "PNG")
+        screenshot = stream.getvalue()
+        image_sha = blob_sha(screenshot)
+        def fetch(url):
+            for project in PROJECTS:
+                if url.endswith("/" + project[1]):
+                    return self.base(project[1])
+            if "/morocco2030/contents/assets/profile-cover.png?" in url:
+                return {"type":"file","path":"assets/profile-cover.png",
+                        "encoding":"base64","size":len(screenshot),"sha":image_sha,
+                        "content":base64.b64encode(screenshot).decode("ascii")}
+            raise HTTPError(url,404,"Not Found",{},None)
+        with tempfile.TemporaryDirectory() as td:
+            folder=Path(td)
+            result=build(folder,fetch)
+            self.assertEqual(len(result["cards"]),3)
+            self.assertIsNotNone(result["cards"][0]["path"])
+            self.assertIsNone(result["cards"][1]["path"])
+            self.assertIsNone(result["cards"][2]["path"])
+            self.assertEqual(set(CARD_FILES),{x["file"] for x in result["cards"]})
+            self.assertEqual(verify(folder),result)
+            for name in CARD_FILES:
+                with Image.open(folder/name) as image:
+                    self.assertEqual(image.size,(640,630))
+                    image.verify()
+            (folder/CARD_FILES[0]).write_bytes(b"corrupt")
+            with self.assertRaisesRegex(ValueError,"tampered"):
+                verify(folder)
+
     def test_only_allowlisted_public_file_paths(self):
         self.assertNotIn(".env", " ".join(STANDARD_PATHS))
         self.assertTrue(all("profile-" in p or "readme/" in p or "screenshots/" in p for p in STANDARD_PATHS))
