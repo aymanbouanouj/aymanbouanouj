@@ -48,10 +48,13 @@ jobs:
           python3 scripts/live_portfolio.py --verify --output "$RUNNER_TEMP/portfolio-build"
           python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
+      - name: Install pinned raster image dependency
+        run: python3 -m pip install --disable-pip-version-check --requirement requirements-ci.txt
       - name: Publish generated artifacts only to the unprotected data branch
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = "aymanbouanouj/aymanbouanouj"
@@ -129,6 +132,11 @@ jobs:
           # Build V6 assets only from the final, validated and possibly restored snapshots.
           python3 "$GITHUB_WORKSPACE/scripts/live_dashboard_v6.py" --build --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_dashboard_v6.py" --verify --output live
+          # Project screenshots are read from explicitly selected public GitHub paths.
+          # Missing images produce placeholders, never invented cover art.
+          python3 "$GITHUB_WORKSPACE/scripts/live_project_cards_v6.py" --build --output live
+          python3 "$GITHUB_WORKSPACE/scripts/live_project_cards_v6.py" --verify --output live
+          git add -- live/v6-featured.json live/v6-feature-morocco.png live/v6-feature-train.png live/v6-feature-pc.png
           git add -- live/v6-metrics.svg live/v6-calendar.svg live/v6-stack.svg live/v6-open-source.svg
           git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
           if git diff --cached --quiet; then
