@@ -126,6 +126,10 @@ jobs:
           python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --verify --output live
+          # Build V6 assets only from the final, validated and possibly restored snapshots.
+          python3 "$GITHUB_WORKSPACE/scripts/live_dashboard_v6.py" --build --output live
+          python3 "$GITHUB_WORKSPACE/scripts/live_dashboard_v6.py" --verify --output live
+          git add -- live/v6-metrics.svg live/v6-calendar.svg live/v6-stack.svg live/v6-open-source.svg
           git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
