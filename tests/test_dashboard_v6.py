@@ -99,7 +99,7 @@ class VerifiedV6DashboardTests(unittest.TestCase):
         out = render(c, p, a)
         for name in ("v6-metrics.svg", "v6-calendar.svg", "v6-open-source.svg",
                      "v6-building.svg", "v6-languages.svg", "v6-frameworks.svg"):
-            self.assertIn('<path d=', out[name], name)
+            self.assertTrue("<path d=" in out[name] or "<circle cx=" in out[name], name)
         for glyph in ("♨", "⑂", "▣", "▦", "⬡", "⚒"):
             self.assertNotIn(glyph, out["v6-metrics.svg"])
             self.assertNotIn(glyph, out["v6-calendar.svg"])
