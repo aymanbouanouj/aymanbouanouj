@@ -18,7 +18,8 @@ from live_portfolio import validate as validate_portfolio
 from live_profile import validate as validate_activity
 
 FILES = ("v6-metrics.svg", "v6-calendar.svg", "v6-stack.svg", "v6-open-source.svg",
-         "v6-languages.svg", "v6-frameworks.svg", "v6-building.svg", "v6-pinned.svg")
+         "v6-languages.svg", "v6-frameworks.svg", "v6-building.svg", "v6-pinned.svg",
+         "v6-pin-morocco.svg", "v6-pin-train.svg", "v6-pin-pc.svg", "v6-pin-recettes.svg")
 BG = "#0a0d18"
 CARD = "#151a2b"
 EDGE = "#42415d"
@@ -338,6 +339,37 @@ def pinned(portfolio: dict) -> str:
     return svg_done(art)
 
 
+def pinned_cards(portfolio: dict) -> dict[str, str]:
+    """Four individually linkable public repository cards; README owns the links."""
+    public_extra = {item["name"].casefold() for item in portfolio["other_repositories"]}
+    options = [
+        ("morocco", "morocco2030", "Multilingual tournament platform", "Laravel   ·   React"),
+        ("train", "ab-train-ticket-studio", "Train ticket booking, QR / PDF", "JavaScript   ·   Vite"),
+        ("pc", "PC-Full-Check", "Privacy-first Windows diagnostics", "PowerShell   ·   Windows"),
+        ("recettes", "site-recettes" if "site-recettes" in public_extra else None,
+         "Public web recipe project" if "site-recettes" in public_extra else "Other public work",
+         "Web development" if "site-recettes" in public_extra else "Browse repositories"),
+    ]
+    output = {}
+    for slug, name, summary, technologies in options:
+        art = [
+            '<svg xmlns="http://www.w3.org/2000/svg" width="490" height="110" viewBox="0 0 490 110" role="img" aria-labelledby="title desc">',
+            f'<title id="title">{esc(name or "More public repositories")}</title>',
+            f'<desc id="desc">{esc(summary)}. Click the card in README to open its public repository.</desc>',
+            '<style>@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style>',
+            '<rect x="1" y="1" width="488" height="108" rx="14" fill="#171b2a" stroke="#5b526e" stroke-width="1.6"/>',
+            '<path d="M19 25h18v20H19z M19 33h18" stroke="#9f89d8" stroke-width="2" fill="none"/>',
+            text(49, 38, name or "More public repositories", 19, "#c9aeff", 700),
+            '<rect x="393" y="18" width="75" height="27" rx="13" fill="#25263a" stroke="#49435c"/>',
+            text(431, 36, "Public", 13, TEXT, 700, anchor="middle"),
+            text(18, 70, summary, 15, TEXT),
+            text(18, 94, technologies, 13, MUTED),
+        ]
+        art.append("</svg>")
+        output[f"v6-pin-{slug}.svg"] = svg_done(art[:-1])
+    return output
+
+
 def render(contributions: dict, portfolio: dict, activity: dict) -> dict[str, str]:
     # Reuse the source validators. No API calls or private repo identifiers.
     verify_contribution_art(contributions)
@@ -352,6 +384,7 @@ def render(contributions: dict, portfolio: dict, activity: dict) -> dict[str, st
         "v6-frameworks.svg": compact_frameworks(portfolio),
         "v6-building.svg": currently_building(activity),
         "v6-pinned.svg": pinned(portfolio),
+        **pinned_cards(portfolio),
     }
     return results
 
