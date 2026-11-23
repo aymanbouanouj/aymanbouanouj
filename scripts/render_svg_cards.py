@@ -19,6 +19,8 @@ from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 
 from fontTools import subset
+from fontTools.pens.boundsPen import BoundsPen
+from fontTools.svgLib.path import parse_path
 from fontTools.ttLib import TTFont, TTLibError
 
 from brand_paths import PURPLE, WHITE
@@ -50,7 +52,11 @@ FONT_DATA = re.compile(re.escape(FONT_URI) + r"([A-Za-z0-9+/=]+)")
 TRAIN_URI = "data:image/jpeg;base64,"
 TRAIN_SHA256 = "c1f329c32b3724b142393e8b34f12da8636db2cc5c233e874520ac049679d7fa"
 
-FONT_FILES = {400: "Poppins-Regular.ttf", 600: "Poppins-SemiBold.ttf"}
+FONT_FILES = {
+    400: "Poppins-Regular.ttf",
+    500: "Poppins-Medium.ttf",
+    600: "Poppins-SemiBold.ttf",
+}
 ANIMATION = """
 @keyframes rise{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fade{from{opacity:.25}to{opacity:1}}
@@ -123,10 +129,20 @@ CURRENT = (
 STACK = ("PHP", "JavaScript", "TypeScript", "Python", "HTML", "CSS",
          "MySQL", "Laravel", "React", "Docker", "Playwright", "Tailwind CSS")
 TOOLS = (
-    ("Laravel", "Web framework"), ("Vite", "Frontend build"), ("Node.js", "JS runtime"),
+    ("Laravel", "Web framework"), ("Vite", "Build tool"), ("Node.js", "JS runtime"),
     ("Composer", "PHP packages"), ("pnpm", "JS packages"), ("Docker", "CI services"),
     ("GitHub Actions", "CI and delivery"),
 )
+# Optical maximums for the visible paths, in SVG units. Wide and outline marks
+# need more room than filled squares to read as part of the same set.
+GRID_MARK_SIZES = {
+    "PHP": (48, 30), "JavaScript": (35, 35), "TypeScript": (35, 35),
+    "Python": (39, 37), "HTML": (34, 38), "CSS": (34, 38),
+    "MySQL": (43, 37), "Laravel": (42, 41), "React": (43, 40),
+    "Docker": (45, 35), "Playwright": (42, 34), "Tailwind CSS": (44, 32),
+    "Vite": (39, 39), "Node.js": (38, 40), "Composer": (39, 42),
+    "pnpm": (33, 33), "GitHub Actions": (37, 37),
+}
 EXTERNAL_COPY = (
     ("Egonex-AI / Understand-Anything", "Apply dashboard filters to the structural code graph."),
     ("OWASP / Cheat Sheet Series", "Contributed to the cheat-sheet revision discussion."),
@@ -233,20 +249,46 @@ def glyph(name: str, x: float, y: float, size: float, color=VIOLET) -> str:
 
 
 @lru_cache
+def icon_registry() -> dict:
+    return read_json(ASSETS / "tech-icons.json")
+
+
+@lru_cache
 def brand_icons() -> dict:
-    icons = read_json(ASSETS / "tech-icons.json")["icons"]
+    icons = icon_registry()["icons"].copy()
     legacy = read_json(ROOT / "scripts/tech_icon_paths.json")["icons"]
     mark = legacy["PowerShell"]
     icons["PowerShell"] = {"viewBox": mark["viewBox"], "paths": [{"d": mark["path"], "fill": mark["color"]}]}
     return icons
 
 
+def icon_paths(icon: dict) -> str:
+    return "".join(f'<path d="{esc(p["d"])}" fill="{esc(p["fill"])}"/>' for p in icon["paths"])
+
+
 def technology(name: str, x: float, y: float, size: float) -> str:
     if name == "Windows":
         return glyph("windows", x, y, size, "#5dbdff")
     icon = brand_icons()[name]
-    paths = "".join(f'<path d="{esc(p["d"])}" fill="{esc(p["fill"])}"/>' for p in icon["paths"])
-    return group(paths, f'translate({x} {y}) scale({size / icon["viewBox"]:.5f})')
+    return group(icon_paths(icon), f'translate({x} {y}) scale({size / icon["viewBox"]:.5f})')
+
+
+@lru_cache
+def grid_mark(name: str) -> tuple[str, tuple[float, float, float, float]]:
+    icon = icon_registry()["grid_icons"].get(name) or brand_icons()[name]
+    pen = BoundsPen(None)
+    for item in icon["paths"]:
+        parse_path(item["d"], pen)
+    return icon_paths(icon), pen.bounds
+
+
+def centered_mark(name: str, cx: float, cy: float, *, width: int, height: int) -> str:
+    art, (left, top, right, bottom) = grid_mark(name)
+    optical_w, optical_h = GRID_MARK_SIZES[name]
+    scale = min(min(width, optical_w) / (right - left), min(height, optical_h) / (bottom - top))
+    x = cx - (right + left) * scale / 2
+    y = cy - (bottom + top) * scale / 2
+    return group(art, f"translate({x:.3f} {y:.3f}) scale({scale:.6f})")
 
 
 def logo(x, y, width) -> str:
@@ -258,16 +300,17 @@ class Card:
     def __init__(self, w: int, h: int, title: str, description: str):
         self.w, self.h = w, h
         self.title, self.description = title, description
+        self.styles: list[str] = []
         self.parts: list[str] = []
         self.defs = [
             gradient("panel", ((0, "#171a28"), (1, "#11131e")), axis=(0, 0, 1, 1)),
             gradient("brand", ((0, BRAND), (1, LILAC)), axis=(0, 1, 1, 0)),
         ]
-        self.glyphs: dict[int, set[str]] = {400: set(), 600: set()}
+        self.glyphs: dict[int, set[str]] = {}
 
     def text(self, x, y, value, size, *, weight=400, fill=INK, anchor="start", tracking=0) -> str:
         value = str(value)
-        self.glyphs[weight].update(value)
+        self.glyphs.setdefault(weight, set()).update(value)
         return (f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" fill="{fill}"'
                 f' text-anchor="{anchor}" letter-spacing="{tracking}">{esc(value)}</text>')
 
@@ -278,13 +321,14 @@ class Card:
 
     def svg(self, static: bool) -> str:
         faces = []
-        for weight, characters in self.glyphs.items():
+        for weight, characters in sorted(self.glyphs.items()):
             if characters:
                 font = font_subset(weight, "".join(sorted(characters)))
                 faces.append(f"@font-face{{font-family:ProfilePoppins;font-weight:{weight};"
                              f"src:url({FONT_URI}{font}) format('woff')}}")
         css = ("".join(faces)
                + "text{font-family:ProfilePoppins,Arial,Helvetica,sans-serif;font-variant-numeric:tabular-nums}"
+               + "".join(self.styles)
                + ("" if static else ANIMATION.strip()))
         return (
             f'<svg xmlns="{SVG_NS}" width="{self.w}" height="{self.h}" viewBox="0 0 {self.w} {self.h}"'
@@ -490,30 +534,50 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
 
 
 def tech_grid(*, tools=False, compact=False) -> Card:
-    title, note, icon = (("Frameworks / Build Tools", "Frameworks, build and delivery", "tools") if tools
-                         else ("Languages & Technical Stack", "Evidence from public work", "stack"))
+    title, note, symbol = (("Frameworks / Build Tools", "Frameworks, build and delivery", "tools") if tools
+                           else ("Languages & Technical Stack", "Evidence from public work", "stack"))
     items = TOOLS if tools else [(name, "") for name in STACK]
     cols = (2 if tools else 3) if compact else (7 if tools else 6)
     w = 680 if compact else WIDTH
-    h = 75 if tools else 55
+    h = (82 if tools else 62) if compact else (76 if tools else 55)
     rows = (len(items) + cols - 1) // cols
-    gap = 10
-    step = (w + gap) / cols
-    card = Card(w, 47 + rows * (h + gap) - gap, title,
+    inset = 10
+    top = 54 if compact else 46
+    gap = 14 if compact or not tools else 12
+    available = w - 2 * inset - (cols - 1) * gap
+    extra = (14, 0, 0, 0, 0, 0, 32) if tools and not compact else (0,) * cols
+    widths = [(available - sum(extra)) / cols + n for n in extra]
+    card = Card(w, top + rows * h + (rows - 1) * gap + 2, title,
                 ", ".join(name for name, _ in items) + ". Evidence links in the README.")
-    card.parts.append(card.heading(title, "" if compact else note, icon, width=w))
+    # A translucent text layer avoids colored LCD fringes on small SVG text in Chromium.
+    card.styles.append("text{opacity:.98}")
+    card.defs.append(gradient("tech-panel", ((0, "#171b26"), (1, "#11151f")), axis=(0, 0, 1, 1)))
+    card.parts.extend((
+        glyph(symbol, 16, 10, 29 if compact else 26),
+        card.text(68, 36 if compact else 32, title, 29 if compact else 24,
+                  weight=500, tracking="-.18"),
+    ))
+    if not compact:
+        card.parts.append(card.text(w - inset, 31, note, 15.5, fill=COPY, anchor="end"))
+
+    label_inset = 64 if compact else (56 if tools else 67)
+    name_size = (22 if tools else 21.5) if compact else (15.2 if tools else 16)
+    caption_size = 17 if compact else 11.6
     for index, (name, caption) in enumerate(items):
-        y, x = divmod(index, cols)
-        x, y = round(x * step, 2), 47 + y * (h + gap)
-        size = 30 if tools else 31
-        body = panel(x, y, round(step - gap, 2), h, radius=12)
-        body += technology(name, x + 12, y + (h - size) / 2, size)
-        text_size = 19 if compact else 17
-        if text_width(name, text_size, 600) > step - gap - 62:
-            text_size = (step - gap - 62) / text_width(name, 1, 600)
-        body += card.text(x + 53, y + (32 if tools else 35), name, round(text_size, 1), weight=600)
+        row, col = divmod(index, cols)
+        x = round(inset + sum(widths[:col]) + col * gap, 2)
+        y = top + row * (h + gap)
+        width = round(widths[col], 2)
+        center_y = y + h / 2
+        body = panel(x, y, width, h, radius=12, fill="url(#tech-panel)", stroke="#373b48")
+        broad_slot = compact or not tools
+        body += centered_mark(name, x + (32 if broad_slot else 27), center_y,
+                              width=48 if broad_slot else 36, height=42)
+        baseline = center_y - 4 if tools else center_y + (7.5 if compact else 5.5)
+        body += card.text(round(x + label_inset, 2), baseline, name, name_size, weight=500)
         if tools:
-            body += card.text(x + 53, y + 53, caption, 13 if not compact else 16, fill=MUTED)
+            body += card.text(round(x + label_inset, 2), baseline + (23 if compact else 17),
+                              caption, caption_size, fill=COPY)
         card.parts.append(group(body, motion="rise", delay=236 + index * 28))
     return card
 

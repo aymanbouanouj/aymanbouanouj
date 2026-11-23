@@ -153,12 +153,35 @@ class SVGTests(unittest.TestCase):
         for name, card in self.cards.items():
             xml = ET.fromstring(card.svg(True))
             style = xml.findtext("svg:style", namespaces=NS)
-            for weight, encoded in re.findall(r"font-weight:(400|600);src:url\(data:font/woff;base64,([A-Za-z0-9+/=]+)\)", style):
-                glyphs = {ord(c) for element in xml.findall(".//svg:text", NS)
-                          if element.get("font-weight") == weight for c in element.text or ""}
+            fonts = dict(re.findall(r"font-weight:(\d+);src:url\(data:font/woff;base64,([A-Za-z0-9+/=]+)\)", style))
+            glyphs_by_weight = {}
+            for element in xml.findall(".//svg:text", NS):
+                if element.text:
+                    glyphs_by_weight.setdefault(element.get("font-weight"), set()).update(map(ord, element.text))
+            self.assertEqual(fonts.keys(), glyphs_by_weight.keys(), name)
+            for weight, encoded in fonts.items():
                 with self.subTest(card=name, weight=weight), TTFont(io.BytesIO(base64.b64decode(encoded))) as font:
                     self.assertEqual(font.flavor, "woff")
-                    self.assertEqual(set(font.getBestCmap()), glyphs)
+                    self.assertEqual(font["OS/2"].usWeightClass, int(weight))
+                    self.assertEqual(set(font.getBestCmap()), glyphs_by_weight[weight])
+
+    def test_technology_grid_keeps_each_badge_and_its_row(self):
+        tools = tuple(name for name, _ in render.TOOLS)
+        for name, labels, columns in (
+            ("technical", render.STACK, 6), ("technical-mobile", render.STACK, 3),
+            ("tools", tools, 7), ("tools-mobile", tools, 2),
+        ):
+            with self.subTest(card=name):
+                root = ET.fromstring(self.cards[name].svg(True))
+                tiles = root.findall("svg:g[@class='rise']", NS)
+                self.assertEqual(tuple(tile.findtext("svg:text", namespaces=NS) for tile in tiles), labels)
+                rows = {}
+                for tile in tiles:
+                    y = tile.find("svg:rect", NS).get("y")
+                    rows[y] = rows.get(y, 0) + 1
+                self.assertEqual(list(rows.values()), [
+                    min(columns, len(labels) - start) for start in range(0, len(labels), columns)
+                ])
 
     def test_verification_ignores_only_woff_compression_differences(self):
         svg = self.cards["hero"].svg(True)
