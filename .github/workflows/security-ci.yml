@@ -36,6 +36,10 @@ jobs:
           python3 scripts/mobile_png.py --verify
           python3 scripts/tech_stack.py --verify
           python3 scripts/engineering.py --verify
+      - name: Verify all README live images are already published
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/check_live_asset_refs.py
 
   secret-scan:
     name: Full-history secret scan (Gitleaks)
