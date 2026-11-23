@@ -43,7 +43,6 @@ BRAND = "#8d43ff"
 LILAC = "#b85cff"
 BORDER = "#353145"
 SURFACE = "#131522"
-CANVAS = "#0c0e17"
 HEAT = ("#232034", "#4d307c", "#7345b5", "#a46bf0", "#cf9dff")
 SVG_NS = "http://www.w3.org/2000/svg"
 FONT_URI = "data:font/woff;base64,"
@@ -676,7 +675,7 @@ def feature(name: str, repo: dict, index: int) -> Card:
 def heading_card(key: str, *, compact=False) -> Card:
     title, note, symbol = HEADERS[key]
     w = 680 if compact else WIDTH
-    card = Card(w, 41, title, note)
+    card = Card(w, 45, title, note)
     card.parts.append(card.heading(title, "" if compact else note, symbol, width=w))
     return card
 
