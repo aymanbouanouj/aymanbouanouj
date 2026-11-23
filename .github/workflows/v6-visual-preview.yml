@@ -1,0 +1,156 @@
+name: V6 visual preview (read-only)
+
+on:
+  pull_request:
+    paths:
+      - README.md
+      - scripts/live_dashboard_v6.py
+      - scripts/live_project_cards_v6.py
+      - scripts/v6_design_system.py
+      - scripts/v6_brand_icons.json
+      - requirements-ci.txt
+      - .github/workflows/v6-visual-preview.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    name: Render actual V6 project cards and panels
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feature/profile-v6-evidence-first-20261122'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout PR without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned image generation dependency
+        run: python3 -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Download public data snapshots from profile-live
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p preview/live
+          for file in contributions.json portfolio.json activity.json; do
+            curl --fail --location --show-error --silent --retry 3 --retry-delay 2               "https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/$file"               --output "preview/live/$file"
+            test -s "preview/live/$file"
+          done
+      - name: Generate and validate exact current branch renderers
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/live_dashboard_v6.py --build --output preview/live
+          python3 scripts/live_dashboard_v6.py --verify --output preview/live
+          python3 scripts/live_project_cards_v6.py --build --output preview/live
+          python3 scripts/live_project_cards_v6.py --verify --output preview/live
+      - name: Build downloadable local visual gallery
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from html import escape
+          folder = Path("preview/live")
+          files = [
+              "v6-metrics.svg", "v6-calendar.svg", "v6-languages.svg",
+              "v6-frameworks.svg", "v6-feature-morocco.png",
+              "v6-feature-train.png", "v6-feature-pc.png",
+              "v6-open-source.svg", "v6-building.svg",
+              "v6-pin-morocco.svg", "v6-pin-train.svg",
+              "v6-pin-pc.svg", "v6-pin-recettes.svg",
+          ]
+          for name in files:
+              if not (folder / name).is_file():
+                  raise SystemExit("Missing V6 asset in visual gallery: " + name)
+          # Preview the *composition*, not a column of giant unrelated files.
+          # Actual README uses Markdown image widths and linked <a> elements.
+          # This local HTML review page is a layout comparator, not the GitHub UI.
+          def img(name, alt=""):
+              return '<img src="live/' + escape(name) + '" alt="' + escape(alt or name) + '">'
+          def section(label, filename, href=None):
+              src = img(filename, label)
+              if href:
+                  src = '<a href="' + escape(href) + '">' + src + '</a>'
+              return '<section>' + src + '</section>'
+          public = "https://github.com/aymanbouanouj/"
+          links = [
+              ("v6-feature-morocco.png", public + "morocco2030"),
+              ("v6-feature-train.png", public + "ab-train-ticket-studio"),
+              ("v6-feature-pc.png", public + "PC-Full-Check"),
+          ]
+          pins = [
+              ("v6-pin-morocco.svg", public + "morocco2030"),
+              ("v6-pin-train.svg", public + "ab-train-ticket-studio"),
+              ("v6-pin-pc.svg", public + "PC-Full-Check"),
+              ("v6-pin-recettes.svg", public + "site-recettes"),
+          ]
+          project_cards = "".join('<a href="' + escape(href) + '">' + img(name) + '</a>'
+                                  for name, href in links)
+          pin_cards = "".join('<a href="' + escape(href) + '">' + img(name) + '</a>'
+                              for name, href in pins)
+          main = (
+              '<main class="dashboard">'
+              '<header><img src="hero.svg" alt="Ayman AB developer banner">'
+              '<nav><a href="https://aymanbouanouj.github.io/portfolio-ayman/">Portfolio</a>'
+              '<a href="https://www.linkedin.com/in/aymanbounaouj/">LinkedIn</a>'
+              '<a href="' + public + '?tab=repositories">Projects</a></nav></header>'
+              + section("Verified profile metrics", "v6-metrics.svg")
+              + section("Contribution activity", "v6-calendar.svg")
+              + section("Languages and technical stack", "v6-languages.svg")
+              + section("Frameworks and build tools", "v6-frameworks.svg")
+              + '<h2>Featured Projects</h2><div class="project-grid">' + project_cards + '</div>'
+              + section("Verified open source contributions", "v6-open-source.svg")
+              + section("Recently updated work", "v6-building.svg")
+              + '<h2>Pinned / Selected Repositories</h2><div class="pin-grid">' + pin_cards + '</div>'
+              + '<img class="footer" src="footer.svg" alt="AB personal footer">'
+              + '</main>'
+          )
+          styles = (
+              '*,*::before,*::after{box-sizing:border-box}'
+              'body{margin:0;background:#050912;color:#f6f7ff;font:16px Arial,Helvetica,sans-serif}'
+              '.notice{max-width:1000px;margin:20px auto;padding:0 18px;color:#bdc2d5;font-size:13px}'
+              '.dashboard{max-width:1000px;margin:0 auto;padding:10px 14px 28px}'
+              'header>img{width:100%;height:auto;display:block;border-radius:16px}'
+              'nav{display:flex;justify-content:center;gap:10px;margin:-3px auto 17px;position:relative}'
+              'nav a{background:#181b2e;border:1px solid #7864a6;color:#f1e7ff;'
+              'text-decoration:none;padding:9px 21px;border-radius:12px;font-weight:700;font-size:13px}'
+              'nav a:first-child{background:#9651e9;color:#0d0919}'
+              'section{margin:0 0 12px}section img{display:block;width:100%;height:auto}'
+              'h2{font-size:23px;margin:16px 3px 12px}'
+              '.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 15px}'
+              '.pin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 20px}'
+              '.project-grid a,.pin-grid a{min-width:0;display:block}'
+              '.project-grid img,.pin-grid img{display:block;width:100%;height:auto}'
+              '.footer{display:block;width:100%;height:auto;margin-top:22px}'
+              '@media(max-width:620px){.dashboard{padding:8px}.project-grid{gap:6px}'
+              '.pin-grid{gap:6px}h2{font-size:17px}nav a{padding:8px 10px}}'
+          )
+          html = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
+                  '<meta name="viewport" content="width=device-width,initial-scale=1">'
+                  '<title>GitHub Profile V6 visual review — source-verified</title>'
+                  '<style>' + styles + '</style></head><body>'
+                  '<p class="notice">Local generated preview for visual comparison. '
+                  'Not the GitHub site and not yet published on main. '
+                  'All values are from dated GitHub snapshots; illustrative reference counts are not copied.</p>'
+                  + main + '</body></html>')
+          Path("preview/hero.svg").write_bytes(Path("assets/brand-v6.svg").read_bytes())
+          Path("preview/footer.svg").write_bytes(Path("assets/v6-footer.svg").read_bytes())
+          Path("preview/index.html").write_text(html, encoding="utf-8")
+          PY
+      - name: Upload visual preview without editing the public profile
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: v6-visual-preview
+          path: preview/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Review instructions
+        shell: bash
+        run: |
+          echo '### V6 visual preview' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the **v6-visual-preview** artifact, unzip and open **index.html** to review all renderer outputs and three source-based project cards.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'This is a pre-merge preview: it does not publish to profile-live or main.' >> "$GITHUB_STEP_SUMMARY"

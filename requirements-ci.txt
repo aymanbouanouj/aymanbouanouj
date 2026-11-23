@@ -1,2 +1,3 @@
 # Profile SVG rasterization only; updated through reviewed Dependabot PRs.
 CairoSVG==2.9.1
+Pillow==12.0.0
