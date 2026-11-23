@@ -108,6 +108,23 @@ class V6ProjectImageTests(unittest.TestCase):
             self.assertEqual(output.size, (640, 560))
             output.verify()
 
+    def test_project_visual_contract_has_single_heading_and_clear_placeholder(self):
+        from PIL import Image
+        from live_project_cards_v6 import render_card
+        import io
+        import inspect
+        import live_project_cards_v6 as module
+        source = inspect.getsource(module.render_card)
+        self.assertNotIn('draw.text((27, 218), title', source)
+        self.assertNotIn('draw.arc(', source)
+        self.assertIn('PROJECT IMAGE PENDING', source)
+        self.assertIn('draw.line(', source)
+        metadata = {"stars": 3, "forks": 1}
+        image_bytes = render_card(PROJECTS[2], metadata, None)
+        with Image.open(io.BytesIO(image_bytes)) as image:
+            self.assertEqual(image.size,(640,560))
+            image.verify()
+
     def test_only_allowlisted_public_file_paths(self):
         self.assertNotIn(".env", " ".join(STANDARD_PATHS))
         self.assertTrue(all("profile-" in p or "readme/" in p or "screenshots/" in p for p in STANDARD_PATHS))
