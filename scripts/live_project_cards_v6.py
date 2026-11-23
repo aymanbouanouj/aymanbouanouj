@@ -23,7 +23,7 @@ OWNER = "aymanbouanouj"
 API = "https://api.github.com"
 MAX_BYTES = 2_000_000
 MAX_PIXELS = 6_000_000
-DIMENSIONS = (640, 630)
+DIMENSIONS = (640, 560)
 STANDARD_PATHS = (
     "assets/profile-cover.png", "assets/profile-cover.jpg", "assets/profile-cover.webp",
     "assets/profile-card.png", "media/readme/cover.png", "media/readme/preview.png",
@@ -104,17 +104,19 @@ def locate(repo: str, fetch):
 
 
 def render_card(project, metadata, raw: bytes | None) -> bytes:
-    # Pillow is a dedicated publish-only dependency; routine profile verification
-    # and legacy security scans do not import the package at module import time.
-    from PIL import Image, ImageDraw, ImageFont, ImageOps, UnidentifiedImageError
+    """Real screenshot over a visually consistent reference-matched project card.
 
+    The screenshot pixels come only from the verified public project; empty
+    screenshot slots become clearly labelled placeholders, never fabricated art.
+    """
+    from PIL import Image, ImageDraw, ImageFont, ImageOps, UnidentifiedImageError
     Image.MAX_IMAGE_PIXELS = MAX_PIXELS
     width, height = DIMENSIONS
-    canvas = Image.new("RGB", DIMENSIONS, "#10121f")
+    canvas = Image.new("RGB", DIMENSIONS, "#10141e")
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((1, 1, width - 2, height - 2), radius=27,
-                           outline="#59436f", width=3, fill="#10121f")
-    area = (9, 9, width - 9, 290)
+    draw.rounded_rectangle((1, 1, width - 2, height - 2), radius=22,
+                           outline="#63517b", width=3, fill="#131724")
+    area = (8, 8, width - 8, 264)
     if raw is not None:
         try:
             with Image.open(io.BytesIO(raw)) as image:
@@ -124,49 +126,78 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
                     raise ValueError("Oversized image dimensions")
                 image.verify()
             with Image.open(io.BytesIO(raw)) as loaded:
-                photo = ImageOps.fit(loaded.convert("RGB"), (area[2] - area[0], area[3] - area[1]),
-                                     method=Image.Resampling.LANCZOS)
+                photo = ImageOps.fit(
+                    loaded.convert("RGB"),
+                    (area[2] - area[0], area[3] - area[1]),
+                    method=Image.Resampling.LANCZOS,
+                )
                 canvas.paste(photo, area[:2])
         except (UnidentifiedImageError, OSError) as err:
             raise ValueError("Untrusted project image cannot be decoded") from err
-        # A dark gradient preserves legibility and matches the supplied example.
-        overlay = Image.new("RGBA", (width, area[3]), (0, 0, 0, 0))
-        layer = ImageDraw.Draw(overlay)
-        for y in range(170, area[3]):
-            alpha = min(175, int((y - 170) * 1.4))
-            layer.line((9, y, width - 9, y), fill=(6, 5, 21, alpha))
-        canvas.paste(overlay, (0, 0), overlay)
+        veil = Image.new("RGBA", (width, area[3]), (0, 0, 0, 0))
+        tint = ImageDraw.Draw(veil)
+        # Darken the top/bottom of the *real screenshot* to integrate with the card.
+        for py in range(area[3]):
+            alpha = min(173, max(0, int((py - 108) * 1.10)))
+            tint.line((area[0], py, area[2], py), fill=(9, 8, 28, alpha))
+        canvas.paste(veil, (0, 0), veil)
     else:
-        for y in range(9, area[3]):
-            t = (y - 9) / (area[3] - 9)
-            fill = (int(22 + 19*t), int(19 + 6*t), int(44 + 39*t))
-            draw.line((9, y, width - 9, y), fill=fill)
+        for py in range(area[1], area[3]):
+            t = (py-area[1]) / (area[3]-area[1])
+            r, g, b = (int(15 + 20*t), int(18 + 2*t), int(37 + 36*t))
+            draw.line((area[0], py, area[2], py), fill=(r, g, b))
         for i in range(5):
-            draw.arc((-90 + i*48, 110 + i*16, 570 + i*95, 430 + i*42),
-                     184, 324, fill="#5d2e96", width=2)
+            draw.arc((-30 + i*65, 80 + i*18, 580 + i*62, 330 + i*40),
+                     174, 335, fill="#6640ab", width=3)
+
     def font(size: int, bold=False):
-        paths = (("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold
-                 else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
-                 "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf")
-        for p in paths:
-            if Path(p).exists():
-                return ImageFont.truetype(p, size)
+        names = (
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold
+            else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
+        )
+        for candidate in names:
+            if Path(candidate).exists():
+                return ImageFont.truetype(candidate, size)
         return ImageFont.load_default()
+
     slug, repo, title, summary, tags, _ = project
     if raw is None:
-        draw.text((29, 77), "PROJECT IMAGE", font=font(27, True), fill="#c3a5f5")
-        draw.text((29, 122), "Reserved for a published", font=font(21), fill="#d5cbe1")
-        draw.text((29, 153), "repository screenshot", font=font(21), fill="#d5cbe1")
-    draw.text((25, 228), title, font=font(29, True), fill="#ffffff")
-    draw.line((12, 290, width - 12, 290), fill="#4b4264", width=2)
-    draw.text((25, 319), title, font=font(30, True), fill="#f8f7ff")
-    draw.text((25, 369), summary, font=font(21), fill="#e0dfec")
-    draw.text((25, 419), "   /   ".join(tags), font=font(21), fill="#c6a9f5")
-    draw.rounded_rectangle((25, 468, width - 25, 534), radius=14,
-                           outline="#574467", width=2, fill="#19182d")
-    draw.text((42, 481), f"Stars: {metadata['stars']}    Forks: {metadata['forks']}",
-              font=font(21), fill="#d8dce7")
-    draw.text((25, 581), "SOURCE CODE / GITHUB", font=font(20, True), fill="#d2aaff")
+        draw.text((27, 73), "PROJECT IMAGE PENDING", font=font(28, True), fill="#c8a2ff")
+        draw.text((27, 121), "A cover will appear after upload", font=font(20),
+                  fill="#cfc6e3")
+        draw.text((27, 154), "to the public repository.", font=font(20), fill="#cfc6e3")
+
+    draw.text((27, 218), title, font=font(30, True), fill="#f8f9ff")
+    draw.line((10, 267, width-10, 267), fill="#494359", width=2)
+    draw.text((26, 285), title, font=font(30, True), fill="#ffffff")
+
+    # Wrap the verified, authored project summary on two readable lines.
+    words = summary.split()
+    line1, line2 = "", ""
+    for word in words:
+        test = (line1 + " " + word).strip()
+        if draw.textlength(test, font=font(20)) < width-58:
+            line1 = test
+        else:
+            line2 = (line2 + " " + word).strip()
+    draw.text((26, 333), line1, font=font(20), fill="#e1dfee")
+    if line2:
+        draw.text((26, 363), line2[:55], font=font(20), fill="#e1dfee")
+
+    tag_x = 25
+    for tag in tags:
+        w = int(draw.textlength(tag, font=font(17, True))) + 28
+        draw.rounded_rectangle((tag_x, 405, tag_x+w, 444), radius=14,
+                               fill="#282036", outline="#564666", width=2)
+        draw.text((tag_x+14, 416), tag, font=font(17, True), fill="#ded1ff")
+        tag_x += w+10
+    draw.line((18, 466, width-18, 466), fill="#403b57", width=2)
+    draw.text((26, 491), f"☆ {metadata['stars']}     ⑂ {metadata['forks']}",
+              font=font(22, True), fill="#f8f7ff")
+    draw.rounded_rectangle((415, 480, 613, 531), radius=15, fill="#29203d")
+    draw.text((440, 495), "Source Code  ↗", font=font(19, True), fill="#dfb5ff")
+
     out = io.BytesIO()
     canvas.save(out, format="PNG", optimize=True)
     return out.getvalue()
