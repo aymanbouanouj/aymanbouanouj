@@ -26,7 +26,7 @@ python scripts/render_svg_cards.py --output ../profile-preview/cards --preview .
 Remove-Item Env:STATIC
 ~~~
 
-The renderer also accepts a different validated input pair via `--calendar` and `--public`. Use `--verify` with those same paths to compare output to the input pair. The default seed files are `data/dashboard-contributions.json` and `data/dashboard-public.json`.
+The renderer also accepts a different validated input pair via `--calendar` and `--public`. Use `--verify` with those same paths to compare output to the input pair. Across platforms, verification compares the exact decompressed font tables when zlib encodings differ. The default seed files are `data/dashboard-contributions.json` and `data/dashboard-public.json`.
 
 ## Refresh and provenance
 

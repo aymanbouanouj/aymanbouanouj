@@ -12,13 +12,14 @@ import io
 import json
 import os
 import re
+import struct
 from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 
 from fontTools import subset
-from fontTools.ttLib import TTFont
+from fontTools.ttLib import TTFont, TTLibError
 
 from brand_paths import PURPLE, WHITE
 from dashboard_data import (
@@ -46,6 +47,7 @@ CANVAS = "#0c0e17"
 HEAT = ("#232034", "#4d307c", "#7345b5", "#a46bf0", "#cf9dff")
 SVG_NS = "http://www.w3.org/2000/svg"
 FONT_URI = "data:font/woff;base64,"
+FONT_DATA = re.compile(re.escape(FONT_URI) + r"([A-Za-z0-9+/=]+)")
 TRAIN_URI = "data:image/jpeg;base64,"
 TRAIN_SHA256 = "c1f329c32b3724b142393e8b34f12da8636db2cc5c233e874520ac049679d7fa"
 
@@ -957,6 +959,37 @@ def verify_svg(xml: str, name: str, static: bool) -> None:
             raise ValueError(f"{name}: unexpected CSS URL")
 
 
+@lru_cache(maxsize=256)
+def uncompressed_font_digest(encoded: str) -> str:
+    """Compare the actual WOFF tables independently of the platform's zlib encoder."""
+    raw = base64.b64decode(encoded, validate=True)
+    if (not 44 <= len(raw) <= 32_768 or raw[:4] != b"wOFF"
+            or struct.unpack_from(">I", raw, 8)[0] != len(raw)
+            or struct.unpack_from(">I", raw, 16)[0] > 65_536 or any(raw[24:44])):
+        raise ValueError("Unexpected WOFF font container")
+    digest = hashlib.sha256(raw[4:8] + raw[20:24])  # Flavor and version.
+    try:
+        with TTFont(io.BytesIO(raw), checkChecksums=2, lazy=True) as font:
+            for tag, entry in sorted(font.reader.tables.items()):
+                if entry.origLength > 65_536:
+                    raise ValueError("Oversized WOFF table")
+                table = font.reader[tag]
+                digest.update(tag.encode("ascii") + len(table).to_bytes(4, "big") + table)
+    except (AssertionError, TTLibError, struct.error) as exc:
+        raise ValueError("Invalid WOFF table") from exc
+    return digest.hexdigest()
+
+
+def same_svg(actual: str, expected: str) -> bool:
+    if actual == expected:
+        return True
+
+    def normalize(xml: str) -> str:
+        return FONT_DATA.sub(lambda match: FONT_URI + uncompressed_font_digest(match[1]), xml)
+
+    return normalize(actual) == normalize(expected)
+
+
 def verify_readme(path: Path = ROOT / "README.md") -> None:
     if path.read_text(encoding="utf-8") != README_MARKER + profile_markup():
         raise ValueError("README does not match the generated dashboard markup")
@@ -993,7 +1026,7 @@ def main() -> None:
             for name, value in svg.items():
                 actual = (args.output / name).read_text(encoding="utf-8")
                 verify_svg(actual, name.removesuffix(".svg"), static)
-                if actual != value:
+                if not same_svg(actual, value):
                     raise ValueError(f"{name}: generated SVG does not match verified data")
         else:
             args.output.mkdir(parents=True, exist_ok=True)

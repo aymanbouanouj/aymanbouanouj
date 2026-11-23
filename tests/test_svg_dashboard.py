@@ -16,7 +16,7 @@ from urllib.error import URLError
 from urllib.parse import urlsplit
 from xml.etree import ElementTree as ET
 
-from fontTools.ttLib import TTFont
+from fontTools.ttLib import TTFont, sfnt
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -141,7 +141,9 @@ class SVGTests(unittest.TestCase):
                 animated, static = card.svg(False), card.svg(True)
                 render.verify_svg(animated, name, False)
                 render.verify_svg(static, name, True)
-                self.assertEqual((ROOT / "cards" / (name + ".svg")).read_text(encoding="utf-8"), animated)
+                checked_in = (ROOT / "cards" / (name + ".svg")).read_text(encoding="utf-8")
+                render.verify_svg(checked_in, name, False)
+                self.assertTrue(render.same_svg(checked_in, animated), f"{name}: checked-in artwork differs")
                 self.assertIn("animation:none!important;opacity:1!important;transform:none!important", animated)
                 self.assertEqual(re.sub(r"<style>.*?</style>", "", animated, flags=re.S),
                                  re.sub(r"<style>.*?</style>", "", static, flags=re.S))
@@ -157,6 +159,19 @@ class SVGTests(unittest.TestCase):
                 with self.subTest(card=name, weight=weight), TTFont(io.BytesIO(base64.b64decode(encoded))) as font:
                     self.assertEqual(font.flavor, "woff")
                     self.assertEqual(set(font.getBestCmap()), glyphs)
+
+    def test_verification_ignores_only_woff_compression_differences(self):
+        svg = self.cards["hero"].svg(True)
+        original = render.FONT_DATA.search(svg)[1]
+        buffer = io.BytesIO()
+        with TTFont(io.BytesIO(base64.b64decode(original)), recalcTimestamp=False) as font:
+            with patch.object(sfnt, "ZLIB_COMPRESSION_LEVEL", 0):
+                font.save(buffer)
+        alternate = base64.b64encode(buffer.getvalue()).decode("ascii")
+        self.assertNotEqual(original, alternate)
+        repacked = svg.replace(original, alternate, 1)
+        self.assertTrue(render.same_svg(svg, repacked))
+        self.assertFalse(render.same_svg(svg, repacked.replace(">Ayman Bounaouj</text>", ">Other title</text>")))
 
     def test_calendar_cells_match_every_day_count_and_heat_bin(self):
         first = dt.date.fromisoformat(self.calendar["days"][0]["date"])
