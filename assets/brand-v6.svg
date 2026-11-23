@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="210" viewBox="0 0 1200 210" role="img" aria-labelledby="title description">
 <title id="title">Ayman Bounaouj — Full-Stack Web Developer</title>
-<desc id="description">Original AB monogram with ascending violet arrow, purple gradient waves, developer identity, GitHub and professional link labels, and an illustrated laptop showing code. Adapted to the supplied reference.</desc>
+<desc id="description">Original AB monogram with ascending violet arrow, purple gradient waves, developer identity, and an illustrated laptop showing code. All action buttons are separate real clickable README links. Adapted to the supplied reference.</desc>
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#121129"/><stop offset=".58" stop-color="#0b0d1d"/><stop offset="1" stop-color="#130c2a"/></linearGradient>
 <linearGradient id="mark"><stop stop-color="#ffffff"/><stop offset=".65" stop-color="#e9edf5"/><stop offset="1" stop-color="#bdc5d5"/></linearGradient>
@@ -11,7 +11,7 @@
 <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1a1b38"/><stop offset="1" stop-color="#0b1124"/></linearGradient>
 </defs>
 <style>@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
-<rect x="1" y="1" width="1198" height="258" rx="18" fill="url(#bg)" stroke="#65409f" stroke-width="2"/>
+<rect x="1" y="1" width="1198" height="208" rx="18" fill="url(#bg)" stroke="#65409f" stroke-width="2"/>
 <circle cx="975" cy="174" r="350" fill="url(#glow)" opacity=".8"/>
 <circle cx="62" cy="218" r="175" fill="url(#glow)" opacity=".55"/>
 <path d="M2 187Q94 161 169 202T378 218Q560 253 745 213T1065 191Q1146 187 1198 213V259H2Z" fill="url(#wave)" opacity=".85"/>
@@ -21,18 +21,9 @@
 <text x="289" y="91" fill="#fbfaff" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800">Ayman Bounaouj</text>
 <text x="289" y="130" fill="#c472ff" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700">Full-Stack Web Developer</text>
 <text x="291" y="162" fill="#ffffff" font-family="Arial,Helvetica,sans-serif" font-size="18">Building practical, secure and scalable digital products.</text>
-<g>
-<rect x="137" y="196" width="118" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
-<text x="196" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">GitHub</text>
-<rect x="265" y="195" width="139" height="41" rx="13" stroke="#b78dff" fill="url(#button)"/>
-<text x="335" y="222" text-anchor="middle" fill="#151026" font-size="18" font-family="Arial,sans-serif" font-weight="700">Portfolio</text>
-<rect x="415" y="196" width="145" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
-<text x="487" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">LinkedIn</text>
-<rect x="571" y="196" width="119" height="39" rx="13" stroke="#7c7297" fill="#1a2030" fill-opacity=".95"/>
-<text x="630" y="222" text-anchor="middle" fill="#ffffff" font-size="17" font-family="Arial,sans-serif" font-weight="700">Email</text>
-</g>
+
 <!-- A stylized code laptop at the position of the supplied banner reference. -->
-<g transform="translate(835 31)">
+<g transform="translate(861 19) scale(.88)">
 <path d="M43 36L336 3Q347 1 347 14L338 171L31 174Z" fill="#090d1b" stroke="#b87aff" stroke-width="3" stroke-linejoin="round"/>
 <path d="M52 48L328 16L321 156L42 163Z" fill="url(#screen)" stroke="#323a62" stroke-width="2"/>
 <path d="M40 45L51 48L42 163L31 174Z" fill="#14102d"/>
