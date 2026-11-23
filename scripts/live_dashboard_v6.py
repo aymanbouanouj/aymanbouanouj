@@ -16,17 +16,18 @@ from xml.etree import ElementTree as ET
 from live_contributions import render as verify_contribution_art
 from live_portfolio import validate as validate_portfolio
 from live_profile import validate as validate_activity
+from v6_design_system import TOKENS, reference_panel_height
 
 FILES = ("v6-metrics.svg", "v6-calendar.svg", "v6-stack.svg", "v6-open-source.svg",
          "v6-languages.svg", "v6-frameworks.svg", "v6-building.svg", "v6-pinned.svg",
          "v6-pin-morocco.svg", "v6-pin-train.svg", "v6-pin-pc.svg", "v6-pin-recettes.svg")
-BG = "#0a0d18"
-CARD = "#151a2b"
-EDGE = "#42415d"
-PURPLE = "#b46aff"
-TEXT = "#f6f7ff"
-MUTED = "#bdc2d5"
-FONT = "Arial,Helvetica,sans-serif"
+BG = TOKENS.background
+CARD = TOKENS.card
+EDGE = TOKENS.border
+PURPLE = TOKENS.accent
+TEXT = TOKENS.text
+MUTED = TOKENS.muted
+FONT = TOKENS.font_stack
 
 
 def esc(value: object) -> str:
@@ -92,15 +93,15 @@ def metrics(contrib: dict, portfolio: dict, activity: dict) -> str:
         (str(len(portfolio["verified_collaborations"])), "Merged external PRs", "Verified recent sample", "⑂"),
         (str(portfolio["public_original_repository_count"]), "Public repositories", "Original, non-fork", "▣"),
     ]
-    art = root_svg(124, "GitHub verified profile statistics",
+    art = root_svg(reference_panel_height("metrics") + 5, "GitHub verified profile statistics",
                    "Four dark violet statistic cards: annual contributions, current contribution streak, verified recent external merges, and original public repositories.")
     for i, (value, name, subtitle, symbol) in enumerate(values):
         x = 5 + i * 251
-        art.append(rect(x, 3, 239, 109, active=(i == 0)))
-        art.append(text(x + 24, 59, symbol, 34, PURPLE, 700))
-        art.append(text(x + 94, 46, value, 29, TEXT, 700))
-        art.append(text(x + 94, 70, name, 16, TEXT, 700))
-        art.append(text(x + 94, 91, subtitle, 12, MUTED))
+        art.append(rect(x, 2, 239, 93, active=(i == 0), radius=TOKENS.card_radius))
+        art.append(text(x + 24, 56, symbol, 30, PURPLE, 700))
+        art.append(text(x + 94, 40, value, 29, TEXT, 700))
+        art.append(text(x + 94, 63, name, 15, TEXT, 700))
+        art.append(text(x + 94, 83, subtitle, 11, MUTED))
     return svg_done(art)
 
 
@@ -255,25 +256,24 @@ def technology_icon(name: str, x: float, y: float, side: int = 37) -> str:
 def compact_technology(portfolio: dict) -> str:
     language_names = {name for name, _ in portfolio["language_bytes"]}
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
-    art = root_svg(191, "Languages & Technical Stack",
+    art = root_svg(166, "Languages & Technical Stack",
                    "Twelve branded technology tiles arranged in two rows, faithfully following the supplied profile reference.")
     art.append(text(12, 36, "⬡   Languages & Technical Stack", 25, TEXT, 700))
     art.append(text(984, 35, "The technologies I use to build, test and deploy", 13, MUTED, anchor="end"))
     for i, name in enumerate(DISPLAY_TECH):
-        x, y = 7 + (i % 6) * 166, 49 + (i // 6) * 61
-        art.append(rect(x, y, 158, 53, radius=11))
-        art.append(technology_icon(name, x + 11, y + 9, 35))
-        art.append(text(x + 53, y + 34, name, 15 if len(name) <= 11 else 12, TEXT, 700))
+        x, y = 7 + (i % 6) * 166, 43 + (i // 6) * 57
+        art.append(rect(x, y, 158, 50, radius=TOKENS.card_radius))
+        art.append(technology_icon(name, x + 11, y + 9, 32))
+        art.append(text(x + 53, y + 32, name, 15 if len(name) <= 11 else 12, TEXT, 700))
         # Distinguish evidence subtly without inventing source support.
         if name in language_names or name in frameworks:
             art.append(f'<circle cx="{x+149}" cy="{y+12}" r="2.5" fill="#5acf95"/>')
-    art.append(text(12, 189, "Verification dots identify GitHub-detected languages or public-manifest frameworks; other tools are owner-declared.", 10, MUTED))
     return svg_done(art)
 
 
 def compact_frameworks(portfolio: dict) -> str:
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
-    art = root_svg(127, "Frameworks / Build Tools",
+    art = root_svg(112, "Frameworks / Build Tools",
                    "Seven illustrated framework, runtime, package manager, container, and CI cards.")
     art.append(text(12, 34, "⚒   Frameworks / Build Tools", 25, TEXT, 700))
     art.append(text(987, 33, "Frameworks, tooling and services for development and delivery", 12, MUTED, anchor="end"))
@@ -287,8 +287,8 @@ def compact_frameworks(portfolio: dict) -> str:
         "GitHub Actions":"CI/CD & Automation",
     }
     for i, name in enumerate(DISPLAY_BUILD):
-        x, y = 7 + i * 142, 47
-        art.append(rect(x, y, 136, 67, radius=11))
+        x, y = 7 + i * 142, 40
+        art.append(rect(x, y, 136, 65, radius=TOKENS.card_radius))
         art.append(technology_icon(name, x + 9, y + 16, 34))
         art.append(text(x + 49, y + 28, name, 14 if len(name) <= 9 else 11, TEXT, 700))
         art.append(text(x + 49, y + 47, descriptions[name], 9, MUTED))
