@@ -5,7 +5,6 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products."></picture>
 </span><br>
 <span class="contacts">
-<a href="https://github.com/aymanbouanouj"><img src="./cards/link-github.svg" width="100" alt="GitHub profile"></a>
 <a href="https://beacons.ai/aymanbounaouj"><img src="./cards/link-profile.svg" width="100" alt="Ayman Bounaouj’s public profile links"></a>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./cards/link-linkedin.svg" width="100" alt="LinkedIn profile"></a>
 </span>
@@ -16,7 +15,7 @@
 </p>
 
 <p align="center" class="wide">
-<a href="https://github.com/aymanbouanouj"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/calendar-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/calendar.svg" width="780" alt="Violet GitHub contribution calendar with weekday and month labels, monthly totals and intensity legend."></picture></a>
+<a href="https://github.com/aymanbouanouj"><picture><source media="(max-width: 680px)" srcset="./cards/calendar-mobile.svg"><img src="./cards/calendar.svg" width="780" alt="Violet GitHub contribution calendar with weekday and month labels and intensity legend."></picture></a>
 </p>
 
 <p align="center" class="wide">
@@ -73,10 +72,6 @@
 <a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-pc-full-check.svg" width="386" alt="PC-Full-Check. Read-only Windows diagnostic reports."></a>
 <a href="https://github.com/aymanbouanouj/violetgate"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI demo."></a>
 </span>
-</p>
-
-<p align="center" class="wide footer">
-<a href="https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/cards"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/footer-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/footer.svg" width="780" alt="Ayman Bounaouj. GitHub GraphQL and REST sources, with verification dates."></picture></a>
 </p>
 
 <details>

@@ -468,8 +468,9 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
     start, end = stats["range"]
     sunday = start - dt.timedelta(days=(start.weekday() + 1) % 7)
     columns = (end - sunday).days // 7 + 1
-    w, h = (680, 254) if compact else (WIDTH, 233)
+    w = 680 if compact else WIDTH
     left, top = (64, 96) if compact else (98, 77)
+    h = top + 128
     step = (w - left - 35) / columns
     card = Card(w, h, "Contribution Activity",
                 f'{stats["total"]:,} GitHub contributions from {start} to {end}, UTC. '
@@ -512,24 +513,12 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
     for index, week in enumerate(weeks):
         card.parts.append(group("".join(week), motion="fade", delay=170 + index * 9))
 
-    shelf = top + 102
-    card.parts.append(path(f"M24 {shelf}h{w - 48}", stroke=BORDER))
-    card.parts.append(card.text(27, shelf + 31, "Monthly totals", 15, fill=COPY))
-    peak = max((n for _, n in stats["months"]), default=0)
-    for index, (month, n) in enumerate(stats["months"]):
-        x = 163 + index * (19 if compact else 48)
-        bw = 15 if compact else 36
-        bar = 3 + round(n / max(peak, 1) * 22)
-        detail = box(x, shelf + 11, bw, 26, "#242237", radius=3)
-        if n:
-            detail += group(box(x, shelf + 37 - bar, bw, bar, "#9561d9", radius=3),
-                            motion="grow", delay=300 + index * 34)
-        card.parts.append(f'<g><title>{month}: {n} contributions</title>{detail}</g>')
     legend = w - (241 if compact else 278)
-    card.parts.append(card.text(legend, shelf + 31, "Less", 15, fill=COPY))
+    legend_y = top + 102
+    card.parts.append(card.text(legend, legend_y + 12, "Less", 15, fill=COPY))
     for index, fill in enumerate(HEAT):
-        card.parts.append(box(legend + 45 + index * 24, shelf + 19, 18, 14, fill, radius=3))
-    card.parts.append(card.text(legend + 212, shelf + 31, "More", 15, fill=COPY, anchor="end"))
+        card.parts.append(box(legend + 45 + index * 24, legend_y, 18, 14, fill, radius=3))
+    card.parts.append(card.text(legend + 212, legend_y + 12, "More", 15, fill=COPY, anchor="end"))
     return card
 
 
@@ -796,27 +785,9 @@ def pin(name: str, copy: str, repo: dict) -> Card:
     return card
 
 
-def footer(activity_stamp: dt.datetime, public_stamp: dt.datetime, *, compact=False) -> Card:
-    w = 680 if compact else WIDTH
-    a, p = activity_stamp.date(), public_stamp.date()
-    dates = f"Verified {a:%d %b %Y} UTC" if a == p else f"Calendar {a:%d %b}  |  Repos {p:%d %b %Y} UTC"
-    card = Card(w, 82, "Ayman Bounaouj | GitHub sources",
-                f"Contribution calendar verified {a.isoformat()} UTC. Public repository metadata verified "
-                f"{p.isoformat()} UTC. Opens the source snapshots.")
-    card.parts.extend((
-        panel(0, 0, w, card.h, 14), logo(19, 21, 72),
-        path("M109 14v54", stroke=BORDER), card.text(130, 35, "Ayman Bounaouj", 21, weight=600),
-        card.text(130, 60, "GitHub GraphQL + REST", 15, fill=COPY),
-        card.text(w - 55, 47, dates, 15 if compact else 18, fill=COPY, anchor="end"),
-        glyph("arrow", w - 39, 31, 22),
-    ))
-    return card
-
-
 def artworks(stats: dict, public: dict) -> dict[str, Card]:
     repos = public["repositories"]
     files = {
-        "link-github": button("GitHub", "code"),
         "link-profile": button("Profile links", "profile", primary=True),
         "link-linkedin": button("LinkedIn", "linkedin"),
     }
@@ -827,7 +798,6 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
         files["calendar" + suffix] = contribution_calendar(stats, compact=compact)
         files["technical" + suffix] = tech_grid(compact=compact)
         files["tools" + suffix] = tech_grid(tools=True, compact=compact)
-        files["footer" + suffix] = footer(stats["verified_at"], validate(public), compact=compact)
         for key in HEADERS:
             files["heading-" + key + suffix] = heading_card(key, compact=compact)
         for index, record in enumerate(CONTRIBUTIONS):
@@ -844,7 +814,7 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
 
 
 def dynamic(name: str) -> bool:
-    return name.startswith(("metrics", "calendar", "footer", "contribution-",
+    return name.startswith(("metrics", "calendar", "contribution-",
                             "project-", "building-", "pin-"))
 
 
@@ -852,11 +822,11 @@ def link(url: str, label: str) -> str:
     return f'<a href="{esc(url)}">{label}</a>'
 
 
-def image(name: str, alt: str, width: int = 780, *, mobile=False, href="", local=None) -> str:
+def image(name: str, alt: str, width: int = 780, *, mobile=False, href="", local=None, live=True) -> str:
     def src(key: str) -> str:
         if local is not None:
             return esc(local[key])
-        base = LIVE if dynamic(key) else "./cards/"
+        base = LIVE if live and dynamic(key) else "./cards/"
         return esc(base + key + ".svg")
 
     tag = f'<img src="{src(name)}" width="{width}" alt="{esc(alt)}">'
@@ -916,7 +886,6 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
     contacts = "\n".join((
-        img("link-github", "GitHub profile", 100, href=PROFILE),
         img("link-profile", "Ayman Bounaouj’s public profile links", 100, href=PORTFOLIO),
         img("link-linkedin", "LinkedIn profile", 100, href=LINKEDIN),
     ))
@@ -926,8 +895,9 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         block(span(identity, "wide hero") + "<br>\n" + span(contacts, "contacts"), "section-group"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
-        block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels, monthly totals and intensity legend.",
-                  mobile=True, href=PROFILE)),
+        # Use the checked-in calendar for draft review. The publisher still generates the live copy.
+        block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels and intensity legend.",
+                  mobile=True, href=PROFILE, live=False)),
         block(img("technical", "Languages & Technical Stack. " + ", ".join(STACK), mobile=True)),
         block(img("tools", "Frameworks / Build Tools. " + ", ".join(name for name, _ in TOOLS), mobile=True)),
         section("featured", "\n".join(feature_cards), "project-row",
@@ -935,8 +905,6 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         section("opensource", "<br>\n".join(highlights), "wide contributions"),
         section("building", "\n".join(tiles), "building-row"),
         section("pinned", "\n".join(pins[:2]) + "<br>\n" + "\n".join(pins[2:]), "pin-row"),
-        block(img("footer", "Ayman Bounaouj. GitHub GraphQL and REST sources, with verification dates.",
-                  mobile=True, href=SOURCE), "wide footer"),
         readme_text,
     )) + "\n"
 
@@ -967,7 +935,6 @@ a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4
 .demo sub{font-size:.8em;vertical-align:baseline}
 .contributions a{display:block;margin-bottom:5px}
 .contributions a:last-child{margin:0}
-.footer{margin-top:16px}
 details{font-size:.84em;color:#bbb4c8;padding:0 6px 8px}
 summary{width:fit-content;cursor:pointer}
 details p,details ul{margin:7px 0}

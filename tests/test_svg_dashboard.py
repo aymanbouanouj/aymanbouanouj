@@ -215,7 +215,9 @@ class SVGTests(unittest.TestCase):
                 self.assertEqual(sum(int(cell.get("data-count")) for cell in cells.values()),
                                  self.calendar["total_contributions"])
                 labels = {node.text for node in root.findall(".//svg:text", NS)}
-                self.assertIn("Dec", labels)
+                self.assertTrue({"Dec", "Less", "More"} <= labels)
+                self.assertNotIn("Monthly totals", labels)
+                self.assertFalse(root.findall(".//svg:g[@class='grow']", NS))
 
     def test_unapproved_svg_content_is_rejected(self):
         valid = self.cards["hero"].svg(False)
@@ -229,8 +231,10 @@ class SVGTests(unittest.TestCase):
         render.verify_readme()
         markup = render.profile_markup()
         order = ("hero.svg", "metrics.svg", "calendar.svg", "technical.svg", "tools.svg",
-                 "heading-featured.svg", "heading-opensource.svg", "heading-building.svg", "heading-pinned.svg", "footer.svg")
+                 "heading-featured.svg", "heading-opensource.svg", "heading-building.svg", "heading-pinned.svg")
         self.assertEqual(sorted(order, key=markup.index), list(order))
+        self.assertNotIn("footer", markup)
+        self.assertNotIn("monthly totals", markup)
 
         class Paths(HTMLParser):
             def __init__(self):
@@ -251,15 +255,20 @@ class SVGTests(unittest.TestCase):
 
         paths = Paths()
         paths.feed(markup)
+        buttons = []
         for tag, attrs, destination in paths.refs:
             src = attrs["src"] if tag == "img" else attrs["srcset"]
             name = Path(urlsplit(src).path).stem
             self.assertIn(name, self.cards)
-            self.assertTrue(src.startswith(render.LIVE if render.dynamic(name) else "./cards/"))
+            live = render.dynamic(name) and name not in {"calendar", "calendar-mobile"}
+            self.assertTrue(src.startswith(render.LIVE if live else "./cards/"))
             if tag == "img":
                 self.assertTrue(attrs["alt"])
+            if name.startswith("link-"):
+                buttons.append(name)
             if name.startswith(("project-", "pin-", "building-", "contribution-", "link-")):
                 self.assertEqual(urlsplit(destination).scheme, "https")
+        self.assertEqual(buttons, ["link-profile", "link-linkedin"])
         self.assertNotIn("<script", markup.casefold())
 
 
