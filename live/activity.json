@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbouanouj",
-  "generated_at_utc": "2026-11-23T01:55:23.509434+00:00",
+  "generated_at_utc": "2026-11-23T11:06:44.830537+00:00",
   "public_repository_count": 15,
   "recent_repositories": [
     {
@@ -56,12 +56,6 @@
   ],
   "recent_events": [
     {
-      "type": "CreateEvent",
-      "repository": "docs",
-      "url": "https://github.com/aymanbouanouj/docs",
-      "at": "2026-11-07T15:11:10+00:00"
-    },
-    {
       "type": "IssuesEvent",
       "repository": "PC-Full-Check",
       "url": "https://github.com/aymanbouanouj/PC-Full-Check",
@@ -78,6 +72,12 @@
       "repository": "PC-Full-Check",
       "url": "https://github.com/aymanbouanouj/PC-Full-Check",
       "at": "2026-10-31T16:00:02+00:00"
+    },
+    {
+      "type": "PullRequestEvent",
+      "repository": "PC-Full-Check",
+      "url": "https://github.com/aymanbouanouj/PC-Full-Check",
+      "at": "2026-10-31T15:59:03+00:00"
     }
   ]
 }
