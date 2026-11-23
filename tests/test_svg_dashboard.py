@@ -228,10 +228,14 @@ class SVGTests(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 render.verify_svg(valid.replace("</svg>", extra + "</svg>"), "hero", False)
 
-    def test_aaa_emit_new_social_cards_for_review(self):
-        for name in ("link-instagram", "link-facebook", "link-x", "link-medium"):
-            print("SOCIAL_CARD_EXPORT:" + name + ":" +
-                  base64.b64encode(self.cards[name].svg(False).encode("utf-8")).decode("ascii"))
+    def test_six_compact_social_buttons_share_the_original_geometry(self):
+        for name in ("profile", "linkedin", "instagram", "facebook", "x", "medium"):
+            xml = self.cards["link-" + name].svg(True)
+            root = ET.fromstring(xml)
+            self.assertEqual(root.get("width"), "182")
+            self.assertEqual(root.get("height"), "50")
+            self.assertIn("url(#action)" if name == "profile" else "url(#panel)", xml)
+            self.assertEqual(len(root.findall(".//svg:text", NS)), 1)
 
     def test_approved_hero_background_is_embedded_in_both_sizes(self):
         for name in ("hero", "hero-mobile"):
