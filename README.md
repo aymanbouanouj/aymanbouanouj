@@ -3,11 +3,19 @@
 <p align="center" class="section-group">
 <span class="wide hero">
 <picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products."></picture>
-</span><br>
-<span class="contacts">
-<a href="https://beacons.ai/aymanbounaouj"><img src="./cards/link-profile.svg" width="100" alt="Ayman Bounaouj’s public profile links"></a>
-<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./cards/link-linkedin.svg" width="100" alt="LinkedIn profile"></a>
 </span>
+</p>
+
+<p align="center" class="social-row">
+<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" width="184" alt="LinkedIn — official profile"></a>
+<a href="https://www.instagram.com/aymanbounaouj/"><img src="./assets/link-instagram.svg" width="184" alt="Instagram — official profile"></a>
+<a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./assets/link-facebook.svg" width="184" alt="Facebook — official profile"></a>
+<a href="https://x.com/aymanbounaouj"><img src="./assets/link-x.svg" width="184" alt="X — official profile"></a>
+</p>
+
+<p align="center" class="social-row">
+<a href="https://medium.com/@aymanbounaouj"><img src="./assets/link-medium.svg" width="184" alt="Medium — official profile"></a>
+<a href="https://beacons.ai/aymanbounaouj"><img src="./assets/link-profiles.svg" width="184" alt="Beacons — official profile"></a>
 </p>
 
 <p align="center" class="wide">

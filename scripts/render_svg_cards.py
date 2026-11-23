@@ -51,6 +51,7 @@ FONT_URI = "data:font/woff;base64,"
 FONT_DATA = re.compile(re.escape(FONT_URI) + r"([A-Za-z0-9+/=]+)")
 TRAIN_URI = "data:image/jpeg;base64,"
 TRAIN_SHA256 = "c1f329c32b3724b142393e8b34f12da8636db2cc5c233e874520ac049679d7fa"
+HERO_BG_SHA256 = "4cc81a8eea82f21757609fa4da6f3416859ae7ef3eacd8a3fbdcc30296c8632a"
 
 FONT_FILES = {
     400: "Poppins-Regular.ttf",
@@ -374,6 +375,15 @@ def laptop() -> str:
     )
 
 
+@lru_cache(maxsize=1)
+def hero_background() -> str:
+    """Embed the approved owner-supplied violet background, checked against its exact digest."""
+    payload = (ASSETS / "hero-background.jpg").read_bytes()
+    if hashlib.sha256(payload).hexdigest() != HERO_BG_SHA256:
+        raise ValueError("Hero background bytes differ from the owner-supplied reference")
+    return TRAIN_URI + base64.b64encode(payload).decode("ascii")
+
+
 def hero(*, compact=False) -> Card:
     w, h = (680, 234) if compact else (WIDTH, 235)
     card = Card(w, h, "Ayman Bounaouj | Full-Stack Web Developer",
@@ -387,14 +397,10 @@ def hero(*, compact=False) -> Card:
         light("screenlight", "#954bff", ".49"),
         light("atmosphere", "#6e33f8", ".46"),
     ]
-    backdrop = (box(0, 0, w, h, "url(#hero)")
-                + f'<ellipse cx="{w - 92}" cy="122" rx="350" ry="173" fill="url(#atmosphere)"/>'
-                + '<ellipse cx="72" cy="201" rx="208" ry="87" fill="url(#screenlight)" opacity=".62"/>'
-                + path(f"M0 184C155 122 180 246 355 200C515 155 {w-360} 232 {w-240} 169"
-                       f"C{w-95} 95 {w-70} 181 {w} 106V{h}H0Z", "url(#ribbon)")
-                + path(f"M0 211C123 163 159 251 336 213C521 175 {w-321} 249 {w-172} 178"
-                       f"Q{w-49} 124 {w} 139", stroke="#7a47cb", line=".75")
-                + path(f"M{w-150} 0l150 150m-109-150 109 109", stroke="#7540b2", line=".65"))
+    backdrop = (
+        box(0, 0, w, h, "url(#hero)")
+        + f'<image x="0" y="0" width="{w}" height="{h}" preserveAspectRatio="none" href="{hero_background()}"/>'
+    )
     art = group(laptop(), "translate(864 18) scale(.96)") if not compact else (
         '<g opacity=".41">' + group(laptop(), "translate(532 95) scale(.53)") + "</g>"
     )
@@ -839,6 +845,13 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
     def img(*args, **kwargs):
         return image(*args, **kwargs, local=local)
 
+    def social_badge(name: str, label: str, destination: str) -> str:
+        asset = f"assets/link-{name}.svg"
+        source = ("data:image/svg+xml;base64,"
+                  + base64.b64encode((ROOT / asset).read_bytes()).decode("ascii")
+                  if local is not None else "./" + asset)
+        return link(destination, f'<img src="{esc(source)}" width="184" alt="{esc(label)} — official profile">')
+
     def block(content, css="wide"):
         return f'<p align="center" class="{css}">\n{content}\n</p>'
 
@@ -885,14 +898,22 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <p>{link(docs, "Technical evidence and refresh setup")} · {link(archive, "Original artwork and previous profile links")}</p>
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
-    contacts = "\n".join((
-        img("link-profile", "Ayman Bounaouj’s public profile links", 100, href=PORTFOLIO),
-        img("link-linkedin", "LinkedIn profile", 100, href=LINKEDIN),
+    social_first = "\n".join((
+        social_badge("linkedin", "LinkedIn", LINKEDIN),
+        social_badge("instagram", "Instagram", "https://www.instagram.com/aymanbounaouj/"),
+        social_badge("facebook", "Facebook", "https://www.facebook.com/AymanBounaouj.dev/"),
+        social_badge("x", "X", "https://x.com/aymanbounaouj"),
+    ))
+    social_second = "\n".join((
+        social_badge("medium", "Medium", "https://medium.com/@aymanbounaouj"),
+        social_badge("profiles", "Beacons", PORTFOLIO),
     ))
     identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
                    mobile=True)
     return "\n\n".join((
-        block(span(identity, "wide hero") + "<br>\n" + span(contacts, "contacts"), "section-group"),
+        block(span(identity, "wide hero"), "section-group"),
+        block(social_first, "social-row"),
+        block(social_second, "social-row"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
         # Use the checked-in calendar for draft review. The publisher still generates the live copy.
@@ -922,8 +943,9 @@ a{color:#c9a3ff;text-underline-offset:.19em}
 a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4px;border-radius:4px}
 .section-group > br{display:none}
 .hero{display:block;margin:0 0 7px}
-.contacts{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-.contacts img{width:clamp(95px,19vw,132px)}
+.social-row{text-align:center;margin-bottom:5px}
+.social-row a{display:inline-block;vertical-align:middle;margin:0 2px}
+.social-row img{width:184px;max-width:46vw;height:auto}
 .heading{display:block;margin:0 0 5px}
 .project-row,.building-row,.pin-row{display:grid;gap:10px}
 .project-row,.building-row{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -975,11 +997,12 @@ def verify_svg(xml: str, name: str, static: bool) -> None:
         if prefix != "{" + SVG_NS or tag not in allowed:
             raise ValueError(f"{name}: unexpected SVG element")
         for attr, value in node.attrib.items():
-            if attr == "href" and tag == "image" and name == "project-ab-train-ticket-studio":
-                good = (value.startswith(TRAIN_URI)
+            if attr == "href" and tag == "image":
+                expected_digest = (TRAIN_SHA256 if name == "project-ab-train-ticket-studio" else
+                                   HERO_BG_SHA256 if name in ("hero", "hero-mobile") else None)
+                if (expected_digest is not None and value.startswith(TRAIN_URI)
                         and hashlib.sha256(base64.b64decode(value[len(TRAIN_URI):], validate=True)).hexdigest()
-                        == TRAIN_SHA256)
-                if good:
+                        == expected_digest):
                     continue
             if (attr.lower().startswith(("on", "{")) or attr in {"src", "href"}
                     or re.search(r"(?:https?://|data:|//)", value)):

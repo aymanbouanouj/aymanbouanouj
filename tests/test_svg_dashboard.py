@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import base64
 import copy
+import hashlib
 import datetime as dt
 import io
 import re
@@ -227,6 +228,16 @@ class SVGTests(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 render.verify_svg(valid.replace("</svg>", extra + "</svg>"), "hero", False)
 
+    def test_approved_hero_background_is_embedded_in_both_sizes(self):
+        for name in ("hero", "hero-mobile"):
+            root = ET.fromstring(self.cards[name].svg(True))
+            picture = root.find(".//svg:image", NS)
+            self.assertIsNotNone(picture)
+            uri = picture.get("href")
+            self.assertTrue(uri.startswith(render.TRAIN_URI))
+            self.assertEqual(hashlib.sha256(base64.b64decode(uri[len(render.TRAIN_URI):])).hexdigest(),
+                             render.HERO_BG_SHA256)
+
     def test_readme_orders_sections_and_wraps_each_linkable_card(self):
         render.verify_readme()
         markup = render.profile_markup()
@@ -259,6 +270,12 @@ class SVGTests(unittest.TestCase):
         for tag, attrs, destination in paths.refs:
             src = attrs["src"] if tag == "img" else attrs["srcset"]
             name = Path(urlsplit(src).path).stem
+            if src.startswith("./assets/link-"):
+                self.assertEqual(tag, "img")
+                self.assertTrue(attrs["alt"])
+                self.assertEqual(urlsplit(destination).scheme, "https")
+                buttons.append(name)
+                continue
             self.assertIn(name, self.cards)
             live = render.dynamic(name) and name not in {"calendar", "calendar-mobile"}
             self.assertTrue(src.startswith(render.LIVE if live else "./cards/"))
@@ -268,7 +285,8 @@ class SVGTests(unittest.TestCase):
                 buttons.append(name)
             if name.startswith(("project-", "pin-", "building-", "contribution-", "link-")):
                 self.assertEqual(urlsplit(destination).scheme, "https")
-        self.assertEqual(buttons, ["link-profile", "link-linkedin"])
+        self.assertEqual(buttons, ["link-linkedin", "link-instagram", "link-facebook",
+                                   "link-x", "link-medium", "link-profiles"])
         self.assertNotIn("<script", markup.casefold())
 
 
