@@ -16,14 +16,14 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/"
 CONTENT_URL = "https://api.github.com/repos/aymanbouanouj/aymanbouanouj/contents/live?ref=profile-live"
-PATTERN = re.compile(r'<img\\b[^>]*\\bsrc\\s*=\\s*["\\']' + re.escape(PREFIX) + r'([^"\\']+)["\\']', re.IGNORECASE)
+PATTERN = re.compile(r'<img[^>]+src="' + re.escape(PREFIX) + r'([^"]+)"', re.IGNORECASE)
 
 
 def referenced_live_files(markdown: str) -> set[str]:
     found = set()
     for name in PATTERN.findall(markdown):
         name = name.split("?", 1)[0]
-        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,150}\\.(?:svg|png|webp|jpg|jpeg)", name):
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,150}\.(?:svg|png|webp|jpg|jpeg)", name):
             raise ValueError("Invalid live-artifact reference in README")
         found.add(name)
     return found
