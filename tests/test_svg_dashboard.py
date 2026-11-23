@@ -228,6 +228,11 @@ class SVGTests(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 render.verify_svg(valid.replace("</svg>", extra + "</svg>"), "hero", False)
 
+    def test_aaa_emit_new_social_cards_for_review(self):
+        for name in ("link-instagram", "link-facebook", "link-x", "link-medium"):
+            print("SOCIAL_CARD_EXPORT:" + name + ":" +
+                  base64.b64encode(self.cards[name].svg(False).encode("utf-8")).decode("ascii"))
+
     def test_approved_hero_background_is_embedded_in_both_sizes(self):
         for name in ("hero", "hero-mobile"):
             root = ET.fromstring(self.cards[name].svg(True))
@@ -285,8 +290,8 @@ class SVGTests(unittest.TestCase):
                 buttons.append(name)
             if name.startswith(("project-", "pin-", "building-", "contribution-", "link-")):
                 self.assertEqual(urlsplit(destination).scheme, "https")
-        self.assertEqual(buttons, ["link-linkedin", "link-instagram", "link-facebook",
-                                   "link-x", "link-medium", "link-profiles"])
+        self.assertEqual(buttons, ["link-profile", "link-linkedin", "link-instagram",
+                                   "link-facebook", "link-x", "link-medium"])
         self.assertNotIn("<script", markup.casefold())
 
 

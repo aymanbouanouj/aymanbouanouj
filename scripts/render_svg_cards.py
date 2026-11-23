@@ -90,6 +90,10 @@ GLYPHS = {
     "arrow": "M4 12h15m-6-6 6 6-6 6",
     "profile": "M8 20H4v-4a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4H8ZM12 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z",
     "linkedin": "M3 9v12m0-17v.5M9 21V9m0 5a5 5 0 0 1 10 0v7",
+    "instagram": "M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Zm5 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm5.5-1.5h.01",
+    "facebook": "M17 3h-3a4 4 0 0 0-4 4v14m-4-10h11",
+    "x": "M4 3l16 18M20 3 4 21M4 3h5l11 18h-5",
+    "medium": "M2 8h3l7 9 7-9h3M5 8v10m14-10v10",
     "chat": "M4 4h16v13H9l-5 4zm4 5h8m-8 4h5",
     "windows": "M2 5l9-1.6v8H2Zm11-2 9-1.6v10h-9ZM2 13h9v8l-9-1.6Zm11 0h9v10l-9-1.6Z",
 }
@@ -796,6 +800,10 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
     files = {
         "link-profile": button("Profile links", "profile", primary=True),
         "link-linkedin": button("LinkedIn", "linkedin"),
+        "link-instagram": button("Instagram", "instagram"),
+        "link-facebook": button("Facebook", "facebook"),
+        "link-x": button("X", "x"),
+        "link-medium": button("Medium", "medium"),
     }
     for compact in (False, True):
         suffix = "-mobile" if compact else ""
@@ -846,11 +854,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         return image(*args, **kwargs, local=local)
 
     def social_badge(name: str, label: str, destination: str) -> str:
-        asset = f"assets/link-{name}.svg"
-        source = ("data:image/svg+xml;base64,"
-                  + base64.b64encode((ROOT / asset).read_bytes()).decode("ascii")
-                  if local is not None else "./" + asset)
-        return link(destination, f'<img src="{esc(source)}" width="184" alt="{esc(label)} — official profile">')
+        return img("link-" + name, label + " — official profile", 150, href=destination)
 
     def block(content, css="wide"):
         return f'<p align="center" class="{css}">\n{content}\n</p>'
@@ -899,14 +903,16 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
     social_first = "\n".join((
+        social_badge("profile", "Profile links", PORTFOLIO),
         social_badge("linkedin", "LinkedIn", LINKEDIN),
-        social_badge("instagram", "Instagram", "https://www.instagram.com/aymanbounaouj/"),
-        social_badge("facebook", "Facebook", "https://www.facebook.com/AymanBounaouj.dev/"),
-        social_badge("x", "X", "https://x.com/aymanbounaouj"),
     ))
     social_second = "\n".join((
+        social_badge("instagram", "Instagram", "https://www.instagram.com/aymanbounaouj/"),
+        social_badge("facebook", "Facebook", "https://www.facebook.com/AymanBounaouj.dev/"),
+    ))
+    social_third = "\n".join((
+        social_badge("x", "X", "https://x.com/aymanbounaouj"),
         social_badge("medium", "Medium", "https://medium.com/@aymanbounaouj"),
-        social_badge("profiles", "Beacons", PORTFOLIO),
     ))
     identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
                    mobile=True)
@@ -914,6 +920,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         block(span(identity, "wide hero"), "section-group"),
         block(social_first, "social-row"),
         block(social_second, "social-row"),
+        block(social_third, "social-row"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
         # Use the checked-in calendar for draft review. The publisher still generates the live copy.
@@ -945,7 +952,7 @@ a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4
 .hero{display:block;margin:0 0 7px}
 .social-row{text-align:center;margin-bottom:5px}
 .social-row a{display:inline-block;vertical-align:middle;margin:0 2px}
-.social-row img{width:184px;max-width:46vw;height:auto}
+.social-row img{width:150px;max-width:45vw;height:auto}
 .heading{display:block;margin:0 0 5px}
 .project-row,.building-row,.pin-row{display:grid;gap:10px}
 .project-row,.building-row{grid-template-columns:repeat(3,minmax(0,1fr))}
