@@ -347,7 +347,7 @@ class ProfileTests(unittest.TestCase):
         self.assertLess(readme.index('contributions.sh'), readme.index('whoami'))
         self.assertLess(readme.index('whoami'), readme.index('./links.sh'))
         self.assertLess(readme.index("## Featured Projects"), readme.index("Recent Development Activity"))
-        self.assertLess(readme.index("## Languages & Technical Stack"), readme.index("## Featured Projects"))
+        self.assertLess(readme.index('profile-live/live/v6-languages.svg'), readme.index('## Featured Projects'))
         self.assertIn('profile-live/live/contributions.svg', readme)
         self.assertIn('profile-live/live/stats.svg', readme)
         self.assertIn('<table>', readme)
@@ -390,7 +390,7 @@ class ProfileTests(unittest.TestCase):
         for name in ("github","linkedin","instagram","facebook","x","medium","profiles"):
             self.assertIn("./assets/link-"+name+".svg",readme)
         self.assertLess(readme.index('contributions.sh'),readme.index('whoami'))
-        self.assertLess(readme.index('## Languages & Technical Stack'),readme.index('## Featured Projects'))
+        self.assertLess(readme.index('profile-live/live/v6-languages.svg'),readme.index('## Featured Projects'))
         self.assertIn('profile-live/live/portfolio.md',readme)
         self.assertNotIn('Résumé professionnel des projets en français',readme)
         self.assertNotIn('**Backend & APIs:**',readme)
