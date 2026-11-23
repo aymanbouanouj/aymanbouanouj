@@ -148,9 +148,9 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
             t = (py-area[1]) / (area[3]-area[1])
             r, g, b = (int(15 + 20*t), int(18 + 2*t), int(37 + 36*t))
             draw.line((area[0], py, area[2], py), fill=(r, g, b))
-        for i in range(5):
-            draw.arc((-30 + i*65, 80 + i*18, 580 + i*62, 330 + i*40),
-                     174, 335, fill="#6640ab", width=3)
+        # Subtle decorative area stays outside the readable placeholder label.
+        draw.ellipse((448, 40, 590, 182), outline="#62419a", width=3)
+        draw.ellipse((482, 74, 556, 148), outline="#3b2a62", width=2)
 
     def font(size: int, bold=False):
         names = (
@@ -170,22 +170,28 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
                   fill="#cfc6e3")
         draw.text((27, 154), "to the public repository.", font=font(20), fill="#cfc6e3")
 
-    draw.text((27, 218), title, font=font(30, True), fill="#f8f9ff")
+    # Keep the title only in the lower content card, not twice on the cover.
     draw.line((10, 267, width-10, 267), fill="#494359", width=2)
     draw.text((26, 285), title, font=font(30, True), fill="#ffffff")
 
-    # Wrap the verified, authored project summary on two readable lines.
-    words = summary.split()
-    line1, line2 = "", ""
-    for word in words:
-        test = (line1 + " " + word).strip()
-        if draw.textlength(test, font=font(20)) < width-58:
-            line1 = test
+    # Width-aware two-line wrapping. Never drop words or duplicate the title.
+    summary_font = font(20)
+    max_width = width - 52
+    lines = []
+    current = ""
+    for word in summary.split():
+        candidate = (current + " " + word).strip()
+        if current and draw.textlength(candidate, font=summary_font) > max_width:
+            lines.append(current)
+            current = word
         else:
-            line2 = (line2 + " " + word).strip()
-    draw.text((26, 333), line1, font=font(20), fill="#e1dfee")
-    if line2:
-        draw.text((26, 363), line2[:55], font=font(20), fill="#e1dfee")
+            current = candidate
+    if current:
+        lines.append(current)
+    if len(lines) > 2:
+        raise ValueError("Project summary exceeds two lines; shorten authored text")
+    for i, line in enumerate(lines):
+        draw.text((26, 336 + i*29), line, font=summary_font, fill="#e1dfee")
 
     tag_x = 25
     for tag in tags:
@@ -195,10 +201,24 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
         draw.text((tag_x+14, 416), tag, font=font(17, True), fill="#ded1ff")
         tag_x += w+10
     draw.line((18, 466, width-18, 466), fill="#403b57", width=2)
-    draw.text((26, 491), f"☆ {metadata['stars']}     ⑂ {metadata['forks']}",
-              font=font(22, True), fill="#f8f7ff")
+    # Draw icons as geometry; uncommon Unicode symbols can render as empty boxes.
+    from math import cos, sin, pi
+    points = []
+    for i in range(10):
+        angle = -pi / 2 + i * pi / 5
+        radius = 13 if i % 2 == 0 else 6
+        points.append((43 + cos(angle)*radius, 506 + sin(angle)*radius))
+    draw.line(points + [points[0]], fill="#f0e5ff", width=3, joint="curve")
+    draw.text((62, 493), str(metadata["stars"]), font=font(22, True), fill="#f8f7ff")
+    draw.ellipse((142, 495, 152, 505), outline="#f0e5ff", width=2)
+    draw.ellipse((170, 495, 180, 505), outline="#f0e5ff", width=2)
+    draw.ellipse((170, 514, 180, 524), outline="#f0e5ff", width=2)
+    draw.line((147, 505, 147, 518, 175, 518, 175, 514), fill="#f0e5ff", width=2)
+    draw.text((196, 493), str(metadata["forks"]), font=font(22, True), fill="#f8f7ff")
     draw.rounded_rectangle((415, 480, 613, 531), radius=15, fill="#29203d")
-    draw.text((440, 495), "Source Code  ↗", font=font(19, True), fill="#dfb5ff")
+    draw.text((443, 496), "Source Code", font=font(19, True), fill="#dfb5ff")
+    draw.line((571, 503, 591, 503, 591, 486), fill="#dfb5ff", width=2)
+    draw.line((577, 493, 591, 486), fill="#dfb5ff", width=2)
 
     out = io.BytesIO()
     canvas.save(out, format="PNG", optimize=True)
