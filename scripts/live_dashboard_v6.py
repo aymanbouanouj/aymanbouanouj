@@ -223,58 +223,76 @@ DISPLAY_TECH = (
 DISPLAY_BUILD = ("Laravel", "Vite", "Node.js", "Composer", "pnpm", "Docker", "GitHub Actions")
 
 
-def technology_icon(name: str, x: int, y: int, side: int = 29) -> str:
-    from live_portfolio import _icons
-    item = _icons().get(name)
-    if item is None:
-        fallback = {"TypeScript":"TS","MySQL":"DB","Docker":"DK","Playwright":"PW",
-                    "Node.js":"JS","Composer":"CP","pnpm":"PN","GitHub Actions":"GH"}.get(name, name[:2].upper())
-        return (f'<rect x="{x}" y="{y}" width="{side}" height="{side}" rx="5" fill="#342452" stroke="#6b4b9c"/>'
-                + text(x + side//2, y + int(side*0.67), fallback, max(10,side//3), "#e7d7ff",700, anchor="middle"))
-    scale = side / float(item["viewBox"])
-    path = esc(item["path"])
-    color = esc(item["color"])
-    if item.get("stroke"):
-        shape = f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2" stroke-linecap="round"/>'
-    else:
-        shape = f'<path d="{path}" fill="{color}"/>'
-    return f'<g transform="translate({x} {y}) scale({scale:.6f})">{shape}</g>'
+def _brand_icons() -> dict:
+    """Local, source-licensed vector assets; no outbound requests or executable SVG."""
+    path = Path(__file__).with_name("v6_brand_icons.json")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("version") != 1 or not isinstance(data.get("icons"), dict):
+        raise ValueError("Invalid vendored SVG icon manifest")
+    return data["icons"]
+
+
+def technology_icon(name: str, x: float, y: float, side: int = 37) -> str:
+    icon = _brand_icons().get(name)
+    if not icon:
+        raise ValueError("No verified licensed SVG path for " + name)
+    view_box = icon["viewBox"]
+    if view_box not in (24, 128):
+        raise ValueError("Unexpected icon coordinate system")
+    artwork = []
+    for path in icon["paths"]:
+        d, fill = path["d"], path["fill"]
+        if not isinstance(d, str) or not d or len(d) > 100_000:
+            raise ValueError("Invalid icon path data")
+        if not isinstance(fill, str) or len(fill) != 7 or not fill.startswith("#"):
+            raise ValueError("Invalid icon palette")
+        artwork.append(f'<path d="{esc(d)}" fill="{esc(fill)}"/>')
+    scale = side / view_box
+    return f'<g transform="translate({x} {y}) scale({scale:.6f})">{"".join(artwork)}</g>'
 
 
 def compact_technology(portfolio: dict) -> str:
     language_names = {name for name, _ in portfolio["language_bytes"]}
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
-    art = root_svg(171, "Languages & Technical Stack",
-                   "Reference-matched technology grid, with GitHub Linguist languages, verified framework dependencies, and clearly owner-declared tools.")
-    art.append(text(11, 35, "▱   Languages & Technical Stack", 24, TEXT, 700))
-    art.append(text(981, 35, "Languages and tools used in development", 13, MUTED, anchor="end"))
+    art = root_svg(191, "Languages & Technical Stack",
+                   "Twelve branded technology tiles arranged in two rows, faithfully following the supplied profile reference.")
+    art.append(text(12, 36, "⬡   Languages & Technical Stack", 25, TEXT, 700))
+    art.append(text(984, 35, "The technologies I use to build, test and deploy", 13, MUTED, anchor="end"))
     for i, name in enumerate(DISPLAY_TECH):
-        x = 8 + (i % 6) * 166
-        y = 48 + (i // 6) * 59
-        art.append(rect(x, y, 156, 50, active=(name=="Laravel")))
-        art.append(technology_icon(name, x+11, y+10, 29))
-        art.append(text(x+50, y+30, name, 15 if len(name)<13 else 12, TEXT, 700))
-        # Only public-manifest framework names may be flagged as verified.
-        if name in frameworks or name in language_names:
-            art.append(f'<circle cx="{x+143}" cy="{y+13}" r="3" fill="#3ac795"/>')
-    art.append(text(11, 167, "Green dots: verified in GitHub data · Others: owner-declared tools", 10, MUTED))
+        x, y = 7 + (i % 6) * 166, 49 + (i // 6) * 61
+        art.append(rect(x, y, 158, 53, radius=11))
+        art.append(technology_icon(name, x + 11, y + 9, 35))
+        art.append(text(x + 53, y + 34, name, 15 if len(name) <= 11 else 12, TEXT, 700))
+        # Distinguish evidence subtly without inventing source support.
+        if name in language_names or name in frameworks:
+            art.append(f'<circle cx="{x+149}" cy="{y+12}" r="2.5" fill="#5acf95"/>')
+    art.append(text(12, 189, "Verification dots identify GitHub-detected languages or public-manifest frameworks; other tools are owner-declared.", 10, MUTED))
     return svg_done(art)
 
 
 def compact_frameworks(portfolio: dict) -> str:
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
-    art = root_svg(117, "Frameworks / Build Tools",
-                   "Seven illustrated build-tool chips matching the supplied reference; evidence-based frameworks and a separately declared development toolkit.")
-    art.append(text(11, 32, "⚒   Frameworks / Build Tools", 24, TEXT, 700))
-    art.append(text(986, 32, "Frameworks, tooling and development services", 12, MUTED, anchor="end"))
+    art = root_svg(127, "Frameworks / Build Tools",
+                   "Seven illustrated framework, runtime, package manager, container, and CI cards.")
+    art.append(text(12, 34, "⚒   Frameworks / Build Tools", 25, TEXT, 700))
+    art.append(text(987, 33, "Frameworks, tooling and services for development and delivery", 12, MUTED, anchor="end"))
+    descriptions = {
+        "Laravel":"Web framework",
+        "Vite":"Build tool (fast)",
+        "Node.js":"Runtime & tools",
+        "Composer":"PHP dependency",
+        "pnpm":"Package manager",
+        "Docker":"Containers",
+        "GitHub Actions":"CI/CD & Automation",
+    }
     for i, name in enumerate(DISPLAY_BUILD):
-        x = 8 + i * 142
-        y = 43
-        art.append(rect(x, y, 135, 59, active=(name in frameworks)))
-        art.append(technology_icon(name, x+8, y+13, 30))
-        art.append(text(x+42, y+26, name, 14 if len(name)<12 else 11, TEXT, 700))
-        label = "verified" if name in frameworks else "toolkit"
-        art.append(text(x+42, y+43, label, 11, MUTED))
+        x, y = 7 + i * 142, 47
+        art.append(rect(x, y, 136, 67, radius=11))
+        art.append(technology_icon(name, x + 9, y + 16, 34))
+        art.append(text(x + 49, y + 28, name, 14 if len(name) <= 9 else 11, TEXT, 700))
+        art.append(text(x + 49, y + 47, descriptions[name], 9, MUTED))
+        if name in frameworks:
+            art.append(f'<rect x="{x+124}" y="{y+6}" width="5" height="5" rx="2" fill="#58cc8f"/>')
     return svg_done(art)
 
 
