@@ -6,11 +6,11 @@ V6 is an incremental upgrade of the active V5 GitHub profile, not a new unrelate
 
 ## Preserved behavior and safeguards
 
-- The existing `profile-live` data branch, scheduled refresh workflow and GraphQL/REST collectors are unchanged.
+- The existing GraphQL/REST data collectors and `profile-live` data branch remain in place. The scheduled workflow now publishes additional verified V6 assets after the original data checks.
 - No credentials, repository names, private code or private metadata are embedded in the README or new SVG.
 - Private language statistics are an optional aggregate, not a proxy for private project disclosure.
 - Existing four featured projects, their caveats, the native GitHub contribution-calendar caveat and historical assets remain available.
-- No new third-party image service, tracking pixel, JavaScript, runtime dependency or publishing permission is introduced.
+- No third-party image service, tracking pixel, client-side JavaScript or broadened publishing permission is introduced. A pinned Pillow build dependency processes real public project screenshots.
 - `main` remains untouched until review and its required checks approve a PR.
 
 ## Review checklist
@@ -43,7 +43,7 @@ The requested reference shows a dark GitHub-like dashboard, a glowing white AB/v
 - GitHub does not let repository README content modify its navigation, profile sidebar, follow buttons, native tab bars, or pinned repositories. The visual reference is reproduced **inside README capabilities**, not as a GitHub interface skin.
 - Values in the reference screenshot are **examples**, not evidence. New metrics use genuine GraphQL calendar totals, counted active days, **recent independently verified public external merged PRs**, and owner public original repository totals. Do not call the external PR sample a lifetime total.
 - Private repository source, identifiers and branch details remain unpublished. Only already supported aggregated GitHub Linguist byte counts appear when the owner's optional credential works.
-- The four new SVGs are not present on the `profile-live` data branch until the updated workflow publishes them after merge, so they may appear missing in PR preview. Existing V5 assets and original evidence remain available during rollout.
+- The V6 image URLs have been bootstrapped onto `profile-live` with eight dated/verified SVG panels and three preview project images, fixing the previously broken draft PR links. The approved workflow will replace the bootstrap visuals with fully generated V6 panels and uniform source-backed PNG cards after merge. Existing V5 evidence remains available.
 - GitHub Actions runs hourly on a best-effort basis. No claim of instant updates or guaranteed schedule is made.
 - The real GitHub account avatar can only be changed by the account owner through GitHub profile settings; the README does not control it.
 
@@ -51,7 +51,7 @@ The requested reference shows a dark GitHub-like dashboard, a glowing white AB/v
 
 1. Observe all four required jobs (offline integrity, full-history Gitleaks, CodeQL Python, CodeQL Actions) **on the final PR head SHA**.
 2. Check source proof, absence of private names, actual value provenance and SVG rendering on desktop/mobile.
-3. After merge, run the **Refresh live public activity** workflow on `main` if the first scheduled run has not arrived. Confirm all four `live/v6-*.svg` files on `profile-live` before considering rollout finished.
+3. After merge, run the **Refresh live public activity** workflow on `main` if the first scheduled run has not arrived. Confirm all eight V6 SVG panels and three V6 project PNGs are regenerated from the current verified snapshots on `profile-live` before considering rollout finished.
 4. Compare rendered V6 screenshots in GitHub light and dark, verify source links, respect image caching, and ensure no fabricated statistics.
 
 
@@ -98,4 +98,4 @@ The reference's annual contributions, 36-day streak, 27 merged PRs and 414 priva
 - original public repositories (instead of unsupported private contributions),
 - owner-declared tools distinguished from verified GitHub Linguist code bytes and framework manifests.
 
-New generated SVG URLs and featured PNGs are published to the `profile-live` branch only after the final generator runs on `main`. A draft PR preview may not show those images yet; this is expected. Merge only after all required checks pass, then verify the first real Actions publication. No third-party badge hosts, JavaScript or direct writes to protected `main` are involved.
+The live-image paths are **already seeded** in the `profile-live` branch to eliminate broken draft PR images. On merge, the scheduled live generator replaces the seeds with fully verified current visuals. A read-only GitHub Actions gate (`scripts/check_live_asset_refs.py`) now fails PR checks if README references any missing live image. Merge only after all required checks and the actual rendered visual review pass. No third-party badge hosts, JavaScript or direct writes to protected `main` are involved.
