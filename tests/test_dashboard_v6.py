@@ -73,6 +73,37 @@ class VerifiedV6DashboardTests(unittest.TestCase):
         self.assertIn("Verified recent sample", first["v6-metrics.svg"])
         self.assertIn("Public + selected private aggregates", first["v6-stack.svg"])
 
+    def test_calendar_labels_do_not_overlap_cells_or_legend(self):
+        c, p, a = self.fixture()
+        root = ET.fromstring(render(c, p, a)["v6-calendar.svg"])
+        ns = {"svg":"http://www.w3.org/2000/svg"}
+        labels = []
+        for node in root.findall("svg:text", ns):
+            if node.text in ("Jan","Feb","Mar","Apr","May","Jun",
+                             "Jul","Aug","Sep","Oct","Nov","Dec"):
+                labels.append(float(node.attrib["x"]))
+        self.assertGreaterEqual(len(labels), 10)
+        self.assertTrue(all(b - a >= 38 for a, b in zip(labels, labels[1:])))
+        legend = [node for node in root.findall("svg:text", ns) if node.text == "Less"]
+        self.assertEqual(len(legend), 1)
+        self.assertGreaterEqual(float(legend[0].attrib["y"]), 190)
+        squares = [
+            node for node in root.findall("svg:rect", ns)
+            if node.attrib.get("height") == "11.4"
+        ]
+        self.assertEqual(len(squares), 365)
+        self.assertLess(max(float(el.attrib["y"])+float(el.attrib["height"]) for el in squares), 185)
+
+    def test_semantic_icons_are_paths_not_missing_unicode_glyphs(self):
+        c, p, a = self.fixture()
+        out = render(c, p, a)
+        for name in ("v6-metrics.svg", "v6-calendar.svg", "v6-open-source.svg",
+                     "v6-building.svg", "v6-languages.svg", "v6-frameworks.svg"):
+            self.assertIn('<path d=', out[name], name)
+        for glyph in ("♨", "⑂", "▣", "▦", "⬡", "⚒"):
+            self.assertNotIn(glyph, out["v6-metrics.svg"])
+            self.assertNotIn(glyph, out["v6-calendar.svg"])
+
     def test_manifests_only_not_unverified_frameworks(self):
         c, p, a = self.fixture()
         p["verified_frameworks"] = []
