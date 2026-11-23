@@ -122,7 +122,7 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
     if raw is not None:
         try:
             with Image.open(io.BytesIO(raw)) as image:
-                if image.format not in ("PNG", "JPEG", "WEBP") or image.is_animated:
+                if image.format not in ("PNG", "JPEG", "WEBP") or getattr(image, "is_animated", False):
                     raise ValueError("Unsupported or animated project image")
                 if image.width * image.height > MAX_PIXELS:
                     raise ValueError("Oversized image dimensions")
