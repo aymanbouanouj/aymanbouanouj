@@ -43,12 +43,14 @@ class V6ReadmeContract(unittest.TestCase):
             self.assertNotIn(f"v6-project-{slug}.svg", text)
         self.assertIn('src="./assets/v6-footer.svg"', text)
         self.assertTrue((ROOT / "assets" / "v6-footer.svg").is_file())
+        # V6 headings are contained in the visual panels for compact layout.
+        # Assert the *visible* panels follow the supplied screenshot order.
         self.assertLess(text.index("## Featured Projects"),
-                        text.index("## Open Source & Collaborations"))
-        self.assertLess(text.index("## Open Source & Collaborations"),
-                        text.index("## Currently Building"))
-        self.assertLess(text.index("## Currently Building"),
-                        text.index("## Pinned / Selected Repositories"))
+                        text.index("profile-live/live/v6-open-source.svg"))
+        self.assertLess(text.index("profile-live/live/v6-open-source.svg"),
+                        text.index("profile-live/live/v6-building.svg"))
+        self.assertLess(text.index("profile-live/live/v6-building.svg"),
+                        text.index("profile-live/live/v6-pinned.svg"))
 
     def test_live_data_pipeline_references_preserved(self):
         text = (ROOT / "README.md").read_text(encoding="utf-8")
