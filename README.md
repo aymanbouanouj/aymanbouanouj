@@ -29,7 +29,15 @@
 
 <p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-building.svg?v=20261123-266a343" width="100%" alt="Currently Building — recently updated public repositories, based on dated GitHub activity" /></a></p>
 
-<p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pinned.svg?v=20261123-266a343" width="100%" alt="Pinned / Selected Repositories — editorial public project picks, not claimed to be native GitHub pins" /></a></p>
+<h3 align="left">Pinned / Selected Repositories</h3>
+
+<p><a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pin-morocco.svg?v=v6-linked" width="48%" alt="Morocco2030 public code repository — click to open" /></a> <a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pin-train.svg?v=v6-linked" width="48%" alt="AB Train Ticket Studio public code repository — click to open" /></a></p>
+<p><a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pin-pc.svg?v=v6-linked" width="48%" alt="PC Full Check public code repository — click to open" /></a> <a href="https://github.com/aymanbouanouj/site-recettes"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pin-recettes.svg?v=v6-linked" width="48%" alt="Site Recettes public code repository — click to open" /></a></p>
+
+<details>
+<summary>Full public repository overview</summary>
+<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pinned.svg?v=20261123-266a343" width="100%" alt="Automatically refreshed compact summary of selected public projects" />
+</details>
 
 <img src="./assets/v6-footer.svg" width="100%" alt="AB original logo with Build Learn Contribute Automate motto" />
 
