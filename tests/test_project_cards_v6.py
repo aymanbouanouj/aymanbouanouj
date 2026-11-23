@@ -89,7 +89,7 @@ class V6ProjectImageTests(unittest.TestCase):
             self.assertEqual(verify(folder),result)
             for name in CARD_FILES:
                 with Image.open(folder/name) as image:
-                    self.assertEqual(image.size,(640,630))
+                    self.assertEqual(image.size,(640,560))
                     image.verify()
             (folder/CARD_FILES[0]).write_bytes(b"corrupt")
             with self.assertRaisesRegex(ValueError,"tampered"):
