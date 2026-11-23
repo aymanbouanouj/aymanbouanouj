@@ -82,63 +82,93 @@ def svg_done(pieces: list[str]) -> str:
     return result
 
 
+
+def line_icon(name: str, x: float, y: float, size: int = 31, color: str = PURPLE) -> str:
+    """Draw known icons as geometry: avoid missing Unicode glyphs on SVG renderers."""
+    paths = {
+        "code": '<path d="M8 9 2 15l6 6 M22 9l6 6-6 6 M18 5l-5 20"/>',
+        "flame": '<path d="M16 2c-1 7 5 9 4 15 4-2 4-6 3-8 7 9 4 20-7 20S4 23 6 16c1-4 4-7 5-9-1 6 3 6 5 8 2-5 0-7 0-13Z"/>',
+        "git": '<circle cx="7" cy="7" r="3"/><circle cx="23" cy="7" r="3"/><circle cx="23" cy="24" r="3"/><path d="M7 10v10a4 4 0 0 0 4 4h9 M23 10v11"/>',
+        "repo": '<rect x="5" y="3" width="20" height="25" rx="3"/><path d="M10 3v25 M14 9h7 M14 14h7"/>',
+        "calendar": '<rect x="3" y="4" width="24" height="23" rx="3"/><path d="M3 11h24 M10 2v5 M20 2v5 M10 16h4 M18 16h4 M10 22h4 M18 22h4"/>',
+        "layers": '<path d="m15 3 12 7-12 7L3 10Z M3 15l12 7 12-7 M3 20l12 7 12-7"/>',
+        "tools": '<path d="M6 7l17 17 M19 5a6 6 0 0 1 6 8l-6-3-4 4 3 6a6 6 0 0 1-8-6L4 20a3 3 0 0 0 4 4l6-6 M4 2v7 M1 5h7"/>',
+        "contribute": '<path d="M8 5h12 M8 10h8 M4 3v24 M7 24h18 M22 20l3 4-3 4"/>',
+        "target": '<circle cx="15" cy="15" r="12"/><circle cx="15" cy="15" r="7"/><circle cx="15" cy="15" r="2"/>',
+        "pin": '<path d="M10 3h10l-2 10 5 5v3H7v-3l5-5Z M15 21v8"/>',
+    }
+    if name not in paths:
+        raise ValueError("Unknown semantic SVG icon: " + name)
+    return (f'<g transform="translate({x} {y}) scale({size / 30:.4f})" '
+            f'fill="none" stroke="{esc(color)}" stroke-width="2.5" stroke-linecap="round" '
+            f'stroke-linejoin="round">{paths[name]}</g>')
+
+
 def metrics(contrib: dict, portfolio: dict, activity: dict) -> str:
-    # Never copy the reference image's decorative counters. Every number here
-    # comes from a validated public/aggregate snapshot with a dated source.
+    # The reference shows decorative numbers; these counters use validated data.
     from render_profile import analysis
     info = analysis(contrib, reference_date=dt.date.fromisoformat(contrib["days"][-1]["date"]))
     values = [
-        (f'{contrib["total_contributions"]:,}', "Contributions", "Past year", "</>"),
-        (str(info["current"]), "Current streak", "Consecutive active days", "♨"),
-        (str(len(portfolio["verified_collaborations"])), "Merged external PRs", "Verified recent sample", "⑂"),
-        (str(portfolio["public_original_repository_count"]), "Public repositories", "Original, non-fork", "▣"),
+        (f'{contrib["total_contributions"]:,}', "Contributions", "Past year", "code"),
+        (str(info["current"]), "Current streak", "Consecutive active days", "flame"),
+        (str(len(portfolio["verified_collaborations"])), "Merged external PRs", "Verified recent sample", "git"),
+        (str(portfolio["public_original_repository_count"]), "Public repositories", "Original, non-fork", "repo"),
     ]
     art = root_svg(reference_panel_height("metrics") + 5, "GitHub verified profile statistics",
-                   "Four dark violet statistic cards: annual contributions, current contribution streak, verified recent external merges, and original public repositories.")
-    for i, (value, name, subtitle, symbol) in enumerate(values):
+                   "Four visual metric cards: verified contributions, current streak, confirmed external merges and original public repositories.")
+    for i, (value, name, subtitle, icon_name) in enumerate(values):
         x = 5 + i * 251
         art.append(rect(x, 2, 239, 93, active=(i == 0), radius=TOKENS.card_radius))
-        art.append(text(x + 24, 56, symbol, 30, PURPLE, 700))
-        art.append(text(x + 94, 40, value, 29, TEXT, 700))
-        art.append(text(x + 94, 63, name, 15, TEXT, 700))
-        art.append(text(x + 94, 83, subtitle, 11, MUTED))
+        art.append(line_icon(icon_name, x + 19, 30, 34))
+        art.append(text(x + 86, 40, value, 29, TEXT, 700))
+        art.append(text(x + 86, 63, name, 14 if len(name) > 18 else 15, TEXT, 700))
+        art.append(text(x + 86, 83, subtitle, 11, MUTED))
     return svg_done(art)
 
 
 def calendar(contrib: dict) -> str:
-    # Calendars use Sunday-first columns to match the native GitHub heatmap.
-    # Month labels are placed on the first new week, not only on Mondays.
+    """GitHub Sunday-first week columns; no overlapping month or legend labels."""
     days = contrib["days"]
     first = dt.date.fromisoformat(days[0]["date"])
     shift = (first.weekday() + 1) % 7
     columns = (len(days) + shift + 6) // 7
-    step = min(15.6, 827 / max(1, columns))
+    step = min(15.6, 820 / max(1, columns))
     cell = step - 3
-    x0, y0 = 117, 76
-    art = root_svg(188, "Contribution Activity",
-                   "One year of verified GitHub GraphQL contribution counts in five green levels, with accurate day and month positions.")
-    art.append(rect(3, 2, 994, 177, active=True))
-    art.extend([text(24, 35, "▦   Contribution Activity", 24, TEXT, 700),
-                text(980, 35, f'{contrib["total_contributions"]:,} contributions in the last year', 14, MUTED, anchor="end")])
+    x0, y0 = 112, 77
+    art = root_svg(215, "Contribution Activity",
+                   "One-year GitHub contribution calendar, with collision-free month labels and an isolated five-color legend.")
+    art.append(rect(3, 2, 994, 205, active=True))
+    art.append(line_icon("calendar", 23, 13, 23))
+    art.append(text(61, 36, "Contribution Activity", 24, TEXT, 700))
+    art.append(text(980, 35, f'{contrib["total_contributions"]:,} contributions in the last year', 14, MUTED, anchor="end"))
     for label, row in (("Mon", 1), ("Wed", 3), ("Fri", 5)):
-        art.append(text(62, int(y0 + row * 13.7 + 10), label, 12, MUTED))
+        art.append(text(62, round(y0 + row * 13.7 + 10), label, 12, MUTED))
     levels = ("#123121", "#0d5d38", "#098a45", "#08bc53", "#18ef61")
-    seen_months = set()
+    months = []
     for i, day in enumerate(days):
         date = dt.date.fromisoformat(day["date"])
         position = i + shift
         row, col = position % 7, position // 7
         month_key = date.strftime("%Y-%m")
-        if month_key not in seen_months:
-            seen_months.add(month_key)
-            art.append(text(int(x0 + col * step), 67, date.strftime("%b"), 11, MUTED))
+        if not months or month_key != months[-1][0]:
+            months.append((month_key, col, date.strftime("%b")))
         count = day["count"]
         level = 0 if count == 0 else 1 if count <= 2 else 2 if count <= 6 else 3 if count <= 12 else 4
         art.append(f'<rect x="{x0 + col * step:.1f}" y="{y0 + row * 13.7:.1f}" width="{cell:.1f}" height="11.4" rx="2" fill="{levels[level]}"/>')
-    art.append(text(816, 167, "Less", 11, MUTED))
+    # The first and last partial months can sit less than one week apart from
+    # adjacent labels. Only draw a label when enough pixel space remains.
+    last_x = -1_000
+    for index, (_month, col, label) in enumerate(months):
+        next_col = months[index + 1][1] if index + 1 < len(months) else columns
+        x = x0 + col * step
+        if x - last_x < 38 or (next_col - col) * step < 35 or x > 920:
+            continue
+        art.append(text(round(x), 69, label, 11, MUTED))
+        last_x = x
+    art.append(text(795, 198, "Less", 11, MUTED))
     for j, color in enumerate(levels):
-        art.append(f'<rect x="{859+j*17}" y="157" width="14" height="13" rx="2" fill="{color}"/>')
-    art.append(text(957, 167, "More", 11, MUTED))
+        art.append(f'<rect x="{832+j*17}" y="187" width="14" height="13" rx="2" fill="{color}"/>')
+    art.append(text(933, 198, "More", 11, MUTED))
     return svg_done(art)
 
 
@@ -206,7 +236,7 @@ def open_source(portfolio: dict) -> str:
     for i, row in enumerate(collabs):
         y = 80 + i * 60
         art.append(rect(20, y, 960, 53))
-        art.append(text(40, y + 34, "⑂", 21, PURPLE, 700))
+        art.append(line_icon("contribute", 36, y + 15, 25))
         art.append(text(80, y + 29, row["name"][:50], 18, TEXT, 700))
         art.append(text(80, y + 45, "Merged public pull request", 11, MUTED))
         art.append(text(954, y + 33, f'PR #{row["number"]} · MERGED', 14, "#6bdfad", 700, anchor="end"))
@@ -258,7 +288,8 @@ def compact_technology(portfolio: dict) -> str:
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
     art = root_svg(166, "Languages & Technical Stack",
                    "Twelve branded technology tiles arranged in two rows, faithfully following the supplied profile reference.")
-    art.append(text(12, 36, "⬡   Languages & Technical Stack", 25, TEXT, 700))
+    art.append(line_icon("layers", 12, 12, 24))
+    art.append(text(50, 36, "Languages & Technical Stack", 25, TEXT, 700))
     art.append(text(984, 35, "The technologies I use to build, test and deploy", 13, MUTED, anchor="end"))
     for i, name in enumerate(DISPLAY_TECH):
         x, y = 7 + (i % 6) * 166, 43 + (i // 6) * 57
@@ -275,7 +306,8 @@ def compact_frameworks(portfolio: dict) -> str:
     frameworks = {row["name"] for row in portfolio["verified_frameworks"]}
     art = root_svg(112, "Frameworks / Build Tools",
                    "Seven illustrated framework, runtime, package manager, container, and CI cards.")
-    art.append(text(12, 34, "⚒   Frameworks / Build Tools", 25, TEXT, 700))
+    art.append(line_icon("tools", 12, 10, 24))
+    art.append(text(50, 34, "Frameworks / Build Tools", 25, TEXT, 700))
     art.append(text(987, 33, "Frameworks, tooling and services for development and delivery", 12, MUTED, anchor="end"))
     descriptions = {
         "Laravel":"Web framework",
@@ -301,7 +333,8 @@ def currently_building(activity: dict) -> str:
     recent = activity["recent_repositories"][:3]
     art = root_svg(111, "Currently Building — recent public repositories",
                    "Three recently pushed public GitHub repositories from the validated activity snapshot. This does not claim exclusive or real-time active development.")
-    art.append(text(11, 31, "◉   Currently Building", 23, TEXT, 700))
+    art.append(line_icon("target", 11, 9, 24))
+    art.append(text(49, 31, "Currently Building", 23, TEXT, 700))
     art.append(text(986, 31, "Recently updated public work", 12, MUTED, anchor="end"))
     for i in range(3):
         x = 8 + i * 332
@@ -327,13 +360,15 @@ def pinned(portfolio: dict) -> str:
     ]
     art=root_svg(248,"Selected Public Repositories",
                  "Four curated public repository cards. No private repositories, misleading GitHub-native pin claim, or invented star and fork counts.")
-    art.append(text(11, 30, "⚑   Pinned / Selected Repositories", 23, TEXT, 700))
+    art.append(line_icon("pin", 11, 8, 24))
+    art.append(text(49, 30, "Pinned / Selected Repositories", 23, TEXT, 700))
     art.append(text(988, 30, "Curated public projects", 12, MUTED, anchor="end"))
     for i,(name,summary,tech) in enumerate(items):
         x=8+(i%2)*498
         y=44+(i//2)*95
         art.append(rect(x,y,484,87))
-        art.append(text(x+17,y+32,("▣  "+name) if name else "▣  Browse other public work",18,"#cfb7ff",700))
+        art.append(line_icon("repo", x+15, y+13, 23))
+        art.append(text(x+49,y+32,name if name else "Browse other public work",18,"#cfb7ff",700))
         art.append(text(x+18,y+54,summary,13,TEXT))
         art.append(text(x+18,y+74,tech,12,MUTED))
     return svg_done(art)
