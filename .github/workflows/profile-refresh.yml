@@ -33,7 +33,9 @@ jobs:
       - name: Check Python syntax before refreshing generated artifacts
         run: python3 -m compileall -q scripts tests
       - name: Install pinned dashboard test dependency
-        run: python3 -m pip install --disable-pip-version-check --require-hashes --no-deps --only-binary=:all: -r requirements-dashboard.txt
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Query public project evidence and render
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,7 +78,9 @@ jobs:
         with:
           persist-credentials: true
       - name: Install pinned dashboard test dependency
-        run: python3 -m pip install --disable-pip-version-check --require-hashes --no-deps --only-binary=:all: -r requirements-dashboard.txt
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Refresh and validate public evidence
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

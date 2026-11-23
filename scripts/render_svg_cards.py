@@ -372,15 +372,15 @@ def hero(*, compact=False) -> Card:
 
 
 def button(label, symbol, *, primary=False) -> Card:
-    w, h = 182, 43
+    w, h = 182, 50
     card = Card(w, h, label, "Opens " + label + " in the linked public profile.")
     ink = "#f9f4ff" if primary else COPY
     card.defs.append(gradient("action", ((0, "#47247c"), (1, "#66349e")), axis=(0, 0, 1, 1)))
     card.parts.append(panel(0, 0, w, h, 12, fill="url(#action)" if primary else "url(#panel)",
                             stroke="#8356bd" if primary else BORDER))
-    card.parts.append(glyph(symbol, 13, 11, 20, ink))
-    card.parts.append(card.text(43, 28, label, 17, weight=600, fill=ink))
-    card.parts.append(glyph("arrow", 151, 13, 16, "#dec6fa" if primary else MUTED))
+    card.parts.append(glyph(symbol, 13, 15, 20, ink))
+    card.parts.append(card.text(43, 31, label, 17, weight=600, fill=ink))
+    card.parts.append(glyph("arrow", 151, 17, 16, "#dec6fa" if primary else MUTED))
     return card
 
 
@@ -807,8 +807,13 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
     def block(content, css="wide"):
         return f'<p align="center" class="{css}">\n{content}\n</p>'
 
-    def header(key):
-        return block(img("heading-" + key, HEADERS[key][0], mobile=True), "wide heading")
+    def span(content, css):
+        return f'<span class="{css}">\n{content}\n</span>'
+
+    def section(key, content, layout, extra=""):
+        header = img("heading-" + key, HEADERS[key][0], mobile=True)
+        body = span(header, "wide heading") + "<br>\n" + span(content, layout)
+        return block(body + extra, "section-group")
 
     def repo_url(name: str) -> str:
         return f"{PROFILE}/{name}"
@@ -846,29 +851,25 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
     contacts = "\n".join((
-        img("link-github", "GitHub profile", 108, href=PROFILE),
-        img("link-profile", "Ayman Bounaouj’s public profile links", 108, href=PORTFOLIO),
-        img("link-linkedin", "LinkedIn profile", 108, href=LINKEDIN),
+        img("link-github", "GitHub profile", 100, href=PROFILE),
+        img("link-profile", "Ayman Bounaouj’s public profile links", 100, href=PORTFOLIO),
+        img("link-linkedin", "LinkedIn profile", 100, href=LINKEDIN),
     ))
+    identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
+                   mobile=True)
     return "\n\n".join((
-        block(img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
-                  mobile=True), "wide hero"),
-        block(contacts, "contacts"),
+        block(span(identity, "wide hero") + "<br>\n" + span(contacts, "contacts"), "section-group"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
         block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels, monthly totals and intensity legend.",
                   mobile=True, href=PROFILE)),
         block(img("technical", "Languages & Technical Stack. " + ", ".join(STACK), mobile=True)),
         block(img("tools", "Frameworks / Build Tools. " + ", ".join(name for name, _ in TOOLS), mobile=True)),
-        header("featured"),
-        block("\n".join(feature_cards), "project-row"),
-        block(f"<sub>{link(DEMO, 'AB Train Ticket Studio live demo ↗')}</sub>", "demo"),
-        header("opensource"),
-        block("<br>\n".join(highlights), "wide contributions"),
-        header("building"),
-        block("\n".join(tiles), "building-row"),
-        header("pinned"),
-        block("\n".join(pins[:2]) + "<br>\n" + "\n".join(pins[2:]), "pin-row"),
+        section("featured", "\n".join(feature_cards), "project-row",
+                "<br>\n" + span(f"<sub>{link(DEMO, 'AB Train Ticket Studio live demo ↗')}</sub>", "demo")),
+        section("opensource", "<br>\n".join(highlights), "wide contributions"),
+        section("building", "\n".join(tiles), "building-row"),
+        section("pinned", "\n".join(pins[:2]) + "<br>\n" + "\n".join(pins[2:]), "pin-row"),
         block(img("footer", "Ayman Bounaouj. GitHub GraphQL and REST sources, with verification dates.",
                   mobile=True, href=SOURCE), "wide footer"),
         readme_text,
@@ -886,17 +887,18 @@ img{vertical-align:bottom;max-width:100%;height:auto}
 .wide img{width:100%}
 a{color:#c9a3ff;text-underline-offset:.19em}
 a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4px;border-radius:4px}
-.hero{margin:0 0 7px}
-.contacts{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 15px}
+.section-group > br{display:none}
+.hero{display:block;margin:0 0 7px}
+.contacts{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
 .contacts img{width:clamp(95px,19vw,132px)}
-.heading{margin:0 0 5px}
+.heading{display:block;margin:0 0 5px}
 .project-row,.building-row,.pin-row{display:grid;gap:10px}
 .project-row,.building-row{grid-template-columns:repeat(3,minmax(0,1fr))}
 .pin-row{grid-template-columns:repeat(2,minmax(0,1fr))}
 .pin-row br,.contributions br{display:none}
 .project-row img,.building-row img,.pin-row img{width:100%}
 .project-row{margin:0 0 3px}
-.demo{margin:0 0 10px}
+.demo{display:block}
 .demo sub{font-size:.8em;vertical-align:baseline}
 .contributions a{display:block;margin-bottom:5px}
 .contributions a:last-child{margin:0}

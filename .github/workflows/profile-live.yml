@@ -46,7 +46,9 @@ jobs:
           git fetch --no-tags origin profile-live:refs/remotes/origin/profile-live
           git worktree add -B profile-live "$RUNNER_TEMP/live-worktree" origin/profile-live
       - name: Install pinned dashboard rendering dependency
-        run: python3 -m pip install --disable-pip-version-check --require-hashes --no-deps --only-binary=:all: -r requirements-dashboard.txt
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Build verified public activity snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -187,7 +189,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pinned dashboard rendering dependency
-        run: python3 -m pip install --disable-pip-version-check --require-hashes --no-deps --only-binary=:all: -r requirements-dashboard.txt
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Rehearse the refresh without write permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
