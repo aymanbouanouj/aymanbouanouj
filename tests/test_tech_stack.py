@@ -69,7 +69,7 @@ class TechStackTests(unittest.TestCase):
                 self.assertNotIn("<script",svg.lower())
 
     def test_profile_references_both_theme_artworks(self):
-        content=(ROOT/"README.md").read_text(encoding="utf-8")
+        content=(ROOT/"PROFILE-V5.md").read_text(encoding="utf-8")
         if (ROOT/"assets/mobile/manifest.json").exists():
             self.assertIn('./assets/mobile/tech-stack.png',content)
             self.assertIn('./assets/tech-stack-dark.svg',content)
