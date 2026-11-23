@@ -95,6 +95,19 @@ class V6ProjectImageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"tampered"):
                 verify(folder)
 
+    def test_jpeg_real_project_screenshot_renders_without_animation_property(self):
+        from PIL import Image
+        from live_project_cards_v6 import render_card
+        import io
+        stream = io.BytesIO()
+        Image.new("RGB", (720, 420), "#18234b").save(stream, format="JPEG")
+        # Pillow JPEG decoders need not expose the optional is_animated attribute.
+        rendered = render_card(PROJECTS[0], {"stars": 4, "forks": 2}, stream.getvalue())
+        with Image.open(io.BytesIO(rendered)) as output:
+            self.assertEqual(output.format, "PNG")
+            self.assertEqual(output.size, (640, 560))
+            output.verify()
+
     def test_only_allowlisted_public_file_paths(self):
         self.assertNotIn(".env", " ".join(STANDARD_PATHS))
         self.assertTrue(all("profile-" in p or "readme/" in p or "screenshots/" in p for p in STANDARD_PATHS))
