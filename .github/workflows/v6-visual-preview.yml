@@ -1,0 +1,97 @@
+name: V6 visual preview (read-only)
+
+on:
+  pull_request:
+    paths:
+      - README.md
+      - scripts/live_dashboard_v6.py
+      - scripts/live_project_cards_v6.py
+      - scripts/v6_design_system.py
+      - scripts/v6_brand_icons.json
+      - requirements-ci.txt
+      - .github/workflows/v6-visual-preview.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    name: Render actual V6 project cards and panels
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feature/profile-v6-evidence-first-20261122'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout PR without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned image generation dependency
+        run: python3 -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Download public data snapshots from profile-live
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p preview/live
+          for file in contributions.json portfolio.json activity.json; do
+            curl --fail --location --show-error --silent --retry 3 --retry-delay 2               "https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/$file"               --output "preview/live/$file"
+            test -s "preview/live/$file"
+          done
+      - name: Generate and validate exact current branch renderers
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/live_dashboard_v6.py --build --output preview/live
+          python3 scripts/live_dashboard_v6.py --verify --output preview/live
+          python3 scripts/live_project_cards_v6.py --build --output preview/live
+          python3 scripts/live_project_cards_v6.py --verify --output preview/live
+      - name: Build downloadable local visual gallery
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from html import escape
+          folder = Path("preview/live")
+          files = [
+              "v6-metrics.svg", "v6-calendar.svg", "v6-languages.svg",
+              "v6-frameworks.svg", "v6-feature-morocco.png",
+              "v6-feature-train.png", "v6-feature-pc.png",
+              "v6-open-source.svg", "v6-building.svg",
+              "v6-pin-morocco.svg", "v6-pin-train.svg",
+              "v6-pin-pc.svg", "v6-pin-recettes.svg",
+          ]
+          for name in files:
+              if not (folder / name).is_file():
+                  raise SystemExit("Missing V6 asset in visual gallery: " + name)
+          images = "\n".join(
+              '<section><h2>' + escape(name) + '</h2><img src="live/' + escape(name)
+              + '" alt="' + escape(name) + '"></section>'
+              for name in files
+          )
+          html = ('<!DOCTYPE html><html lang="en"><meta charset="utf-8">'
+                  '<meta name="viewport" content="width=device-width,initial-scale=1">'
+                  '<title>V6 visual review</title><style>'
+                  'body{font-family:Arial,sans-serif;background:#080c17;color:#eee;max-width:1000px;'
+                  'padding:24px;margin:auto}h2{font-size:16px;color:#c49aff}section{margin:16px 0 26px}'
+                  'img{width:100%;height:auto;display:block}h1{font-size:24px}'
+                  '</style><h1>V6 visual review — generated from real verified snapshots</h1>'
+                  '<p>Downloaded preview only. No automatic publication; final approval requires GitHub rendering review.</p>'
+                  + images + '</html>')
+          Path("preview/index.html").write_text(html, encoding="utf-8")
+          PY
+      - name: Upload visual preview without editing the public profile
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: v6-visual-preview
+          path: preview/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Review instructions
+        shell: bash
+        run: |
+          echo '### V6 visual preview' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the **v6-visual-preview** artifact, unzip and open **index.html** to review all renderer outputs and three source-based project cards.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'This is a pre-merge preview: it does not publish to profile-live or main.' >> "$GITHUB_STEP_SUMMARY"
