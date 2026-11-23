@@ -19,11 +19,13 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+from v6_design_system import TOKENS
+
 OWNER = "aymanbouanouj"
 API = "https://api.github.com"
 MAX_BYTES = 2_000_000
 MAX_PIXELS = 6_000_000
-DIMENSIONS = (640, 560)
+DIMENSIONS = (TOKENS.project_card_width, TOKENS.project_card_height)
 STANDARD_PATHS = (
     "assets/profile-cover.png", "assets/profile-cover.jpg", "assets/profile-cover.webp",
     "assets/profile-card.png", "media/readme/cover.png", "media/readme/preview.png",
@@ -112,10 +114,10 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
     from PIL import Image, ImageDraw, ImageFont, ImageOps, UnidentifiedImageError
     Image.MAX_IMAGE_PIXELS = MAX_PIXELS
     width, height = DIMENSIONS
-    canvas = Image.new("RGB", DIMENSIONS, "#10141e")
+    canvas = Image.new("RGB", DIMENSIONS, TOKENS.background)
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((1, 1, width - 2, height - 2), radius=22,
-                           outline="#63517b", width=3, fill="#131724")
+                           outline=TOKENS.border, width=3, fill=TOKENS.card)
     area = (8, 8, width - 8, 264)
     if raw is not None:
         try:
@@ -163,7 +165,7 @@ def render_card(project, metadata, raw: bytes | None) -> bytes:
 
     slug, repo, title, summary, tags, _ = project
     if raw is None:
-        draw.text((27, 73), "PROJECT IMAGE PENDING", font=font(28, True), fill="#c8a2ff")
+        draw.text((27, 73), "PROJECT IMAGE PENDING", font=font(28, True), fill=TOKENS.image_pending)
         draw.text((27, 121), "A cover will appear after upload", font=font(20),
                   fill="#cfc6e3")
         draw.text((27, 154), "to the public repository.", font=font(20), fill="#cfc6e3")
