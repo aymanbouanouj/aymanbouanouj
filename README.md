@@ -1,11 +1,11 @@
 <!-- Profile V6 · visual reference · live data remains verified and generated on profile-live -->
 <div align="center">
 
-<a href="https://github.com/aymanbouanouj/portfolio-ayman"><img src="./assets/brand-v6.svg" width="100%" alt="Ayman Bounaouj — original AB monogram, developer introduction, purple neon waves and laptop" /></a>
+<img src="./assets/brand-v6.svg" width="100%" alt="Original AB logo, Full-Stack Web Developer introduction, purple neon waves and illustrated laptop — decorative artwork without fake buttons" />
 
-<a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" width="124" alt="GitHub" /></a>
-<a href="https://github.com/aymanbouanouj/portfolio-ayman"><img src="./assets/link-profiles.svg" width="124" alt="Portfolio" /></a>
-<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" width="124" alt="LinkedIn" /></a>
+<a href="https://aymanbouanouj.github.io/portfolio-ayman/"><img src="./assets/v6-cta-portfolio.svg" width="30%" alt="Portfolio — open the published portfolio website" /></a>
+<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/v6-cta-linkedin.svg" width="30%" alt="LinkedIn — open the public professional profile" /></a>
+<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="./assets/v6-cta-projects.svg" width="30%" alt="Projects — browse actual public source repositories" /></a>
 
 <p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-metrics.svg?v=20261123-266a343" width="100%" alt="Verified contributions, current streak, recent merged external pull requests and original public repositories" /></p>
 
@@ -25,8 +25,6 @@
 <a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-train.png?v=20261123-266a343" width="32%" alt="AB Train Ticket Studio — real published project image; repository opens on click" /></a>
 <a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-pc.png?v=20261123-266a343" width="32%" alt="PC Full Check — image pending in repository; dynamic fallback until published" /></a>
 
-<a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030</a> · <a href="https://github.com/aymanbouanouj/ab-train-ticket-studio">AB Train Ticket Studio</a> · <a href="https://github.com/aymanbouanouj/PC-Full-Check">PC Full Check</a>
-
 <p><a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-open-source.svg?v=20261123-266a343" width="100%" alt="Open Source and Verified Contributions — verified public external merged PRs" /></a></p>
 
 <p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-building.svg?v=20261123-266a343" width="100%" alt="Currently Building — recently updated public repositories, based on dated GitHub activity" /></a></p>
@@ -35,7 +33,7 @@
 
 <img src="./assets/v6-footer.svg" width="100%" alt="AB original logo with Build Learn Contribute Automate motto" />
 
-[GitHub](https://github.com/aymanbouanouj) · [LinkedIn](https://www.linkedin.com/in/aymanbounaouj/) · [Portfolio](https://github.com/aymanbouanouj/portfolio-ayman)
+[Portfolio](https://aymanbouanouj.github.io/portfolio-ayman/) · [LinkedIn](https://www.linkedin.com/in/aymanbounaouj/) · [Public projects](https://github.com/aymanbouanouj?tab=repositories)
 
 <sub>© 2026 Ayman Bounaouj · Original AB visual identity</sub>
 
