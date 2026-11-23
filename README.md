@@ -7,13 +7,13 @@
 <a href="https://github.com/aymanbouanouj/portfolio-ayman"><img src="./assets/link-profiles.svg" width="124" alt="Portfolio" /></a>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" width="124" alt="LinkedIn" /></a>
 
-<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-metrics.svg" width="100%" alt="Verified contributions, current streak, recent merged external pull requests and original public repositories" /></p>
+<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-metrics.svg?v=20261123-266a343" width="100%" alt="Verified contributions, current streak, recent merged external pull requests and original public repositories" /></p>
 
-<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-calendar.svg" width="100%" alt="Contribution Activity: GitHub verified 365-day heatmap with real green activity cells and months" /></p>
+<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-calendar.svg?v=20261123-266a343" width="100%" alt="Contribution Activity: GitHub verified 365-day heatmap with real green activity cells and months" /></p>
 
-<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-languages.svg" width="100%" alt="Languages and Technical Stack: 12 dark violet technology tiles matching the reference layout" /></p>
+<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-languages.svg?v=20261123-266a343" width="100%" alt="Languages and Technical Stack: 12 dark violet technology tiles matching the reference layout" /></p>
 
-<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-frameworks.svg" width="100%" alt="Frameworks / Build Tools: Laravel, Vite, Node.js, Composer, pnpm, Docker and GitHub Actions" /></p>
+<p><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-frameworks.svg?v=20261123-266a343" width="100%" alt="Frameworks / Build Tools: Laravel, Vite, Node.js, Composer, pnpm, Docker and GitHub Actions" /></p>
 
 </div>
 
@@ -21,17 +21,17 @@
 
 <div align="center">
 
-<a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-morocco.png" width="32%" alt="Morocco2030 — source-verified public project image; repository opens on click" /></a>
-<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-train.png" width="32%" alt="AB Train Ticket Studio — real published project image; repository opens on click" /></a>
-<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-pc.png" width="32%" alt="PC Full Check — image pending in repository; dynamic fallback until published" /></a>
+<a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-morocco.png?v=20261123-266a343" width="32%" alt="Morocco2030 — source-verified public project image; repository opens on click" /></a>
+<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-train.png?v=20261123-266a343" width="32%" alt="AB Train Ticket Studio — real published project image; repository opens on click" /></a>
+<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-feature-pc.png?v=20261123-266a343" width="32%" alt="PC Full Check — image pending in repository; dynamic fallback until published" /></a>
 
 <a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030</a> · <a href="https://github.com/aymanbouanouj/ab-train-ticket-studio">AB Train Ticket Studio</a> · <a href="https://github.com/aymanbouanouj/PC-Full-Check">PC Full Check</a>
 
-<p><a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-open-source.svg" width="100%" alt="Open Source and Verified Contributions — verified public external merged PRs" /></a></p>
+<p><a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-open-source.svg?v=20261123-266a343" width="100%" alt="Open Source and Verified Contributions — verified public external merged PRs" /></a></p>
 
-<p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-building.svg" width="100%" alt="Currently Building — recently updated public repositories, based on dated GitHub activity" /></a></p>
+<p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-building.svg?v=20261123-266a343" width="100%" alt="Currently Building — recently updated public repositories, based on dated GitHub activity" /></a></p>
 
-<p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pinned.svg" width="100%" alt="Pinned / Selected Repositories — editorial public project picks, not claimed to be native GitHub pins" /></a></p>
+<p><a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/v6-pinned.svg?v=20261123-266a343" width="100%" alt="Pinned / Selected Repositories — editorial public project picks, not claimed to be native GitHub pins" /></a></p>
 
 <img src="./assets/v6-footer.svg" width="100%" alt="AB original logo with Build Learn Contribute Automate motto" />
 
