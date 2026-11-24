@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import dashboard_data as data
+import dashboard_technology as technology
 import render_svg_cards as render
 
 FIXTURE = ROOT / "data"
@@ -134,7 +135,8 @@ class SVGTests(unittest.TestCase):
         cls.calendar = data.read_json(FIXTURE / "dashboard-contributions.json")
         cls.public = data.read_json(FIXTURE / "dashboard-public.json")
         cls.stats = data.activity(cls.calendar)
-        cls.cards = render.artworks(cls.stats, cls.public)
+        cls.technology = technology.validate(data.read_json(technology.SEED))
+        cls.cards = render.artworks(cls.stats, cls.public, cls.technology)
 
     def test_every_svg_is_safe_reproducible_and_static_geometry_matches(self):
         for name, card in self.cards.items():
@@ -167,9 +169,11 @@ class SVGTests(unittest.TestCase):
                     self.assertEqual(set(font.getBestCmap()), glyphs_by_weight[weight])
 
     def test_technology_grid_keeps_each_badge_and_its_row(self):
-        tools = tuple(name for name, _ in render.TOOLS)
+        stack = ("PHP", "JavaScript", "TypeScript", "Python", "HTML", "CSS", "MySQL", "Laravel",
+                 "React", "Docker", "Playwright", "Tailwind CSS")
+        tools = ("Laravel", "Vite", "Node.js", "Composer", "pnpm", "Docker", "GitHub Actions")
         for name, labels, columns in (
-            ("technical", render.STACK, 6), ("technical-mobile", render.STACK, 3),
+            ("technical", stack, 6), ("technical-mobile", stack, 3),
             ("tools", tools, 7), ("tools-mobile", tools, 2),
         ):
             with self.subTest(card=name):
@@ -183,6 +187,23 @@ class SVGTests(unittest.TestCase):
                 self.assertEqual(list(rows.values()), [
                     min(columns, len(labels) - start) for start in range(0, len(labels), columns)
                 ])
+
+    def test_technology_cards_render_sparse_and_empty_evidence(self):
+        sample = {"schema": 1, "source": technology.SOURCE, "evidence": {
+            name: self.technology["evidence"][name] for name in ("PowerShell", "Playwright", "Node.js")
+        }}
+        technology.validate(sample)
+        markup = render.profile_markup(technology_evidence=sample)
+        self.assertIn('alt="Languages &amp; Technical Stack. Playwright, PowerShell"', markup)
+        self.assertIn('alt="Frameworks / Build Tools. Node.js, Playwright"', markup)
+        for tools, expected in ((False, ["Playwright", "PowerShell"]), (True, ["Node.js", "Playwright"])):
+            for compact in (False, True):
+                card = render.tech_grid(sample, tools=tools, compact=compact)
+                root = ET.fromstring(card.svg(True))
+                self.assertEqual([tile.findtext("svg:text", namespaces=NS)
+                                  for tile in root.findall("svg:g[@class='rise']", NS)], expected)
+                empty = render.tech_grid({"evidence": {}}, tools=tools, compact=compact).svg(True)
+                self.assertIn("No verified public evidence available.", empty)
 
     def test_verification_ignores_only_woff_compression_differences(self):
         svg = self.cards["hero"].svg(True)
@@ -281,6 +302,31 @@ class SVGTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(base64.b64decode(uri[len(render.TRAIN_URI):])).hexdigest(),
                              render.HERO_BG_SHA256)
 
+    def test_hero_uses_system_illustration_in_the_original_bounds(self):
+        for name, dimensions in (("hero", ("1160", "235")), ("hero-mobile", ("680", "234"))):
+            svg = self.cards[name].svg(True)
+            root = ET.fromstring(svg)
+            self.assertEqual((root.get("width"), root.get("height")), dimensions)
+            self.assertIsNotNone(root.find(".//svg:g[@id='system-illustration']", NS))
+            self.assertNotRegex(svg, r"(?i)laptop|#bezel|#display|#screenlight")
+
+    def test_readme_review_and_live_markup_are_reproducible(self):
+        for live, marker in ((False, render.README_MARKER), (True, render.LIVE_README_MARKER)):
+            with self.subTest(live=live), tempfile.TemporaryDirectory() as folder:
+                path = Path(folder) / "README.md"
+                actual = render.profile_markup(live_technology=live)
+                self.assertEqual(actual, render.profile_markup(live_technology=live))
+                path.write_text(marker + actual, encoding="utf-8")
+                render.verify_readme(path)
+                for name in ("technical", "tools"):
+                    base = render.LIVE if live else "./cards/"
+                    self.assertIn(f'src="{base}{name}.svg"', actual)
+                    self.assertIn(f'srcset="{base}{name}-mobile.svg"', actual)
+                self.assertIn("/profile-live/cards/technology.json" if live else "./data/dashboard-technology.json", actual)
+                path.write_text(marker + actual.replace("tools.svg", "invalid.svg"), encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    render.verify_readme(path)
+
     def test_readme_orders_sections_and_wraps_each_linkable_card(self):
         render.verify_readme()
         markup = render.profile_markup()
@@ -320,7 +366,7 @@ class SVGTests(unittest.TestCase):
                 buttons.append(name)
                 continue
             self.assertIn(name, self.cards)
-            live = render.dynamic(name) and name not in {"calendar", "calendar-mobile"}
+            live = render.dynamic(name) and name.split("-")[0] not in {"calendar", "technical", "tools"}
             self.assertTrue(src.startswith(render.LIVE if live else "./cards/"))
             if tag == "img":
                 self.assertTrue(attrs["alt"])

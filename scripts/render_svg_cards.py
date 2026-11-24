@@ -27,6 +27,7 @@ from brand_paths import PURPLE, WHITE
 from dashboard_data import (
     CONTRIBUTIONS, MERGED_SEARCH, OWNER, ROOT, activity, contribution_url, read_json, validate,
 )
+from dashboard_technology import SEED as TECHNOLOGY_SEED, grid_items, validate as validate_technology
 
 WIDTH = 1160
 ASSETS = ROOT / "assets/dashboard"
@@ -141,13 +142,6 @@ CURRENT = (
     ("Understand-Anything", "Understand-Anything", "branch"),
     ("gestion-vaccination", "Gestion Vaccination", "stack"),
 )
-STACK = ("PHP", "JavaScript", "TypeScript", "Python", "HTML", "CSS",
-         "MySQL", "Laravel", "React", "Docker", "Playwright", "Tailwind CSS")
-TOOLS = (
-    ("Laravel", "Web framework"), ("Vite", "Build tool"), ("Node.js", "JS runtime"),
-    ("Composer", "PHP packages"), ("pnpm", "JS packages"), ("Docker", "CI services"),
-    ("GitHub Actions", "CI and delivery"),
-)
 # Optical maximums for the visible paths, in SVG units. Wide and outline marks
 # need more room than filled squares to read as part of the same set.
 GRID_MARK_SIZES = {
@@ -156,7 +150,7 @@ GRID_MARK_SIZES = {
     "MySQL": (43, 37), "Laravel": (42, 41), "React": (43, 40),
     "Docker": (45, 35), "Playwright": (42, 34), "Tailwind CSS": (44, 32),
     "Vite": (39, 39), "Node.js": (38, 40), "Composer": (39, 42),
-    "pnpm": (33, 33), "GitHub Actions": (37, 37),
+    "pnpm": (33, 33), "GitHub Actions": (37, 37), "PowerShell": (40, 35),
 }
 EXTERNAL_COPY = (
     ("Egonex-AI / Understand-Anything", "Apply dashboard filters to the structural code graph."),
@@ -330,9 +324,10 @@ class Card:
                 f' text-anchor="{anchor}" letter-spacing="{tracking}">{esc(value)}</text>')
 
     def heading(self, title, note, symbol, *, x=0, y=0, width=WIDTH) -> str:
-        return (glyph(symbol, x + 8, y + 10, 28)
-                + self.text(x + 52, y + 34, title, 27, weight=600, tracking="-.55")
-                + self.text(x + width - 8, y + 33, note, 16, fill=MUTED, anchor="end"))
+        size = 31 if width < 700 else 30
+        return (glyph(symbol, x + 8, y + 12, 29)
+                + self.text(x + 52, y + 37, title, size, weight=600, tracking="-.5")
+                + self.text(x + width - 8, y + 36, note, 17, fill=MUTED, anchor="end"))
 
     def svg(self, static: bool) -> str:
         faces = []
@@ -354,39 +349,37 @@ class Card:
         )
 
 
-def laptop() -> str:
-    bezel = path("M47 42 263 5q6-1 5 6l-28 177H14L40 51q1-8 7-9Z",
-                 "url(#bezel)", "#a28ac3", 1.7)
-    display = path("M49 51 256 15 230 177H25Z", "url(#display)", "#27283f", 1.5)
-    editor = path("M48 53 79 48 58 173H28Z", "#171829")
-    editor += path("M50 63 252 31M65 173 87 50", stroke="#45435c", line=1)
-    for index, color in enumerate(("#fa81cc", "#9670ec", "#50cbb8")):
-        editor += circle(53 + 6 * index, 56 - index, 1.6, color)
-    code = (
-        (6, 39, "#bd8dff"), (13, 73, "#7a83e9"), (13, 54, "#71dac1"),
-        (22, 94, "#ffd18c"), (22, 61, "#ed9cd7"), (13, 35, "#6bbce5"),
-        (6, 58, "#bd8dff"), (15, 94, "#71dac1"), (20, 77, "#9a88f8"),
-        (22, 34, "#ffd18c"), (13, 55, "#7193e9"), (6, 22, "#bd8dff"),
+def system_illustration() -> str:
+    grid = path("M13 147 153 89 299 148 157 206Z M49 132l145 59 M84 117l145 60 "
+                "M118 103l146 59 M49 162l141-59 M85 177l142-59 M121 192l142-59",
+                stroke="#493366")
+    traces = (
+        path("M41 74 81 90l33-14M244 60l-47 20M111 143l-25 11v23M210 124l37 15 31-12",
+             stroke="#9d71ea", line=1.5)
+        + path("M153 40v23M153 146v37M41 74v24M244 60v28M278 127v16",
+               stroke="#53397d", line=1.2)
     )
-    for index, (indent, length, color) in enumerate(code):
-        x, y = 91 - index * 1.76 + indent, 63 + index * 8.35
-        editor += box(62 - index * 1.42, y + 1, 4, 1, "#5a5b76", radius=.5)
-        editor += path(f"M{x:.1f} {y:.1f}l{length * .54:.1f} {-length * .054:.1f}",
-                       stroke=color, line=2.3)
-        if length > 40:
-            editor += path(f"M{x + length * .6:.1f} {y - length * .06:.1f}l{length * .35:.1f} {-length * .035:.1f}",
-                           stroke="#8a7f9f", line=1.5)
-    lower = (
-        path("M14 186h226l39 10q6 2 1 5-7 4-23 4H-14q-18 0-19-6l47-13Z", "url(#metal)", "#6d608b")
-        + path("M-28 199h307q-9 7-38 7H-7q-13-1-21-7Z", "#090a19")
-        + path("M100 192h64l-6 4h-50Z", "#080915")
-        + path("M15 188h225", stroke="#d4b9fa", line=1)
-        + path("M252 198h15", stroke="#a596c5", line=1)
+    modules = "".join(
+        group(path("M0-12 29 0 0 12-29 0Z", "#1c1230", color, 1.4)
+              + path("M-15 0 0-6 15 0 0 6Z", "none", "#7850b4")
+              + circle(0, 0, 2.45, dot), f"translate({x} {y})")
+        for x, y, color, dot in ((41, 74, "#9964d9", "#dbb7ff"), (244, 60, "#9c6feb", "#d4b4ff"),
+                                 (278, 127, "#744dbe", "#ae87ff"), (86, 177, "#6945ac", "#aa82f4"))
     )
-    return (
-        '<ellipse cx="128" cy="201" rx="185" ry="24" fill="url(#screenlight)"/>'
-        + bezel + display + editor + lower
+    layers = (
+        path("M81 114 153 84 225 114 225 129 153 159 81 129Z", "#110c22", "#6241a3", 1.4)
+        + path("M81 114 153 144 225 114M153 144v15", stroke="#7b51c1", line=1.3)
+        + path("M81 94 153 64 225 94 225 107 153 138 81 107Z", "#23143d", "#8e63ce", 1.5)
+        + path("M81 94 153 124 225 94M153 124v14", stroke="#a57add", line=1.4)
+        + path("M81 84 153 53 225 84 153 115Z", "url(#system-surface)", "#bd8dff", 1.75)
+        + path("M99 84 153 61 207 84 153 107Z", "none", "#9065ce", 1.1)
+        + path("M132 79l-10 5 10 4M174 79l10 5-10 4M156 75l-6 18", stroke="#f0d7ff", line=2.6)
+        + path("M108 123l16 7m57-1 17-7", stroke="#b486f9", line=1.4)
     )
+    terminals = circle(153, 39, 3.4, "#dbb9ff") + circle(153, 183, 3.1, "#b58cf1")
+    return ('<g id="system-illustration">'
+            '<ellipse cx="157" cy="112" rx="153" ry="101" fill="url(#system-glow)"/>'
+            + grid + traces + modules + layers + terminals + "</g>")
 
 
 @lru_cache(maxsize=1)
@@ -401,37 +394,34 @@ def hero_background() -> str:
 def hero(*, compact=False) -> Card:
     w, h = (680, 234) if compact else (WIDTH, 235)
     card = Card(w, h, "Ayman Bounaouj | Full-Stack Web Developer",
-                "Original AB monogram in white and violet beside an illustrated coding laptop.")
+                "Original AB monogram beside a layered developer system and its connected modules.")
+    card.styles.append("text{opacity:.98}")
     card.defs += [
         gradient("hero", ((0, "#17122b"), (".57", "#0d101d"), (1, "#191133")), axis=(0, 0, 1, 1)),
-        gradient("ribbon", ((0, "#21123c"), (".58", "#181633"), (1, "#392061")), axis=(0, 1, 1, 0)),
-        gradient("bezel", ((0, "#29253b"), (".6", "#121122"), (1, "#3e2861")), axis=(0, 0, 1, 1)),
-        gradient("display", ((0, "#0d1521"), (".67", "#14152a"), (1, "#331755")), axis=(0, 0, 1, 1)),
-        gradient("metal", ((0, "#444060"), (".54", "#816da2"), (1, "#211c3a"))),
-        light("screenlight", "#954bff", ".49"),
-        light("atmosphere", "#6e33f8", ".46"),
+        gradient("system-surface", ((0, "#593381"), (".58", "#351957"), (1, "#1a1234")), axis=(0, 0, 1, 1)),
+        light("system-glow", "#8b45f1", ".43"),
     ]
     backdrop = (
         box(0, 0, w, h, "url(#hero)")
         + f'<image x="0" y="0" width="{w}" height="{h}" preserveAspectRatio="none" href="{hero_background()}"/>'
     )
-    art = group(laptop(), "translate(864 18) scale(.96)") if not compact else (
-        '<g opacity=".41">' + group(laptop(), "translate(532 95) scale(.53)") + "</g>"
+    art = group(system_illustration(), "translate(852 13) scale(.98)") if not compact else (
+        '<g opacity=".56">' + group(system_illustration(), "translate(538 118) scale(.48)") + "</g>"
     )
     edge, inside = clip("hero-crop", box(0, 0, w, h, radius=20), backdrop + art)
     card.defs.append(edge)
     card.parts.extend((inside, panel(0, 0, w, h, 20, fill="none", stroke="#564574")))
     if compact:
         mark = logo(31, 44, 122) + path("M183 41v151", stroke="#645478", line=1.1)
-        copy = (card.text(212, 91, "Ayman Bounaouj", 46, weight=600, tracking="-1.5")
-                + card.text(213, 137, "Full-Stack Web Developer", 29, weight=600, fill=VIOLET)
+        copy = (card.text(212, 91, "Ayman Bounaouj", 48, weight=600, tracking="-1.5")
+                + card.text(213, 137, "Full-Stack Web Developer", 30, weight=600, fill=VIOLET, tracking="-.35")
                 + card.text(214, 171, "Web applications, developer tools", 21, fill=COPY)
                 + card.text(214, 199, "and automated testing.", 21, fill=COPY))
     else:
         mark = logo(73, 67, 140) + path("M248 43v151", stroke="#645478", line=1.15)
-        copy = (card.text(288, 95, "Ayman Bounaouj", 55, weight=600, tracking="-1.6")
-                + card.text(289, 145, "Full-Stack Web Developer", 36, weight=600, fill=VIOLET, tracking="-.7")
-                + card.text(290, 183, "Web applications, developer tools and automated testing.", 21, fill=COPY))
+        copy = (card.text(288, 94, "Ayman Bounaouj", 58, weight=600, tracking="-1.55")
+                + card.text(289, 145, "Full-Stack Web Developer", 38, weight=600, fill=VIOLET, tracking="-.65")
+                + card.text(290, 185, "Web applications, developer tools and automated testing.", 21, fill=COPY))
     card.parts.extend((group(mark, motion="glint", delay=80), group(copy, motion="rise")))
     return card
 
@@ -508,6 +498,7 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
     card = Card(w, h, "Contribution Activity",
                 f'{stats["total"]:,} GitHub contributions from {start} to {end}, UTC. '
                 "Sunday to Saturday. Violet intensities represent 0, 1 to 3, 4 to 7, 8 to 15 and 16 or more.")
+    card.styles.append("text{opacity:.98}")
     date_line = f'{stats["total"]:,} contributions  |  {start:%d %b %Y} to {end:%d %b %Y}'
     card.parts.extend((
         panel(0, 0, w, h, 17),
@@ -555,36 +546,46 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
     return card
 
 
-def tech_grid(*, tools=False, compact=False) -> Card:
+def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
     title, note, symbol = (("Frameworks / Build Tools", "Frameworks, build and delivery", "tools") if tools
                            else ("Languages & Technical Stack", "Evidence from public work", "stack"))
-    items = TOOLS if tools else [(name, "") for name in STACK]
-    cols = (2 if tools else 3) if compact else (7 if tools else 6)
+    items = grid_items(evidence, tools=tools)
+    limit = (2 if tools else 3) if compact else (7 if tools else 6)
+    cols = min(limit, max(1, len(items)))
     w = 680 if compact else WIDTH
     h = (82 if tools else 62) if compact else (76 if tools else 55)
-    rows = (len(items) + cols - 1) // cols
+    rows = max(1, (len(items) + cols - 1) // cols)
     inset = 10
-    top = 54 if compact else 46
+    top = 58 if compact else 51
     gap = 14 if compact or not tools else 12
     available = w - 2 * inset - (cols - 1) * gap
-    extra = (14, 0, 0, 0, 0, 0, 32) if tools and not compact else (0,) * cols
+    extra = [0] * cols
+    if tools and not compact:
+        room_for_label = {"Laravel": 14, "Composer": 12, "GitHub Actions": 32, "Playwright": 18}
+        for col, (name, _) in enumerate(items):
+            extra[col] = room_for_label.get(name, 0)
     widths = [(available - sum(extra)) / cols + n for n in extra]
-    card = Card(w, top + rows * h + (rows - 1) * gap + 2, title,
-                ", ".join(name for name, _ in items) + ". Evidence links in the README.")
+    empty = "No verified public evidence available."
+    description = ", ".join(name for name, _ in items) + ". Evidence links in the README." if items else empty
+    card = Card(w, top + rows * h + (rows - 1) * gap + 2, title, description)
     # A translucent text layer avoids colored LCD fringes on small SVG text in Chromium.
     card.styles.append("text{opacity:.98}")
     card.defs.append(gradient("tech-panel", ((0, "#171b26"), (1, "#11151f")), axis=(0, 0, 1, 1)))
     card.parts.extend((
-        glyph(symbol, 16, 10, 29 if compact else 26),
-        card.text(68, 36 if compact else 32, title, 29 if compact else 24,
-                  weight=500, tracking="-.18"),
+        glyph(symbol, 16, 12, 29 if compact else 28),
+        card.text(68, 39 if compact else 36, title, 32 if compact else 29,
+                  weight=500, tracking="-.35"),
     ))
     if not compact:
-        card.parts.append(card.text(w - inset, 31, note, 15.5, fill=COPY, anchor="end"))
+        card.parts.append(card.text(w - inset, 35, note, 16.5, fill=COPY, anchor="end"))
+    if not items:
+        card.parts.append(panel(inset, top, available, h, radius=12))
+        card.parts.append(card.text(inset + 18, top + h / 2 + 6, empty, 21 if compact else 18, fill=COPY))
+        return card
 
-    label_inset = 64 if compact else (56 if tools else 67)
-    name_size = (22 if tools else 21.5) if compact else (15.2 if tools else 16)
-    caption_size = 17 if compact else 11.6
+    label_inset = 64 if compact else (54 if tools else 67)
+    name_size = (22 if tools else 21.5) if compact else (15.5 if tools else 16)
+    caption_size = 17 if compact else 12.2
     for index, (name, caption) in enumerate(items):
         row, col = divmod(index, cols)
         x = round(inset + sum(widths[:col]) + col * gap, 2)
@@ -762,7 +763,8 @@ def feature(name: str, index: int) -> Card:
 def heading_card(key: str, *, compact=False) -> Card:
     title, note, symbol = HEADERS[key]
     w = 680 if compact else WIDTH
-    card = Card(w, 45, title, note)
+    card = Card(w, 49, title, note)
+    card.styles.append("text{opacity:.98}")
     card.parts.append(card.heading(title, "" if compact else note, symbol, width=w))
     return card
 
@@ -816,7 +818,7 @@ def pin(name: str, copy: str) -> Card:
     return card
 
 
-def artworks(stats: dict, public: dict) -> dict[str, Card]:
+def artworks(stats: dict, public: dict, technology_evidence: dict) -> dict[str, Card]:
     repos = public["repositories"]
     files = {
         "link-profile": button("Profile links", "profile"),
@@ -828,8 +830,8 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
         files["hero" + suffix] = hero(compact=compact)
         files["metrics" + suffix] = metrics(stats, public, compact=compact)
         files["calendar" + suffix] = contribution_calendar(stats, compact=compact)
-        files["technical" + suffix] = tech_grid(compact=compact)
-        files["tools" + suffix] = tech_grid(tools=True, compact=compact)
+        files["technical" + suffix] = tech_grid(technology_evidence, compact=compact)
+        files["tools" + suffix] = tech_grid(technology_evidence, tools=True, compact=compact)
         for key in HEADERS:
             files["heading-" + key + suffix] = heading_card(key, compact=compact)
         for index, record in enumerate(CONTRIBUTIONS):
@@ -846,7 +848,7 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
 
 
 def dynamic(name: str) -> bool:
-    return name.startswith(("metrics", "calendar", "contribution-", "building-"))
+    return name.startswith(("metrics", "calendar", "contribution-", "building-", "technical", "tools"))
 
 
 def link(url: str, label: str) -> str:
@@ -866,13 +868,16 @@ def image(name: str, alt: str, width: int = 780, *, mobile=False, href="", local
     return link(href, tag) if href else tag
 
 
-def profile_markup(*, local: dict[str, str] | None = None) -> str:
+def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: dict | None = None,
+                   live_technology: bool = False) -> str:
     # Never silently publish an insecure or malformed portfolio URL.
     if PORTFOLIO_SITE_URL:
         target = urlsplit(PORTFOLIO_SITE_URL)
         if (target.scheme != "https" or not target.netloc or
                 target.username or target.password or any(c.isspace() for c in PORTFOLIO_SITE_URL)):
             raise ValueError("PORTFOLIO_SITE_URL must be an absolute HTTPS URL")
+    if technology_evidence is None:
+        technology_evidence = validate_technology(read_json(TECHNOLOGY_SEED))
     def img(*args, **kwargs):
         return image(*args, **kwargs, local=local)
 
@@ -913,6 +918,9 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
                f"{PROFILE}/{OWNER}/blob/e5cc7ba352f13c55b4ccb8d11008bce1afbcd0e3/README.md")
     docs = "./docs/DASHBOARD.md" if local is None else "DASHBOARD.md"
     live_json = f"{PROFILE}/{OWNER}/blob/profile-live/cards/contributions.json"
+    evidence_json = (f"{PROFILE}/{OWNER}/blob/profile-live/cards/technology.json" if live_technology
+                     else "./data/dashboard-technology.json")
+    evidence_link = link(evidence_json, "Technology evidence snapshot") + " · " if local is None else ""
     readme_text = f"""<details>
 <summary>Profile text and data sources</summary>
 <p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Web applications, developer tools and automated testing.</p>
@@ -923,7 +931,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <li>{link(repo_url("violetgate"), "VioletGate")}. Authentication UI demo. {link(f"https://{OWNER}.github.io/violetgate/", "Live demo")} · {link(repo_url("ayman-calc"), "Ayman Calc")}. Browser calculator. {link(f"https://{OWNER}.github.io/ayman-calc/", "Live demo")}</li>
 </ul>
 <p>GitHub GraphQL supplies the {link(live_json, "daily counts")}. GitHub REST supplies repository totals and the {link("https://github.com/search?" + urlencode({"q": MERGED_SEARCH, "type": "pullrequests"}), "merged public PR search")}. {link(PROFILE, "GitHub’s native contribution graph")} shows current activity.</p>
-<p>{link(docs, "Technical evidence and refresh setup")} · {link(archive, "Original artwork and previous profile links")}</p>
+<p>{link(docs, "Technical evidence and refresh setup")} · {evidence_link}{link(archive, "Original artwork and previous profile links")}</p>
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
     social_first = "\n".join((
@@ -932,6 +940,14 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
     ))
     identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Web applications, developer tools and automated testing.",
                    mobile=True)
+    tech_alt = "Languages & Technical Stack."
+    tools_alt = "Frameworks / Build Tools."
+    if live_technology:
+        tech_alt += " See technology evidence in the profile data sources."
+        tools_alt += " See technology evidence in the profile data sources."
+    else:
+        tech_alt += " " + ", ".join(name for name, _ in grid_items(technology_evidence))
+        tools_alt += " " + ", ".join(name for name, _ in grid_items(technology_evidence, tools=True))
     return "\n\n".join((
         block(span(identity, "wide hero"), "section-group"),
         block(social_first, "social-row"),
@@ -940,8 +956,8 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         # Use the checked-in calendar for draft review. The publisher still generates the live copy.
         block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels and intensity legend.",
                   mobile=True, href=PROFILE, live=False)),
-        block(img("technical", "Languages & Technical Stack. " + ", ".join(STACK), mobile=True)),
-        block(img("tools", "Frameworks / Build Tools. " + ", ".join(name for name, _ in TOOLS), mobile=True)),
+        block(img("technical", tech_alt.strip(), mobile=True, live=live_technology)),
+        block(img("tools", tools_alt.strip(), mobile=True, live=live_technology)),
         section("featured", "\n".join(feature_cards), "project-row",
                 "<br>\n" + span(f"<sub>{link(DEMO, 'AB Train Ticket Studio live demo ↗')}</sub>", "demo")),
         section("opensource", "<br>\n".join(highlights), "wide contributions"),
@@ -952,6 +968,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 
 
 README_MARKER = "<!-- Generated by scripts/render_svg_cards.py --write-readme -->\n\n"
+LIVE_README_MARKER = "<!-- Generated by scripts/render_svg_cards.py --write-readme --live-technology -->\n\n"
 PREVIEW_STYLE = """
 *{box-sizing:border-box}
 html{color-scheme:dark;background:#0b0d15}
@@ -992,7 +1009,7 @@ details p,details ul{margin:7px 0}
 """
 
 
-def preview_markup(svg: dict[str, str]) -> str:
+def preview_markup(svg: dict[str, str], technology_evidence: dict) -> str:
     sources = {name.removesuffix(".svg"): "data:image/svg+xml;base64,"
                + base64.b64encode(xml.encode("utf-8")).decode("ascii") for name, xml in svg.items()}
     return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
@@ -1000,7 +1017,7 @@ def preview_markup(svg: dict[str, str]) -> str:
             '<meta name="color-scheme" content="dark">\n'
             '<title>Ayman Bounaouj | GitHub profile preview</title>\n'
             f'<style>{PREVIEW_STYLE}</style>\n</head>\n<body>\n<main>\n'
-            + profile_markup(local=sources) + '</main>\n</body>\n</html>\n')
+            + profile_markup(local=sources, technology_evidence=technology_evidence) + '</main>\n</body>\n</html>\n')
 
 
 def verify_svg(xml: str, name: str, static: bool) -> None:
@@ -1066,7 +1083,9 @@ def same_svg(actual: str, expected: str) -> bool:
 
 
 def verify_readme(path: Path = ROOT / "README.md") -> None:
-    if path.read_text(encoding="utf-8") != README_MARKER + profile_markup():
+    actual = path.read_text(encoding="utf-8")
+    live = actual.startswith(LIVE_README_MARKER)
+    if actual != (LIVE_README_MARKER if live else README_MARKER) + profile_markup(live_technology=live):
         raise ValueError("README does not match the generated dashboard markup")
 
 
@@ -1074,9 +1093,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--calendar", type=Path, default=ROOT / "data/dashboard-contributions.json")
     parser.add_argument("--public", type=Path, default=ROOT / "data/dashboard-public.json")
+    parser.add_argument("--technology", type=Path, default=TECHNOLOGY_SEED)
     parser.add_argument("--output", type=Path, default=ROOT / "cards")
     parser.add_argument("--preview", type=Path, help="write a self-contained offline HTML preview")
     parser.add_argument("--write-readme", action="store_true", help="regenerate README.md from the layout")
+    parser.add_argument("--live-technology", action="store_true", help="use published grids in README assembly")
     parser.add_argument("--verify", action="store_true", help="compare generated artwork to existing files")
     parser.add_argument("--dynamic-only", action="store_true", help="render only the published live data cards")
     parser.add_argument("--require-fresh", action="store_true", help="enforce the 36-hour publication window")
@@ -1086,12 +1107,15 @@ def main() -> None:
     static = os.getenv("STATIC") == "1"
     if args.write_readme and (static or args.dynamic_only):
         parser.error("README assembly requires the regular animated render")
+    if args.live_technology and not args.write_readme:
+        parser.error("--live-technology requires --write-readme")
     try:
         stats = activity(read_json(args.calendar), fresh=args.require_fresh)
         public = read_json(args.public)
         validate(public, fresh=args.require_fresh)
+        technology_evidence = validate_technology(read_json(args.technology))
         svg = {}
-        for name, card in artworks(stats, public).items():
+        for name, card in artworks(stats, public, technology_evidence).items():
             if args.dynamic_only and not dynamic(name):
                 continue
             value = card.svg(static)
@@ -1108,10 +1132,15 @@ def main() -> None:
             for name, value in svg.items():
                 (args.output / name).write_text(value, encoding="utf-8", newline="\n")
         if args.write_readme:
-            (ROOT / "README.md").write_text(README_MARKER + profile_markup(), encoding="utf-8", newline="\n")
+            readme = ROOT / "README.md"
+            live = args.live_technology or (readme.exists()
+                                            and readme.read_text(encoding="utf-8").startswith(LIVE_README_MARKER))
+            marker = LIVE_README_MARKER if live else README_MARKER
+            readme.write_text(marker + profile_markup(technology_evidence=technology_evidence, live_technology=live),
+                              encoding="utf-8", newline="\n")
         if args.preview:
             args.preview.parent.mkdir(parents=True, exist_ok=True)
-            args.preview.write_text(preview_markup(svg), encoding="utf-8", newline="\n")
+            args.preview.write_text(preview_markup(svg, technology_evidence), encoding="utf-8", newline="\n")
     except (KeyError, OSError, ValueError, ET.ParseError) as exc:
         parser.exit(1, f"Dashboard validation failed: {exc}\n")
     print(f"PASS: {len(svg)} {'static' if static else 'animated'} SVG cards verified")

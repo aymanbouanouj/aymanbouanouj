@@ -83,6 +83,6 @@
 <li><a href="https://github.com/aymanbouanouj/violetgate">VioletGate</a>. Authentication UI demo. <a href="https://aymanbouanouj.github.io/violetgate/">Live demo</a> · <a href="https://github.com/aymanbouanouj/ayman-calc">Ayman Calc</a>. Browser calculator. <a href="https://aymanbouanouj.github.io/ayman-calc/">Live demo</a></li>
 </ul>
 <p>GitHub GraphQL supplies the <a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/cards/contributions.json">daily counts</a>. GitHub REST supplies repository totals and the <a href="https://github.com/search?q=is%3Apr+is%3Amerged+is%3Apublic+author%3Aaymanbouanouj&amp;type=pullrequests">merged public PR search</a>. <a href="https://github.com/aymanbouanouj">GitHub’s native contribution graph</a> shows current activity.</p>
-<p><a href="./docs/DASHBOARD.md">Technical evidence and refresh setup</a> · <a href="./PROFILE-V5.md">Original artwork and previous profile links</a></p>
+<p><a href="./docs/DASHBOARD.md">Technical evidence and refresh setup</a> · <a href="./data/dashboard-technology.json">Technology evidence snapshot</a> · <a href="./PROFILE-V5.md">Original artwork and previous profile links</a></p>
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>

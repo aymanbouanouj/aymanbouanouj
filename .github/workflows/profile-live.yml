@@ -10,12 +10,14 @@ on:
       - 'scripts/live_*.py'
       - 'scripts/tech_icon_paths.json'
       - 'scripts/dashboard_data.py'
+      - 'scripts/dashboard_technology.py'
       - 'scripts/render_svg_cards.py'
       - 'scripts/brand_paths.py'
       - 'scripts/fetch_contributions.py'
       - 'scripts/render_profile.py'
       - 'assets/dashboard/**'
       - 'requirements-dashboard.txt'
+      - 'data/dashboard-technology.json'
       - 'README.md'
   schedule:
     # Best-effort hourly check at minute 37 (UTC). Skipped/delayed runs are possible.
@@ -70,9 +72,11 @@ jobs:
           set -euo pipefail
           retained="$RUNNER_TEMP/live-worktree/cards"
           if [ "$GITHUB_EVENT_NAME" = schedule ] && \
+             test -f "$retained/technology.json" && \
              python3 scripts/dashboard_data.py --is-today --output "$retained/public.json" && \
              python3 scripts/render_svg_cards.py --dynamic-only --verify \
-               --calendar "$retained/contributions.json" --public "$retained/public.json" --output "$retained"; then
+               --calendar "$retained/contributions.json" --public "$retained/public.json" \
+               --technology "$retained/technology.json" --output "$retained"; then
             echo 'Dashboard already verified today; keeping the existing cards.'
             exit 0
           fi
@@ -80,8 +84,11 @@ jobs:
           mkdir -p "$destination"
           cp "$RUNNER_TEMP/contribution-build/contributions.json" "$destination/contributions.json"
           python3 scripts/dashboard_data.py --output "$destination/public.json"
+          python3 scripts/dashboard_technology.py --output "$destination/technology.json" \
+            --previous "$retained/technology.json"
           python3 scripts/render_svg_cards.py --dynamic-only --require-fresh \
-            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination"
+            --calendar "$destination/contributions.json" --public "$destination/public.json" \
+            --technology "$destination/technology.json" --output "$destination"
       - name: Publish generated artifacts only to the unprotected data branch
         shell: bash
         env:
@@ -163,9 +170,10 @@ jobs:
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/render_svg_cards.py" --dynamic-only --verify \
-            --calendar cards/contributions.json --public cards/public.json --output cards
+            --calendar cards/contributions.json --public cards/public.json \
+            --technology cards/technology.json --output cards
           git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
-          git add -- cards/*.svg cards/contributions.json cards/public.json
+          git add -- cards/*.svg cards/contributions.json cards/public.json cards/technology.json
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
             exit 0
@@ -200,7 +208,10 @@ jobs:
           destination="$RUNNER_TEMP/dashboard-preview"
           python3 scripts/live_contributions.py --build --output "$destination"
           python3 scripts/dashboard_data.py --output "$destination/public.json"
+          python3 scripts/dashboard_technology.py --require-live --output "$destination/technology.json"
           python3 scripts/render_svg_cards.py --dynamic-only --require-fresh \
-            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination/cards"
+            --calendar "$destination/contributions.json" --public "$destination/public.json" \
+            --technology "$destination/technology.json" --output "$destination/cards"
           python3 scripts/render_svg_cards.py --dynamic-only --verify \
-            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination/cards"
+            --calendar "$destination/contributions.json" --public "$destination/public.json" \
+            --technology "$destination/technology.json" --output "$destination/cards"
