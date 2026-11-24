@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbounaouj",
-  "generated_at_utc": "2026-11-24T09:19:35.038126+00:00",
+  "generated_at_utc": "2026-11-24T19:02:23.135466+00:00",
   "public_repository_count": 15,
   "recent_repositories": [
     {
@@ -56,22 +56,16 @@
   ],
   "recent_events": [
     {
+      "type": "CreateEvent",
+      "repository": "violetgate",
+      "url": "https://github.com/aymanbounaouj/violetgate",
+      "at": "2026-11-24T05:43:50+00:00"
+    },
+    {
       "type": "PullRequestEvent",
       "repository": "violetgate",
       "url": "https://github.com/aymanbounaouj/violetgate",
       "at": "2026-11-24T05:43:58+00:00"
-    },
-    {
-      "type": "IssuesEvent",
-      "repository": "PC-Full-Check",
-      "url": "https://github.com/aymanbounaouj/PC-Full-Check",
-      "at": "2026-11-04T23:47:57+00:00"
-    },
-    {
-      "type": "IssuesEvent",
-      "repository": "PC-Full-Check",
-      "url": "https://github.com/aymanbounaouj/PC-Full-Check",
-      "at": "2026-11-04T23:47:45+00:00"
     }
   ]
 }
