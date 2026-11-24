@@ -24,7 +24,7 @@ def render(data):
     prepared = [(name, amount, wrap_badge(name, size=24, width=450, weight=500))
                 for name, amount in rows]
     height = 130 + sum(62 + (len(lines) - 1) * 30 for _, _, lines in prepared) + (0 if rows else 55)
-    desc = scope + ". " + "; ".join(f"{name}: {language_share_label(amount, total)}" for name, amount in rows)
+    desc = scope + ". " + "; ".join(f"{name} — {language_share_label(amount, total)}" for name, amount in rows)
     card = Card(680, height, "Language distribution", desc)
     card.parts.extend((
         panel(0, 0, 680, height, 16),
