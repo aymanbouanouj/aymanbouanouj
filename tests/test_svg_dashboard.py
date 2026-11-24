@@ -249,6 +249,59 @@ class SVGTests(unittest.TestCase):
                 empty = render.tech_grid({"evidence": {}}, tools=tools, compact=compact).svg(True)
                 self.assertIn("No verified public evidence available.", empty)
 
+    def test_more_than_twelve_languages_and_seven_tools_render_at_original_column_counts(self):
+        owner_proof = {"scope": technology.OWNED, "repository": f"{technology.OWNER}/new-project", "path": "languages"}
+        paths = ("composer.json", "package.json", "requirements.txt", "Dockerfile", ".github/workflows/ci.yml")
+        def tool_proof(tool):
+            return {**owner_proof, "path": next(path for path in paths if tool in technology.file_labels(path)), "ref": "a" * 40}
+        long_name = "Experimental Very Long Language & Runtime Syntax"
+        no_breaks = "SupercalifragilisticProgrammingLanguage"
+        languages = (*technology.STACK_ORDER[:12], long_name, no_breaks, "試験言語", "Kotlin", "Lua", "Scheme")
+        extra_tools = ("Django REST Framework", "Laravel Sanctum", "Astro", "webpack", "pytest")
+        sources = {name: [owner_proof] for name in languages}
+        sources.update({name: [tool_proof(name)] for name, _ in technology.TOOL_LABELS})
+        sources.update({name: [tool_proof(name)] for name in extra_tools})
+        snapshot = technology.validate({"schema": 2, "source": technology.SOURCE, "evidence": sources})
+        reordered = {**snapshot, "evidence": dict(reversed(list(sources.items())))}
+        for name, card in render.technology_cards(snapshot).items():
+            with self.subTest(card=name):
+                tools = name.startswith("tools")
+                compact = name.endswith("-mobile")
+                limit = (2 if tools else 3) if compact else (7 if tools else 6)
+                xml = card.svg(True)
+                render.verify_svg(xml, name, True)
+                self.assertEqual(xml, render.technology_cards(reordered)[name].svg(True))
+                root = ET.fromstring(xml)
+                badges = root.findall("svg:g[@class='rise']", NS)
+                self.assertEqual(len(badges), len(technology.grid_items(snapshot, tools=tools)))
+                self.assertGreater(len(badges), 7 if tools else 12)
+                rows = {}
+                for badge in badges:
+                    tile = badge.find("svg:rect", NS)
+                    x, y, width, height = (float(tile.get(attr)) for attr in ("x", "y", "width", "height"))
+                    rows[y] = rows.get(y, 0) + 1
+                    for text in badge.findall("svg:text", NS):
+                        right = float(text.get("x")) + render.text_width(text.text or "", float(text.get("font-size")),
+                                                                         int(text.get("font-weight")))
+                        self.assertLess(right, x + width)
+                        self.assertLess(y, float(text.get("y")))
+                        self.assertLess(float(text.get("y")), y + height)
+                self.assertTrue(all(count == limit for count in list(rows.values())[:-1]))
+                self.assertIn('aria-hidden="true"', xml)
+                if not tools:
+                    self.assertIn(long_name, root.findtext("svg:desc", namespaces=NS))
+                    self.assertIn("試験言語", root.findtext("svg:desc", namespaces=NS))
+
+    def test_technology_only_cli_does_not_require_a_calendar_or_public_metrics(self):
+        with tempfile.TemporaryDirectory() as folder:
+            missing = str(Path(folder) / "missing.json")
+            argv = ["render_svg_cards.py", "--technology-only", "--calendar", missing, "--public", missing,
+                    "--require-fresh", "--output", folder]
+            with patch.object(sys, "argv", argv):
+                render.main()
+            self.assertEqual(sorted(p.stem for p in Path(folder).glob("*.svg")),
+                             ["technical", "technical-mobile", "tools", "tools-mobile"])
+
     def test_verification_ignores_only_woff_compression_differences(self):
         svg = self.cards["hero"].svg(True)
         original = render.FONT_DATA.search(svg)[1]
