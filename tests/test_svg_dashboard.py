@@ -168,6 +168,50 @@ class SVGTests(unittest.TestCase):
                     self.assertEqual(font["OS/2"].usWeightClass, int(weight))
                     self.assertEqual(set(font.getBestCmap()), glyphs_by_weight[weight])
 
+    def test_transparent_headings_meet_contrast_in_both_themes(self):
+        def rgb(color):
+            return [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+
+        def luminance(channels):
+            linear = [c / 12.92 if c <= .04045 else ((c + .055) / 1.055) ** 2.4 for c in channels]
+            return sum(channel * weight for channel, weight in zip(linear, (.2126, .7152, .0722)))
+
+        def contrast(foreground, canvas, opacity):
+            background = rgb(canvas)
+            blended = [fg * opacity + bg * (1 - opacity) for fg, bg in zip(rgb(foreground), background)]
+            low, high = sorted((luminance(blended), luminance(background)))
+            return (high + .05) / (low + .05)
+
+        themed = {name for name in self.cards if name.startswith(("heading-", "technical", "tools"))}
+        self.assertEqual(len(themed), 12)
+        for name, card in self.cards.items():
+            for static in (False, True):
+                with self.subTest(name=name, static=static):
+                    root = ET.fromstring(card.svg(static))
+                    style = root.findtext("svg:style", namespaces=NS)
+                    heading = root.find("svg:g[@class='transparent-heading']", NS)
+                    light = re.search(r"@media \(prefers-color-scheme: light\)\{((?:[^{}]+\{[^{}]+\})+)\}", style)
+                    if name not in themed:
+                        self.assertIsNone(heading)
+                        self.assertIsNone(light)
+                        continue
+                    self.assertIsNotNone(heading)
+                    self.assertIsNotNone(light)
+                    rules = dict(re.findall(r"\.transparent-heading ([^{}]+)\{(?:fill|stroke):(#[0-9a-f]{6})\}", light[1]))
+                    self.assertEqual(set(rules), {"text", 'text[text-anchor="end"]', "path"})
+                    opacity = re.search(r"text\{opacity:([.\d]+)\}", style)
+                    text_opacity = float(opacity[1]) if opacity else 1
+                    roles = [(node.get("fill"), rules['text[text-anchor="end"]'] if node.get("text-anchor") == "end"
+                              else rules["text"], text_opacity)
+                             for node in heading.findall("svg:text", NS) if node.text]
+                    icons = heading.findall(".//svg:path", NS)
+                    self.assertTrue(icons)
+                    self.assertEqual(len(roles), 1 if name.endswith("-mobile") else 2)
+                    roles.extend((icon.get("stroke"), rules["path"], 1) for icon in icons)
+                    for dark, light_color, alpha in roles:
+                        self.assertGreaterEqual(contrast(dark, "#0d1117", alpha), 4.5)
+                        self.assertGreaterEqual(contrast(light_color, "#ffffff", alpha), 4.5)
+
     def test_technology_grid_keeps_each_badge_and_its_row(self):
         stack = ("PHP", "JavaScript", "TypeScript", "Python", "HTML", "CSS", "MySQL", "Laravel",
                  "React", "Docker", "Playwright", "Tailwind CSS")

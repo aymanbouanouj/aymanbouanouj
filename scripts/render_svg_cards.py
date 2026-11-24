@@ -65,6 +65,13 @@ FONT_FILES = {
     600: "Poppins-SemiBold.ttf",
     700: "Poppins-Bold.ttf",
 }
+TRANSPARENT_HEADING_STYLE = (
+    '@media (prefers-color-scheme: light){'
+    '.transparent-heading text{fill:#241b34}'
+    '.transparent-heading text[text-anchor="end"]{fill:#514861}'
+    '.transparent-heading path{stroke:#67419e}'
+    '}'
+)
 ANIMATION = """
 @keyframes rise{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fade{from{opacity:.25}to{opacity:1}}
@@ -335,6 +342,11 @@ class Card:
     def section_title(self, x, y, title) -> str:
         return self.text(x, y, title, 33 if self.w < WIDTH else 34, weight=700, tracking="-.6")
 
+    def add_transparent_heading(self, content: str) -> None:
+        # These headings sit on the embedding page's canvas. Other card text sits on dark panels.
+        self.styles.append(TRANSPARENT_HEADING_STYLE)
+        self.parts.append(f'<g class="transparent-heading">{content}</g>')
+
     def svg(self, static: bool) -> str:
         faces = []
         for weight, characters in sorted(self.glyphs.items()):
@@ -579,12 +591,10 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
     # A translucent text layer avoids colored LCD fringes on small SVG text in Chromium.
     card.styles.append("text{opacity:.98}")
     card.defs.append(gradient("tech-panel", ((0, "#171b26"), (1, "#11151f")), axis=(0, 0, 1, 1)))
-    card.parts.extend((
-        glyph(symbol, 16, 13, 29 if compact else 28),
-        card.section_title(68, 40 if compact else 39, title),
-    ))
+    heading = glyph(symbol, 16, 13, 29 if compact else 28) + card.section_title(68, 40 if compact else 39, title)
     if not compact:
-        card.parts.append(card.text(w - inset, 38, note, 16.5, fill=COPY, anchor="end"))
+        heading += card.text(w - inset, 38, note, 16.5, fill=COPY, anchor="end")
+    card.add_transparent_heading(heading)
     if not items:
         card.parts.append(panel(inset, top, available, h, radius=12))
         card.parts.append(card.text(inset + 18, top + h / 2 + 6, empty, 21 if compact else 18, fill=COPY))
@@ -772,7 +782,7 @@ def heading_card(key: str, *, compact=False) -> Card:
     w = 680 if compact else WIDTH
     card = Card(w, 52, title, note)
     card.styles.append("text{opacity:.98}")
-    card.parts.append(card.heading(title, "" if compact else note, symbol, width=w))
+    card.add_transparent_heading(card.heading(title, "" if compact else note, symbol, width=w))
     return card
 
 
