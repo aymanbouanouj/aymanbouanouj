@@ -627,7 +627,7 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
     heights = [h] * rows
     for index, (name, caption) in enumerate(items):
         row, col = divmod(index, cols)
-        room = widths[col] - label_inset - 8
+        room = widths[col] - label_inset - 6
         names = wrap_badge(name, size=name_size, width=room, weight=500) if extended else [name]
         captions = wrap_badge(caption, size=caption_size, width=room, weight=400) if extended else [caption]
         added = (len(names) - 1) * name_step + (len(captions) - 1) * caption_step
@@ -646,7 +646,7 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
         card.parts.append(card.text(inset + 18, top + h / 2 + 6, empty, 21 if compact else 18, fill=COPY))
         return card
 
-    for index, (name, caption) in enumerate(items):
+    for index, (name, _) in enumerate(items):
         row, col = divmod(index, cols)
         x = round(inset + sum(widths[:col]) + col * gap, 2)
         y = top + sum(heights[:row]) + row * gap

@@ -273,6 +273,9 @@ class SVGTests(unittest.TestCase):
                 self.assertEqual(xml, render.technology_cards(reordered)[name].svg(True))
                 root = ET.fromstring(xml)
                 badges = root.findall("svg:g[@class='rise']", NS)
+                approved = ET.fromstring(self.cards[name].svg(True)).findall("svg:g[@class='rise']", NS)
+                self.assertEqual([ET.tostring(badge) for badge in badges[:len(approved)]],
+                                 [ET.tostring(badge) for badge in approved])
                 self.assertEqual(len(badges), len(technology.grid_items(snapshot, tools=tools)))
                 self.assertGreater(len(badges), 7 if tools else 12)
                 rows = {}
