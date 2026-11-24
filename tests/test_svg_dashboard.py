@@ -448,6 +448,18 @@ class SVGTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     render.verify_readme(path)
 
+    def test_optional_expansions_preserve_the_cards_and_link_to_live_sources(self):
+        markup = render.profile_markup(live_technology=True)
+        self.assertIn("<summary>Language distribution (%)</summary>", markup)
+        self.assertIn("/profile-live/live/portfolio-language-share.svg", markup)
+        self.assertIn("/profile-live/live/portfolio.md#programming-languages", markup)
+        self.assertIn("<summary>More contributions</summary>", markup)
+        self.assertIn("is%3Apr+is%3Apublic+author%3A", markup)
+        self.assertIn("is%3Aissue+is%3Apublic+author%3A", markup)
+        self.assertIn("-user%3A" + render.OWNER, markup)
+        self.assertIn("?tab=repositories&amp;type=source&amp;sort=updated", markup)
+        self.assertNotIn("portfolio-language-share.svg", render.profile_markup())
+
     def test_readme_orders_sections_and_wraps_each_linkable_card(self):
         render.verify_readme()
         markup = render.profile_markup()
