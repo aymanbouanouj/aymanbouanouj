@@ -1,14 +1,16 @@
 # Verified Public Development Inventory
 
-Automatically generated from public GitHub sources at 2026-11-24T07:03 UTC.
+Automatically generated from public GitHub sources at 2026-11-24T09:19 UTC.
 Refreshed hourly (best effort), not a real-time counter.
 
 ## Programming Languages
 
-| Language | Detected bytes | Share | Public code |
-| --- | ---: | ---: | --- |
 The language distribution includes aggregated statistics from accessible, selected private repositories. Private repository names and source code are not published.
 
+Shares are based on detected bytes in this snapshot, not proficiency or authored lines.
+
+| Language | Detected bytes | Share | Public code |
+| --- | ---: | ---: | --- |
 | Python | 2320666 | 30.5% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3APython&type=repositories); private portion not publicly verifiable |
 | PHP | 2210142 | 29.1% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3APHP&type=repositories); private portion not publicly verifiable |
 | Blade | 1918163 | 25.2% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ABlade&type=repositories); private portion not publicly verifiable |
@@ -17,9 +19,9 @@ The language distribution includes aggregated statistics from accessible, select
 | PowerShell | 216908 | 2.9% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3APowerShell&type=repositories); private portion not publicly verifiable |
 | HTML | 112539 | 1.5% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3AHTML&type=repositories); private portion not publicly verifiable |
 | TypeScript | 72909 | 1.0% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ATypeScript&type=repositories); private portion not publicly verifiable |
-| Dockerfile | 3396 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ADockerfile&type=repositories); private portion not publicly verifiable |
-| Batchfile | 2536 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ABatchfile&type=repositories); private portion not publicly verifiable |
-| Hack | 179 | 0.0% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3AHack&type=repositories); private portion not publicly verifiable |
+| Dockerfile | 3396 | &lt;0.1% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ADockerfile&type=repositories); private portion not publicly verifiable |
+| Batchfile | 2536 | &lt;0.1% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3ABatchfile&type=repositories); private portion not publicly verifiable |
+| Hack | 179 | &lt;0.1% | [Public examples](https://github.com/search?q=user%3Aaymanbounaouj%20language%3AHack&type=repositories); private portion not publicly verifiable |
 
 ## Verified Frameworks and Build Tools
 

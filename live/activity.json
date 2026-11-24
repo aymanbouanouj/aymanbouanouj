@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbounaouj",
-  "generated_at_utc": "2026-11-24T06:05:23.587703+00:00",
+  "generated_at_utc": "2026-11-24T09:19:35.038126+00:00",
   "public_repository_count": 15,
   "recent_repositories": [
     {
@@ -72,12 +72,6 @@
       "repository": "PC-Full-Check",
       "url": "https://github.com/aymanbounaouj/PC-Full-Check",
       "at": "2026-11-04T23:47:45+00:00"
-    },
-    {
-      "type": "PullRequestEvent",
-      "repository": "PC-Full-Check",
-      "url": "https://github.com/aymanbounaouj/PC-Full-Check",
-      "at": "2026-10-31T16:00:02+00:00"
     }
   ]
 }
