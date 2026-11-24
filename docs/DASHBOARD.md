@@ -30,7 +30,7 @@ The renderer also accepts a different validated input pair via `--calendar` and 
 
 ## Portfolio launch link
 
-The README intentionally displays exactly two hero CTAs: **Profile links** (the verified Beacons link) and **Portfolio** (visually highlighted but not clickable before launch). There is no placeholder, invented deployment, or redirect for Portfolio.
+The README intentionally displays exactly two hero CTAs: **Profile links** (the verified Beacons link) and **Portfolio** (visibly marked Coming soon and not clickable before launch). There is no placeholder, invented deployment, or redirect for Portfolio.
 
 Once the real portfolio is live, open `scripts/render_svg_cards.py` and set `PORTFOLIO_SITE_URL` to the real `https://...` address, then run `python scripts/render_svg_cards.py --write-readme`, run tests and review the draft before publishing. The Portfolio image is individually wrapped in an HTML anchor only when a URL is configured. An SVG embedded through `<img>` cannot expose separate clickable regions inside the hero banner, so these two standalone cards sit immediately beneath it.
 
@@ -55,7 +55,7 @@ The merged PR counter uses GitHub REST issue search for public merged pull reque
 | Python | [This profile’s public contribution collector](https://github.com/aymanbouanouj/aymanbouanouj/blob/main/scripts/fetch_contributions.py) |
 | PowerShell and Windows | [PC Full Check requirements](https://github.com/aymanbouanouj/PC-Full-Check#requirements) |
 
-Technology badges reflect public repository evidence. The featured descriptions are based on the project READMEs. The active-work row uses GitHub’s last-push dates for the dashboard repository, the Understand-Anything fork and Gestion Vaccination. VioletGate fills the fourth public showcase slot. The train studio links to its working Pages demo. The profile links button opens the public link hub listed on the GitHub profile.
+Technology badges reflect public repository evidence. The featured descriptions are based on the project READMEs. The Recently Updated Projects row uses GitHub’s last-push dates for the dashboard repository, the Understand-Anything fork and Gestion Vaccination. Featured project cards use verified engineering evidence from project READMEs instead of volatile star/fork counts. More Repositories links to VioletGate and Ayman Calc without duplicating the featured projects. These cards are versioned locally; contribution metrics and last-push dates continue to use the live workflow. The train studio links to its working Pages demo. The profile links button opens the public link hub listed on the GitHub profile.
 
 ## Artwork and compatibility
 

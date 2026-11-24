@@ -103,31 +103,39 @@ GLYPHS = {
 PROJECTS = {
     "morocco2030": (
         "Morocco2030",
-        "Multilingual tournament portal with competition, editorial and staff workflows.",
+        "Tournament portal with role-based staff access.",
         ("Laravel", "PHP", "MySQL"),
     ),
     "ab-train-ticket-studio": (
         "AB Train Ticket Studio",
-        "Multilingual rail-booking simulation with seat selection, QR tickets and PDF export.",
+        "Rail booking simulation with QR and PDF tickets.",
         ("JavaScript", "Vite", "Playwright"),
     ),
     "PC-Full-Check": (
         "PC Full Check",
-        "Read-only Windows diagnostics with privacy controls and local system reports.",
+        "Read-only Windows diagnostics and local reports.",
         ("PowerShell", "Windows"),
     ),
     "violetgate": (
         "VioletGate",
-        "Responsive authentication UI demo.",
+        "Responsive authentication UI with keyboard access.",
+        ("HTML", "CSS", "JavaScript"),
+    ),
+    "ayman-calc": (
+        "Ayman Calc",
+        "Responsive calculator without eval().",
         ("HTML", "CSS", "JavaScript"),
     ),
 }
 PINS = (
-    ("morocco2030", "Tournament portal and staff operations."),
-    ("ab-train-ticket-studio", "Rail-booking simulation and sample tickets."),
-    ("PC-Full-Check", "Read-only Windows diagnostic reports."),
     ("violetgate", PROJECTS["violetgate"][1]),
+    ("ayman-calc", PROJECTS["ayman-calc"][1]),
 )
+PROJECT_EVIDENCE = {
+    "morocco2030": "RBAC and automated tests",
+    "ab-train-ticket-studio": "4 languages; browser tests",
+    "PC-Full-Check": "Privacy controls; test suite",
+}
 CURRENT = (
     (OWNER, "Profile automation", "code"),
     ("Understand-Anything", "Understand-Anything", "branch"),
@@ -158,8 +166,8 @@ EXTERNAL_COPY = (
 HEADERS = {
     "featured": ("Featured Projects", "Selected public software", "rocket"),
     "opensource": ("Open Source & Verified Contributions", "Upstream GitHub work", "branch"),
-    "building": ("Currently Building", "Recently updated public work", "target"),
-    "pinned": ("Pinned Repositories", "Public source and repository totals", "pin"),
+    "building": ("Recently Updated Projects", "Last public push", "target"),
+    "pinned": ("More Repositories", "Additional public projects", "pin"),
 }
 
 
@@ -417,13 +425,13 @@ def hero(*, compact=False) -> Card:
         mark = logo(31, 44, 122) + path("M183 41v151", stroke="#645478", line=1.1)
         copy = (card.text(212, 91, "Ayman Bounaouj", 46, weight=600, tracking="-1.5")
                 + card.text(213, 137, "Full-Stack Web Developer", 29, weight=600, fill=VIOLET)
-                + card.text(214, 171, "Building practical, secure and", 21, fill=COPY)
-                + card.text(214, 199, "scalable digital products.", 21, fill=COPY))
+                + card.text(214, 171, "Web applications, developer tools", 21, fill=COPY)
+                + card.text(214, 199, "and automated testing.", 21, fill=COPY))
     else:
         mark = logo(73, 67, 140) + path("M248 43v151", stroke="#645478", line=1.15)
         copy = (card.text(288, 95, "Ayman Bounaouj", 55, weight=600, tracking="-1.6")
                 + card.text(289, 145, "Full-Stack Web Developer", 36, weight=600, fill=VIOLET, tracking="-.7")
-                + card.text(290, 183, "Building practical, secure and scalable digital products.", 21, fill=COPY))
+                + card.text(290, 183, "Web applications, developer tools and automated testing.", 21, fill=COPY))
     card.parts.extend((group(mark, motion="glint", delay=80), group(copy, motion="rise")))
     return card
 
@@ -437,9 +445,13 @@ def button(label, symbol, *, primary=False, unpublished=False) -> Card:
     ink = "#26113f" if primary else COPY
     card.defs.append(gradient("action", ((0, "#8c43ef"), (".55", "#b663ff"),
                                           (1, "#d48dff")), axis=(0, 0, 1, 1)))
-    card.parts.append(panel(0, 0, w, h, 12, fill="url(#action)" if primary else "url(#panel)",
-                            stroke="#aa72ed" if primary else BORDER))
-    if primary:
+    card.parts.append(panel(0, 0, w, h, 12,
+                            fill="#302044" if unpublished else "url(#action)" if primary else "url(#panel)",
+                            stroke="#77539d" if unpublished else "#aa72ed" if primary else BORDER))
+    if unpublished:
+        card.parts.append(card.text(w / 2, 22, label, 18, weight=600, fill="#e3ccff", anchor="middle"))
+        card.parts.append(card.text(w / 2, 39, "Coming soon", 12.5, fill="#d3b5f1", anchor="middle"))
+    elif primary:
         # Faithful to the reference: Portfolio text and an external-link arrow, no extra left icon.
         card.parts.append(card.text(31, 31, label, 18, weight=600, fill=ink))
         card.parts.append(glyph("external", 147, 17, 15, ink))
@@ -701,7 +713,7 @@ def diagnostics_scene(card: Card) -> str:
 def stack_pills(card: Card, stack, x, y, *, small=False) -> str:
     items = []
     for name in stack:
-        size = 13 if small else 12.5
+        size = 14.5 if small else 15
         width = round(text_width(name, size, 600) + 37, 2)
         items.extend((box(x, y, width, 26, "#1a1b2a", "#3b344b", 8),
                       technology(name, x + 7, y + 5, 16),
@@ -719,10 +731,10 @@ def counts(card: Card, repo: dict, x, y) -> str:
     )
 
 
-def feature(name: str, repo: dict, index: int) -> Card:
+def feature(name: str, index: int) -> Card:
     title, copy, stack = PROJECTS[name]
-    card = Card(376, 325, title, f'{copy} {", ".join(stack)}. {repo["stars"]} GitHub stars, '
-                                f'{repo["forks"]} forks. Opens the repository.')
+    evidence = PROJECT_EVIDENCE[name]
+    card = Card(376, 356, title, f'{copy} {evidence}. {", ".join(stack)}. Opens the repository.')
     draw = (stadium_scene, train_scene, diagnostics_scene)[index]
     art_height, illustration = clip("art-height", box(0, 0, card.w, 147), draw(card))
     clipping, art = clip("cover", box(0, 0, card.w, card.h, radius=14), illustration)
@@ -730,18 +742,19 @@ def feature(name: str, repo: dict, index: int) -> Card:
     content = panel(0, 0, card.w, card.h, fill="url(#panel)") + art
     content += panel(0, 0, card.w, card.h, 14, fill="none")
     content += path("M.6 147h374.8", stroke=BORDER)
-    content += card.text(19, 184, title, 24, weight=600, tracking="-.6")
-    content += glyph("external", 337, 164, 19, VIOLET)
-    lines = wrap(copy, size=15.4, width=330)
+    title_size = min(24, 310 / text_width(title, 1, 600))
+    content += card.text(19, 181, title, round(title_size, 2), weight=600, tracking="-.4")
+    content += glyph("external", 337, 163, 19, VIOLET)
+    lines = wrap(copy, size=19, width=336)
     if len(lines) > 3:
         raise ValueError("Featured description exceeds its card")
     for line, words in enumerate(lines):
-        content += card.text(20, 209 + line * 19, words, 15.4, fill=COPY)
-    content += stack_pills(card, stack, 19, 255)
-    content += path("M19 290h338", stroke=BORDER)
-    content += counts(card, repo, 20, 313)
-    content += card.text(331, 312, "Source", 14.5, weight=600, fill=VIOLET, anchor="end")
-    content += glyph("arrow", 337, 299, 16)
+        content += card.text(20, 210 + line * 23, words, 19, fill=COPY)
+    content += card.text(20, 278, evidence, 17.5, weight=500, fill="#d5bdff")
+    content += stack_pills(card, stack, 19, 289)
+    content += path("M19 324h338", stroke=BORDER)
+    content += card.text(20, 345, "View source", 16, weight=600, fill=VIOLET)
+    content += glyph("arrow", 337, 330, 16)
     card.parts.append(group(content, motion="rise", delay=340 + index * 55))
     return card
 
@@ -789,19 +802,16 @@ def building(label: str, symbol: str, repo: dict) -> Card:
     return card
 
 
-def pin(name: str, copy: str, repo: dict) -> Card:
+def pin(name: str, copy: str) -> Card:
     title, _, stack = PROJECTS[name]
-    card = Card(571, 116, name, f'Public repository, {title}. {copy} {", ".join(stack)}. '
-                               f'{repo["stars"]} GitHub stars, {repo["forks"]} forks.')
+    card = Card(571, 138, title, f'Public repository. {copy} {", ".join(stack)}. Opens the repository.')
     card.parts.extend((
-        panel(0, 0, card.w, card.h, 13), glyph("repo", 17, 14, 22),
-        card.text(51, 32, name, 20, weight=600, fill="#d4bbff", tracking="-.25"),
-        box(433, 13, 85, 25, "#222134", "#3a344a", 8),
-        card.text(475, 30, "Public", 14, fill=COPY, anchor="middle"),
-        glyph("arrow", 534, 16, 17),
-        card.text(19, 61, copy, 16, fill=COPY),
-        stack_pills(card, stack[:2], 19, 77, small=True),
-        counts(card, repo, 342, 97),
+        panel(0, 0, card.w, card.h, 13), glyph("repo", 17, 14, 24),
+        card.text(51, 34, title, 24, weight=600, fill="#d4bbff", tracking="-.25"),
+        glyph("arrow", 534, 16, 19),
+        card.text(19, 67, copy, 19, fill=COPY),
+        stack_pills(card, stack, 19, 86, small=True),
+        card.text(551, 126, "View source", 16, weight=600, fill=VIOLET, anchor="end"),
     ))
     return card
 
@@ -827,17 +837,16 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
             files[f"contribution-{record[2]}{suffix}"] = collaboration(
                 index, public["contributions"][url], compact=compact)
     for index, name in enumerate(tuple(PROJECTS)[:3]):
-        files["project-" + name.lower()] = feature(name, repos[name], index)
+        files["project-" + name.lower()] = feature(name, index)
     for name, label, symbol in CURRENT:
         files["building-" + name.lower()] = building(label, symbol, repos[name])
     for name, copy in PINS:
-        files["pin-" + name.lower()] = pin(name, copy, repos[name])
+        files["pin-" + name.lower()] = pin(name, copy)
     return files
 
 
 def dynamic(name: str) -> bool:
-    return name.startswith(("metrics", "calendar", "contribution-",
-                            "project-", "building-", "pin-"))
+    return name.startswith(("metrics", "calendar", "contribution-", "building-"))
 
 
 def link(url: str, label: str) -> str:
@@ -887,7 +896,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 
     feature_cards = []
     for name, (title, copy, _) in tuple(PROJECTS.items())[:3]:
-        feature_cards.append(img(f"project-{name.lower()}", f"{title}. {copy} View source.",
+        feature_cards.append(img(f"project-{name.lower()}", f"{title}. {copy} {PROJECT_EVIDENCE[name]}. View source.",
                                  255, href=repo_url(name)))
 
     highlights = []
@@ -906,7 +915,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
     live_json = f"{PROFILE}/{OWNER}/blob/profile-live/cards/contributions.json"
     readme_text = f"""<details>
 <summary>Profile text and data sources</summary>
-<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Building practical, secure and scalable digital products.</p>
+<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Web applications, developer tools and automated testing.</p>
 <ul>
 <li>{link(repo_url("morocco2030"), "Morocco2030")}. Independent academic portal for multilingual tournament information and role-based staff workflows. {link(repo_url("morocco2030") + "/releases", "Releases")} · {link(repo_url("morocco2030") + "/actions/workflows/ci.yml", "CI")}</li>
 <li>{link(repo_url("ab-train-ticket-studio"), "AB Train Ticket Studio")}. Independent booking simulation with sample tickets. {link(DEMO, "Live demo")}</li>
@@ -921,7 +930,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
         social_badge("profile", "Profile links", PROFILE_LINKS_URL),
         social_badge("portfolio", "Portfolio", PORTFOLIO_SITE_URL),
     ))
-    identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
+    identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Web applications, developer tools and automated testing.",
                    mobile=True)
     return "\n\n".join((
         block(span(identity, "wide hero"), "section-group"),
@@ -937,7 +946,7 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
                 "<br>\n" + span(f"<sub>{link(DEMO, 'AB Train Ticket Studio live demo ↗')}</sub>", "demo")),
         section("opensource", "<br>\n".join(highlights), "wide contributions"),
         section("building", "\n".join(tiles), "building-row"),
-        section("pinned", "\n".join(pins[:2]) + "<br>\n" + "\n".join(pins[2:]), "pin-row"),
+        section("pinned", "\n".join(pins), "pin-row"),
         readme_text,
     )) + "\n"
 

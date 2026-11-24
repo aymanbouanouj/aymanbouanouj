@@ -236,8 +236,12 @@ class SVGTests(unittest.TestCase):
             root = ET.fromstring(xml)
             self.assertEqual(root.get("width"), "182")
             self.assertEqual(root.get("height"), "50")
-            self.assertIn("url(#action)" if name == "portfolio" else "url(#panel)", xml)
-            self.assertEqual(len(root.findall(".//svg:text", NS)), 1)
+            pending = name == "portfolio" and not render.PORTFOLIO_SITE_URL
+            self.assertIn("#302044" if pending else "url(#action)" if name == "portfolio" else "url(#panel)", xml)
+            labels = [node.text for node in root.findall(".//svg:text", NS)]
+            self.assertEqual(len(labels), 2 if pending else 1)
+            if pending:
+                self.assertIn("Coming soon", labels)
         self.assertIn("href=\"https://beacons.ai/aymanbounaouj\"", render.profile_markup())
         self.assertNotIn("<a href=\"\"><img src=\"./cards/link-portfolio.svg\"", render.profile_markup())
         if not render.PORTFOLIO_SITE_URL:
@@ -248,6 +252,29 @@ class SVGTests(unittest.TestCase):
         with patch.object(render, "PORTFOLIO_SITE_URL", "http://invalid.example/"):
             with self.assertRaises(ValueError):
                 render.profile_markup()
+
+    def test_aaa_export_refinement_assets(self):
+        names = ("hero", "hero-mobile", "link-portfolio", "heading-building", "heading-building-mobile",
+                 "heading-pinned", "heading-pinned-mobile", "project-morocco2030",
+                 "project-ab-train-ticket-studio", "project-pc-full-check", "pin-violetgate", "pin-ayman-calc")
+        for name in names:
+            xml = self.cards[name].svg(False)
+            if name == "project-ab-train-ticket-studio":
+                xml = re.sub(r'(href="data:image/jpeg;base64,)[A-Za-z0-9+/=]+', r'\1__TRAIN_JPEG__', xml)
+            print("REFINEMENT_ASSET:" + name + ":" + base64.b64encode(xml.encode("utf-8")).decode("ascii"))
+        readme = render.README_MARKER + render.profile_markup()
+        print("REFINEMENT_README:" + base64.b64encode(readme.encode("utf-8")).decode("ascii"))
+
+    def test_featured_and_additional_repositories_are_distinct(self):
+        featured = set(tuple(render.PROJECTS)[:3])
+        additional = {name for name, _ in render.PINS}
+        self.assertFalse(featured & additional)
+        self.assertEqual(additional, {"violetgate", "ayman-calc"})
+        for name in featured:
+            card = self.cards["project-" + name.lower()]
+            self.assertFalse(render.dynamic("project-" + name.lower()))
+            self.assertIn(render.PROJECT_EVIDENCE[name], card.svg(True))
+        self.assertEqual(render.HEADERS["building"][0], "Recently Updated Projects")
 
     def test_only_two_svg_ctas_are_generated(self):
         names = {name for name in self.cards if name.startswith("link-")}
