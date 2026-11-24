@@ -12,19 +12,19 @@
 </p>
 
 <p align="center" class="wide">
-<a href="https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/cards"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/metrics-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/metrics.svg" width="780" alt="Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days."></picture></a>
+<a href="https://github.com/aymanbounaouj/aymanbounaouj/tree/profile-live/cards"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/metrics-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/metrics.svg" width="780" alt="Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days."></picture></a>
 </p>
 
 <p align="center" class="wide">
-<a href="https://github.com/aymanbouanouj"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/calendar-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/calendar.svg" width="780" alt="Violet GitHub contribution calendar with weekday and month labels and intensity legend."></picture></a>
+<a href="https://github.com/aymanbounaouj"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/calendar-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/calendar.svg" width="780" alt="Violet GitHub contribution calendar with weekday and month labels and intensity legend."></picture></a>
 </p>
 
 <p align="center" class="wide">
-<picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/technical-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/technical.svg" width="780" alt="Languages &amp; Technical Stack. See technology evidence in the profile data sources."></picture>
+<picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/technical-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/technical.svg" width="780" alt="Languages &amp; Technical Stack. See technology evidence in the profile data sources."></picture>
 </p>
 
 <p align="center" class="wide">
-<picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/tools-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/tools.svg" width="780" alt="Frameworks / Build Tools. See technology evidence in the profile data sources."></picture>
+<picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/tools-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/tools.svg" width="780" alt="Frameworks / Build Tools. See technology evidence in the profile data sources."></picture>
 </p>
 
 <p align="center" class="section-group">
@@ -32,12 +32,12 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-featured-mobile.svg"><img src="./cards/heading-featured.svg" width="780" alt="Featured Projects"></picture>
 </span><br>
 <span class="project-row">
-<a href="https://github.com/aymanbouanouj/morocco2030"><img src="./cards/project-morocco2030.svg" width="255" alt="Morocco2030. Tournament portal with role-based staff access. RBAC and automated tests. View source."></a>
-<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="./cards/project-ab-train-ticket-studio.svg" width="255" alt="AB Train Ticket Studio. Rail booking simulation with QR and PDF tickets. 4 languages; browser tests. View source."></a>
-<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="./cards/project-pc-full-check.svg" width="255" alt="PC Full Check. Read-only Windows diagnostics and local reports. Privacy controls; test suite. View source."></a>
+<a href="https://github.com/aymanbounaouj/morocco2030"><img src="./cards/project-morocco2030.svg" width="255" alt="Morocco2030. Tournament portal with role-based staff access. RBAC and automated tests. View source."></a>
+<a href="https://github.com/aymanbounaouj/ab-train-ticket-studio"><img src="./cards/project-ab-train-ticket-studio.svg" width="255" alt="AB Train Ticket Studio. Rail booking simulation with QR and PDF tickets. 4 languages; browser tests. View source."></a>
+<a href="https://github.com/aymanbounaouj/PC-Full-Check"><img src="./cards/project-pc-full-check.svg" width="255" alt="PC Full Check. Read-only Windows diagnostics and local reports. Privacy controls; test suite. View source."></a>
 </span><br>
 <span class="demo">
-<sub><a href="https://aymanbouanouj.github.io/ab-train-ticket-studio/">AB Train Ticket Studio live demo ↗</a></sub>
+<sub><a href="https://aymanbounaouj.github.io/ab-train-ticket-studio/">AB Train Ticket Studio live demo ↗</a></sub>
 </span>
 </p>
 
@@ -46,9 +46,9 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-opensource-mobile.svg"><img src="./cards/heading-opensource.svg" width="780" alt="Open Source &amp; Verified Contributions"></picture>
 </span><br>
 <span class="wide contributions">
-<a href="https://github.com/Egonex-AI/Understand-Anything/pull/794"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-794-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-794.svg" width="780" alt="Egonex-AI / Understand-Anything #794. Apply dashboard filters to the structural code graph."></picture></a><br>
-<a href="https://github.com/OWASP/CheatSheetSeries/issues/2792#issuecomment-6633108162"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-2792-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-2792.svg" width="780" alt="OWASP / Cheat Sheet Series #2792. Contributed to the cheat-sheet revision discussion."></picture></a><br>
-<a href="https://github.com/php/doc-en/pull/5930"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-5930-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/contribution-5930.svg" width="780" alt="php / doc-en #5930. Clarify the distinction between Error and Exception."></picture></a>
+<a href="https://github.com/Egonex-AI/Understand-Anything/pull/794"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-794-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-794.svg" width="780" alt="Egonex-AI / Understand-Anything #794. Apply dashboard filters to the structural code graph."></picture></a><br>
+<a href="https://github.com/OWASP/CheatSheetSeries/issues/2792#issuecomment-6633108162"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-2792-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-2792.svg" width="780" alt="OWASP / Cheat Sheet Series #2792. Contributed to the cheat-sheet revision discussion."></picture></a><br>
+<a href="https://github.com/php/doc-en/pull/5930"><picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-5930-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/contribution-5930.svg" width="780" alt="php / doc-en #5930. Clarify the distinction between Error and Exception."></picture></a>
 </span>
 </p>
 
@@ -57,9 +57,9 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-building-mobile.svg"><img src="./cards/heading-building.svg" width="780" alt="Recently Updated Projects"></picture>
 </span><br>
 <span class="building-row">
-<a href="https://github.com/aymanbouanouj/aymanbouanouj"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/building-aymanbouanouj.svg" width="255" alt="Profile automation. Public GitHub repository."></a>
-<a href="https://github.com/aymanbouanouj/Understand-Anything"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/building-understand-anything.svg" width="255" alt="Understand-Anything. Public GitHub repository."></a>
-<a href="https://github.com/aymanbouanouj/gestion-vaccination"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/building-gestion-vaccination.svg" width="255" alt="Gestion Vaccination. Public GitHub repository."></a>
+<a href="https://github.com/aymanbounaouj/aymanbounaouj"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/building-aymanbounaouj.svg" width="255" alt="Profile automation. Public GitHub repository."></a>
+<a href="https://github.com/aymanbounaouj/Understand-Anything"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/building-understand-anything.svg" width="255" alt="Understand-Anything. Public GitHub repository."></a>
+<a href="https://github.com/aymanbounaouj/gestion-vaccination"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/building-gestion-vaccination.svg" width="255" alt="Gestion Vaccination. Public GitHub repository."></a>
 </span>
 </p>
 
@@ -68,8 +68,8 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-pinned-mobile.svg"><img src="./cards/heading-pinned.svg" width="780" alt="More Repositories"></picture>
 </span><br>
 <span class="pin-row">
-<a href="https://github.com/aymanbouanouj/violetgate"><img src="./cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI with keyboard access."></a>
-<a href="https://github.com/aymanbouanouj/ayman-calc"><img src="./cards/pin-ayman-calc.svg" width="386" alt="ayman-calc. Responsive calculator without eval()."></a>
+<a href="https://github.com/aymanbounaouj/violetgate"><img src="./cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI with keyboard access."></a>
+<a href="https://github.com/aymanbounaouj/ayman-calc"><img src="./cards/pin-ayman-calc.svg" width="386" alt="ayman-calc. Responsive calculator without eval()."></a>
 </span>
 </p>
 
@@ -77,12 +77,12 @@
 <summary><h3>Profile text and data sources</h3></summary>
 <p><strong>Ayman Bounaouj</strong> · Software Developer. Full-Stack Web Development. Building Practical &amp; Secure Digital Products.</p>
 <ul>
-<li><a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030</a>. Independent academic portal for multilingual tournament information and role-based staff workflows. <a href="https://github.com/aymanbouanouj/morocco2030/releases">Releases</a> · <a href="https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml">CI</a></li>
-<li><a href="https://github.com/aymanbouanouj/ab-train-ticket-studio">AB Train Ticket Studio</a>. Independent booking simulation with sample tickets. <a href="https://aymanbouanouj.github.io/ab-train-ticket-studio/">Live demo</a></li>
-<li><a href="https://github.com/aymanbouanouj/PC-Full-Check">PC Full Check</a>. Read-only Windows diagnostics and local reports. <a href="https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests">Tests</a></li>
-<li><a href="https://github.com/aymanbouanouj/violetgate">VioletGate</a>. Authentication UI demo. <a href="https://aymanbouanouj.github.io/violetgate/">Live demo</a> · <a href="https://github.com/aymanbouanouj/ayman-calc">Ayman Calc</a>. Browser calculator. <a href="https://aymanbouanouj.github.io/ayman-calc/">Live demo</a></li>
+<li><a href="https://github.com/aymanbounaouj/morocco2030">Morocco2030</a>. Independent academic portal for multilingual tournament information and role-based staff workflows. <a href="https://github.com/aymanbounaouj/morocco2030/releases">Releases</a> · <a href="https://github.com/aymanbounaouj/morocco2030/actions/workflows/ci.yml">CI</a></li>
+<li><a href="https://github.com/aymanbounaouj/ab-train-ticket-studio">AB Train Ticket Studio</a>. Independent booking simulation with sample tickets. <a href="https://aymanbounaouj.github.io/ab-train-ticket-studio/">Live demo</a></li>
+<li><a href="https://github.com/aymanbounaouj/PC-Full-Check">PC Full Check</a>. Read-only Windows diagnostics and local reports. <a href="https://github.com/aymanbounaouj/PC-Full-Check/tree/main/tests">Tests</a></li>
+<li><a href="https://github.com/aymanbounaouj/violetgate">VioletGate</a>. Authentication UI demo. <a href="https://aymanbounaouj.github.io/violetgate/">Live demo</a> · <a href="https://github.com/aymanbounaouj/ayman-calc">Ayman Calc</a>. Browser calculator. <a href="https://aymanbounaouj.github.io/ayman-calc/">Live demo</a></li>
 </ul>
-<p>GitHub GraphQL supplies the <a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/cards/contributions.json">daily counts</a>. GitHub REST supplies repository totals and the <a href="https://github.com/search?q=is%3Apr+is%3Amerged+is%3Apublic+author%3Aaymanbouanouj&amp;type=pullrequests">merged public PR search</a>. <a href="https://github.com/aymanbouanouj">GitHub’s native contribution graph</a> shows current activity.</p>
-<p><a href="./docs/DASHBOARD.md">Technical evidence and refresh setup</a> · <a href="https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/cards/technology.json">Technology evidence snapshot</a> · <a href="./PROFILE-V5.md">Original artwork and previous profile links</a></p>
+<p>GitHub GraphQL supplies the <a href="https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/cards/contributions.json">daily counts</a>. GitHub REST supplies repository totals and the <a href="https://github.com/search?q=is%3Apr+is%3Amerged+is%3Apublic+author%3Aaymanbounaouj&amp;type=pullrequests">merged public PR search</a>. <a href="https://github.com/aymanbounaouj">GitHub’s native contribution graph</a> shows current activity.</p>
+<p><a href="./docs/DASHBOARD.md">Technical evidence and refresh setup</a> · <a href="https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/cards/technology.json">Technology evidence snapshot</a> · <a href="./PROFILE-V5.md">Original artwork and previous profile links</a></p>
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>

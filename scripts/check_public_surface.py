@@ -21,7 +21,7 @@ def audit():
     if bad: raise ValueError("Sensitive tracked filenames found: "+", ".join(bad))
     notice=(ROOT/"NOTICE.md").read_text(encoding="utf-8")
     assert "All rights reserved" in notice and "Tous droits réservés" in notice
-    assert "/ @aymanbouanouj" in (ROOT/".github/CODEOWNERS").read_text(encoding="utf-8")
+    assert "/ @aymanbounaouj" in (ROOT/".github/CODEOWNERS").read_text(encoding="utf-8")
     print(f"PASS: {len(list(filter(None, paths)))} tracked file paths reviewed; owner notice present")
 if __name__=="__main__":
     try: audit()

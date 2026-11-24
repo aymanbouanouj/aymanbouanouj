@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 from xml.etree import ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
-OWNER="aymanbouanouj"
+OWNER="aymanbounaouj"
 SOURCE="github-rest-linguist-public-owned"
 API="https://api.github.com"
 COLORS={"Python":"#3776ab","PHP":"#777bb4","JavaScript":"#e4bd26","TypeScript":"#3178c6",

@@ -14,7 +14,7 @@ from pathlib import Path
 from brand_paths import WHITE, PURPLE
 
 ROOT=Path(__file__).resolve().parents[1]
-USER='aymanbouanouj'
+USER='aymanbounaouj'
 NAMESPACE='http://www.w3.org/2000/svg'
 PALETTES={
  'dark':dict(bg='#090c13', top='#111621', panel='#0d121d',card='#161d2b',border='#303849',ink='#f5f7ff',muted='#9ca8be',accent='#a886ff',cyan='#51dfda',green='#38d992',faint='#1b2530',ramp=['#19242f','#12442f','#1d754a','#279d5e','#38d992']),

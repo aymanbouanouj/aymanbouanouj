@@ -60,7 +60,7 @@ def main()->int:
             assert f'./assets/{component}-dark.svg#gh-dark-mode-only' in content
             assert f'./assets/{component}-light.svg#gh-light-mode-only' in content
     for repo in REPO_NAMES:
-        assert f'https://github.com/aymanbouanouj/{repo}' in content, f'Missing featured repository {repo}'
+        assert f'https://github.com/aymanbounaouj/{repo}' in content, f'Missing featured repository {repo}'
     for pattern in [r'ghp_[A-Za-z0-9]{30,}',r'github_pat_[A-Za-z0-9_]{30,}',r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----']:
         assert not re.search(pattern,'\n'.join(p.read_text(encoding='utf-8',errors='ignore') for p in ROOT.rglob('*') if p.is_file() and p.suffix in ('.md','.py','.svg','.yml','.json','.html'))), 'Possible exposed secret'
     snapshot=ROOT/'data'/'contributions.json'
@@ -96,8 +96,8 @@ def main()->int:
     assert 'default: false' in wf and 'needs: verify' in wf and 'persist-credentials: false' in wf
     assert "vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'" in wf
     assert "github.event_name == 'workflow_dispatch' && inputs.publish == true" in wf
-    assert "github.actor == 'aymanbouanouj'" in wf
-    assert 'test "${GITHUB_ACTOR}" = "aymanbouanouj"' in wf
+    assert "github.actor == 'aymanbounaouj'" in wf
+    assert 'test "${GITHUB_ACTOR}" = "aymanbounaouj"' in wf
     assert 'git push -u origin "${review_branch}"' in wf
     assert 'gh pr create --base main' in wf
     assert 'pull-requests: write' in wf
