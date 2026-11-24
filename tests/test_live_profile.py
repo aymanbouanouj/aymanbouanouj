@@ -99,7 +99,7 @@ class LiveProfileTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as path:
             root=Path(path)
             data={"schema":1,"source":"github-rest-public-repository-activity",
-                  "owner":"aymanbouanouj","generated_at_utc":"2026-10-11T05:09:00+00:00",
+                  "owner":"aymanbounaouj","generated_at_utc":"2026-10-11T05:09:00+00:00",
                   "public_repository_count":0,"recent_repositories":[],"recent_events":[]}
             write_snapshot(root,data)
             source=(root/"activity.json").read_bytes()
@@ -121,7 +121,7 @@ class LiveProfileTests(unittest.TestCase):
         self.assertNotIn("git push origin HEAD:main", workflow)
         self.assertNotIn("pull_request_target", workflow)
         readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
-        self.assertIn("raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg", readme)
+        self.assertIn("raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/activity.svg", readme)
         self.assertIn("GitHub's native contribution graph", readme)
 
 

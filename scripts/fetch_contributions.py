@@ -15,7 +15,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
 ROOT=Path(__file__).resolve().parents[1]
-USER='aymanbouanouj'
+USER='aymanbounaouj'
 QUERY='''query($login:String!) {
   user(login:$login) {
     contributionsCollection {

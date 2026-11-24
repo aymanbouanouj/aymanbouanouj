@@ -29,7 +29,7 @@ permissions:
 jobs:
   update:
     name: Refresh verified public activity on a separate branch
-    if: github.repository == 'aymanbouanouj/aymanbouanouj' && github.ref == 'refs/heads/main'
+    if: github.repository == 'aymanbounaouj/aymanbounaouj' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     concurrency:
@@ -95,7 +95,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          test "$GITHUB_REPOSITORY" = "aymanbouanouj/aymanbouanouj"
+          test "$GITHUB_REPOSITORY" = "aymanbounaouj/aymanbounaouj"
           test "$GITHUB_REF" = "refs/heads/main"
           mkdir -p "$RUNNER_TEMP/live-worktree/live"
           cp "$RUNNER_TEMP/activity-build/activity.svg" "$RUNNER_TEMP/live-worktree/live/activity.svg"
@@ -187,7 +187,7 @@ jobs:
 
   preview:
     name: Verify dashboard with live GitHub APIs
-    if: github.event_name == 'workflow_dispatch' && github.repository == 'aymanbouanouj/aymanbouanouj' && github.ref != 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'aymanbounaouj/aymanbounaouj' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

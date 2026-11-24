@@ -4,9 +4,9 @@
 
 <h3><code>aymanbouanouj@github ~ $ ./contributions.sh</code></h3>
 
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
+<img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/contributions.svg" width="100%" alt="Automatically refreshed, dated GitHub contribution calendar" />
 
-<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbouanouj">View current GitHub activity ↗</a>. GitHub's native contribution graph below is the authoritative activity calendar.</sub>
+<sub>Verified GraphQL data · Updated periodically, subject to GitHub Actions and image cache delays · <a href="https://github.com/aymanbounaouj">View current GitHub activity ↗</a>. GitHub's native contribution graph below is the authoritative activity calendar.</sub>
 
 <h3><code>ayman@github ~ $ whoami</code></h3>
 
@@ -19,7 +19,7 @@
 </td>
 <td width="50%" align="center" valign="top">
 
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/stats.svg" width="100%" alt="Verified GitHub contribution metrics, active days and monthly activity snapshot" />
+<img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/stats.svg" width="100%" alt="Verified GitHub contribution metrics, active days and monthly activity snapshot" />
 
 </td>
 </tr>
@@ -31,7 +31,7 @@
 
 <h3><code>ayman@github ~ $ ./links.sh</code></h3>
 
-<a href="https://github.com/aymanbouanouj"><img src="./assets/link-github.svg" alt="GitHub — official profile" width="144" /></a>
+<a href="https://github.com/aymanbounaouj"><img src="./assets/link-github.svg" alt="GitHub — official profile" width="144" /></a>
 <a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./assets/link-linkedin.svg" alt="LinkedIn — official profile" width="144" /></a>
 <a href="https://www.instagram.com/aymanbounaouj/"><img src="./assets/link-instagram.svg" alt="Instagram — official profile" width="144" /></a>
 <a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./assets/link-facebook.svg" alt="Facebook — official profile" width="144" /></a>
@@ -46,53 +46,53 @@
 ## Languages & Technical Stack
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
+<img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/portfolio-tech.svg" width="100%" alt="Automatically refreshed programming language icons with GitHub Linguist proportions, plus frameworks verified from public dependency manifests" />
 </div>
 
-<sub>Languages: GitHub Linguist code bytes. Frameworks: verified public dependency manifests. Auto-refreshed hourly (best effort); percentages are not skill ratings. [Verified source links ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md).</sub>
+<sub>Languages: GitHub Linguist code bytes. Frameworks: verified public dependency manifests. Auto-refreshed hourly (best effort); percentages are not skill ratings. [Verified source links ↗](https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/live/portfolio.md).</sub>
 
 ## Featured Projects
 
-#### [01 — Morocco2030 ↗](https://github.com/aymanbouanouj/morocco2030)
+#### [01 — Morocco2030 ↗](https://github.com/aymanbounaouj/morocco2030)
 **Laravel 12 · RBAC · Multilingual portal.** Independent academic portal featuring tournament information, multilingual content, role-based access control, and staff administration. Not affiliated with FIFA.  
-[Source](https://github.com/aymanbouanouj/morocco2030) · [CI](https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml) · [Releases](https://github.com/aymanbouanouj/morocco2030/releases)
+[Source](https://github.com/aymanbounaouj/morocco2030) · [CI](https://github.com/aymanbounaouj/morocco2030/actions/workflows/ci.yml) · [Releases](https://github.com/aymanbounaouj/morocco2030/releases)
 
-#### [02 — PC Full Check ↗](https://github.com/aymanbouanouj/PC-Full-Check)
+#### [02 — PC Full Check ↗](https://github.com/aymanbounaouj/PC-Full-Check)
 **PowerShell · Windows 10/11.** PowerShell-based Windows diagnostic tool performing read-only system checks and generating local reports.  
-[Source](https://github.com/aymanbouanouj/PC-Full-Check) · [Tests](https://github.com/aymanbouanouj/PC-Full-Check/tree/main/tests)
+[Source](https://github.com/aymanbounaouj/PC-Full-Check) · [Tests](https://github.com/aymanbounaouj/PC-Full-Check/tree/main/tests)
 
-#### [03 — VioletGate ↗](https://github.com/aymanbouanouj/violetgate)
+#### [03 — VioletGate ↗](https://github.com/aymanbounaouj/violetgate)
 **HTML · CSS · JavaScript.** Responsive authentication interface demonstrating front-end design and interactions. UI demo only; no production authentication backend.  
-[Live demo](https://aymanbouanouj.github.io/violetgate/) · [Source](https://github.com/aymanbouanouj/violetgate)
+[Live demo](https://aymanbounaouj.github.io/violetgate/) · [Source](https://github.com/aymanbounaouj/violetgate)
 
-#### [04 — Ayman Calc ↗](https://github.com/aymanbouanouj/ayman-calc)
+#### [04 — Ayman Calc ↗](https://github.com/aymanbounaouj/ayman-calc)
 **Vanilla JavaScript.** Responsive JavaScript calculator with keyboard support and calculation history.  
-[Live demo](https://aymanbouanouj.github.io/ayman-calc/) · [Source](https://github.com/aymanbouanouj/ayman-calc)
+[Live demo](https://aymanbounaouj.github.io/ayman-calc/) · [Source](https://github.com/aymanbounaouj/ayman-calc)
 
 ## More Public Projects
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-projects.svg" width="100%" alt="Recent additional public software repositories, automatically discovered from GitHub" />
+<img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/portfolio-projects.svg" width="100%" alt="Recent additional public software repositories, automatically discovered from GitHub" />
 </div>
 
-[**Browse all public repositories ↗**](https://github.com/aymanbouanouj?tab=repositories)
+[**Browse all public repositories ↗**](https://github.com/aymanbounaouj?tab=repositories)
 
 ## Open Source & Collaborations
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/portfolio-collabs.svg" width="100%" alt="GitHub-verified external merged pull requests and collaborations" />
+<img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/portfolio-collabs.svg" width="100%" alt="GitHub-verified external merged pull requests and collaborations" />
 </div>
 
 **Open merged contributions:** [PHP Documentation · PR #5930 ↗](https://github.com/php/doc-en/pull/5930) · [SGA-BTS · PR #1 ↗](https://github.com/HichamFaska/SGA-BTS/pull/1)
 
-<sub>Explore verified merged pull requests. New contributions are automatically added to the [live contributions index ↗](https://github.com/aymanbouanouj/aymanbouanouj/blob/profile-live/live/portfolio.md#verified-external-contributions). </sub>
+<sub>Explore verified merged pull requests. New contributions are automatically added to the [live contributions index ↗](https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/live/portfolio.md#verified-external-contributions). </sub>
 
 <details>
 <summary><strong>Recent Development Activity</strong></summary>
 
-<a href="https://github.com/aymanbouanouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
+<a href="https://github.com/aymanbounaouj?tab=repositories"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/activity.svg" width="100%" alt="Recent public repositories, latest public commit SHAs and GitHub public events, with verified synchronization date" /></a>
 
-[Generated JSON evidence ↗](https://github.com/aymanbouanouj/aymanbouanouj/tree/profile-live/live)
+[Generated JSON evidence ↗](https://github.com/aymanbounaouj/aymanbounaouj/tree/profile-live/live)
 
 <sub>Checks scheduled hourly (best-effort) and on relevant profile-code merges; GitHub Actions and image caches may delay visible updates. Does not disclose private repositories or their commit messages. Not a live counter.</sub>
 

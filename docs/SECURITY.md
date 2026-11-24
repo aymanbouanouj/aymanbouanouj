@@ -3,7 +3,7 @@
 ## Current verified posture (2026-10-11)
 
 This repository is **Public** and `main` is protected by the active
-[Protect Main — Ayman Profile ruleset](https://github.com/aymanbouanouj/aymanbouanouj/rules/24860793)
+[Protect Main — Ayman Profile ruleset](https://github.com/aymanbounaouj/aymanbounaouj/rules/24860793)
 (rule ID 24860793). Its verified controls are:
 
 - Block branch deletion and force pushes (non-fast-forward updates).
@@ -54,7 +54,7 @@ recognizes its check contexts on the relevant PR commits.
 ## Reporting vulnerabilities privately
 
 Report potential problems to the owner using
-[Private vulnerability reporting](https://github.com/aymanbouanouj/aymanbouanouj/security/advisories/new)
+[Private vulnerability reporting](https://github.com/aymanbounaouj/aymanbounaouj/security/advisories/new)
 **if the GitHub setting is enabled**, rather than publishing secrets,
 attack demonstrations containing credentials, or private data in Issues.
 If private reporting is unavailable, use the owner's public professional

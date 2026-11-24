@@ -18,7 +18,7 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree as ET
 
-OWNER = "aymanbouanouj"
+OWNER = "aymanbounaouj"
 API = "https://api.github.com"
 SOURCE = "github-rest-public-repository-activity"
 REPO_LIMIT = 6
