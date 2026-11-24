@@ -33,8 +33,10 @@ ASSETS = ROOT / "assets/dashboard"
 PROFILE = f"https://github.com/{OWNER}"
 LIVE = f"https://raw.githubusercontent.com/{OWNER}/{OWNER}/profile-live/cards/"
 SOURCE = f"{PROFILE}/{OWNER}/tree/profile-live/cards"
-PORTFOLIO = "https://beacons.ai/aymanbounaouj"
-LINKEDIN = "https://www.linkedin.com/in/aymanbounaouj/"
+PROFILE_LINKS_URL = "https://beacons.ai/aymanbounaouj"
+# Intentionally empty until the portfolio is launched. Set this to its real HTTPS URL,
+# then regenerate README.md to activate the Portfolio button; never use a dummy link.
+PORTFOLIO_SITE_URL = ""
 DEMO = f"https://{OWNER}.github.io/ab-train-ticket-studio/"
 
 INK = "#f6f3fc"
@@ -426,16 +428,25 @@ def hero(*, compact=False) -> Card:
     return card
 
 
-def button(label, symbol, *, primary=False) -> Card:
+def button(label, symbol, *, primary=False, unpublished=False) -> Card:
+    """Standalone SVG button. README handles navigation through an outer HTML anchor."""
     w, h = 182, 50
-    card = Card(w, h, label, "Opens " + label + " in the linked public profile.")
-    ink = "#f9f4ff" if primary else COPY
-    card.defs.append(gradient("action", ((0, "#47247c"), (1, "#66349e")), axis=(0, 0, 1, 1)))
+    detail = ("Portfolio website is not published yet; the button has no link."
+              if unpublished else "Opens " + label + " in the linked public profile.")
+    card = Card(w, h, label, detail)
+    ink = "#26113f" if primary else COPY
+    card.defs.append(gradient("action", ((0, "#8c43ef"), (".55", "#b663ff"),
+                                          (1, "#d48dff")), axis=(0, 0, 1, 1)))
     card.parts.append(panel(0, 0, w, h, 12, fill="url(#action)" if primary else "url(#panel)",
-                            stroke="#8356bd" if primary else BORDER))
-    card.parts.append(glyph(symbol, 13, 15, 20, ink))
-    card.parts.append(card.text(43, 31, label, 17, weight=600, fill=ink))
-    card.parts.append(glyph("arrow", 151, 17, 16, "#dec6fa" if primary else MUTED))
+                            stroke="#aa72ed" if primary else BORDER))
+    if primary:
+        # Faithful to the reference: Portfolio text and an external-link arrow, no extra left icon.
+        card.parts.append(card.text(31, 31, label, 18, weight=600, fill=ink))
+        card.parts.append(glyph("external", 147, 17, 15, ink))
+    else:
+        card.parts.append(glyph(symbol, 13, 15, 20, ink))
+        card.parts.append(card.text(43, 31, label, 17, weight=600, fill=ink))
+        card.parts.append(glyph("arrow", 151, 17, 16, MUTED))
     return card
 
 
@@ -798,12 +809,8 @@ def pin(name: str, copy: str, repo: dict) -> Card:
 def artworks(stats: dict, public: dict) -> dict[str, Card]:
     repos = public["repositories"]
     files = {
-        "link-profile": button("Profile links", "profile", primary=True),
-        "link-linkedin": button("LinkedIn", "linkedin"),
-        "link-instagram": button("Instagram", "instagram"),
-        "link-facebook": button("Facebook", "facebook"),
-        "link-x": button("X", "x"),
-        "link-medium": button("Medium", "medium"),
+        "link-profile": button("Profile links", "profile"),
+        "link-portfolio": button("Portfolio", "external", primary=True, unpublished=True),
     }
     for compact in (False, True):
         suffix = "-mobile" if compact else ""
@@ -853,8 +860,9 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
     def img(*args, **kwargs):
         return image(*args, **kwargs, local=local)
 
-    def social_badge(name: str, label: str, destination: str) -> str:
-        return img("link-" + name, label + " — official profile", 150, href=destination)
+    def social_badge(name: str, label: str, destination: str = "") -> str:
+        alt = label + (" — official profile" if destination else " — website not launched yet")
+        return img("link-" + name, alt, 150, href=destination)
 
     def block(content, css="wide"):
         return f'<p align="center" class="{css}">\n{content}\n</p>'
@@ -903,24 +911,14 @@ def profile_markup(*, local: dict[str, str] | None = None) -> str:
 <p><sub>© 2026 Ayman Bounaouj. Original AB branding. All rights reserved.</sub></p>
 </details>"""
     social_first = "\n".join((
-        social_badge("profile", "Profile links", PORTFOLIO),
-        social_badge("linkedin", "LinkedIn", LINKEDIN),
-    ))
-    social_second = "\n".join((
-        social_badge("instagram", "Instagram", "https://www.instagram.com/aymanbounaouj/"),
-        social_badge("facebook", "Facebook", "https://www.facebook.com/AymanBounaouj.dev/"),
-    ))
-    social_third = "\n".join((
-        social_badge("x", "X", "https://x.com/aymanbounaouj"),
-        social_badge("medium", "Medium", "https://medium.com/@aymanbounaouj"),
+        social_badge("profile", "Profile links", PROFILE_LINKS_URL),
+        social_badge("portfolio", "Portfolio", PORTFOLIO_SITE_URL),
     ))
     identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products.",
                    mobile=True)
     return "\n\n".join((
         block(span(identity, "wide hero"), "section-group"),
         block(social_first, "social-row"),
-        block(social_second, "social-row"),
-        block(social_third, "social-row"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
         # Use the checked-in calendar for draft review. The publisher still generates the live copy.
@@ -953,6 +951,7 @@ a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4
 .social-row{text-align:center;margin-bottom:5px}
 .social-row a{display:inline-block;vertical-align:middle;margin:0 2px}
 .social-row img{width:150px;max-width:45vw;height:auto}
+.social-row > img{display:inline-block;vertical-align:middle;margin:0 2px}
 .heading{display:block;margin:0 0 5px}
 .project-row,.building-row,.pin-row{display:grid;gap:10px}
 .project-row,.building-row{grid-template-columns:repeat(3,minmax(0,1fr))}

@@ -228,14 +228,28 @@ class SVGTests(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 render.verify_svg(valid.replace("</svg>", extra + "</svg>"), "hero", False)
 
-    def test_six_compact_social_buttons_share_the_original_geometry(self):
-        for name in ("profile", "linkedin", "instagram", "facebook", "x", "medium"):
+    def test_two_cta_buttons_and_portfolio_link_placeholder(self):
+        self.assertEqual({name for name in self.cards if name.startswith("link-")},
+                         {"link-profile", "link-portfolio"})
+        for name in ("profile", "portfolio"):
             xml = self.cards["link-" + name].svg(True)
             root = ET.fromstring(xml)
             self.assertEqual(root.get("width"), "182")
             self.assertEqual(root.get("height"), "50")
-            self.assertIn("url(#action)" if name == "profile" else "url(#panel)", xml)
+            self.assertIn("url(#action)" if name == "portfolio" else "url(#panel)", xml)
             self.assertEqual(len(root.findall(".//svg:text", NS)), 1)
+        self.assertEqual(render.PORTFOLIO_SITE_URL, "")
+        self.assertIn("website not launched yet", render.profile_markup())
+        self.assertIn("href=\"https://beacons.ai/aymanbounaouj\"", render.profile_markup())
+        self.assertNotIn("<a href=\"\"><img src=\"./cards/link-portfolio.svg\"", render.profile_markup())
+        with patch.object(render, "PORTFOLIO_SITE_URL", "https://portfolio.example.org/"):
+            self.assertIn('<a href="https://portfolio.example.org/"><img src="./cards/link-portfolio.svg"',
+                          render.profile_markup())
+
+    def test_aaa_export_two_cta_buttons_to_ci_log_for_deterministic_render(self):
+        for name in ("link-profile", "link-portfolio"):
+            print("CTA_SVG_EXPORT:" + name + ":" +
+                  base64.b64encode(self.cards[name].svg(False).encode("utf-8")).decode("ascii"))
 
     def test_approved_hero_background_is_embedded_in_both_sizes(self):
         for name in ("hero", "hero-mobile"):
@@ -292,10 +306,13 @@ class SVGTests(unittest.TestCase):
                 self.assertTrue(attrs["alt"])
             if name.startswith("link-"):
                 buttons.append(name)
-            if name.startswith(("project-", "pin-", "building-", "contribution-", "link-")):
+            if name.startswith(("project-", "pin-", "building-", "contribution-")):
                 self.assertEqual(urlsplit(destination).scheme, "https")
-        self.assertEqual(buttons, ["link-profile", "link-linkedin", "link-instagram",
-                                   "link-facebook", "link-x", "link-medium"])
+            elif name == "link-profile":
+                self.assertEqual(urlsplit(destination).scheme, "https")
+            elif name == "link-portfolio":
+                self.assertIsNone(destination)
+        self.assertEqual(buttons, ["link-profile", "link-portfolio"])
         self.assertNotIn("<script", markup.casefold())
 
 

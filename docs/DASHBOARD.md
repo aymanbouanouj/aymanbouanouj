@@ -28,6 +28,12 @@ Remove-Item Env:STATIC
 
 The renderer also accepts a different validated input pair via `--calendar` and `--public`. Use `--verify` with those same paths to compare output to the input pair. Across platforms, verification compares the exact decompressed font tables when zlib encodings differ. The default seed files are `data/dashboard-contributions.json` and `data/dashboard-public.json`.
 
+## Portfolio launch link
+
+The README intentionally displays exactly two hero CTAs: **Profile links** (the verified Beacons link) and **Portfolio** (visually highlighted but not clickable before launch). There is no placeholder, invented deployment, or redirect for Portfolio.
+
+Once the real portfolio is live, open `scripts/render_svg_cards.py` and set `PORTFOLIO_SITE_URL` to the real `https://...` address, then run `python scripts/render_svg_cards.py --write-readme`, run tests and review the draft before publishing. The Portfolio image is individually wrapped in an HTML anchor only when a URL is configured. An SVG embedded through `<img>` cannot expose separate clickable regions inside the hero banner, so these two standalone cards sit immediately beneath it.
+
 ## Refresh and provenance
 
 The existing **Refresh live public activity** workflow runs hourly. On its first successful scheduled run each UTC day, it reuses the verified GraphQL calendar, fetches public REST metadata, renders the live SVGs and validates them against the two JSON files. Relevant merges to `main` and a manual run on `main` also request a refresh. Scheduled runs retain a successfully verified same-day bundle. An unsuccessful refresh leaves the last published bundle available for a retry on the next hourly run.

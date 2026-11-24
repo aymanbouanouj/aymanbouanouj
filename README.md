@@ -8,17 +8,7 @@
 
 <p align="center" class="social-row">
 <a href="https://beacons.ai/aymanbounaouj"><img src="./cards/link-profile.svg" width="150" alt="Profile links — official profile"></a>
-<a href="https://www.linkedin.com/in/aymanbounaouj/"><img src="./cards/link-linkedin.svg" width="150" alt="LinkedIn — official profile"></a>
-</p>
-
-<p align="center" class="social-row">
-<a href="https://www.instagram.com/aymanbounaouj/"><img src="./cards/link-instagram.svg" width="150" alt="Instagram — official profile"></a>
-<a href="https://www.facebook.com/AymanBounaouj.dev/"><img src="./cards/link-facebook.svg" width="150" alt="Facebook — official profile"></a>
-</p>
-
-<p align="center" class="social-row">
-<a href="https://x.com/aymanbounaouj"><img src="./cards/link-x.svg" width="150" alt="X — official profile"></a>
-<a href="https://medium.com/@aymanbounaouj"><img src="./cards/link-medium.svg" width="150" alt="Medium — official profile"></a>
+<img src="./cards/link-portfolio.svg" width="150" alt="Portfolio — website not launched yet">
 </p>
 
 <p align="center" class="wide">
