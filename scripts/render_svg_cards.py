@@ -996,7 +996,9 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
     language_image = f"https://raw.githubusercontent.com/{OWNER}/{OWNER}/profile-live/live/portfolio-language-share.svg"
     language_body = ""
     if live_technology and local is None:
-        language_body = f'<p align="center">{link(language_report, f\'<img src="{language_image}" width="510" alt="Language shares of GitHub Linguist detected bytes. Open the linked table for exact values.">\')}</p>\n'
+        language_tag = (f'<img src="{language_image}" width="510" '
+                        'alt="Language shares of GitHub Linguist detected bytes. Open the linked table for exact values.">')
+        language_body = f'<p align="center">{link(language_report, language_tag)}</p>\n'
     language_details = ("<details>\n<summary>Language distribution (%)</summary>\n" + language_body
                         + f'<p>{link(language_report, "View code-byte breakdown ↗")}</p>\n</details>')
     external_prs = "https://github.com/search?" + urlencode({
