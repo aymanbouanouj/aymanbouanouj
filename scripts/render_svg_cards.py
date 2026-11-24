@@ -15,7 +15,7 @@ import re
 import struct
 from functools import lru_cache
 from pathlib import Path
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 from xml.etree import ElementTree as ET
 
 from fontTools import subset
@@ -810,7 +810,8 @@ def artworks(stats: dict, public: dict) -> dict[str, Card]:
     repos = public["repositories"]
     files = {
         "link-profile": button("Profile links", "profile"),
-        "link-portfolio": button("Portfolio", "external", primary=True, unpublished=True),
+        "link-portfolio": button("Portfolio", "external", primary=True,
+                                 unpublished=not bool(PORTFOLIO_SITE_URL)),
     }
     for compact in (False, True):
         suffix = "-mobile" if compact else ""
@@ -857,6 +858,12 @@ def image(name: str, alt: str, width: int = 780, *, mobile=False, href="", local
 
 
 def profile_markup(*, local: dict[str, str] | None = None) -> str:
+    # Never silently publish an insecure or malformed portfolio URL.
+    if PORTFOLIO_SITE_URL:
+        target = urlsplit(PORTFOLIO_SITE_URL)
+        if (target.scheme != "https" or not target.netloc or
+                target.username or target.password or any(c.isspace() for c in PORTFOLIO_SITE_URL)):
+            raise ValueError("PORTFOLIO_SITE_URL must be an absolute HTTPS URL")
     def img(*args, **kwargs):
         return image(*args, **kwargs, local=local)
 

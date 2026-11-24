@@ -238,18 +238,20 @@ class SVGTests(unittest.TestCase):
             self.assertEqual(root.get("height"), "50")
             self.assertIn("url(#action)" if name == "portfolio" else "url(#panel)", xml)
             self.assertEqual(len(root.findall(".//svg:text", NS)), 1)
-        self.assertEqual(render.PORTFOLIO_SITE_URL, "")
-        self.assertIn("website not launched yet", render.profile_markup())
         self.assertIn("href=\"https://beacons.ai/aymanbounaouj\"", render.profile_markup())
         self.assertNotIn("<a href=\"\"><img src=\"./cards/link-portfolio.svg\"", render.profile_markup())
+        if not render.PORTFOLIO_SITE_URL:
+            self.assertIn("website not launched yet", render.profile_markup())
         with patch.object(render, "PORTFOLIO_SITE_URL", "https://portfolio.example.org/"):
             self.assertIn('<a href="https://portfolio.example.org/"><img src="./cards/link-portfolio.svg"',
                           render.profile_markup())
+        with patch.object(render, "PORTFOLIO_SITE_URL", "http://invalid.example/"):
+            with self.assertRaises(ValueError):
+                render.profile_markup()
 
     def test_only_two_svg_ctas_are_generated(self):
         names = {name for name in self.cards if name.startswith("link-")}
         self.assertEqual(names, {"link-profile", "link-portfolio"})
-        self.assertFalse(render.PORTFOLIO_SITE_URL)
         markup = render.profile_markup()
         self.assertIn('<img src="./cards/link-portfolio.svg"', markup)
         self.assertNotIn('href=""', markup)
@@ -314,7 +316,10 @@ class SVGTests(unittest.TestCase):
             elif name == "link-profile":
                 self.assertEqual(urlsplit(destination).scheme, "https")
             elif name == "link-portfolio":
-                self.assertIsNone(destination)
+                if render.PORTFOLIO_SITE_URL:
+                    self.assertEqual(destination, render.PORTFOLIO_SITE_URL)
+                else:
+                    self.assertIsNone(destination)
         self.assertEqual(buttons, ["link-profile", "link-portfolio"])
         self.assertNotIn("<script", markup.casefold())
 
