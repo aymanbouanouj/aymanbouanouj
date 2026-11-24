@@ -13,7 +13,7 @@ from mobile_png import (COMPONENTS, DARK, LIGHT, dimensions,
 
 class MobilePngTests(unittest.TestCase):
     def test_source_markdown_migrates_six_sections_atomically(self):
-        current = (ROOT / "README.md").read_text(encoding="utf-8")
+        current = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         if all(f'./assets/mobile/{item}.png' in current for item in COMPONENTS):
             self.assertEqual(current, replace_readme(current))
             return
@@ -33,7 +33,7 @@ class MobilePngTests(unittest.TestCase):
         if not manifest_path.exists():
             return
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         for name in COMPONENTS:
             digest = manifest["images"][name]["png_sha256"][:12]
             self.assertEqual(readme.count(f'./assets/mobile/{name}.png?v={digest}"'), 1)
@@ -44,7 +44,7 @@ class MobilePngTests(unittest.TestCase):
         self.assertEqual(stamp_image_versions(stale), readme)
 
     def test_partial_migration_is_not_accepted(self):
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         if "assets/mobile/hero.png" in readme:
             with self.assertRaises(ValueError):
                 replace_readme(readme.replace(
@@ -68,7 +68,7 @@ class MobilePngTests(unittest.TestCase):
 
     def test_published_assets_are_verified_if_present(self):
         manifest = ROOT / "assets" / "mobile" / "manifest.json"
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         if manifest.exists():
             verify()
             for name in COMPONENTS:

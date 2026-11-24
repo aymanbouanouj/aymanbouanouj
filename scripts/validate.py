@@ -31,7 +31,9 @@ def validate_svg_file(path:Path) -> None:
     assert len(text.encode('utf-8'))<500_000, f'{path.name}: oversized SVG'
 
 def main()->int:
-    content=(ROOT/'README.md').read_text(encoding='utf-8')
+    from render_svg_cards import verify_readme
+    verify_readme()
+    content=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
     assert len(content.encode('utf-8'))<500_000
     assert 'javascript:' not in content.lower() and '<script' not in content.lower()
     assert 'github-readme-stats' not in content and 'img.shields.io' not in content
@@ -106,7 +108,7 @@ def main()->int:
     assert 'pull_request_target' not in ci and 'contents: write' not in ci
     print('PASS: all eighteen SVGs parse, contain accessibility metadata and reduced-motion support.')
     print('PASS: SVGs contain no third-party requests, links, scripts or event handlers.')
-    print('PASS: README links verified by path and limited embedded content.')
+    print('PASS: Dashboard README matches its renderer and archived profile links retain verification.')
     print('PASS: real-vs-placeholder data state is honest and consistent.')
     print('PASS: manual dry-run is read-only; publishing requires explicit consent and scoped permission.')
     return 0

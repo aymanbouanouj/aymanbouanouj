@@ -82,7 +82,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('render_profile.py --data data/contributions.json --no-static',workflow)
 
     def test_clean_brand_and_links(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertNotIn('./assets/ascii-dark.svg',readme)
         for name in ('linkedin','instagram','facebook','x','medium','profiles'):
             self.assertIn(f'./assets/link-{name}.svg',readme)
@@ -106,7 +106,7 @@ class ProfileTests(unittest.TestCase):
             self.assertIn('logoFade{from{opacity:0}to{opacity:1}}', svg)
 
     def test_projects_and_footer_are_separate(self):
-        readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+        readme = (ROOT / 'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertEqual(readme.count('#### ['), 4)
         self.assertNotIn('> **[Ayman Calc', readme)
         self.assertIn('---\n\n<div align="center">', readme)
@@ -114,7 +114,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('<p><sub>Original SVG artwork · Projects link to public code and demos', readme)
 
     def test_profile_avoids_duplicate_summaries_and_keeps_verifiable_evidence(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertIn('Full-Stack Web Developer',readme)
         self.assertIn('GitHub Linguist',readme)
         self.assertIn('Independent academic portal',readme)
@@ -136,7 +136,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
 
     def test_profile_disclosure_notice_and_refresh_cadence_are_accurate(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         workflow=(ROOT/'.github/workflows/profile-refresh.yml').read_text(encoding='utf-8')
         self.assertIn('aggregate private contributions',readme)
         self.assertIn('GitHub Actions checks approximately every six hours',readme)
@@ -145,7 +145,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn("vars.ENABLE_SCHEDULED_PROFILE_PUBLISH == 'true'",workflow)
 
     def test_social_contact_badges(self):
-        text=(ROOT/'README.md').read_text(encoding='utf-8')
+        text=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         for name in ('linkedin','instagram','facebook','x','medium','profiles'):
             self.assertIn('./assets/link-'+name+'.svg',text)
         self.assertNotIn('./assets/link-demos.svg',text)
@@ -233,7 +233,7 @@ class ProfileTests(unittest.TestCase):
         with self.assertRaises(ValueError): canonical_days(bad)
 
     def test_readme_contains_verifiable_evidence_not_fake_numbers(self):
-        readme = (ROOT/'README.md').read_text(encoding='utf-8')
+        readme = (ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertIn('Independent academic portal', readme)
         self.assertIn('no production authentication backend', readme)
         self.assertIn('github.com/aymanbouanouj/PC-Full-Check/tree/main/tests', readme)
@@ -248,7 +248,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('git --redact --log-opts="--all" .', ci)
 
     def test_ownership_notice_and_sensitive_file_gate(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertIn('All rights reserved',readme)
         self.assertNotIn('Tous droits réservés',readme)
         from check_public_surface import audit
@@ -325,7 +325,7 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(got['source'],'github-graphql-contributionCalendar')
 
     def test_mobile_app_compatible_theme_images(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertNotIn('<picture>',readme)
         self.assertNotIn('<source ',readme)
         for component in ('hero','logo','contributions','stats','tech-stack','engineering'):
@@ -335,7 +335,7 @@ class ProfileTests(unittest.TestCase):
                 self.assertIn(f'./assets/{component}-dark.svg#gh-dark-mode-only',readme)
 
     def test_v5_brand_is_original_self_hosted_accessible(self):
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         banner = ROOT / "assets/brand-v5.svg"
         self.assertTrue(banner.is_file())
         validate_svg_file(banner)
@@ -353,7 +353,7 @@ class ProfileTests(unittest.TestCase):
         self.assertIn('<table>', readme)
 
     def test_profile_compact_and_interactive_without_unsafe_scripts(self):
-        readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+        readme = (ROOT / 'PROFILE-V5.md').read_text(encoding='utf-8')
         self.assertGreaterEqual(readme.count('<details>'), 3)
         self.assertEqual(readme.count('<details>'), readme.count('</details>'))
         self.assertEqual(readme.count('#### ['), 4)
@@ -369,7 +369,7 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('http://', readme)
 
     def test_reference_layout_is_compact_and_uses_verified_live_images(self):
-        r = (ROOT / "README.md").read_text(encoding="utf-8")
+        r = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         self.assertIn('contributions.sh', r)
         self.assertIn('whoami', r)
         self.assertIn('links.sh', r)
@@ -384,7 +384,7 @@ class ProfileTests(unittest.TestCase):
         self.assertNotIn('<script', r.lower())
 
     def test_restore_v5_live_visual_layout_without_duplicate_static_technologies(self):
-        readme=(ROOT/'README.md').read_text(encoding='utf-8')
+        readme=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
         for image in ("contributions.svg","stats.svg","portfolio-tech.svg","portfolio-projects.svg","portfolio-collabs.svg","activity.svg"):
             self.assertIn("profile-live/live/"+image,readme)
         for name in ("github","linkedin","instagram","facebook","x","medium","profiles"):
@@ -397,7 +397,7 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(readme.count('#### ['),4)
 
     def test_responsive_mark_and_stats_markdown(self):
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         panel = readme.split('<table>', 1)[1].split('</table>', 1)[0]
         self.assertEqual(panel.count('<td '), 2)
         self.assertIn('width="50%"', panel)

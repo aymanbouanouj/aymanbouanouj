@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets"
 MOBILE = ASSETS / "mobile"
 MANIFEST = MOBILE / "manifest.json"
-README = ROOT / "README.md"
+README = ROOT / "PROFILE-V5.md"
 COMPONENTS = ("hero", "contributions", "logo", "stats", "tech-stack", "engineering")
 PNG_HEADER = b"\x89PNG\r\n\x1a\n"
 MAX_FILE_SIZE = 4_000_000
@@ -196,7 +196,7 @@ def migrate() -> None:
     updated = replace_readme(current)
     if updated != current:
         README.write_text(updated, encoding="utf-8")
-    print("PASS: README references digest-versioned PNG images and retains local SVG links")
+    print("PASS: Archived profile references digest-versioned PNG images and retains local SVG links")
 
 
 def main() -> None:

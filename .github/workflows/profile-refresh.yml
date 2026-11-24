@@ -32,6 +32,10 @@ jobs:
           persist-credentials: false
       - name: Check Python syntax before refreshing generated artifacts
         run: python3 -m compileall -q scripts tests
+      - name: Install pinned dashboard test dependency
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Query public project evidence and render
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -73,6 +77,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: true
+      - name: Install pinned dashboard test dependency
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Refresh and validate public evidence
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -102,7 +110,7 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- README.md assets/mobile/ data/contributions.json data/tech-stack.json data/engineering.json \
+          git add -- PROFILE-V5.md assets/mobile/ data/contributions.json data/tech-stack.json data/engineering.json \
             assets/hero-dark.svg assets/hero-light.svg \
             assets/logo-dark.svg assets/logo-light.svg \
             assets/contributions-dark.svg assets/contributions-light.svg \
