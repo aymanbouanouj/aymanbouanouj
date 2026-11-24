@@ -23,6 +23,12 @@
 <picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/technical-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/technical.svg" width="780" alt="Languages &amp; Technical Stack. See technology evidence in the profile data sources."></picture>
 </p>
 
+<details>
+<summary>Language distribution (%)</summary>
+<p align="center"><a href="https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/live/portfolio.md#programming-languages"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/live/portfolio-language-share.svg" width="510" alt="Language shares of GitHub Linguist detected bytes. Open the linked table for exact values."></a></p>
+<p><a href="https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/live/portfolio.md#programming-languages">View code-byte breakdown ↗</a></p>
+</details>
+
 <p align="center" class="wide">
 <picture><source media="(max-width: 680px)" srcset="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/tools-mobile.svg"><img src="https://raw.githubusercontent.com/aymanbounaouj/aymanbounaouj/profile-live/cards/tools.svg" width="780" alt="Frameworks / Build Tools. See technology evidence in the profile data sources."></picture>
 </p>
@@ -52,6 +58,11 @@
 </span>
 </p>
 
+<details>
+<summary>More contributions</summary>
+<p><a href="https://github.com/search?q=is%3Apr+is%3Apublic+author%3Aaymanbounaouj+-user%3Aaymanbounaouj&amp;type=pullrequests&amp;s=updated&amp;o=desc">All authored public external pull requests ↗</a> · <a href="https://github.com/search?q=is%3Aissue+is%3Apublic+author%3Aaymanbounaouj+-user%3Aaymanbounaouj&amp;type=issues&amp;s=updated&amp;o=desc">All authored public external issues ↗</a> · <a href="https://github.com/aymanbounaouj/aymanbounaouj/blob/profile-live/live/portfolio.md#verified-external-contributions">Verified merged PR inventory ↗</a></p>
+</details>
+
 <p align="center" class="section-group">
 <span class="wide heading">
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-building-mobile.svg"><img src="./cards/heading-building.svg" width="780" alt="Recently Updated Projects"></picture>
@@ -70,6 +81,9 @@
 <span class="pin-row">
 <a href="https://github.com/aymanbounaouj/violetgate"><img src="./cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI with keyboard access."></a>
 <a href="https://github.com/aymanbounaouj/ayman-calc"><img src="./cards/pin-ayman-calc.svg" width="386" alt="ayman-calc. Responsive calculator without eval()."></a>
+</span><br>
+<span class="demo">
+<sub><a href="https://github.com/aymanbounaouj?tab=repositories&amp;type=source&amp;sort=updated">More projects ↗</a></sub>
 </span>
 </p>
 

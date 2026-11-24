@@ -197,12 +197,31 @@ class PublicPortfolioTests(unittest.TestCase):
     def test_workflow_rechecks_after_restoration_before_publishing(self):
         workflow=(ROOT/".github/workflows/profile-live.yml").read_text(encoding="utf-8")
         restore=workflow.index("Portfolio data unchanged: preserving approved illustrations")
-        repair=workflow.index('live_portfolio.py" --repair-markdown --output live')
+        repair=workflow.index('live_portfolio.py" --repair-markdown --output live', restore)
         stage=workflow.index("git add -- live/activity.svg")
         self.assertLess(restore,repair)
         self.assertLess(repair,stage)
         for script in ("live_profile.py","live_contributions.py","live_portfolio.py"):
             self.assertIn(f'{script}" --verify --output live',workflow[repair:stage])
+
+    def test_language_report_and_chart_use_verified_bytes(self):
+        from live_language_share import render
+        from live_portfolio import language_share_label
+        from xml.etree import ElementTree as ET
+        data = collect(self.mock(), now=self.NOW)
+        data["language_bytes"] = [["PHP", 9999], ["Tiny", 1]]
+        report = render_markdown(data)
+        self.assertIn("| PHP | 9999 | 100.0% |", report)
+        self.assertIn("| Tiny | 1 | &lt;0.1% |", report)
+        self.assertIn("| --- | ---: | ---: | --- |\n| PHP |", report)
+        svg = render(data)
+        self.assertEqual(svg, render(data))
+        self.assertIn("Tiny: &lt;0.1%", svg)
+        self.assertEqual(ET.fromstring(svg).attrib["role"], "img")
+        self.assertNotIn("@keyframes", svg)
+        self.assertEqual(language_share_label(0, 0), "—")
+        data["language_bytes"] = []
+        self.assertIn("No detected language bytes available", render(data))
 
     def test_empty_sets_render_explicit_explanation(self):
         data = collect(self.mock(), now=self.NOW)

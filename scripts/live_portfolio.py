@@ -544,6 +544,15 @@ def draw(data):
     }
 
 
+def language_share_label(amount, total):
+    """Describe the fraction of detected bytes, never a skill percentage."""
+    if not total:
+        return "—"
+    if 0 < amount * 1000 < total:
+        return "<0.1%"
+    return f"{amount / total:.1%}"
+
+
 def render_markdown(data):
     """Deterministic linked text snapshot for GitHub, not an in-README JavaScript widget."""
     validate(data)
@@ -555,17 +564,18 @@ def render_markdown(data):
     lines = ["# Verified Public Development Inventory", "",
              "Automatically generated from public GitHub sources at " + data["generated_at_utc"][:16] + " UTC.",
              "Refreshed hourly (best effort), not a real-time counter.", "",
-             "## Programming Languages", "",
-             "| Language | Detected bytes | Share | Public code |",
-             "| --- | ---: | ---: | --- |"]
+             "## Programming Languages", ""]
     if private_mode:
         lines += ["The language distribution includes aggregated statistics from accessible, selected private repositories. Private repository names and source code are not published.", ""]
     elif data.get("language_scope") == "public-only-private-unavailable":
         lines += ["Private language statistics were unavailable during this refresh; the figures below include public repositories only.", ""]
+    lines += ["Shares are based on detected bytes in this snapshot, not proficiency or authored lines.", "",
+              "| Language | Detected bytes | Share | Public code |",
+              "| --- | ---: | ---: | --- |"]
     for name, amount in data["language_bytes"]:
         search = "https://github.com/search?q=" + quote("user:" + OWNER + " language:" + name, safe="") + "&type=repositories"
         source = "[Public examples](" + search + "); private portion not publicly verifiable" if private_mode else "[Source](" + search + ")"
-        lines.append("| " + clean(name) + " | " + str(amount) + " | " + format(amount/n if n else 0, ".1%") + " | " + source + " |")
+        lines.append("| " + clean(name) + " | " + str(amount) + " | " + html.escape(language_share_label(amount, n)) + " | " + source + " |")
     if not data["language_bytes"]:
         lines.append("| No public languages detected | — | — | — |")
     lines += ["", "## Verified Frameworks and Build Tools", ""]

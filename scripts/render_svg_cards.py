@@ -991,6 +991,25 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
     evidence_json = (f"{PROFILE}/{OWNER}/blob/profile-live/cards/technology.json" if live_technology
                      else "./data/dashboard-technology.json")
     evidence_link = link(evidence_json, "Technology evidence snapshot") + " · " if local is None else ""
+    portfolio_report = f"{PROFILE}/{OWNER}/blob/profile-live/live/portfolio.md"
+    language_report = portfolio_report + "#programming-languages"
+    language_image = f"https://raw.githubusercontent.com/{OWNER}/{OWNER}/profile-live/live/portfolio-language-share.svg"
+    language_body = ""
+    if live_technology and local is None:
+        language_tag = (f'<img src="{language_image}" width="510" '
+                        'alt="Language shares of GitHub Linguist detected bytes. Open the linked table for exact values.">')
+        language_body = f'<p align="center">{link(language_report, language_tag)}</p>\n'
+    language_details = ("<details>\n<summary>Language distribution (%)</summary>\n" + language_body
+                        + f'<p>{link(language_report, "View code-byte breakdown ↗")}</p>\n</details>')
+    external_prs = "https://github.com/search?" + urlencode({
+        "q": f"is:pr is:public author:{OWNER} -user:{OWNER}", "type": "pullrequests", "s": "updated", "o": "desc"})
+    external_issues = "https://github.com/search?" + urlencode({
+        "q": f"is:issue is:public author:{OWNER} -user:{OWNER}", "type": "issues", "s": "updated", "o": "desc"})
+    more_contributions = ("<details>\n<summary>More contributions</summary>\n"
+                          + f'<p>{link(external_prs, "All authored public external pull requests ↗")} · '
+                          + f'{link(external_issues, "All authored public external issues ↗")} · '
+                          + f'{link(portfolio_report + "#verified-external-contributions", "Verified merged PR inventory ↗")}</p>\n</details>')
+    more_projects = f'{PROFILE}?tab=repositories&type=source&sort=updated'
     hero_description = ". ".join((HERO_HEADLINE, *HERO_SUBHEADLINES)) + "."
     readme_text = f"""<details>
 <summary><h3>Profile text and data sources</h3></summary>
@@ -1027,12 +1046,15 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
         block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels and intensity legend.",
                   mobile=True, href=PROFILE, live=live_technology)),
         block(img("technical", tech_alt.strip(), mobile=True, live=live_technology)),
+        language_details,
         block(img("tools", tools_alt.strip(), mobile=True, live=live_technology)),
         section("featured", "\n".join(feature_cards), "project-row",
                 "<br>\n" + span(f"<sub>{link(DEMO, 'AB Train Ticket Studio live demo ↗')}</sub>", "demo")),
         section("opensource", "<br>\n".join(highlights), "wide contributions"),
+        more_contributions,
         section("building", "\n".join(tiles), "building-row"),
-        section("pinned", "\n".join(pins), "pin-row"),
+        section("pinned", "\n".join(pins), "pin-row",
+                "<br>\n" + span(f"<sub>{link(more_projects, 'More projects ↗')}</sub>", "demo")),
         readme_text,
     )) + "\n"
 

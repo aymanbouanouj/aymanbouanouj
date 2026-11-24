@@ -121,6 +121,8 @@ jobs:
             cp "$RUNNER_TEMP/dashboard-build/"*.svg "$RUNNER_TEMP/dashboard-build/"*.json "$RUNNER_TEMP/live-worktree/cards/"
           fi
           cd "$RUNNER_TEMP/live-worktree"
+          # Reconcile the linked report format when migrating a retained valid snapshot.
+          python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --repair-markdown --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --verify --output live
@@ -184,7 +186,9 @@ jobs:
           python3 "$GITHUB_WORKSPACE/scripts/render_svg_cards.py" --dynamic-only --verify \
             --calendar cards/contributions.json --public cards/public.json \
             --technology cards/technology.json --output cards
-          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
+          python3 "$GITHUB_WORKSPACE/scripts/live_language_share.py" --output live
+          python3 "$GITHUB_WORKSPACE/scripts/live_language_share.py" --verify --output live
+          git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md live/portfolio-language-share.svg
           git add -- cards/*.svg cards/contributions.json cards/public.json cards/technology.json
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
@@ -223,6 +227,8 @@ jobs:
           python3 scripts/dashboard_technology.py --require-live --output "$destination/technology.json" \
             --portfolio-output "$destination/legacy"
           python3 scripts/live_portfolio.py --verify --output "$destination/legacy"
+          python3 scripts/live_language_share.py --output "$destination/legacy"
+          python3 scripts/live_language_share.py --verify --output "$destination/legacy"
           python3 scripts/render_svg_cards.py --dynamic-only --require-fresh \
             --calendar "$destination/contributions.json" --public "$destination/public.json" \
             --technology "$destination/technology.json" --output "$destination/cards"
