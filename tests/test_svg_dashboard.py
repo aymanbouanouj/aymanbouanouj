@@ -246,10 +246,13 @@ class SVGTests(unittest.TestCase):
             self.assertIn('<a href="https://portfolio.example.org/"><img src="./cards/link-portfolio.svg"',
                           render.profile_markup())
 
-    def test_aaa_export_two_cta_buttons_to_ci_log_for_deterministic_render(self):
-        for name in ("link-profile", "link-portfolio"):
-            print("CTA_SVG_EXPORT:" + name + ":" +
-                  base64.b64encode(self.cards[name].svg(False).encode("utf-8")).decode("ascii"))
+    def test_only_two_svg_ctas_are_generated(self):
+        names = {name for name in self.cards if name.startswith("link-")}
+        self.assertEqual(names, {"link-profile", "link-portfolio"})
+        self.assertFalse(render.PORTFOLIO_SITE_URL)
+        markup = render.profile_markup()
+        self.assertIn('<img src="./cards/link-portfolio.svg"', markup)
+        self.assertNotIn('href=""', markup)
 
     def test_approved_hero_background_is_embedded_in_both_sizes(self):
         for name in ("hero", "hero-mobile"):
