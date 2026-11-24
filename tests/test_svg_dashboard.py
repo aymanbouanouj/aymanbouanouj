@@ -253,18 +253,6 @@ class SVGTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 render.profile_markup()
 
-    def test_aaa_export_refinement_assets(self):
-        names = ("hero", "hero-mobile", "link-portfolio", "heading-building", "heading-building-mobile",
-                 "heading-pinned", "heading-pinned-mobile", "project-morocco2030",
-                 "project-ab-train-ticket-studio", "project-pc-full-check", "pin-violetgate", "pin-ayman-calc")
-        for name in names:
-            xml = self.cards[name].svg(False)
-            if name == "project-ab-train-ticket-studio":
-                xml = re.sub(r'(href="data:image/jpeg;base64,)[A-Za-z0-9+/=]+', r'\1__TRAIN_JPEG__', xml)
-            print("REFINEMENT_ASSET:" + name + ":" + base64.b64encode(xml.encode("utf-8")).decode("ascii"))
-        readme = render.README_MARKER + render.profile_markup()
-        print("REFINEMENT_README:" + base64.b64encode(readme.encode("utf-8")).decode("ascii"))
-
     def test_featured_and_additional_repositories_are_distinct(self):
         featured = set(tuple(render.PROJECTS)[:3])
         additional = {name for name, _ in render.PINS}

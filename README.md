@@ -2,7 +2,7 @@
 
 <p align="center" class="section-group">
 <span class="wide hero">
-<picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Full-Stack Web Developer. Building practical, secure and scalable digital products."></picture>
+<picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Full-Stack Web Developer. Web applications, developer tools and automated testing."></picture>
 </span>
 </p>
 
@@ -32,9 +32,9 @@
 <picture><source media="(max-width: 680px)" srcset="./cards/heading-featured-mobile.svg"><img src="./cards/heading-featured.svg" width="780" alt="Featured Projects"></picture>
 </span><br>
 <span class="project-row">
-<a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/project-morocco2030.svg" width="255" alt="Morocco2030. Multilingual tournament portal with competition, editorial and staff workflows. View source."></a>
-<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/project-ab-train-ticket-studio.svg" width="255" alt="AB Train Ticket Studio. Multilingual rail-booking simulation with seat selection, QR tickets and PDF export. View source."></a>
-<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/project-pc-full-check.svg" width="255" alt="PC Full Check. Read-only Windows diagnostics with privacy controls and local system reports. View source."></a>
+<a href="https://github.com/aymanbouanouj/morocco2030"><img src="./cards/project-morocco2030.svg" width="255" alt="Morocco2030. Tournament portal with role-based staff access. RBAC and automated tests. View source."></a>
+<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="./cards/project-ab-train-ticket-studio.svg" width="255" alt="AB Train Ticket Studio. Rail booking simulation with QR and PDF tickets. 4 languages; browser tests. View source."></a>
+<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="./cards/project-pc-full-check.svg" width="255" alt="PC Full Check. Read-only Windows diagnostics and local reports. Privacy controls; test suite. View source."></a>
 </span><br>
 <span class="demo">
 <sub><a href="https://aymanbouanouj.github.io/ab-train-ticket-studio/">AB Train Ticket Studio live demo ↗</a></sub>
@@ -54,7 +54,7 @@
 
 <p align="center" class="section-group">
 <span class="wide heading">
-<picture><source media="(max-width: 680px)" srcset="./cards/heading-building-mobile.svg"><img src="./cards/heading-building.svg" width="780" alt="Currently Building"></picture>
+<picture><source media="(max-width: 680px)" srcset="./cards/heading-building-mobile.svg"><img src="./cards/heading-building.svg" width="780" alt="Recently Updated Projects"></picture>
 </span><br>
 <span class="building-row">
 <a href="https://github.com/aymanbouanouj/aymanbouanouj"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/building-aymanbouanouj.svg" width="255" alt="Profile automation. Public GitHub repository."></a>
@@ -65,19 +65,17 @@
 
 <p align="center" class="section-group">
 <span class="wide heading">
-<picture><source media="(max-width: 680px)" srcset="./cards/heading-pinned-mobile.svg"><img src="./cards/heading-pinned.svg" width="780" alt="Pinned Repositories"></picture>
+<picture><source media="(max-width: 680px)" srcset="./cards/heading-pinned-mobile.svg"><img src="./cards/heading-pinned.svg" width="780" alt="More Repositories"></picture>
 </span><br>
 <span class="pin-row">
-<a href="https://github.com/aymanbouanouj/morocco2030"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-morocco2030.svg" width="386" alt="morocco2030. Tournament portal and staff operations."></a>
-<a href="https://github.com/aymanbouanouj/ab-train-ticket-studio"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-ab-train-ticket-studio.svg" width="386" alt="ab-train-ticket-studio. Rail-booking simulation and sample tickets."></a><br>
-<a href="https://github.com/aymanbouanouj/PC-Full-Check"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-pc-full-check.svg" width="386" alt="PC-Full-Check. Read-only Windows diagnostic reports."></a>
-<a href="https://github.com/aymanbouanouj/violetgate"><img src="https://raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI demo."></a>
+<a href="https://github.com/aymanbouanouj/violetgate"><img src="./cards/pin-violetgate.svg" width="386" alt="violetgate. Responsive authentication UI with keyboard access."></a>
+<a href="https://github.com/aymanbouanouj/ayman-calc"><img src="./cards/pin-ayman-calc.svg" width="386" alt="ayman-calc. Responsive calculator without eval()."></a>
 </span>
 </p>
 
 <details>
 <summary>Profile text and data sources</summary>
-<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Building practical, secure and scalable digital products.</p>
+<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Web applications, developer tools and automated testing.</p>
 <ul>
 <li><a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030</a>. Independent academic portal for multilingual tournament information and role-based staff workflows. <a href="https://github.com/aymanbouanouj/morocco2030/releases">Releases</a> · <a href="https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml">CI</a></li>
 <li><a href="https://github.com/aymanbouanouj/ab-train-ticket-studio">AB Train Ticket Studio</a>. Independent booking simulation with sample tickets. <a href="https://aymanbouanouj.github.io/ab-train-ticket-studio/">Live demo</a></li>
