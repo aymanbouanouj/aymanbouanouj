@@ -216,10 +216,16 @@ class PublicPortfolioTests(unittest.TestCase):
         self.assertIn("| --- | ---: | ---: | --- |\n| PHP |", report)
         svg = render(data)
         self.assertEqual(svg, render(data))
-        self.assertIn("Tiny: &lt;0.1%", svg)
+        self.assertIn("Tiny — &lt;0.1%", svg)
         self.assertEqual(ET.fromstring(svg).attrib["role"], "img")
         self.assertNotIn("@keyframes", svg)
         self.assertEqual(language_share_label(0, 0), "—")
+        # The SVG validator deliberately rejects javascript: URL-like text.
+        # A real language name must not accidentally form that literal in metadata.
+        data["language_bytes"] = [["JavaScript", 500], ["PHP", 500]]
+        javascript_svg = render(data)
+        self.assertIn("JavaScript — 50.0%", javascript_svg)
+        self.assertNotIn("javascript:", javascript_svg.lower())
         data["language_bytes"] = []
         self.assertIn("No detected language bytes available", render(data))
 
