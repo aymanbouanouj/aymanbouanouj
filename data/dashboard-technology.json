@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "source": "github-rest-public-dashboard-technology",
+  "evidence": {
+    "CSS": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/ab-train-ticket-studio",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/gestion-vaccination",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "languages"
+      }
+    ],
+    "Composer": [
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "composer.json",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "Docker": [
+      {
+        "repository": "aymanbouanouj/gestion-vaccination",
+        "path": ".github/workflows/tests.yml",
+        "ref": "8d5f10283558de4ebe25dcc4cdf8d6fa939948c7"
+      }
+    ],
+    "GitHub Actions": [
+      {
+        "repository": "aymanbouanouj/gestion-vaccination",
+        "path": ".github/workflows/tests.yml",
+        "ref": "8d5f10283558de4ebe25dcc4cdf8d6fa939948c7"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": ".github/workflows/ci.yml",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "HTML": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/ab-train-ticket-studio",
+        "path": "languages"
+      }
+    ],
+    "JavaScript": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/ab-train-ticket-studio",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/gestion-vaccination",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "languages"
+      }
+    ],
+    "Laravel": [
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "composer.json",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "MySQL": [
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": ".env.example",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "Node.js": [
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": ".github/workflows/ci.yml",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "PHP": [
+      {
+        "repository": "aymanbouanouj/gestion-vaccination",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "composer.json",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "languages"
+      }
+    ],
+    "Playwright": [
+      {
+        "repository": "aymanbouanouj/ab-train-ticket-studio",
+        "path": "package.json",
+        "ref": "cf9983538e935262d23c47990f3f71ab4f2b24c7"
+      }
+    ],
+    "PowerShell": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/PC-Full-Check",
+        "path": "languages"
+      }
+    ],
+    "Python": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "aymanbouanouj/aymanbouanouj",
+        "path": "languages"
+      }
+    ],
+    "React": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "understand-anything-plugin/packages/dashboard/package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      }
+    ],
+    "Tailwind CSS": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "understand-anything-plugin/packages/dashboard/package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "package.json",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "TypeScript": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "languages"
+      },
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      },
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "understand-anything-plugin/packages/dashboard/package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      }
+    ],
+    "Vite": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "understand-anything-plugin/packages/dashboard/package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      },
+      {
+        "repository": "aymanbouanouj/ab-train-ticket-studio",
+        "path": "package.json",
+        "ref": "cf9983538e935262d23c47990f3f71ab4f2b24c7"
+      },
+      {
+        "repository": "aymanbouanouj/morocco2030",
+        "path": "package.json",
+        "ref": "a5e0cf091d1f43bfb69d6a16fd1832f5e08951da"
+      }
+    ],
+    "pnpm": [
+      {
+        "repository": "Egonex-AI/Understand-Anything",
+        "path": "package.json",
+        "ref": "8ec75de1de8c9d2eef685d8d6cbc50782ad31fbb"
+      }
+    ]
+  }
+}

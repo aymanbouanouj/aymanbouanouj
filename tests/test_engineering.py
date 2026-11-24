@@ -36,7 +36,7 @@ class EngineeringTests(unittest.TestCase):
    x=render(t);ET.fromstring(x)
    self.assertIn('AWAITING FIRST VERIFIED ENGINEERING SCAN',x)
  def test_readme(self):
-  text=(ROOT/'README.md').read_text(encoding='utf-8')
+  text=(ROOT/'PROFILE-V5.md').read_text(encoding='utf-8')
   migrated=(ROOT/'assets/mobile/manifest.json').exists()
   if migrated:
    # Mobile README intentionally uses PNG; SVG remains available as
