@@ -9,6 +9,13 @@ on:
       - '.github/workflows/profile-live.yml'
       - 'scripts/live_*.py'
       - 'scripts/tech_icon_paths.json'
+      - 'scripts/dashboard_data.py'
+      - 'scripts/render_svg_cards.py'
+      - 'scripts/brand_paths.py'
+      - 'scripts/fetch_contributions.py'
+      - 'scripts/render_profile.py'
+      - 'assets/dashboard/**'
+      - 'requirements-dashboard.txt'
       - 'README.md'
   schedule:
     # Best-effort hourly check at minute 37 (UTC). Skipped/delayed runs are possible.
@@ -17,16 +24,15 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: profile-live-public-activity
-  cancel-in-progress: false
-
 jobs:
   update:
     name: Refresh verified public activity on a separate branch
     if: github.repository == 'aymanbouanouj/aymanbouanouj' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    concurrency:
+      group: profile-live-public-activity
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
@@ -34,6 +40,15 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Prepare the data-branch worktree
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin profile-live:refs/remotes/origin/profile-live
+          git worktree add -B profile-live "$RUNNER_TEMP/live-worktree" origin/profile-live
+      - name: Install pinned dashboard rendering dependency
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
       - name: Build verified public activity snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,6 +63,25 @@ jobs:
           python3 scripts/live_portfolio.py --verify --output "$RUNNER_TEMP/portfolio-build"
           python3 -m unittest discover -s tests -v
           python3 scripts/validate.py
+      - name: Build the daily dashboard from verified GitHub data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          retained="$RUNNER_TEMP/live-worktree/cards"
+          if [ "$GITHUB_EVENT_NAME" = schedule ] && \
+             python3 scripts/dashboard_data.py --is-today --output "$retained/public.json" && \
+             python3 scripts/render_svg_cards.py --dynamic-only --verify \
+               --calendar "$retained/contributions.json" --public "$retained/public.json" --output "$retained"; then
+            echo 'Dashboard already verified today; keeping the existing cards.'
+            exit 0
+          fi
+          destination="$RUNNER_TEMP/dashboard-build"
+          mkdir -p "$destination"
+          cp "$RUNNER_TEMP/contribution-build/contributions.json" "$destination/contributions.json"
+          python3 scripts/dashboard_data.py --output "$destination/public.json"
+          python3 scripts/render_svg_cards.py --dynamic-only --require-fresh \
+            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination"
       - name: Publish generated artifacts only to the unprotected data branch
         shell: bash
         env:
@@ -56,8 +90,6 @@ jobs:
           set -euo pipefail
           test "$GITHUB_REPOSITORY" = "aymanbouanouj/aymanbouanouj"
           test "$GITHUB_REF" = "refs/heads/main"
-          git fetch --no-tags origin profile-live:refs/remotes/origin/profile-live
-          git worktree add -B profile-live "$RUNNER_TEMP/live-worktree" origin/profile-live
           mkdir -p "$RUNNER_TEMP/live-worktree/live"
           cp "$RUNNER_TEMP/activity-build/activity.svg" "$RUNNER_TEMP/live-worktree/live/activity.svg"
           cp "$RUNNER_TEMP/activity-build/activity.json" "$RUNNER_TEMP/live-worktree/live/activity.json"
@@ -65,6 +97,10 @@ jobs:
           cp "$RUNNER_TEMP/contribution-build/stats.svg" "$RUNNER_TEMP/live-worktree/live/stats.svg"
           cp "$RUNNER_TEMP/contribution-build/contributions.json" "$RUNNER_TEMP/live-worktree/live/contributions.json"
           cp "$RUNNER_TEMP/portfolio-build/"portfolio* "$RUNNER_TEMP/live-worktree/live/"
+          if [ -d "$RUNNER_TEMP/dashboard-build" ]; then
+            mkdir -p "$RUNNER_TEMP/live-worktree/cards"
+            cp "$RUNNER_TEMP/dashboard-build/"*.svg "$RUNNER_TEMP/dashboard-build/"*.json "$RUNNER_TEMP/live-worktree/cards/"
+          fi
           cd "$RUNNER_TEMP/live-worktree"
           python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
@@ -126,7 +162,10 @@ jobs:
           python3 "$GITHUB_WORKSPACE/scripts/live_profile.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_contributions.py" --verify --output live
           python3 "$GITHUB_WORKSPACE/scripts/live_portfolio.py" --verify --output live
+          python3 "$GITHUB_WORKSPACE/scripts/render_svg_cards.py" --dynamic-only --verify \
+            --calendar cards/contributions.json --public cards/public.json --output cards
           git add -- live/activity.svg live/activity.json live/contributions.svg live/stats.svg live/contributions.json live/portfolio.json live/portfolio-tech.svg live/portfolio-projects.svg live/portfolio-collabs.svg live/portfolio.md
+          git add -- cards/*.svg cards/contributions.json cards/public.json
           if git diff --cached --quiet; then
             echo "Live snapshot unchanged; no commit created."
             exit 0
@@ -137,3 +176,31 @@ jobs:
           basic="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
           git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $basic" \
             push origin HEAD:refs/heads/profile-live
+
+  preview:
+    name: Verify dashboard with live GitHub APIs
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'aymanbouanouj/aymanbouanouj' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned dashboard rendering dependency
+        run: >-
+          python3 -m pip install --disable-pip-version-check --require-hashes --no-deps
+          --only-binary=:all: -r requirements-dashboard.txt
+      - name: Rehearse the refresh without write permission
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          destination="$RUNNER_TEMP/dashboard-preview"
+          python3 scripts/live_contributions.py --build --output "$destination"
+          python3 scripts/dashboard_data.py --output "$destination/public.json"
+          python3 scripts/render_svg_cards.py --dynamic-only --require-fresh \
+            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination/cards"
+          python3 scripts/render_svg_cards.py --dynamic-only --verify \
+            --calendar "$destination/contributions.json" --public "$destination/public.json" --output "$destination/cards"

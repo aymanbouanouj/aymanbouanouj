@@ -120,7 +120,7 @@ class LiveProfileTests(unittest.TestCase):
         self.assertIn("persist-credentials: false", workflow)
         self.assertNotIn("git push origin HEAD:main", workflow)
         self.assertNotIn("pull_request_target", workflow)
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        readme = (ROOT / "PROFILE-V5.md").read_text(encoding="utf-8")
         self.assertIn("raw.githubusercontent.com/aymanbouanouj/aymanbouanouj/profile-live/live/activity.svg", readme)
         self.assertIn("GitHub's native contribution graph", readme)
 
