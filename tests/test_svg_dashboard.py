@@ -310,6 +310,23 @@ class SVGTests(unittest.TestCase):
             self.assertIsNotNone(root.find(".//svg:g[@id='system-illustration']", NS))
             self.assertNotRegex(svg, r"(?i)laptop|#bezel|#display|#screenlight")
 
+    def test_hero_copy_matches_the_readme_in_both_sizes(self):
+        lines = ["Ayman Bounaouj", "Software Developer", "Full-Stack Web Development",
+                 "Building Practical & Secure Digital Products"]
+        for name in ("hero", "hero-mobile"):
+            root = ET.fromstring(self.cards[name].svg(True))
+            texts = root.findall(".//svg:text", NS)
+            self.assertEqual([node.text for node in texts], lines)
+            self.assertEqual(texts[1].get("fill"), render.VIOLET)
+            self.assertEqual(root.findtext("svg:title", namespaces=NS), "Ayman Bounaouj | Software Developer")
+            for line in lines[2:]:
+                self.assertIn(line, root.findtext("svg:desc", namespaces=NS))
+        markup = render.profile_markup()
+        description = "Software Developer. Full-Stack Web Development. Building Practical &amp; Secure Digital Products."
+        self.assertIn(f'alt="Ayman Bounaouj. {description}"', markup)
+        self.assertIn(f"<strong>Ayman Bounaouj</strong> · {description}", markup)
+        self.assertIn("<summary><h3>Profile text and data sources</h3></summary>", markup)
+
     def test_readme_review_and_live_markup_are_reproducible(self):
         for live, marker in ((False, render.README_MARKER), (True, render.LIVE_README_MARKER)):
             with self.subTest(live=live), tempfile.TemporaryDirectory() as folder:

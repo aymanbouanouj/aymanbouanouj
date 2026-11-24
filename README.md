@@ -2,7 +2,7 @@
 
 <p align="center" class="section-group">
 <span class="wide hero">
-<picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Full-Stack Web Developer. Web applications, developer tools and automated testing."></picture>
+<picture><source media="(max-width: 680px)" srcset="./cards/hero-mobile.svg"><img src="./cards/hero.svg" width="780" alt="Ayman Bounaouj. Software Developer. Full-Stack Web Development. Building Practical &amp; Secure Digital Products."></picture>
 </span>
 </p>
 
@@ -74,8 +74,8 @@
 </p>
 
 <details>
-<summary>Profile text and data sources</summary>
-<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Web applications, developer tools and automated testing.</p>
+<summary><h3>Profile text and data sources</h3></summary>
+<p><strong>Ayman Bounaouj</strong> · Software Developer. Full-Stack Web Development. Building Practical &amp; Secure Digital Products.</p>
 <ul>
 <li><a href="https://github.com/aymanbouanouj/morocco2030">Morocco2030</a>. Independent academic portal for multilingual tournament information and role-based staff workflows. <a href="https://github.com/aymanbouanouj/morocco2030/releases">Releases</a> · <a href="https://github.com/aymanbouanouj/morocco2030/actions/workflows/ci.yml">CI</a></li>
 <li><a href="https://github.com/aymanbouanouj/ab-train-ticket-studio">AB Train Ticket Studio</a>. Independent booking simulation with sample tickets. <a href="https://aymanbouanouj.github.io/ab-train-ticket-studio/">Live demo</a></li>

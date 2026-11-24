@@ -39,6 +39,9 @@ PROFILE_LINKS_URL = "https://beacons.ai/aymanbounaouj"
 # then regenerate README.md to activate the Portfolio button; never use a dummy link.
 PORTFOLIO_SITE_URL = ""
 DEMO = f"https://{OWNER}.github.io/ab-train-ticket-studio/"
+HERO_NAME = "Ayman Bounaouj"
+HERO_HEADLINE = "Software Developer"
+HERO_SUBHEADLINES = ("Full-Stack Web Development", "Building Practical & Secure Digital Products")
 
 INK = "#f6f3fc"
 COPY = "#d9d6e4"
@@ -60,6 +63,7 @@ FONT_FILES = {
     400: "Poppins-Regular.ttf",
     500: "Poppins-Medium.ttf",
     600: "Poppins-SemiBold.ttf",
+    700: "Poppins-Bold.ttf",
 }
 ANIMATION = """
 @keyframes rise{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
@@ -324,10 +328,12 @@ class Card:
                 f' text-anchor="{anchor}" letter-spacing="{tracking}">{esc(value)}</text>')
 
     def heading(self, title, note, symbol, *, x=0, y=0, width=WIDTH) -> str:
-        size = 31 if width < 700 else 30
-        return (glyph(symbol, x + 8, y + 12, 29)
-                + self.text(x + 52, y + 37, title, size, weight=600, tracking="-.5")
-                + self.text(x + width - 8, y + 36, note, 17, fill=MUTED, anchor="end"))
+        return (glyph(symbol, x + 8, y + 13, 29)
+                + self.section_title(x + 52, y + 39, title)
+                + self.text(x + width - 8, y + 38, note, 17, fill=MUTED, anchor="end"))
+
+    def section_title(self, x, y, title) -> str:
+        return self.text(x, y, title, 33 if self.w < WIDTH else 34, weight=700, tracking="-.6")
 
     def svg(self, static: bool) -> str:
         faces = []
@@ -393,7 +399,8 @@ def hero_background() -> str:
 
 def hero(*, compact=False) -> Card:
     w, h = (680, 234) if compact else (WIDTH, 235)
-    card = Card(w, h, "Ayman Bounaouj | Full-Stack Web Developer",
+    first_line, second_line = HERO_SUBHEADLINES
+    card = Card(w, h, f"{HERO_NAME} | {HERO_HEADLINE}", f"{first_line}. {second_line}. "
                 "Original AB monogram beside a layered developer system and its connected modules.")
     card.styles.append("text{opacity:.98}")
     card.defs += [
@@ -413,15 +420,16 @@ def hero(*, compact=False) -> Card:
     card.parts.extend((inside, panel(0, 0, w, h, 20, fill="none", stroke="#564574")))
     if compact:
         mark = logo(31, 44, 122) + path("M183 41v151", stroke="#645478", line=1.1)
-        copy = (card.text(212, 91, "Ayman Bounaouj", 48, weight=600, tracking="-1.5")
-                + card.text(213, 137, "Full-Stack Web Developer", 30, weight=600, fill=VIOLET, tracking="-.35")
-                + card.text(214, 171, "Web applications, developer tools", 21, fill=COPY)
-                + card.text(214, 199, "and automated testing.", 21, fill=COPY))
+        copy = (card.text(212, 78, HERO_NAME, 48, weight=600, tracking="-1.5")
+                + card.text(213, 123, HERO_HEADLINE, 35, weight=600, fill=VIOLET, tracking="-.55")
+                + card.text(214, 160, first_line, 24, weight=500, fill=COPY)
+                + card.text(214, 195, second_line, 21, fill=COPY, tracking="-.22"))
     else:
         mark = logo(73, 67, 140) + path("M248 43v151", stroke="#645478", line=1.15)
-        copy = (card.text(288, 94, "Ayman Bounaouj", 58, weight=600, tracking="-1.55")
-                + card.text(289, 145, "Full-Stack Web Developer", 38, weight=600, fill=VIOLET, tracking="-.65")
-                + card.text(290, 185, "Web applications, developer tools and automated testing.", 21, fill=COPY))
+        copy = (card.text(288, 82, HERO_NAME, 58, weight=600, tracking="-1.55")
+                + card.text(289, 133, HERO_HEADLINE, 42, weight=600, fill=VIOLET, tracking="-.65")
+                + card.text(290, 170, first_line, 25, weight=500, fill=COPY)
+                + card.text(290, 201, second_line, 23, fill=COPY))
     card.parts.extend((group(mark, motion="glint", delay=80), group(copy, motion="rise")))
     return card
 
@@ -505,7 +513,7 @@ def contribution_calendar(stats: dict, *, compact=False) -> Card:
         card.heading("Contribution Activity", "" if compact else date_line, "grid", x=13, y=3, width=w - 26),
     ))
     if compact:
-        card.parts.append(card.text(25, 61, date_line, 18, fill=COPY))
+        card.parts.append(card.text(25, 66, date_line, 18, fill=COPY))
     for weekday, name in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
         card.parts.append(card.text(left - 15, top + 9 + weekday * 13, name, 15, fill=COPY, anchor="end"))
     weeks: list[list[str]] = [[] for _ in range(columns)]
@@ -572,12 +580,11 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
     card.styles.append("text{opacity:.98}")
     card.defs.append(gradient("tech-panel", ((0, "#171b26"), (1, "#11151f")), axis=(0, 0, 1, 1)))
     card.parts.extend((
-        glyph(symbol, 16, 12, 29 if compact else 28),
-        card.text(68, 39 if compact else 36, title, 32 if compact else 29,
-                  weight=500, tracking="-.35"),
+        glyph(symbol, 16, 13, 29 if compact else 28),
+        card.section_title(68, 40 if compact else 39, title),
     ))
     if not compact:
-        card.parts.append(card.text(w - inset, 35, note, 16.5, fill=COPY, anchor="end"))
+        card.parts.append(card.text(w - inset, 38, note, 16.5, fill=COPY, anchor="end"))
     if not items:
         card.parts.append(panel(inset, top, available, h, radius=12))
         card.parts.append(card.text(inset + 18, top + h / 2 + 6, empty, 21 if compact else 18, fill=COPY))
@@ -763,7 +770,7 @@ def feature(name: str, index: int) -> Card:
 def heading_card(key: str, *, compact=False) -> Card:
     title, note, symbol = HEADERS[key]
     w = 680 if compact else WIDTH
-    card = Card(w, 49, title, note)
+    card = Card(w, 52, title, note)
     card.styles.append("text{opacity:.98}")
     card.parts.append(card.heading(title, "" if compact else note, symbol, width=w))
     return card
@@ -921,9 +928,10 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
     evidence_json = (f"{PROFILE}/{OWNER}/blob/profile-live/cards/technology.json" if live_technology
                      else "./data/dashboard-technology.json")
     evidence_link = link(evidence_json, "Technology evidence snapshot") + " · " if local is None else ""
+    hero_description = ". ".join((HERO_HEADLINE, *HERO_SUBHEADLINES)) + "."
     readme_text = f"""<details>
-<summary>Profile text and data sources</summary>
-<p><strong>Ayman Bounaouj</strong> · Full-Stack Web Developer. Web applications, developer tools and automated testing.</p>
+<summary><h3>Profile text and data sources</h3></summary>
+<p><strong>{esc(HERO_NAME)}</strong> · {esc(hero_description)}</p>
 <ul>
 <li>{link(repo_url("morocco2030"), "Morocco2030")}. Independent academic portal for multilingual tournament information and role-based staff workflows. {link(repo_url("morocco2030") + "/releases", "Releases")} · {link(repo_url("morocco2030") + "/actions/workflows/ci.yml", "CI")}</li>
 <li>{link(repo_url("ab-train-ticket-studio"), "AB Train Ticket Studio")}. Independent booking simulation with sample tickets. {link(DEMO, "Live demo")}</li>
@@ -938,8 +946,7 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
         social_badge("profile", "Profile links", PROFILE_LINKS_URL),
         social_badge("portfolio", "Portfolio", PORTFOLIO_SITE_URL),
     ))
-    identity = img("hero", "Ayman Bounaouj. Full-Stack Web Developer. Web applications, developer tools and automated testing.",
-                   mobile=True)
+    identity = img("hero", f"{HERO_NAME}. {hero_description}", mobile=True)
     tech_alt = "Languages & Technical Stack."
     tools_alt = "Frameworks / Build Tools."
     if live_technology:
@@ -998,6 +1005,7 @@ a:focus-visible,summary:focus-visible{outline:2px solid #c99fff;outline-offset:4
 .contributions a:last-child{margin:0}
 details{font-size:.84em;color:#bbb4c8;padding:0 6px 8px}
 summary{width:fit-content;cursor:pointer}
+summary h3{display:inline;margin:0;font-size:1.25rem;font-weight:600}
 details p,details ul{margin:7px 0}
 @media (max-width:680px){
   main{padding:9px}
