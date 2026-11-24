@@ -335,11 +335,15 @@ class SVGTests(unittest.TestCase):
                 self.assertEqual(actual, render.profile_markup(live_technology=live))
                 path.write_text(marker + actual, encoding="utf-8")
                 render.verify_readme(path)
-                for name in ("technical", "tools"):
+                for name in ("calendar", "technical", "tools"):
                     base = render.LIVE if live else "./cards/"
                     self.assertIn(f'src="{base}{name}.svg"', actual)
                     self.assertIn(f'srcset="{base}{name}-mobile.svg"', actual)
                 self.assertIn("/profile-live/cards/technology.json" if live else "./data/dashboard-technology.json", actual)
+                if live:
+                    for name in ("calendar", "technical", "tools"):
+                        self.assertNotIn(f'./cards/{name}.svg', actual)
+                        self.assertNotIn(f'./cards/{name}-mobile.svg', actual)
                 path.write_text(marker + actual.replace("tools.svg", "invalid.svg"), encoding="utf-8")
                 with self.assertRaises(ValueError):
                     render.verify_readme(path)

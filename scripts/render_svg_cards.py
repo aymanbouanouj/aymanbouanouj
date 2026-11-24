@@ -960,9 +960,9 @@ def profile_markup(*, local: dict[str, str] | None = None, technology_evidence: 
         block(social_first, "social-row"),
         block(img("metrics", "Verified GitHub metrics. Yearly contributions, current streak, merged public pull requests and active days.",
                   mobile=True, href=SOURCE)),
-        # Use the checked-in calendar for draft review. The publisher still generates the live copy.
+        # Use the same verified snapshot as the metrics after the release switch.
         block(img("calendar", "Violet GitHub contribution calendar with weekday and month labels and intensity legend.",
-                  mobile=True, href=PROFILE, live=False)),
+                  mobile=True, href=PROFILE, live=live_technology)),
         block(img("technical", tech_alt.strip(), mobile=True, live=live_technology)),
         block(img("tools", tools_alt.strip(), mobile=True, live=live_technology)),
         section("featured", "\n".join(feature_cards), "project-row",
@@ -1105,7 +1105,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=ROOT / "cards")
     parser.add_argument("--preview", type=Path, help="write a self-contained offline HTML preview")
     parser.add_argument("--write-readme", action="store_true", help="regenerate README.md from the layout")
-    parser.add_argument("--live-technology", action="store_true", help="use published grids in README assembly")
+    parser.add_argument("--live-technology", action="store_true", help="use published calendar and technology grids in README assembly")
     parser.add_argument("--verify", action="store_true", help="compare generated artwork to existing files")
     parser.add_argument("--dynamic-only", action="store_true", help="render only the published live data cards")
     parser.add_argument("--require-fresh", action="store_true", help="enforce the 36-hour publication window")
