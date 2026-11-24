@@ -7,6 +7,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import quote
@@ -51,12 +52,29 @@ def dependency_names(filename,content):
         return names
     if filename=="pyproject.toml":
         import tomllib
-        deps=tomllib.loads(content).get("project",{}).get("dependencies",[])
-        return {str(d).split("=",1)[0].split("<",1)[0].split(">",1)[0].split("[",1)[0].strip().lower() for d in deps}
+        document = tomllib.loads(content)
+        project, tool = document.get("project", {}), document.get("tool", {})
+        if not isinstance(project, dict) or not isinstance(tool, dict) or not isinstance(tool.get("poetry", {}), dict):
+            raise ValueError("Invalid Python project metadata")
+        deps = project.get("dependencies", [])
+        if not isinstance(deps, list) or any(not isinstance(dep, str) for dep in deps):
+            raise ValueError("Invalid Python dependency list")
+        poetry = tool.get("poetry", {}).get("dependencies", {})
+        if not isinstance(poetry, dict):
+            raise ValueError("Invalid Poetry dependency table")
+        return python_dependency_names(deps) | {name.lower() for name in poetry}
     if filename=="requirements.txt":
-        return {line.split("#",1)[0].split("=",1)[0].split("<",1)[0].split(">",1)[0].split("[",1)[0].strip().lower()
-                for line in content.splitlines() if line.strip() and not line.lstrip().startswith("#")}
+        return python_dependency_names(content.splitlines())
     return set()
+
+
+def python_dependency_names(lines):
+    names = set()
+    for line in lines:
+        match = re.match(r"^\s*([A-Za-z0-9][A-Za-z0-9._-]*)(?=\s*(?:$|[\[<>=!~;@#]))", line)
+        if match:
+            names.add(re.sub(r"[-_.]+", "-", match[1].lower()))
+    return names
 
 def collect(token="",get=github_json,now=None):
     def ask(url):return get(url,token)

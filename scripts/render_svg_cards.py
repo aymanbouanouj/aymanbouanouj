@@ -10,6 +10,7 @@ import html
 import hashlib
 import io
 import json
+import math
 import os
 import re
 import struct
@@ -27,7 +28,7 @@ from brand_paths import PURPLE, WHITE
 from dashboard_data import (
     CONTRIBUTIONS, MERGED_SEARCH, OWNER, ROOT, activity, contribution_url, read_json, validate,
 )
-from dashboard_technology import SEED as TECHNOLOGY_SEED, grid_items, validate as validate_technology
+from dashboard_technology import PRIVATE, SEED as TECHNOLOGY_SEED, grid_items, validate as validate_technology
 
 WIDTH = 1160
 ASSETS = ROOT / "assets/dashboard"
@@ -189,7 +190,7 @@ def font_metrics(weight: int) -> tuple[int, dict[int, int]]:
 
 def text_width(value: str, size: float, weight: int = 400) -> float:
     units, widths = font_metrics(weight)
-    return sum(widths[ord(c)] for c in value) * size / units
+    return sum(widths.get(ord(c), units) for c in value) * size / units
 
 
 @lru_cache(maxsize=128)
@@ -218,6 +219,18 @@ def wrap(value: str, *, size: float, width: float) -> list[str]:
         else:
             lines.append(word)
     return lines
+
+
+def wrap_badge(value: str, *, size: float, width: float, weight: int) -> list[str]:
+    lines = []
+    while text_width(value, size, weight) > width:
+        end = next(index for index in range(1, len(value) + 1) if text_width(value[:index], size, weight) > width)
+        end = max(1, end - 1)
+        split = value.rfind(" ", 0, end + 1)
+        end = split if split > 0 else end
+        lines.append(value[:end])
+        value = value[end:].lstrip()
+    return lines + [value]
 
 
 def box(x, y, w, h, fill=SURFACE, stroke="none", radius=0) -> str:
@@ -277,13 +290,19 @@ def icon_registry() -> dict:
 def brand_icons() -> dict:
     icons = icon_registry()["icons"].copy()
     legacy = read_json(ROOT / "scripts/tech_icon_paths.json")["icons"]
-    mark = legacy["PowerShell"]
-    icons["PowerShell"] = {"viewBox": mark["viewBox"], "paths": [{"d": mark["path"], "fill": mark["color"]}]}
+    for name, mark in legacy.items():
+        if name in icons and name != "PowerShell":
+            continue
+        icon = {"d": mark["path"], "fill": mark["color"]}
+        if mark.get("stroke"):
+            icon.update(fill="none", stroke=mark["color"])
+        icons[name] = {"viewBox": mark["viewBox"], "paths": [icon]}
     return icons
 
 
 def icon_paths(icon: dict) -> str:
-    return "".join(f'<path d="{esc(p["d"])}" fill="{esc(p["fill"])}"/>' for p in icon["paths"])
+    return "".join(path(p["d"], p["fill"], p["stroke"], line=2.2) if "stroke" in p else
+                   f'<path d="{esc(p["d"])}" fill="{esc(p["fill"])}"/>' for p in icon["paths"])
 
 
 def technology(name: str, x: float, y: float, size: float) -> str:
@@ -294,8 +313,10 @@ def technology(name: str, x: float, y: float, size: float) -> str:
 
 
 @lru_cache
-def grid_mark(name: str) -> tuple[str, tuple[float, float, float, float]]:
-    icon = icon_registry()["grid_icons"].get(name) or brand_icons()[name]
+def grid_mark(name: str) -> tuple[str, tuple[float, float, float, float]] | None:
+    icon = icon_registry()["grid_icons"].get(name) or brand_icons().get(name)
+    if icon is None:
+        return None
     pen = BoundsPen(None)
     for item in icon["paths"]:
         parse_path(item["d"], pen)
@@ -303,8 +324,12 @@ def grid_mark(name: str) -> tuple[str, tuple[float, float, float, float]]:
 
 
 def centered_mark(name: str, cx: float, cy: float, *, width: int, height: int) -> str:
-    art, (left, top, right, bottom) = grid_mark(name)
-    optical_w, optical_h = GRID_MARK_SIZES[name]
+    mark = grid_mark(name)
+    if mark is None:
+        size = min(width, height, 30)
+        return f'<g aria-hidden="true">{glyph("code", cx - size / 2, cy - size / 2, size)}</g>'
+    art, (left, top, right, bottom) = mark
+    optical_w, optical_h = GRID_MARK_SIZES.get(name, (36, 36))
     scale = min(min(width, optical_w) / (right - left), min(height, optical_h) / (bottom - top))
     x = cx - (right + left) * scale / 2
     y = cy - (bottom + top) * scale / 2
@@ -330,7 +355,8 @@ class Card:
 
     def text(self, x, y, value, size, *, weight=400, fill=INK, anchor="start", tracking=0) -> str:
         value = str(value)
-        self.glyphs.setdefault(weight, set()).update(value)
+        _, supported = font_metrics(weight)
+        self.glyphs.setdefault(weight, set()).update(char for char in value if ord(char) in supported)
         return (f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" fill="{fill}"'
                 f' text-anchor="{anchor}" letter-spacing="{tracking}">{esc(value)}</text>')
 
@@ -582,12 +608,32 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
     extra = [0] * cols
     if tools and not compact:
         room_for_label = {"Laravel": 14, "Composer": 12, "GitHub Actions": 32, "Playwright": 18}
-        for col, (name, _) in enumerate(items):
+        for col, (name, _) in enumerate(items[:cols]):
             extra[col] = room_for_label.get(name, 0)
     widths = [(available - sum(extra)) / cols + n for n in extra]
-    empty = "No verified public evidence available."
+    extended = evidence.get("schema", 1) == 2
+    empty = "No verified evidence available." if extended else "No verified public evidence available."
     description = ", ".join(name for name, _ in items) + ". Evidence links in the README." if items else empty
-    card = Card(w, top + rows * h + (rows - 1) * gap + 2, title, description)
+    if not tools and extended and any(all(proof["scope"] == PRIVATE for proof in evidence["evidence"][name])
+                                      for name, _ in items):
+        note = "Public work and language aggregates"
+        description += " Includes authorized private language aggregates."
+    label_inset = 64 if compact else (54 if tools else 67)
+    name_size = (22 if tools else 21.5) if compact else (15.5 if tools else 16)
+    caption_size = 17 if compact else 12.2
+    name_step = math.ceil(name_size * 1.25)
+    caption_step = math.ceil(caption_size * 1.25)
+    badge_lines = []
+    heights = [h] * rows
+    for index, (name, caption) in enumerate(items):
+        row, col = divmod(index, cols)
+        room = widths[col] - label_inset - 6
+        names = wrap_badge(name, size=name_size, width=room, weight=500) if extended else [name]
+        captions = wrap_badge(caption, size=caption_size, width=room, weight=400) if extended else [caption]
+        added = (len(names) - 1) * name_step + (len(captions) - 1) * caption_step
+        heights[row] = max(heights[row], h + added)
+        badge_lines.append((names, captions, added))
+    card = Card(w, top + sum(heights) + (rows - 1) * gap + 2, title, description)
     # A translucent text layer avoids colored LCD fringes on small SVG text in Chromium.
     card.styles.append("text{opacity:.98}")
     card.defs.append(gradient("tech-panel", ((0, "#171b26"), (1, "#11151f")), axis=(0, 0, 1, 1)))
@@ -600,25 +646,27 @@ def tech_grid(evidence: dict, *, tools=False, compact=False) -> Card:
         card.parts.append(card.text(inset + 18, top + h / 2 + 6, empty, 21 if compact else 18, fill=COPY))
         return card
 
-    label_inset = 64 if compact else (54 if tools else 67)
-    name_size = (22 if tools else 21.5) if compact else (15.5 if tools else 16)
-    caption_size = 17 if compact else 12.2
-    for index, (name, caption) in enumerate(items):
+    for index, (name, _) in enumerate(items):
         row, col = divmod(index, cols)
         x = round(inset + sum(widths[:col]) + col * gap, 2)
-        y = top + row * (h + gap)
+        y = top + sum(heights[:row]) + row * gap
         width = round(widths[col], 2)
-        center_y = y + h / 2
-        body = panel(x, y, width, h, radius=12, fill="url(#tech-panel)", stroke="#373b48")
+        center_y = y + heights[row] / 2
+        body = panel(x, y, width, heights[row], radius=12, fill="url(#tech-panel)", stroke="#373b48")
         broad_slot = compact or not tools
         body += centered_mark(name, x + (32 if broad_slot else 27), center_y,
                               width=48 if broad_slot else 36, height=42)
+        names, captions, added = badge_lines[index]
         baseline = center_y - 4 if tools else center_y + (7.5 if compact else 5.5)
-        body += card.text(round(x + label_inset, 2), baseline, name, name_size, weight=500)
+        baseline -= added / 2
+        label_x = round(x + label_inset, 2)
+        for line, label in enumerate(names):
+            body += card.text(label_x, baseline + line * name_step, label, name_size, weight=500)
         if tools:
-            body += card.text(round(x + label_inset, 2), baseline + (23 if compact else 17),
-                              caption, caption_size, fill=COPY)
-        card.parts.append(group(body, motion="rise", delay=236 + index * 28))
+            caption_y = baseline + (len(names) - 1) * name_step + (23 if compact else 17)
+            for line, label in enumerate(captions):
+                body += card.text(label_x, caption_y + line * caption_step, label, caption_size, fill=COPY)
+        card.parts.append(group(body, motion="rise", delay=236 + min(index, 24) * 28))
     return card
 
 
@@ -835,20 +883,25 @@ def pin(name: str, copy: str) -> Card:
     return card
 
 
-def artworks(stats: dict, public: dict, technology_evidence: dict) -> dict[str, Card]:
+def technology_cards(evidence: dict) -> dict[str, Card]:
+    return {name + suffix: tech_grid(evidence, tools=name == "tools", compact=bool(suffix))
+            for name in ("technical", "tools") for suffix in ("", "-mobile")}
+
+
+def artworks(stats: dict, public: dict, technology_evidence: dict | None) -> dict[str, Card]:
     repos = public["repositories"]
     files = {
         "link-profile": button("Profile links", "profile"),
         "link-portfolio": button("Portfolio", "external", primary=True,
                                  unpublished=not bool(PORTFOLIO_SITE_URL)),
     }
+    if technology_evidence is not None:
+        files.update(technology_cards(technology_evidence))
     for compact in (False, True):
         suffix = "-mobile" if compact else ""
         files["hero" + suffix] = hero(compact=compact)
         files["metrics" + suffix] = metrics(stats, public, compact=compact)
         files["calendar" + suffix] = contribution_calendar(stats, compact=compact)
-        files["technical" + suffix] = tech_grid(technology_evidence, compact=compact)
-        files["tools" + suffix] = tech_grid(technology_evidence, tools=True, compact=compact)
         for key in HEADERS:
             files["heading-" + key + suffix] = heading_card(key, compact=compact)
         for index, record in enumerate(CONTRIBUTIONS):
@@ -1041,7 +1094,8 @@ def preview_markup(svg: dict[str, str], technology_evidence: dict) -> str:
 def verify_svg(xml: str, name: str, static: bool) -> None:
     allowed = {"svg", "title", "desc", "defs", "style", "g", "path", "rect", "circle",
                "ellipse", "linearGradient", "radialGradient", "stop", "clipPath", "text", "image"}
-    if (len(xml.encode("utf-8")) > 140_000 or re.search(r"<[!?]|@import|javascript:|data:text/", xml, re.I)
+    size_limit = 1_000_000 if name in {"technical", "technical-mobile", "tools", "tools-mobile"} else 140_000
+    if (len(xml.encode("utf-8")) > size_limit or re.search(r"<[!?]|@import|javascript:|data:text/", xml, re.I)
             or (static and ("@keyframes" in xml or "animation:" in xml))
             or (not static and "@media (prefers-reduced-motion: reduce)" not in xml)):
         raise ValueError(f"{name}: SVG size, motion or safety validation failed")
@@ -1117,24 +1171,32 @@ def main() -> None:
     parser.add_argument("--write-readme", action="store_true", help="regenerate README.md from the layout")
     parser.add_argument("--live-technology", action="store_true", help="use published calendar and technology grids in README assembly")
     parser.add_argument("--verify", action="store_true", help="compare generated artwork to existing files")
-    parser.add_argument("--dynamic-only", action="store_true", help="render only the published live data cards")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--dynamic-only", action="store_true", help="render all published live data cards")
+    selection.add_argument("--activity-only", action="store_true", help="render live metrics, calendar and activity cards")
+    selection.add_argument("--technology-only", action="store_true", help="render the four technology cards independently")
     parser.add_argument("--require-fresh", action="store_true", help="enforce the 36-hour publication window")
     args = parser.parse_args()
-    if (args.dynamic_only and args.preview) or (args.verify and (args.preview or args.write_readme)):
+    partial = args.dynamic_only or args.activity_only or args.technology_only
+    if (partial and args.preview) or (args.verify and (args.preview or args.write_readme)):
         parser.error("Preview and README generation require a full render")
     static = os.getenv("STATIC") == "1"
-    if args.write_readme and (static or args.dynamic_only):
+    if args.write_readme and (static or partial):
         parser.error("README assembly requires the regular animated render")
     if args.live_technology and not args.write_readme:
         parser.error("--live-technology requires --write-readme")
     try:
-        stats = activity(read_json(args.calendar), fresh=args.require_fresh)
-        public = read_json(args.public)
-        validate(public, fresh=args.require_fresh)
-        technology_evidence = validate_technology(read_json(args.technology))
+        technology_evidence = None if args.activity_only else validate_technology(read_json(args.technology))
+        if args.technology_only:
+            cards = technology_cards(technology_evidence)
+        else:
+            stats = activity(read_json(args.calendar), fresh=args.require_fresh)
+            public = read_json(args.public)
+            validate(public, fresh=args.require_fresh)
+            cards = artworks(stats, public, technology_evidence)
         svg = {}
-        for name, card in artworks(stats, public, technology_evidence).items():
-            if args.dynamic_only and not dynamic(name):
+        for name, card in cards.items():
+            if (args.dynamic_only or args.activity_only) and not dynamic(name):
                 continue
             value = card.svg(static)
             verify_svg(value, name, static)

@@ -229,7 +229,7 @@ class PublicPortfolioTests(unittest.TestCase):
             validate(data)
     def test_workflow_only_writes_data_branch(self):
         workflow = (ROOT / ".github/workflows/profile-live.yml").read_text(encoding="utf-8")
-        self.assertIn("live_portfolio.py --build", workflow)
+        self.assertIn('--portfolio-output "$RUNNER_TEMP/portfolio-build"', workflow)
         self.assertIn("live/portfolio-tech.svg", workflow)
         self.assertNotIn("git push origin HEAD:main", workflow)
 

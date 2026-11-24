@@ -13,7 +13,7 @@ import json
 import os
 import re
 from pathlib import Path
-from urllib.error import HTTPError, URLError
+from urllib.error import HTTPError
 from urllib.parse import urlencode, quote
 from xml.etree import ElementTree as ET
 
@@ -28,7 +28,7 @@ OUTPUT = ("portfolio.json", "portfolio-tech.svg", "portfolio-projects.svg",
 TARGET = re.compile(r"^https://api\.github\.com/repos/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)$")
 
 
-def _public_original_repos(fetch):
+def public_original_repos(fetch, *, include_profile=False):
     found = []
     for page in range(1, 11):
         address = f"{API}/users/{OWNER}/repos?type=owner&sort=pushed&direction=desc&per_page=100&page={page}"
@@ -38,16 +38,18 @@ def _public_original_repos(fetch):
         for repo in data:
             if not isinstance(repo, dict):
                 raise ValueError("Malformed public repository")
-            if (repo.get("private") is not False or repo.get("fork") is not False
+            if (repo.get("private") is not False or repo.get("visibility", "public") != "public"
+                    or repo.get("fork") is not False
                     or repo.get("archived") is not False
                     or repo.get("disabled") is True):
                 continue
             if (repo.get("owner") or {}).get("login", "").casefold() != OWNER.casefold():
                 continue
             name = repo.get("name")
-            if name == OWNER:
-                continue  # This README's own Python shouldn't dominate project language ratios.
-            repository_url(name)  # Canonical URL is recomputed; never trusts API HTML URLs.
+            if not isinstance(name, str) or not NAME.fullmatch(name) or name in {".", ".."}:
+                raise ValueError("Invalid public repository identifier")
+            if name.casefold() == OWNER.casefold() and not include_profile:
+                continue  # Keep profile automation out of the legacy project language ratios.
             iso_utc(repo.get("pushed_at") or repo.get("created_at"))
             found.append(repo)
         if len(data) < 100:
@@ -355,12 +357,15 @@ def _private_language_totals(fetch):
         for repo in repos:
             if not isinstance(repo, dict):
                 raise ValueError("Invalid private repository record")
+            owner = repo.get("owner")
+            if not isinstance(owner, dict) or not isinstance(owner.get("login"), str):
+                raise ValueError("Invalid private repository owner")
             if (repo.get("private") is not True or repo.get("fork") is not False
                     or repo.get("archived") is not False or repo.get("disabled") is True
-                    or (repo.get("owner") or {}).get("login", "").casefold() != OWNER.casefold()):
+                    or owner["login"].casefold() != OWNER.casefold()):
                 continue
             name = repo.get("name")
-            if not isinstance(name, str) or not NAME.fullmatch(name):
+            if not isinstance(name, str) or not NAME.fullmatch(name) or name in {".", ".."}:
                 raise ValueError("Invalid private repository identifier")
             values = fetch(f"{API}/repos/{OWNER}/{quote(name, safe='')}/languages")
             if not isinstance(values, dict):
@@ -378,34 +383,33 @@ def _private_language_totals(fetch):
     return totals
 
 
-def collect(fetch, *, now=None, private_fetch=None):
-    repos = _public_original_repos(fetch)
-    languages = {}
-    for repo in repos:
-        name = repo["name"]
-        # Trusted names are validated before being used as URL path components.
-        values = fetch(f"{API}/repos/{OWNER}/{quote(name, safe='')}/languages")
-        if not isinstance(values, dict):
-            raise ValueError("Incomplete language scan")
-        for language, n in values.items():
-            if (not isinstance(language, str) or not 1 <= len(language) <= 50
-                    or any(ord(ch) < 32 for ch in language)
-                    or type(n) is not int or n < 0):
-                raise ValueError("Untrusted GitHub Linguist data")
-            languages[language] = languages.get(language, 0) + n
+def public_languages(fetch, name):
+    values = fetch(f"{API}/repos/{OWNER}/{quote(name, safe='')}/languages")
+    if not isinstance(values, dict):
+        raise ValueError("Incomplete language scan")
+    for language, count in values.items():
+        if (not isinstance(language, str) or not 1 <= len(language) <= 50
+                or any(ord(ch) < 32 for ch in language) or type(count) is not int or count < 0):
+            raise ValueError("Untrusted GitHub Linguist data")
+    return values
+
+
+def private_language_summary(private_fetch):
     # Isolate private metadata/API failures from public activity refresh.
     # Never print exception details: HTTPError URLs may contain private names.
-    language_scope = "public-only"
-    if private_fetch is not None:
-        try:
-            private_totals = _private_language_totals(private_fetch)
-        except (HTTPError, URLError, ValueError, TimeoutError, OSError):
-            language_scope = "public-only-private-unavailable"
-        else:
-            language_scope = "public-plus-private"
-            for language, count in private_totals.items():
-                languages[language] = languages.get(language, 0) + count
-    frameworks = _manifest_frameworks(fetch, repos)
+    if private_fetch is None:
+        return {}, "public-only"
+    try:
+        return _private_language_totals(private_fetch), "public-plus-private"
+    except (OSError, RuntimeError, ValueError):
+        return {}, "public-only-private-unavailable"
+
+
+def portfolio_snapshot(fetch, repos, public_totals, frameworks, private_summary, *, now=None):
+    private_totals, language_scope = private_summary
+    languages = dict(public_totals)
+    for language, count in private_totals.items():
+        languages[language] = languages.get(language, 0) + count
     other = [{"name": r["name"], "url": repository_url(r["name"])}
              for r in repos if r["name"].casefold() not in FEATURED][:TOP]
     clock = now or dt.datetime.now(dt.timezone.utc)
@@ -423,6 +427,16 @@ def collect(fetch, *, now=None, private_fetch=None):
     }
     validate(data)
     return data
+
+
+def collect(fetch, *, now=None, private_fetch=None):
+    repos = public_original_repos(fetch)
+    languages = {}
+    for repo in repos:
+        for language, count in public_languages(fetch, repo["name"]).items():
+            languages[language] = languages.get(language, 0) + count
+    return portfolio_snapshot(fetch, repos, languages, _manifest_frameworks(fetch, repos),
+                              private_language_summary(private_fetch), now=now)
 
 
 def validate(data):
