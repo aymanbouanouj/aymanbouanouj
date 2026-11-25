@@ -1,177 +1,152 @@
 # Security policy — Ayman GitHub profile
 
-## Current verified posture (2026-10-11)
+## Current verified posture (2026-11-25)
 
-This repository is **Public** and `main` is protected by the active
-[Protect Main — Ayman Profile ruleset](https://github.com/aymanbounaouj/aymanbounaouj/rules/24860793)
-(rule ID 24860793). Its verified controls are:
+This repository is public. The default branch `main` is protected by the
+active [Protect Main ruleset (24860793)](https://github.com/aymanbounaouj/aymanbounaouj/rules/24860793).
+At the audit baseline `df9e7cb7761586bad59a6a33c9e27396fb0a6603`:
 
-- Block branch deletion and force pushes (non-fast-forward updates).
-- Require a Pull Request before merging into the default branch.
-- Require the successful `Offline profile integrity`,
-  `Full-history secret scan (Gitleaks)`, `Analyze (python)` and
-  `Analyze (actions)` checks.
-- No bypass actors. Required reviewer approvals: zero;
-  CODEOWNERS approval requirement: disabled for the single maintainer.
+- Branch deletion and non-fast-forward changes to main are blocked.
+- A pull request and resolved review threads are required; no bypass actors.
+- The four required checks are `Offline profile integrity`, `Full-history secret scan (Gitleaks)`, `Analyze (python)` and `Analyze (actions)`.
+- Required reviewer approvals: zero; up-to-date status checks are not strictly required. This is not independent human approval. Maintainers must review the current head against current main before merging.
+- Automatic branch deletion on merge is disabled. Historical branches remain public and must not be mistaken for supported production versions.
 
-A collaborator with write permission could still open and merge a PR once
-required checks pass: these controls are **not independent human approval**.
-GitHub account security, installations, collaborators, alert settings, and
-GitHub Actions repository variables cannot be independently verified through
-the available repository connection.
+The [baseline integrity and secret-scan run](https://github.com/aymanbounaouj/aymanbounaouj/actions/runs/45364018880)
+passed 121 tests and an explicit Gitleaks scan across all fetched reachable Git refs
+(432 reachable commits reported by Git; 395 commits reported scanned by Gitleaks, no matching leaks).
+[CodeQL](https://github.com/aymanbounaouj/aymanbounaouj/actions/runs/45508389362)
+completed successfully for Python and Actions. A successful job is not proof
+that the Security alerts inbox is empty. These are historical baseline results,
+not a claim about every subsequent commit.
 
-## Continuous checks
+## Publication and trust boundaries
 
-- `.github/workflows/security-ci.yml`: regression checks, an explicit
-  tracked-filename privacy gate, XML/SVG/PNG provenance checks, and Gitleaks
-  scanning all reachable Git history. The workflow uses read-only token
-  permissions and fixed action commit SHAs.
-- `.github/workflows/codeql.yml`: CodeQL for Python and GitHub Actions.
-  External actions are pinned to immutable full commit SHAs; it runs on
-  push, PR, schedule and manual `workflow_dispatch`. A green CodeQL job
-  indicates the scan completed; **review the actual code scanning alerts**.
-  Both CodeQL checks are required by the active Ruleset.
-- `.github/workflows/profile-refresh.yml`: read-only verification by
-  default. Publishing is manually owner-triggered or requires the explicitly
-  opted-in `ENABLE_SCHEDULED_PROFILE_PUBLISH=true` repository variable.
-  Publication proposes generated data/assets in a review-branch PR, rather
-  than pushing `main` directly. Publishing job uses the ephemeral
-  `GITHUB_TOKEN` with `contents: write` and `pull-requests: write`;
-  no permanent PAT is required.
+- `.github/workflows/profile-live.yml` runs on a best-effort hourly schedule
+  (minute 37 UTC), relevant main pushes and manual dispatch. Only the trusted
+  main publication job has contents write access. Its generated output goes
+  to `profile-live`; it does not push main or automatically merge PRs.
+- Technology evidence and the language portfolio are attempted hourly,
+  independently of the daily dashboard metadata/calendar retention. The
+  language-share SVG is derived from the final validated portfolio JSON and
+  verified before staging. GitHub caching and delayed/dropped scheduled runs
+  mean that displayed statistics are dated snapshots, not real-time counters.
+- Public GitHub REST/GraphQL data and recognized public manifests are inputs;
+  manifest content is inspected as data, not executed. Failed scans can
+  retain previously verified snapshots. Read-only branch rehearsals do not
+  receive the optional private-language token or publish production files.
+- `profile-live` is deliberately writable by the publisher. Do not manually
+  inject files or require PR approvals there without redesigning and testing
+  the publisher. Its history remains public.
+- `.github/workflows/profile-refresh.yml` maintains historical artwork.
+  It is read-only by default; publishing requires explicit owner dispatch or
+  the opt-in variable `ENABLE_SCHEDULED_PROFILE_PUBLISH=true`. It creates a
+  review-branch PR rather than writing main. Do not enable the legacy
+  publication path merely to refresh the current dashboard.
+- External Actions use immutable full commit SHA pins. Production secrets
+  are obtained from Actions secret/environment mechanisms, not committed.
+  The ephemeral `GITHUB_TOKEN` authorizes publication; the derived Basic
+  authorization value is explicitly masked before the push.
 
-## Bot-created review PRs — required manual procedure
+## Private language aggregates (optional owner opt-in)
 
-GitHub normally prevents `GITHUB_TOKEN`-created PR or push events from
-automatically triggering new workflows. An owner should use
-**Actions → Profile security and integrity → Run workflow** and
-**Actions → CodeQL Advanced → Run workflow**, selecting the proposed
-`automation/profile-refresh-...` branch for **both** runs.
-Confirm successful jobs and their exact head SHA before merging the PR.
-Do not bypass rules. Do not add new required CodeQL status checks until
-the workflow is deployed, a review-branch dispatch is tested, and GitHub
-recognizes its check contexts on the relevant PR commits.
+`PRIVATE_LANGUAGE_TOKEN` is separate from the ephemeral publishing token.
+It is passed only to the technology refresh step. The private collector
+requests repository metadata and language byte counts; it does not fetch
+private source files or manifests. It publishes language names, aggregate byte
+counts/percentages and a private-aggregate evidence marker, not private
+repository identities, paths, credentials or source.
 
-## Reporting vulnerabilities privately
+Aggregates are intentionally public information and may permit inference about
+private work, especially rare languages. Past generated snapshots are public
+Git history. A retained snapshot can preserve old aggregates after an API
+failure or a scope change; revocation alone does not erase history or forks.
+If opting out, revoke/remove the token, confirm a successful refresh without
+private access and verify the resulting public snapshots. If historical
+aggregates themselves are sensitive, plan removal separately; never rewrite
+history or delete archives without explicit owner authorization.
 
-Report potential problems to the owner using
-[Private vulnerability reporting](https://github.com/aymanbounaouj/aymanbounaouj/security/advisories/new)
-**if the GitHub setting is enabled**, rather than publishing secrets,
-attack demonstrations containing credentials, or private data in Issues.
-If private reporting is unavailable, use the owner's public professional
-contact method without including secret material.
+Owner-only token review:
+1. Open [fine-grained tokens](https://github.com/settings/personal-access-tokens)
+   and [Actions secrets](https://github.com/aymanbounaouj/aymanbounaouj/settings/secrets/actions).
+2. Prefer a fine-grained token restricted to explicitly authorized owned
+   repositories, with a finite expiry. GitHub documents Metadata: read for
+   both listing accessible repositories and listing repository languages.
+   Do not grant Contents, Administration or write permissions merely for
+   language statistics. Verify actual compatibility with the selected repos
+   and token type before revoking a working token.
+3. Record only the purpose, permission categories, expiration and rotation
+   procedure in a private recovery note. Do not save the token value in
+   docs, shell history, chat, screenshots or backup reports. If rotating,
+   update the Actions secret securely, verify the next run and revoke the old token.
 
-## Secrets, permissions and dependency hygiene
+[GitHub REST token permissions](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens)
+and [repository language endpoint](https://docs.github.com/en/rest/repos/repos#list-repository-languages).
 
-Never commit passwords, tokens, recovery codes, private keys, `.env` or
-sensitive backups. If a secret is exposed, **revoke/rotate it immediately**
-before removing references; deleting a file does not clean Git history,
-forks, cached copies or artifacts. Review GitHub account 2FA/passkeys,
-third-party app permissions, collaborators, and the repository's
-Dependabot, Secret Protection and Code Scanning alert settings manually.
-Do not approve or merge unreviewed third-party PR code or workflows.
+## Continuous security and dependency checks
 
-## Privacy and IP boundaries
+- `security-ci.yml`: regression tests, sensitive tracked filename gate,
+  SVG/PNG checks and an explicit Gitleaks `git --redact --log-opts="--all"`
+  after full-history checkout. Known-pattern scanning cannot find every
+  private value or historical binary disclosure.
+- `codeql.yml`: Python and Actions analysis on main, PRs, schedule and
+  manual dispatch; read-only contents, security-events write and no stored
+  checkout credentials. Review actual open and dismissed alerts.
+- Dependabot proposes reviewable weekly GitHub Actions and pip changes.
+  Never auto-approve or merge solely because a bot authored a PR.
+  Check release notes, immutable tag/commit provenance, current base and tests.
+- Dashboard rendering dependency installation uses version and hash pins.
+  The historical CairoSVG path has a direct version pin; its dependency
+  closure deserves separate maintenance.
 
-`data/contributions.json` includes dated aggregate GitHub contribution
-counts, potentially counting private activity without private repository
-names or source code. It and prior commits are public. The owner's
-branding (AB monogram with violet arrow) is covered by an authorship
-notice, not a government-issued trademark registration. Public viewers
-may clone, download and fork this repository. The absence of an
-open-source license is not a technical copy-prevention mechanism.
+## Owner-only settings checklist (not verified by the audit connection)
+
+- [Security and analysis settings](https://github.com/aymanbounaouj/aymanbounaouj/settings/security_analysis):
+  verify secret scanning, push protection, dependency graph and Dependabot
+  alerts/security updates where available.
+- [Security alerts](https://github.com/aymanbounaouj/aymanbounaouj/security):
+  inspect open and dismissed secret, dependency and code-scanning alerts.
+- [Actions settings](https://github.com/aymanbounaouj/aymanbounaouj/settings/actions):
+  prefer default read-only permissions; preserve explicit job permissions,
+  review allowed actions, PR approval policy and workflow/secret access.
+  The optional legacy PR-creation path needs separate testing if enabled.
+- Review collaborators, installed apps and account
+  [2FA/passkeys](https://github.com/settings/security) and
+  [email privacy](https://github.com/settings/emails).
+- Store recovery codes outside GitHub in an encrypted password manager
+  or offline secure storage. Never send screenshots containing secret values.
+
+## Review and recovery procedures
+
+For a bot-created review PR, GitHub may not trigger normal checks from
+`GITHUB_TOKEN`. Manually run **Profile security and integrity** and
+**CodeQL Advanced** on the exact review branch, check the SHA and compare
+with current main. For a dashboard generator change, also rehearse the
+read-only live API build. Do not bypass protections.
+
+See [release checklist](RELEASE-CHECKLIST.md) and
+[backup and recovery guide](BACKUP-RECOVERY.md). Backups must remain outside
+this public repository. Retain historic refs without merging them into
+production; restore through a reviewed branch and ordinary protection gates.
+
+## Reporting and incident response
+
+If a secret is exposed, revoke/rotate it immediately, assess usage and
+affected scopes, then plan history/cache/fork/artifact remediation. Deleting
+a file in a new commit is insufficient. Do not post secrets in Issues.
+Use [private vulnerability reporting](https://github.com/aymanbounaouj/aymanbounaouj/security/advisories/new)
+if enabled, or the owner's published professional contact without secret values.
+
+Public viewers may clone and fork the repository. The rights notice reserves
+original branding and artwork but is not technical copy prevention or
+proof of trademark registration. See [NOTICE](../NOTICE.md).
 
 ## Audit limitations
 
-Successful tests, Gitleaks and CodeQL scans do **not** establish a
-zero-vulnerability guarantee. Gitleaks detects known secret patterns,
-not arbitrary sensitive data; previous history and binary files may
-need separate inspection. CodeQL alerts must be reviewed in GitHub
-Security. A full manual penetration test, browser/mobile quality check,
-independent security review and account-settings audit are outside
-this repository's automated checks.
-
-## Dependency updates and least-privilege improvements (2026-10-11)
-
-- `.github/dependabot.yml` requests **reviewable weekly** GitHub Actions and pip
-  version update PRs; there is no automatic merge or automatic approval.
-- `requirements-ci.txt` tracks the pinned CairoSVG renderer, replacing
-  inline `pip install` specifiers in the publishing workflow, so Dependabot
-  can propose version bumps with normal tests.
-- CodeQL checkout uses `persist-credentials: false`, an explicit time limit,
-  and only `contents: read` plus `security-events: write`.
-- Dependabot alerts, security updates, secret scanning, push protection, and
-  account MFA **cannot be enabled or verified through this repository
-  connection**. The owner must verify these in GitHub Settings.
-- Never merge automated dependency PRs solely because Dependabot authored
-  them. Check changelogs, exact SHA provenance, and CodeQL/Gitleaks results.
-
-## Profile freshness and rendering limitations
-
-GitHub READMEs cannot run arbitrary JavaScript or interactive client applications.
-The profile uses verified, self-hosted PNGs for mobile compatibility, so the
-images are static, not animated widgets or live counters.
-
-Every PNG image URL now carries a truncated SHA-256 fingerprint from
-`assets/mobile/manifest.json`. The refresh workflow recomputes URLs after
-verifying the source SVG and rendered PNG, making new reviewed images use
-a new URL rather than a potentially stale GitHub image cache entry.
-
-Statistics remain dated GitHub-API snapshots. Scheduled verification is
-read-only until owner opt-in, and generated data appears on the public
-profile only after the reviewed Pull Request has passed required checks
-and been merged. Live links point to GitHub activity and repositories.
-A true interactive dashboard would need an independent hosted web page.
-
-## Automatically refreshed public activity (V4)
-
-The standalone \`.github/workflows/profile-live.yml\` workflow runs on a
-best-effort hourly schedule, runs after relevant merges on protected `main`, and may be run manually. It reads only
-public GitHub REST repositories, latest public commit SHAs and public events.
-It writes two validated generated files (\`live/activity.svg\` and
-\`live/activity.json\`) to the **separate** \`profile-live\` branch using an
-ephemeral GitHub Actions token. Nothing is written directly to protected
-\`main\`; there is no token stored in repository secrets and no PR auto-merge.
-
-These are **not real-time data**. The schedule may be delayed, some event
-types are not included, only the most recent public projects are drawn, and
-GitHub's Camo/image caching can further delay visible changes. The native
-GitHub contribution calendar is the canonical live view; it may include
-aggregated private contributions depending on account preferences, whereas
-the generated V4 activity files contain public repositories/events only.
-
-Do not edit \`profile-live\` manually to inject unverified artwork. Unlike
-\`main\`, it is a generated-data branch, not a reviewed code branch. Never
-expose repository private data or introduce an external image provider.
-
-## Automatic V5 operations (2026-10-11)
-
-The live data workflow is self-contained: each hourly run queries the public
-GitHub REST and authenticated GraphQL APIs with the ephemeral GitHub token,
-checks the generated images and 77+ offline tests, and pushes changed SVG/JSON
-**only** to `profile-live`. Merging a relevant README or generator change into
-protected `main` also starts a refresh, so initial deployment requires no
-manual `workflow_dispatch`. Nothing triggers on ordinary `profile-live` pushes,
-and publication does not create PRs or directly mutate protected `main`.
-
-This is polling, **not per-commit instant event delivery**. GitHub schedules
-are best-effort and may be delayed/dropped; published images may remain cached.
-Scheduled workflows on public repositories can be disabled by GitHub after
-60 days of repository inactivity, so fully perpetual unattended operation
-cannot be guaranteed by configuration alone. If a scan fails, existing verified
-cards are retained rather than replaced with fabricated or empty data.
-
-## Publication consistency correction (2026-10-11)
-
-Previously, an unchanged public API scan restored older `portfolio.json` and SVGs
-but could publish a newly dated `portfolio.md`. This produced a confirmed
-mixed-date state in `profile-live`. The publisher now repairs Markdown from
-the **final, retained JSON**, then verifies all three artifact groups again
-after deduplication and before commit/push. Regression tests cover mismatch,
-idempotent repair and rejection of tampered data/images. This repair does not
-change README presentation or the protected `main` publishing policy.
-
-`profile-live` is an intentionally writable data-only branch; requiring PR
-approvals on it would break unattended publishing without a redesigned bot
-strategy. Separately, `profile-refresh.yml` maintains historical artwork and
-is read-only by default; V5 hourly cards do not depend on enabling its
-optional publishing variable.
+No absolute security guarantee is possible. The 2026-11-25 review covered
+repository settings visible through the connection, current main/live data,
+known secret patterns, branch-head filenames, and selected historical and
+binary checks. Account settings, token scope/expiry, private Security alerts,
+all historical image contents, unreachable Git objects, external copies and
+full independent penetration testing were not verified. No secret values
+should be collected to complete those checks.

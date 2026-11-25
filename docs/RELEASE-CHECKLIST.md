@@ -1,33 +1,35 @@
-# Profile V5 — security and maintenance checks
+# Profile — security and maintenance checklist
 
-Updated: 2026-10-11. This replaces obsolete pre-publication instructions.
+Updated: 2026-11-25. Baseline: `df9e7cb7761586bad59a6a33c9e27396fb0a6603`.
 
-## Confirmed on GitHub before this correction
+## Baseline verified
 
-- [x] Repository public; protected default branch `main`.
-- [x] Ruleset ID `24860793`: required Pull Request, no branch deletion or force pushes, no bypass actors, all four mandatory checks.
-- [x] Mandatory: `Offline profile integrity`, `Full-history secret scan (Gitleaks)`, `Analyze (python)`, `Analyze (actions)`.
-- [x] Main CI runs `38115444615` and `38115444625` successful (79 Python tests); live refresh run `38115444638` successful.
-- [x] Full-history Gitleaks step reported 97 reachable commits and 82 scanned commits, no matching leaks. The earlier incremental scan checked zero commits and is *not* the full-history result.
-- [x] External GitHub Actions pinned to immutable full commit SHAs.
-- [x] Hourly best-effort profile-data refresh configured; merges to relevant `main` files trigger the workflow.
-- [x] Generated `profile-live` data branch is separate from protected `main`.
+- [x] Public repository, protected main, ruleset 24860793, no bypass actors.
+- [x] Four required checks passed for the approved baseline: offline integrity, full-history Gitleaks, Python CodeQL and Actions CodeQL.
+- [x] 121 baseline tests; PR #48 publication succeeded and the language chart matches the verified JSON.
+- [x] Production updates only profile-live; current artwork and historical branches preserved.
+- [x] 49 branches retained; one historical release v5.0.0. No automatic branch deletion.
 
-## Current correction: final-artifact consistency
+## Before each merge
 
-- [ ] Merge consistency correction after all four required checks pass on the exact PR head.
-- [ ] Observe successful automatic post-merge refresh.
-- [ ] Verify `portfolio.json`, `portfolio.md` and SVGs agree on **the same dated data**, including when unchanged data are restored.
-- [ ] Observe a successful event=`schedule` invocation; event=`push` success alone does not prove cron delivery.
-- [ ] Keep README visual identity, logo, social platform icons and selected project order unchanged.
+- [ ] Compare the exact PR head with current main; investigate conflicts and stale checks.
+- [ ] Check that all four required contexts pass for that exact head; review actual security alerts.
+- [ ] Confirm pinned action provenance and upstream release notes for dependency updates.
+- [ ] Rehearse live API rendering read-only when changing generation/publishing logic.
+- [ ] Verify no unintended README, brand, artwork, secret-scope or permissions changes.
+- [ ] After merging relevant changes, confirm successful production publication and check final SVG/JSON consistency; scheduled execution and image caching remain best-effort.
 
 ## Owner-only verification
 
-- [ ] Review GitHub Security alerts (including dismissed), Dependabot, Secret Scanning, and push protection settings. These settings could not be read through available API access.
-- [ ] Review collaborators, installed integrations, Actions default permissions and account MFA.
-- [ ] Consider strict up-to-date required status checks; currently `strict_required_status_checks_policy=false`.
-- [ ] `profile-live` remains unprotected to enable bot publishing. Test any proposed branch protection against this requirement.
-- [ ] Visually review the profile on desktop/mobile and dark/light themes.
-- [ ] Before Windows sync, inspect existing clone, local changes and commit divergence. Never use destructive reset.
+- [ ] Verify Secret Scanning and Push Protection settings and review all security alerts.
+- [ ] Review Dependency Graph, Dependabot alerts and security updates.
+- [ ] Review the optional PRIVATE_LANGUAGE_TOKEN scope, expiry and rotation; no secret values in reports.
+- [ ] Review account 2FA/passkeys, email privacy, apps, collaborators and Actions permissions.
+- [ ] Verify and store a complete independent Git mirror/bundle outside this public repository; see [backup guide](BACKUP-RECOVERY.md).
+- [ ] Consider strict up-to-date required checks separately. Do not change profile-live protection without testing unattended publication.
 
-Historical mobile PNG verification uses a separate read-only default workflow. It does not prevent V5 live data from refreshing.
+## Historical refs
+
+Keep prior designs and PR branches as historical evidence. Do not merge an
+obsolete design branch into main merely to clean up the branch list.
+Read [security policy](SECURITY.md) for limits and incident response.
