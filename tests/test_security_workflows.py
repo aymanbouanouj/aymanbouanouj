@@ -66,6 +66,15 @@ class WorkflowSecurityTests(unittest.TestCase):
         self.assertIn("contents: read", content)
         self.assertNotIn("pull_request_target:", content)
 
+    def test_live_publisher_masks_derived_authorization_before_push(self):
+        content = (WORKFLOWS / "profile-live.yml").read_text(encoding="utf-8")
+        derived = content.index('basic="$(printf')
+        mask = content.index('echo "::add-mask::$basic"')
+        push = content.index('push origin HEAD:refs/heads/profile-live')
+        self.assertLess(derived, mask)
+        self.assertLess(mask, push)
+        self.assertNotIn("set -x", content)
+
     def test_publication_never_pushes_main_directly(self):
         content = (WORKFLOWS / "profile-refresh.yml").read_text(encoding="utf-8")
         self.assertIn('git push -u origin "${review_branch}"', content)

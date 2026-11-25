@@ -32,7 +32,7 @@ Do not force the pull if it fails.
 
 ## Two distinct refresh pipelines
 
-- **V5 current profile:** `.github/workflows/profile-live.yml`, automatically checked every hour at minute 37 UTC (best effort) and after relevant protected-main updates. Writes validated JSON, Markdown and SVG **only** to `profile-live`, using an ephemeral GitHub Actions token. It needs no manual `Run workflow` in normal operation.
+- **Current dashboard:** `.github/workflows/profile-live.yml`, automatically checked every hour at minute 37 UTC (best effort) and after relevant protected-main updates. Writes validated JSON, Markdown and SVG **only** to `profile-live`, using an ephemeral GitHub Actions token. It needs no manual `Run workflow` in normal operation.
 - **Historical artwork:** `.github/workflows/profile-refresh.yml`, read-only verification four times per day. Optional generated-asset review PRs require explicit opt-in via `ENABLE_SCHEDULED_PROFILE_PUBLISH=true`. This variable is **not necessary** for V5 automatic updates.
 
 GitHub schedules can be delayed or disabled and image caches can lag. SVG graphics are automatically refreshed snapshots, not instantaneous interactive widgets. On each live publish, Markdown is reconciled against retained JSON and every final artifact is verified before push.
@@ -51,3 +51,7 @@ Keep results outside the repository. Never paste actual secret values into chats
 ## Owner-only account review
 
 In GitHub Settings, review collaborators, installed apps, default Actions permissions, MFA, Dependabot/CodeQL/Secret Scanning alerts and push protection. A passing CI run alone cannot verify those account-specific settings.
+
+## Independent backups
+
+Use [Backup and recovery](BACKUP-RECOVERY.md) before changing repository settings or archiving historical refs. A ZIP of main is not a complete repository backup.
