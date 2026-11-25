@@ -128,25 +128,25 @@
         "scope": "public-owned",
         "repository": "aymanbounaouj/aymanbounaouj",
         "path": ".github/workflows/codeql.yml",
-        "ref": "695d67d9e318a006fb567c824a0446bb122b28b4"
+        "ref": "7cd5b1cd5bbbf3be32db78f07582ebaa9eb5878b"
       },
       {
         "scope": "public-owned",
         "repository": "aymanbounaouj/aymanbounaouj",
         "path": ".github/workflows/profile-live.yml",
-        "ref": "695d67d9e318a006fb567c824a0446bb122b28b4"
+        "ref": "7cd5b1cd5bbbf3be32db78f07582ebaa9eb5878b"
       },
       {
         "scope": "public-owned",
         "repository": "aymanbounaouj/aymanbounaouj",
         "path": ".github/workflows/profile-refresh.yml",
-        "ref": "695d67d9e318a006fb567c824a0446bb122b28b4"
+        "ref": "7cd5b1cd5bbbf3be32db78f07582ebaa9eb5878b"
       },
       {
         "scope": "public-owned",
         "repository": "aymanbounaouj/aymanbounaouj",
         "path": ".github/workflows/security-ci.yml",
-        "ref": "695d67d9e318a006fb567c824a0446bb122b28b4"
+        "ref": "7cd5b1cd5bbbf3be32db78f07582ebaa9eb5878b"
       },
       {
         "scope": "public-owned",
