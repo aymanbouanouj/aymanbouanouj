@@ -2,7 +2,7 @@
   "schema": 1,
   "username": "aymanbounaouj",
   "source": "github-rest-public-dashboard",
-  "fetched_at_utc": "2026-11-25T21:14:35+00:00",
+  "fetched_at_utc": "2026-11-26T05:21:54+00:00",
   "merged_public_prs": 67,
   "repositories": {
     "morocco2030": {
@@ -33,7 +33,7 @@
       "visibility": "public",
       "stars": 1,
       "forks": 1,
-      "pushed_at": "2026-11-25T21:13:59+00:00"
+      "pushed_at": "2026-11-25T22:41:49+00:00"
     },
     "Understand-Anything": {
       "visibility": "public",
