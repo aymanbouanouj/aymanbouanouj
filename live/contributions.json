@@ -1,6 +1,6 @@
 {
   "username": "aymanbounaouj",
-  "total_contributions": 1210,
+  "total_contributions": 1208,
   "days": [
     {
       "date": "2025-11-23",
@@ -1288,7 +1288,7 @@
     },
     {
       "date": "2026-10-10",
-      "count": 27
+      "count": 25
     },
     {
       "date": "2026-10-11",
@@ -1488,5 +1488,5 @@
     }
   ],
   "source": "github-graphql-contributionCalendar",
-  "fetched_at_utc": "2026-11-28T02:08:30+00:00"
+  "fetched_at_utc": "2026-11-28T10:46:43+00:00"
 }

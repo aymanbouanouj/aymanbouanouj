@@ -203,11 +203,6 @@
         "path": "languages"
       }
     ],
-    "Hack": [
-      {
-        "scope": "private-language-aggregate"
-      }
-    ],
     "JavaScript": [
       {
         "scope": "private-language-aggregate"

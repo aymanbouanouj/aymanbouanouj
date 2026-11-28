@@ -2,7 +2,7 @@
   "schema": 2,
   "source": "github-rest-public-repository-activity",
   "owner": "aymanbounaouj",
-  "generated_at_utc": "2026-11-28T02:08:24.430259+00:00",
+  "generated_at_utc": "2026-11-28T10:46:38.666882+00:00",
   "public_original_repository_count": 8,
   "language_scope": "public-plus-private",
   "language_bytes": [
@@ -12,7 +12,7 @@
     ],
     [
       "PHP",
-      2210142
+      2089943
     ],
     [
       "Blade",
@@ -24,7 +24,7 @@
     ],
     [
       "CSS",
-      285915
+      280084
     ],
     [
       "PowerShell",
@@ -45,10 +45,6 @@
     [
       "Batchfile",
       2536
-    ],
-    [
-      "Hack",
-      179
     ]
   ],
   "other_repositories": [
