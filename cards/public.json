@@ -2,38 +2,38 @@
   "schema": 1,
   "username": "aymanbounaouj",
   "source": "github-rest-public-dashboard",
-  "fetched_at_utc": "2026-11-27T00:45:09+00:00",
+  "fetched_at_utc": "2026-11-28T02:08:32+00:00",
   "merged_public_prs": 67,
   "repositories": {
     "morocco2030": {
       "visibility": "public",
       "stars": 2,
       "forks": 0,
-      "pushed_at": "2026-11-16T05:52:25+00:00"
+      "pushed_at": "2026-11-27T07:50:13+00:00"
     },
     "ab-train-ticket-studio": {
       "visibility": "public",
       "stars": 0,
       "forks": 0,
-      "pushed_at": "2026-10-30T00:30:17+00:00"
+      "pushed_at": "2026-11-27T08:02:23+00:00"
     },
     "PC-Full-Check": {
       "visibility": "public",
       "stars": 1,
       "forks": 0,
-      "pushed_at": "2026-10-31T16:00:02+00:00"
+      "pushed_at": "2026-11-27T07:49:33+00:00"
     },
     "violetgate": {
       "visibility": "public",
       "stars": 0,
       "forks": 0,
-      "pushed_at": "2026-11-24T05:43:49+00:00"
+      "pushed_at": "2026-11-27T08:00:48+00:00"
     },
     "aymanbounaouj": {
       "visibility": "public",
       "stars": 1,
       "forks": 1,
-      "pushed_at": "2026-11-26T15:40:47+00:00"
+      "pushed_at": "2026-11-27T19:37:08+00:00"
     },
     "Understand-Anything": {
       "visibility": "public",
